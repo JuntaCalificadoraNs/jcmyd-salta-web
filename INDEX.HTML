@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Portal oficial de la Junta Calificadora de Méritos y Disciplina de Nivel Secundario y sus Modalidades, Ministerio de Educación, Salta.">
+    <meta name="keywords" content="JCMyD, Junta Calificadora, Educación Secundaria, Salta, Docentes, Concursos, Méritos">
+    <meta property="og:title" content="Junta Calificadora de Méritos y Disciplina - Salta">
+    <meta property="og:description" content="Busque espacios curriculares, colegios por orientación y ubicación, y manténgase informado con noticias actualizadas.">
+    <meta property="og:image" content="https://www.edusalta.gov.ar/images/logo.png">
+    <title>Junta Calificadora de Méritos y Disciplina - Nivel Secundario - Salta</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="favicon.png">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <img src="logo.png" alt="JCMyD Logo" class="logo" width="60" height="60">
+                    <div class="site-title">
+                        <h1>Junta Calificadora de Méritos y Disciplina</h1>
+                        <p>Nivel Secundario y sus Modalidades - Provincia de Salta</p>
+                    </div>
+                </div>
+                <nav aria-label="Menú principal">
+                    <ul>
+                        <li><a href="#inicio" aria-current="page">Inicio</a></li>
+                        <li><a href="#funciones">Funciones</a></li>
+                        <li><a href="#buscadores">Buscadores</a></li>
+                        <li><a href="#noticias">Noticias</a></li>
+                        <li><a href="#contacto">Contacto</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <section id="inicio" class="hero">
+                <h1>Bienvenidos</h1>
+                <p>Portal oficial de la Junta Calificadora de Méritos y Disciplina de Nivel Secundario y sus modalidades dependiente del Ministerio de Educación de Salta</p>
+                <a href="#buscadores" class="cta-button">Explorar Servicios</a>
+            </section>
+
+            <section id="funciones" class="features">
+                <!-- Existing feature cards remain, but update content to reflect JCMyD functions -->
+                <div class="feature-card">
+                    <div class="feature-icon">📋</div>
+                    <h3>Evaluación de Méritos</h3>
+                    <p>Calificamos los antecedentes docentes para cargos y horas cátedra en el nivel secundario según el Manual de Competencias.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚖️</div>
+                    <h3>Régimen Disciplinario</h3>
+                    <p>Supervisamos el cumplimiento de las normativas disciplinarias para docentes de nivel secundario.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Concursos y Designaciones</h3>
+                    <p>Organizamos concursos para interinatos, suplencias y cargos jerárquicos en escuelas secundarias.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Listados de Mérito</h3>
+                    <p>Publicamos cuadros provisorios y definitivos para designaciones docentes en sga.edusalta.gov.ar.</p>
+                </div>
+            </section>
+
+            <section id="buscadores" class="search-section">
+                <h2>Herramientas de Búsqueda</h2>
+                <div class="search-tabs" role="tablist">
+                    <button class="tab-button active" role="tab" aria-selected="true" id="tab-titulos" onclick="showTab('titulos')">Búsqueda por Título</button>
+                    <button class="tab-button" role="tab" aria-selected="false" id="tab-orientacion" onclick="showTab('orientacion')">Colegios por Orientación</button>
+                    <button class="tab-button" role="tab" aria-selected="false" id="tab-ubicacion" onclick="showTab('ubicacion')">Colegios por Ubicación</button>
+                </div>
+
+                <div id="titulos" class="search-form active" role="tabpanel" aria-labelledby="tab-titulos">
+                    <h3>Buscar Espacios Curriculares por Título</h3>
+                    <input type="text" class="search-input" id="titulo-input" placeholder="Ingrese su título docente..." aria-label="Título docente">
+                    <button class="search-button" onclick="buscarPorTitulo()">Buscar</button>
+                    <div id="titulo-results" class="results"></div>
+                </div>
+
+                <div id="orientacion" class="search-form" role="tabpanel" aria-labelledby="tab-orientacion">
+                    <h3>Buscar Colegios por Orientación</h3>
+                    <select class="search-input" id="orientacion-select" aria-label="Orientación educativa">
+                        <option value="">Seleccione una orientación...</option>
+                        <!-- Populate dynamically from Google Sheet -->
+                    </select>
+                    <button class="search-button" onclick="buscarPorOrientacion()">Buscar</button>
+                    <div id="orientacion-results" class="results"></div>
+                </div>
+
+                <div id="ubicacion" class="search-form" role="tabpanel" aria-labelledby="tab-ubicacion">
+                    <h3>Buscar Colegios por Ubicación</h3>
+                    <input type="text" class="search-input" id="ubicacion-input" placeholder="Ingrese dirección, localidad o departamento..." aria-label="Ubicación">
+                    <button class="search-button" onclick="buscarPorUbicacion()">Buscar</button>
+                    <div id="ubicacion-results" class="results"></div>
+                </div>
+            </section>
+
+            <section id="noticias" class="search-section">
+                <h2>Noticias y Comunicados</h2>
+                <div class="features" id="noticias-container">
+                    <!-- Dynamically populated via RSS feed or API -->
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer id="contacto">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Información de Contacto</h3>
+                    <p>Pasaje Fernando Ramos N° 22, Salta Capital, CP 4400</p>
+                    <p>Teléfono: 387-5344660</p>
+                    <p>Email: <a href="mailto:jcmydsecundario@edusalta.gov.ar">jcmydsecundario@edusalta.gov.ar</a></p>
+                </div>
+                <div class="footer-section">
+                    <h3>Enlaces Útiles</h3>
+                    <p><a href="https://www.edusalta.gov.ar" target="_blank" rel="noopener">Ministerio de Educación Salta</a></p>
+                    <p><a href="https://sga.edusalta.gov.ar" target="_blank" rel="noopener">Sistema de Gestión Académica</a></p>
+                    <p><a href="#">Normativa Vigente</a></p>
+                </div>
+                <div class="footer-section">
+                    <h3>Horarios de Atención</h3>
+                    <p>Lunes a Viernes: 8:00 - 18:00 hs</p>
+                    <p>Mesa de Entradas</p>
+                    <p>Consultas Presenciales</p>
+                </div>
+            </div>
+            <div style="border-top: 1px solid #34495e; padding-top: 2rem; margin-top: 2rem;">
+                <p>© 2025 Junta Calificadora de Méritos y Disciplina - Gobierno de Salta. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="scripts.js"></script>
+</body>
+</html>
