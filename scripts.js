@@ -42,6 +42,7 @@ async function populateOrientaciones() {
 }
 
 // Search by Title
+// Search by Title
 async function buscarPorTitulo() {
   const titulo = document.getElementById('titulo-input').value.trim().toLowerCase();
   const results = document.getElementById('titulo-results');
@@ -54,8 +55,10 @@ async function buscarPorTitulo() {
 
   try {
     const response = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_IDS.titulos}/values/Sheet1!A:D?key=${API_KEY}`);
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const data = await response.json();
-    const filtered = data.values.slice(1).filter(row => row[0] && row[0].toLowerCase().includes(titulo)); // Skip header
+    if (!data.values) throw new Error('No data returned');
+    const filtered = data.values.slice(1).filter(row => row[0] && row[0].toLowerCase().includes(titulo));
     results.innerHTML = filtered.length
       ? filtered.map(row => `
           <div class="result-item">
@@ -84,8 +87,10 @@ async function buscarPorOrientacion() {
 
   try {
     const response = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_IDS.orientaciones}/values/Sheet1!A:C?key=${API_KEY}`);
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const data = await response.json();
-    const filtered = data.values.slice(1).filter(row => row[1] && row[1].toLowerCase() === orientacion.toLowerCase()); // Skip header
+    if (!data.values) throw new Error('No data returned');
+    const filtered = data.values.slice(1).filter(row => row[1] && row[1].toLowerCase() === orientacion.toLowerCase());
     results.innerHTML = filtered.length
       ? filtered.map(row => `
           <div class="result-item">
@@ -94,6 +99,43 @@ async function buscarPorOrientacion() {
             <strong>Área Geográfica:</strong> ${row[2] || 'No especificado'}
           </div>`).join('')
       : '<div class="result-item">No se encontraron colegios con orientación "${orientacion}".</div>';
+  } catch (error) {
+    results.innerHTML = '<div class="result-item">Error al buscar. Intente nuevamente.</div>';
+    console.error('Error:', error);
+  }
+}
+
+// Search by Location
+async function buscarPorUbicacion() {
+  const ubicacion = document.getElementById('ubicacion-input').value.trim().toLowerCase();
+  const results = document.getElementById('ubicacion-results');
+  results.innerHTML = '<div class="result-item">Buscando...</div>';
+
+  if (!ubicacion) {
+    results.innerHTML = '<div class="result-item">Por favor, ingrese una dirección, localidad o departamento.</div>';
+    return;
+  }
+
+  try {
+    const response = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_IDS.colegios}/values/Sheet1!A:E?key=${API_KEY}`);
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const data = await response.json();
+    if (!data.values) throw new Error('No data returned');
+    const filtered = data.values.slice(1).filter(row => 
+      (row[2] && row[2].toLowerCase().includes(ubicacion)) || // Localidad
+      (row[3] && row[3].toLowerCase().includes(ubicacion)) || // Departamento
+      (row[1] && row[1].toLowerCase().includes(ubicacion)) // Dirección
+    );
+    results.innerHTML = filtered.length
+      ? filtered.map(row => `
+          <div class="result-item">
+            <strong>Colegio:</strong> ${row[0] || 'No especificado'}<br>
+            <strong>Dirección:</strong> ${row[1] || 'No especificado'}<br>
+            <strong>Localidad:</strong> ${row[2] || 'No especificado'}<br>
+            <strong>Departamento:</strong> ${row[3] || 'No especificado'}<br>
+            <strong>Código Postal:</strong> ${row[4] || 'No especificado'}
+          </div>`).join('')
+      : '<div class="result-item">No se encontraron colegios para "${ubicacion}".</div>';
   } catch (error) {
     results.innerHTML = '<div class="result-item">Error al buscar. Intente nuevamente.</div>';
     console.error('Error:', error);
