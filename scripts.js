@@ -151,19 +151,20 @@ window.onload = () => {
 // Load news (placeholder for manual updates via Google Sheet)
 async function loadNoticias() {
   const noticiasContainer = document.getElementById('noticias-container');
-  // Placeholder: Replace with Google Sheet or scraping logic
-  noticiasContainer.innerHTML = `
-    <div class="feature-card">
-      <div class="feature-icon">📢</div>
-      <h3>Convocatoria 2025</h3>
-      <p>Abierto el período de inscripción para concursos docentes. Consulte en sga.edusalta.gov.ar.</p>
-      <a href="https://sga.edusalta.gov.ar" target="_blank" rel="noopener">Leer más</a>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">📅</div>
-      <h3>Cronograma Actualizado</h3>
-      <p>Fechas de titularización disponibles. Revise el calendario oficial.</p>
-      <a href="https://sga.edusalta.gov.ar" target="_blank" rel="noopener">Leer más</a>
-    </div>
-  `;
+  try {
+    const response = await fetch('/api/news');
+    const news = await response.json();
+    noticiasContainer.innerHTML = news.length
+      ? news.map(item => `
+          <div class="feature-card">
+            <div class="feature-icon">📢</div>
+            <h3>${item.title}</h3>
+            <p>${item.description.substring(0, 100)}${item.description.length > 100 ? '...' : ''}</p>
+            <a href="${item.link}" target="_blank" rel="noopener">Leer más</a>
+          </div>`).join('')
+      : '<div class="feature-card">No hay noticias disponibles.</div>';
+  } catch (error) {
+    noticiasContainer.innerHTML = '<div class="feature-card">Error al cargar noticias.</div>';
+    console.error('Error fetching news:', error);
+  }
 }
