@@ -7,17 +7,17 @@
     <meta name="keywords" content="JCMyD, Junta Calificadora, Educación Secundaria, Salta, Docentes, Concursos, Méritos">
     <meta property="og:title" content="Junta Calificadora de Méritos y Disciplina - Salta">
     <meta property="og:description" content="Busque espacios curriculares, colegios por orientación y ubicación, y manténgase informado con noticias actualizadas.">
-    <meta property="og:image" content="https://www.edusalta.gov.ar/images/logo.png">
+    <meta property="og:image" content="/assets/logo.png">
     <title>Junta Calificadora de Méritos y Disciplina - Nivel Secundario - Salta</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="icon" type="image/png" href="/assets/favicon.png">
 </head>
 <body>
     <header>
         <div class="container">
             <div class="header-content">
                 <div class="logo-section">
-                    <img src="logo.png" alt="JCMyD Logo" class="logo" width="60" height="60">
+                    <img src="/assets/logo.png" alt="JCMyD Logo" class="logo" width="60" height="60">
                     <div class="site-title">
                         <h1>Junta Calificadora de Méritos y Disciplina</h1>
                         <p>Nivel Secundario y sus Modalidades - Provincia de Salta</p>
@@ -45,7 +45,6 @@
             </section>
 
             <section id="funciones" class="features">
-                <!-- Existing feature cards remain, but update content to reflect JCMyD functions -->
                 <div class="feature-card">
                     <div class="feature-icon">📋</div>
                     <h3>Evaluación de Méritos</h3>
@@ -86,8 +85,7 @@
                 <div id="orientacion" class="search-form" role="tabpanel" aria-labelledby="tab-orientacion">
                     <h3>Buscar Colegios por Orientación</h3>
                     <select class="search-input" id="orientacion-select" aria-label="Orientación educativa">
-                        <option value="">Seleccione una orientación...</option>
-                        <!-- Populate dynamically from Google Sheet -->
+                        <option value="">Cargando orientaciones...</option>
                     </select>
                     <button class="search-button" onclick="buscarPorOrientacion()">Buscar</button>
                     <div id="orientacion-results" class="results"></div>
@@ -104,7 +102,11 @@
             <section id="noticias" class="search-section">
                 <h2>Noticias y Comunicados</h2>
                 <div class="features" id="noticias-container">
-                    <!-- Dynamically populated via RSS feed or API -->
+                    <div class="feature-card">
+                        <div class="feature-icon">📢</div>
+                        <h3>Cargando Noticias...</h3>
+                        <p>Espere mientras se cargan los últimos comunicados.</p>
+                    </div>
                 </div>
             </section>
         </div>
@@ -123,7 +125,7 @@
                     <h3>Enlaces Útiles</h3>
                     <p><a href="https://www.edusalta.gov.ar" target="_blank" rel="noopener">Ministerio de Educación Salta</a></p>
                     <p><a href="https://sga.edusalta.gov.ar" target="_blank" rel="noopener">Sistema de Gestión Académica</a></p>
-                    <p><a href="#">Normativa Vigente</a></p>
+                    <p><a href="https://www.edusalta.gov.ar/index.php/informacion/normativas" target="_blank" rel="noopener">Normativa Vigente</a></p>
                 </div>
                 <div class="footer-section">
                     <h3>Horarios de Atención</h3>
@@ -138,6 +140,6 @@
         </div>
     </footer>
 
-    <script src="scripts.js"></script>
+    <script src="/scripts.js"></script>
 </body>
 </html>
