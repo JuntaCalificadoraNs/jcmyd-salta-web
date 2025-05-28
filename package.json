@@ -1,0 +1,12 @@
+{
+  "name": "jcmyd-salta-web",
+  "version": "1.0.0",
+  "description": "Website for JCMyD Salta",
+  "main": "index.html",
+  "scripts": {
+    "start": "serve ."
+  },
+  "dependencies": {
+    "serve": "^14.2.1"
+  }
+}
