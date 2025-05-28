@@ -27,13 +27,17 @@ async function populateOrientaciones() {
   const select = document.getElementById('orientacion-select');
   try {
     const response = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_IDS.orientaciones}/values/Sheet1!B:B?key=${API_KEY}`);
+    if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
     const data = await response.json();
-    const orientaciones = [...new Set(data.values.slice(1).map(row => row[0]).filter(Boolean))]; // Unique values, skip header
+    if (!data.values || !Array.isArray(data.values)) {
+      throw new Error('No valid data returned from sheet');
+    }
+    const orientaciones = [...new Set(data.values.slice(1).map(row => row[0]).filter(Boolean))];
     select.innerHTML = '<option value="">Seleccione una orientación...</option>' + 
       orientaciones.map(or => `<option value="${or}">${or}</option>`).join('');
   } catch (error) {
     console.error('Error loading orientaciones:', error);
-    select.innerHTML += '<option value="">Error al cargar orientaciones</option>';
+    select.innerHTML = '<option value="">Error al cargar orientaciones</option>';
   }
 }
 
