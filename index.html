@@ -211,7 +211,10 @@
 
                 const row = {};
                 for (let j = 0; j < headers.length; j++) {
-                    row[headers[j]] = values[j] ? values[j].trim() : ''; // Asignar valor y limpiar espacios
+                    // Asegúrate de que el encabezado no esté vacío antes de asignarlo como clave
+                    if (headers[j]) { 
+                        row[headers[j]] = values[j] ? values[j].trim() : ''; // Asignar valor y limpiar espacios
+                    }
                 }
                 data.push(row);
             }
@@ -273,22 +276,32 @@
             const input = document.getElementById('tituloInput').value.toLowerCase();
             if (!input) {
                 // Actualizado para usar los nombres de columnas de tu CSV
-                renderTable('competenciasResults', ['Nombre', 'Titulo', 'Nombre DEL ESPACIO CURRICULAR', 'Alcance/INCUMBENCIA'], []);
+                renderTable('competenciasResults', ['Titulo', 'Nombre DEL ESPACIO CURRICULAR', 'CODIGO/Modulo', 'Alcance/INCUMBENCIA'], []);
                 return;
             }
 
+            console.log("Input de búsqueda para competencias:", input);
+            console.log("Datos de competencias cargados (primeros 5):", competenciasData.slice(0, 5)); // Para depuración
+
             const filtered = competenciasData.filter(item => {
                 // Ajustado para usar los nombres de encabezados exactos de tu CSV
-                const titulo = item['Titulo'] ? item['Titulo'].toLowerCase() : '';
-                const nombreEspacio = item['Nombre DEL ESPACIO CURRICULAR'] ? item['Nombre DEL ESPACIO CURRICULAR'].toLowerCase() : '';
-                const alcance = item['Alcance/INCUMBENCIA'] ? item['Alcance/INCUMBENCIA'].toLowerCase() : '';
-                const nombre = item['Nombre'] ? item['Nombre'].toLowerCase() : ''; // Añadido para búsqueda
-
-                return titulo.includes(input) || nombreEspacio.includes(input) || alcance.includes(input) || nombre.includes(input);
+                // La función String() asegura que estamos operando sobre una cadena de texto
+                const titulo = item['Titulo'] ? String(item['Titulo']).toLowerCase() : '';
+                const nombreEspacio = item['Nombre DEL ESPACIO CURRICULAR'] ? String(item['Nombre DEL ESPACIO CURRICULAR']).toLowerCase() : '';
+                const codigoModulo = item['CODIGO/Modulo'] ? String(item['CODIGO/Modulo']).toLowerCase() : '';
+                const alcance = item['Alcance/INCUMBENCIA'] ? String(item['Alcance/INCUMBENCIA']).toLowerCase() : '';
+                
+                // Incluimos todos los campos relevantes en la búsqueda
+                return titulo.includes(input) || 
+                       nombreEspacio.includes(input) || 
+                       codigoModulo.includes(input) || 
+                       alcance.includes(input); 
             });
 
-            // Los encabezados deben coincidir exactamente con los nombres de las columnas en tu hoja de cálculo
-            renderTable('competenciasResults', ['Nombre', 'Titulo', 'Nombre DEL ESPACIO CURRICULAR', 'Alcance/INCUMBENCIA'], filtered);
+            console.log("Resultados filtrados para competencias:", filtered); // Para depuración
+
+            // Los encabezados para mostrar en la tabla, coincidiendo exactamente con los de tu hoja de cálculo
+            renderTable('competenciasResults', ['Titulo', 'Nombre DEL ESPACIO CURRICULAR', 'CODIGO/Modulo', 'Alcance/INCUMBENCIA'], filtered); 
         }
 
         function buscarOrientaciones() {
@@ -301,9 +314,9 @@
 
             const filtered = orientacionesData.filter(item => {
                 // Ajustado para usar los nombres de encabezados exactos de tu CSV
-                const orientacion = item['ORIENTACION'] ? item['ORIENTACION'].toLowerCase() : '';
-                const unidEducativa = item['UNID EDUCATIVA'] ? item['UNID EDUCATIVA'].toLowerCase() : '';
-                const areaGeo = item['AREA GEOGRAFICA- LOCALIDAD-DPTO'] ? item['AREA GEOGRAFICA- LOCALIDAD-DPTO'].toLowerCase() : '';
+                const orientacion = item['ORIENTACION'] ? String(item['ORIENTACION']).toLowerCase() : '';
+                const unidEducativa = item['UNID EDUCATIVA'] ? String(item['UNID EDUCATIVA']).toLowerCase() : '';
+                const areaGeo = item['AREA GEOGRAFICA- LOCALIDAD-DPTO'] ? String(item['AREA GEOGRAFICA- LOCALIDAD-DPTO']).toLowerCase() : '';
 
                 return orientacion.includes(input) || unidEducativa.includes(input) || areaGeo.includes(input);
             });
@@ -322,11 +335,11 @@
 
             const filtered = colegiosData.filter(item => {
                 // Ajustado para usar los nombres de encabezados exactos de tu CSV
-                const localidad = item['Localidad'] ? item['Localidad'].toLowerCase() : '';
-                const departamento = item['Departamento'] ? item['Departamento'].toLowerCase() : '';
-                const direccion = item['Direccion'] ? item['Direccion'].toLowerCase() : '';
-                const nombre = item['Nombre'] ? item['Nombre'].toLowerCase() : '';
-                const codPostal = item['CodPostal'] ? item['CodPostal'].toLowerCase() : '';
+                const localidad = item['Localidad'] ? String(item['Localidad']).toLowerCase() : '';
+                const departamento = item['Departamento'] ? String(item['Departamento']).toLowerCase() : '';
+                const direccion = item['Direccion'] ? String(item['Direccion']).toLowerCase() : '';
+                const nombre = item['Nombre'] ? String(item['Nombre']).toLowerCase() : '';
+                const codPostal = item['CodPostal'] ? String(item['CodPostal']).toLowerCase() : '';
 
                 return localidad.includes(input) || departamento.includes(input) || direccion.includes(input) || nombre.includes(input) || codPostal.includes(input);
             });
