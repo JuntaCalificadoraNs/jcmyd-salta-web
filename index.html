@@ -134,7 +134,8 @@
             font-weight: 600;
             color: #555;
         }
-        .search-section input[type="text"] {
+        .search-section input[type="text"],
+        .search-section select { /* Añadido estilo para el select */
             width: calc(100% - 22px);
             padding: 12px;
             margin-bottom: 15px;
@@ -200,9 +201,6 @@
             font-style: italic;
         }
 
-        /* Estilo para el botón de noticias */
-        /* Eliminamos el estilo news-button ya que ahora usaremos iframe */
-
         /* Estilos para el iframe */
         .news-iframe-container {
             position: relative;
@@ -261,8 +259,9 @@
             h3 {
                 font-size: 1.3em;
             }
-            .search-section input[type="text"] {
-                width: 100%; /* Full width on smaller screens */
+            .search-section input[type="text"],
+            .search-section select { /* Full width on smaller screens */
+                width: 100%; 
             }
             .news-iframe-container {
                 padding-top: 120%; /* Aumenta la altura del iframe en móviles si es necesario */
@@ -282,7 +281,8 @@
                     <li><a href="#sobre-nosotros">Sobre Nosotros</a></li>
                     <li><a href="#herramientas-consulta">Herramientas de Consulta</a></li>
                     <li><a href="#normativas">Normativas</a></li>
-                    <li><a href="#noticias">Noticias</a></li> <li><a href="#contacto">Contacto</a></li>
+                    <li><a href="#noticias">Noticias</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
                 </ul>
             </nav>
         </div>
@@ -316,17 +316,31 @@
             <h2>Herramientas de Consulta</h2>
             <p>Accede a nuestras herramientas de búsqueda para encontrar la información que necesitas:</p>
 
-            <section id="competencias" class="search-section">
-                <h3>Búsqueda por Título y Materias/Espacios</h3>
-                <p>Ingresa tu título o el nombre de un espacio curricular para conocer las materias que puedes dictar, sus códigos y incumbencias.</p>
-                <label for="tituloInput">Buscar por Título o Materia/Espacio:</label>
-                <input type="text" id="tituloInput" placeholder="Ej: Profesor de Historia, Biología">
-                <button onclick="buscarCompetencias()">Buscar Competencias</button>
+            <section id="competencias-integradas" class="search-section">
+                <h3>Buscador Integrado: Títulos y Colegios por Espacio Curricular</h3>
+                <p>Ingresa tu título para ver los espacios curriculares que puedes dictar. Luego, selecciona un espacio para encontrar colegios que lo ofrecen.</p>
+                
+                <label for="tituloInputIntegrado">1. Ingresa tu Título (o parte de él):</label>
+                <input type="text" id="tituloInputIntegrado" placeholder="Ej: Profesor de Historia">
+                <button onclick="buscarIncumbenciasIntegrado()">Buscar Espacios Curriculares</button>
                 
                 <div class="results-container">
-                    <h3>Resultados de Competencias</h3>
-                    <div id="competenciasResults">
-                        <p class="no-results">No hay resultados para mostrar.</p>
+                    <h3>Resultados de Incumbencias</h3>
+                    <div id="incumbenciasResultsIntegrado">
+                        <p class="no-results">Aquí se mostrarán los espacios curriculares que puedes dictar.</p>
+                    </div>
+                </div>
+
+                <label for="espacioCurricularSelect">2. Selecciona un Espacio Curricular:</label>
+                <select id="espacioCurricularSelect" disabled>
+                    <option value="">-- Selecciona un espacio curricular --</option>
+                </select>
+                <button onclick="buscarColegiosAleatoriosPorEspacio()" id="btnBuscarColegios" disabled>Buscar Colegios (7 al azar)</button>
+
+                <div class="results-container">
+                    <h3>Colegios Encontrados</h3>
+                    <div id="colegiosPorEspacioResults">
+                        <p class="no-results">Aquí se mostrarán los colegios.</p>
                     </div>
                 </div>
             </section>
@@ -407,14 +421,16 @@
 
     <script>
         // URLs de tus Google Sheets publicadas como CSV
-        // !!! ES CRUCIAL QUE REEMPLACES ESTAS URLs CON LAS TUYAS PUBLICADAS EN CSV !!!
-        const COMPETENCIAS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSJa52401OsVXfeO4FE-pQfG-THMCeq_jkOtepQwSmphVu9IsxBztvZ1oMWG3JRW9zFPTvL0K1ELXOz/pub?gid=941984598&single=true&output=csv'; // Reemplazar con tu URL CSV
-        const ORIENTACIONES_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS7Qnph7TWvhLYl3KhpaDVqnYLqgNGbQ7FNtdw7TNzAlskfjVTg4DePvG2MoVuZf9DD3Fc2nZ5CEOms/pub?output=csv&gid=1943513223'; // Reemplazar con tu URL CSV
-        const COLEGIOS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vStnrtyd-dwtpz4UlSU2OXrEgL79AlvRLL3c0mIPSGETpyT2sEVgaGjJOVSpryEC7Jhx4zM6HjKWZN_/pub?output=csv&gid=119647774'; // Reemplazar con tu URL CSV
+        // ACTUALIZADAS CON LAS URLs QUE ME DISTE
+        const COMPETENCIAS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSJa52401OsVXfeO4FE-pQfG-THMCeq_jkOtepQwSmphVu9IsxBztvZ1oMWG3JRW9zFPTvL0K1ELXOz/pub?gid=941984598&single=true&output=csv';
+        const ORIENTACIONES_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS7Qnph7TWvhLYl3KhpaDVqnYLqgNGbQ7FNtdw7TNzAlskfjVTg4DePvG2MoVuZf9DD3Fc2nZ5CEOms/pub?output=csv&gid=1943513223';
+        const COLEGIOS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vStnrtyd-dwtpz4UlSU2OXrEgL79AlvRLL3c0mIPSGETpyT2sEVgaGjJOVSpryEC7Jhx4zM6HjKWZN_/pub?output=csv&gid=119647774';
+        const PLAN_ESTUDIO_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRHqqcFr4mP1vwyt14wUjjMCryhv8bzp-A7Dum5jRKqGvQ5_nJYZlo23Q-90L6cPFKFoUXiFTiMKzI7/pub?gid=151813776&single=true&output=csv';
 
         let competenciasData = [];
         let orientacionesData = [];
         let colegiosData = [];
+        let planEstudioData = []; // Nueva variable para los datos del plan de estudio
 
         // Función para cargar y parsear datos CSV
         async function loadData(url) {
@@ -424,7 +440,7 @@
                 return parseCSV(csvText);
             } catch (error) {
                 console.error('Error cargando datos de Google Sheets (CSV):', url, error);
-                alert('No se pudieron cargar algunos datos. Por favor, revisa las URLs o la conexión.');
+                // No alertar en cada carga para no saturar al usuario
                 return [];
             }
         }
@@ -455,16 +471,6 @@
                     }
                 }
                 data.push(row);
-
-                // --- Depuración: Puedes eliminar este bloque si todo funciona ---
-                // if (row['Nombre DEL ESPACIO CURRICULAR'] && row['Nombre DEL ESPACIO CURRICULAR'].includes('/')) {
-                //     console.log('--- Fila con / detectada (depuración) ---');
-                //     console.log('Nombre DEL ESPACIO CURRICULAR:', row['Nombre DEL ESPACIO CURRICULAR']);
-                //     console.log('CODIGO/Modulo:', row['CODIGO/Modulo']);
-                //     console.log('Alcance/INCUMBENCIA:', row['Alcance/INCUMBENCIA']);
-                //     console.log('Valores originales parseados (split por coma):', values); 
-                // }
-                // --- Fin Depuración ---
             }
             return data;
         }
@@ -474,15 +480,16 @@
             competenciasData = await loadData(COMPETENCIAS_URL);
             orientacionesData = await loadData(ORIENTACIONES_URL);
             colegiosData = await loadData(COLEGIOS_URL);
-            console.log('Datos cargados:', { competenciasData, orientacionesData, colegiosData });
+            planEstudioData = await loadData(PLAN_ESTUDIO_URL); // Cargar el nuevo CSV
+            console.log('Datos cargados:', { competenciasData, orientacionesData, colegiosData, planEstudioData });
         });
 
         // Función para renderizar una tabla de resultados
         function renderTable(containerId, headers, data) {
             const container = document.getElementById(containerId);
-            if (!container) return; // Asegurarse de que el contenedor existe
+            if (!container) return; 
 
-            container.innerHTML = ''; // Limpiar resultados anteriores
+            container.innerHTML = ''; 
 
             if (data.length === 0) {
                 container.innerHTML = '<p class="no-results">No se encontraron resultados.</p>';
@@ -505,8 +512,10 @@
             const tbody = document.createElement('tbody');
             data.forEach(item => {
                 const tr = document.createElement('tr');
+                // Usa las claves del objeto item, que deben coincidir con los headers pasados
                 headers.forEach(headerKey => {
                     const td = document.createElement('td');
+                    // Acceder al valor usando la clave del header
                     td.textContent = item[headerKey] || ''; 
                     tr.appendChild(td);
                 });
@@ -517,29 +526,7 @@
             container.appendChild(table);
         }
 
-        // --- FUNCIONES DE BÚSQUEDA ESPECÍFICAS ---
-
-        function buscarCompetencias() {
-            const input = document.getElementById('tituloInput').value.toLowerCase();
-            if (!input) {
-                renderTable('competenciasResults', ['Titulo', 'Nombre DEL ESPACIO CURRICULAR', 'CODIGO/Modulo', 'Alcance/INCUMBENCIA'], []);
-                return;
-            }
-
-            const filtered = competenciasData.filter(item => {
-                const titulo = item['Titulo'] ? String(item['Titulo']).toLowerCase() : '';
-                const nombreEspacio = item['Nombre DEL ESPACIO CURRICULAR'] ? String(item['Nombre DEL ESPACIO CURRICULAR']).toLowerCase() : '';
-                const codigoModulo = item['CODIGO/Modulo'] ? String(item['CODIGO/Modulo']).toLowerCase() : '';
-                const alcance = item['Alcance/INCUMBENCIA'] ? String(item['Alcance/INCUMBENCIA']).toLowerCase() : '';
-                
-                return titulo.includes(input) || 
-                       nombreEspacio.includes(input) || 
-                       codigoModulo.includes(input) || 
-                       alcance.includes(input); 
-            });
-
-            renderTable('competenciasResults', ['Titulo', 'Nombre DEL ESPACIO CURRICULAR', 'CODIGO/Modulo', 'Alcance/INCUMBENCIA'], filtered); 
-        }
+        // --- FUNCIONES DE BÚSQUEDA ESPECÍFICAS (Mantenidas para los buscadores independientes) ---
 
         function buscarOrientaciones() {
             const input = document.getElementById('orientacionInput').value.toLowerCase();
@@ -579,6 +566,134 @@
             renderTable('colegiosResults', ['Nombre', 'Direccion', 'Localidad', 'Departamento', 'CodPostal'], filtered);
         }
 
+
+        // --- NUEVAS FUNCIONALIDADES PARA EL BUSCADOR INTEGRADO ---
+
+        let foundEspaciosCurriculares = []; // Para almacenar los espacios encontrados y llenar el select
+
+        function buscarIncumbenciasIntegrado() {
+            const input = document.getElementById('tituloInputIntegrado').value.toLowerCase();
+            const selectEspacio = document.getElementById('espacioCurricularSelect');
+            const btnBuscarColegios = document.getElementById('btnBuscarColegios');
+
+            // Limpiar resultados anteriores y el select
+            renderTable('incumbenciasResultsIntegrado', ['Titulo', 'Nombre DEL ESPACIO CURRICULAR', 'CODIGO/Modulo', 'Alcance/INCUMBENCIA'], []);
+            renderTable('colegiosPorEspacioResults', ['Nombre', 'Direccion', 'Localidad', 'Departamento'], []);
+            selectEspacio.innerHTML = '<option value="">-- Selecciona un espacio curricular --</option>';
+            selectEspacio.disabled = true;
+            btnBuscarColeColegios.disabled = true;
+            foundEspaciosCurriculares = [];
+
+            if (!input) {
+                document.getElementById('incumbenciasResultsIntegrado').innerHTML = '<p class="no-results">Por favor, ingresa un título para buscar incumbencias.</p>';
+                return;
+            }
+
+            const filtered = competenciasData.filter(item => {
+                const titulo = item['Titulo'] ? String(item['Titulo']).toLowerCase() : '';
+                return titulo.includes(input); 
+            });
+
+            renderTable('incumbenciasResultsIntegrado', ['Titulo', 'Nombre DEL ESPACIO CURRICULAR', 'CODIGO/Modulo', 'Alcance/INCUMBENCIA'], filtered);
+
+            // Llenar el select con los espacios curriculares encontrados
+            if (filtered.length > 0) {
+                const uniqueEspacios = new Set();
+                filtered.forEach(item => {
+                    if (item['Nombre DEL ESPACIO CURRICULAR']) {
+                        uniqueEspacios.add(item['Nombre DEL ESPACIO CURRICULAR'].trim());
+                    }
+                });
+
+                foundEspaciosCurriculares = Array.from(uniqueEspacios); // Almacenar para usarlo después
+
+                foundEspaciosCurriculares.sort(); // Opcional: ordenar alfabéticamente
+
+                foundEspaciosCurriculares.forEach(espacio => {
+                    const option = document.createElement('option');
+                    option.value = espacio;
+                    option.textContent = espacio;
+                    selectEspacio.appendChild(option);
+                });
+                selectEspacio.disabled = false; // Habilitar el select
+                btnBuscarColegios.disabled = false; // Habilitar el botón de buscar colegios
+            } else {
+                 document.getElementById('incumbenciasResultsIntegrado').innerHTML = '<p class="no-results">No se encontraron espacios curriculares para ese título.</p>';
+            }
+        }
+
+        function buscarColegiosAleatoriosPorEspacio() {
+            const selectedEspacio = document.getElementById('espacioCurricularSelect').value;
+            renderTable('colegiosPorEspacioResults', ['Nombre', 'Direccion', 'Localidad', 'Departamento'], []); // Limpiar resultados
+
+            if (!selectedEspacio) {
+                document.getElementById('colegiosPorEspacioResults').innerHTML = '<p class="no-results">Por favor, selecciona un espacio curricular.</p>';
+                return;
+            }
+
+            // 1. Filtrar el planEstudioData por el espacio curricular seleccionado
+            const colegiosConEspacio = planEstudioData.filter(item => {
+                const espacio = item['ESPACIO CURRICULAR'] ? String(item['ESPACIO CURRICULAR']).toLowerCase() : '';
+                return espacio === selectedEspacio.toLowerCase();
+            });
+
+            if (colegiosConEspacio.length === 0) {
+                document.getElementById('colegiosPorEspacioResults').innerHTML = `<p class="no-results">No se encontraron colegios que dicten "${selectedEspacio}".</p>`;
+                return;
+            }
+
+            // 2. Obtener nombres únicos de colegios que dictan ese espacio
+            const nombresUnicosColegios = new Set();
+            colegiosConEspacio.forEach(item => {
+                if (item['UE']) {
+                    nombresUnicosColegios.add(item['UE'].trim());
+                }
+            });
+
+            const colegiosDisponibles = Array.from(nombresUnicosColegios);
+
+            // 3. Seleccionar 7 colegios al azar (o menos si no hay 7)
+            const colegiosAleatorios = [];
+            let numColegios = Math.min(7, colegiosDisponibles.length); // Max 7, o menos si hay menos disponibles
+
+            // Crear una copia del array para poder "eliminar" elementos al seleccionar
+            let tempColegios = [...colegiosDisponibles]; 
+
+            for (let i = 0; i < numColegios; i++) {
+                const randomIndex = Math.floor(Math.random() * tempColegios.length);
+                const randomNombreColegio = tempColegios[randomIndex];
+                colegiosAleatorios.push(randomNombreColegio);
+                tempColegios.splice(randomIndex, 1); // Eliminar el colegio seleccionado para evitar duplicados
+            }
+
+            // 4. Buscar los detalles completos de los colegios seleccionados en colegiosData
+            const resultadosFinales = [];
+            colegiosAleatorios.forEach(nombreColegioUE => {
+                // Hay que buscar por el campo 'Nombre' en colegiosData, que debe coincidir con 'UE' en planEstudioData
+                const colegioDetalle = colegiosData.find(c => 
+                    String(c['Nombre']).trim().toLowerCase() === String(nombreColegioUE).toLowerCase()
+                );
+                if (colegioDetalle) {
+                    resultadosFinales.push({
+                        'Nombre': colegioDetalle['Nombre'],
+                        'Direccion': colegioDetalle['Direccion'],
+                        'Localidad': colegioDetalle['Localidad'],
+                        'Departamento': colegioDetalle['Departamento']
+                    });
+                } else {
+                    // Si no se encuentra el detalle en colegiosData, añadirlo con información parcial
+                    resultadosFinales.push({
+                        'Nombre': nombreColegioUE,
+                        'Direccion': 'No disponible',
+                        'Localidad': 'No disponible',
+                        'Departamento': 'No disponible'
+                    });
+                     console.warn(`Detalles no encontrados para el colegio: ${nombreColegioUE}`);
+                }
+            });
+
+            renderTable('colegiosPorEspacioResults', ['Nombre', 'Direccion', 'Localidad', 'Departamento'], resultadosFinales);
+        }
     </script>
 </body>
 </html>
