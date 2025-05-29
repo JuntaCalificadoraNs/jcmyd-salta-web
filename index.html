@@ -167,9 +167,9 @@
     <script>
         // URLs de tus Google Sheets publicadas como CSV
         // !!! ES CRUCIAL QUE REEMPLACES ESTAS URLs CON LAS TUYAS PUBLICADAS EN CSV !!!
-        const COMPETENCIAS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSJa52401OsVXfeO4FE-pQfG-THMCeq_jkOtepQwSmphVu9IsxBztvZ1oMWG3JRW9zFPTvL0K1ELXOz/pub?gid=941984598&single=true&output=csv'; // Reemplazar con tu URL CSV
-        const ORIENTACIONES_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS7Qnph7TWvhLYl3KhpaDVqnYLqgNGbQ7FNtdw7TNzAlskfjVTg4DePvG2MoVuZf9DD3Fc2nZ5CEOms/pub?gid=1943513223&single=true&output=csv'; // Reemplazar con tu URL CSV
-        const COLEGIOS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vStnrtyd-dwtpz4UlSU2OXrEgL79AlvRLL3c0mIPSGETpyT2sEVgaGjJOVSpryEC7Jhx4zM6HjKWZN_/pub?gid=119647774&single=true&output=csv'; // Reemplazar con tu URL CSV
+        const COMPETENCIAS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSJa52401OsVXfeO4FE-pQfG-THMCeq_jkOotepQwSmphVu9IsxBztvZ1oMWG3JRW9zFPTvL0K1ELXOz/pub?output=csv&gid=941984598'; // Reemplazar con tu URL CSV
+        const ORIENTACIONES_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS7Qnph7TWvhLYl3KhpaDVqnYLqgNGbQ7FNtdw7TNzAlskfjVTg4DePvG2MoVuZf9DD3Fc2nZ5CEOms/pub?output=csv&gid=1943513223'; // Reemplazar con tu URL CSV
+        const COLEGIOS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vStnrtyd-dwtpz4UlSU2OXrEgL79AlvRLL3c0mIPSGETpyT2sEVgaGjJOVSpryEC7Jhx4zM6HjKWZN_/pub?output=csv&gid=119647774'; // Reemplazar con tu URL CSV
 
         let competenciasData = [];
         let orientacionesData = [];
@@ -189,16 +189,26 @@
         }
 
         // Función para parsear texto CSV a un array de objetos JavaScript
+        // Ajustada para manejar espacios y caracteres especiales en los encabezados del CSV
         function parseCSV(csvString) {
             const lines = csvString.split('\n');
-            const headers = lines[0].split(',').map(header => header.trim()); // Limpiar espacios en encabezados
+            if (lines.length < 2) return []; // No hay suficientes líneas para encabezados y datos
+
+            // Limpia los encabezados para usarlos como claves de objeto (ej. "UNID EDUCATIVA" -> "UNID EDUCATIVA")
+            // Los encabezados se mantendrán tal cual como vienen del CSV para que la búsqueda los encuentre
+            const headers = lines[0].split(',').map(header => header.trim()); 
             const data = [];
 
             for (let i = 1; i < lines.length; i++) {
                 const currentLine = lines[i].trim();
                 if (currentLine === '') continue; // Saltar líneas vacías
                 
-                const values = currentLine.split(',');
+                // Utiliza una expresión regular para dividir por comas pero ignorar comas dentro de comillas
+                const values = currentLine.match(/(".*?"|[^",]+)(,|$)/g)
+                                   .map(val => val.endsWith(',') ? val.slice(0, -1) : val) // Eliminar la coma final si existe
+                                   .map(val => val.startsWith('"') && val.endsWith('"') ? val.slice(1, -1).replace(/""/g, '"') : val) // Quitar comillas y desescapar
+                                   .map(val => val.trim()); // Limpiar espacios en blanco
+
                 const row = {};
                 for (let j = 0; j < headers.length; j++) {
                     row[headers[j]] = values[j] ? values[j].trim() : ''; // Asignar valor y limpiar espacios
@@ -246,7 +256,8 @@
                 const tr = document.createElement('tr');
                 headers.forEach(headerKey => {
                     const td = document.createElement('td');
-                    td.textContent = item[headerKey] || ''; // Mostrar vacío si no hay dato
+                    // Usar un nombre de clave dinámico si el encabezado original tiene espacios
+                    td.textContent = item[headerKey] || ''; 
                     tr.appendChild(td);
                 });
                 tbody.appendChild(tr);
@@ -261,66 +272,67 @@
         function buscarCompetencias() {
             const input = document.getElementById('tituloInput').value.toLowerCase();
             if (!input) {
-                renderTable('competenciasResults', ['Titulo', 'Materias_Espacios_Curriculares', 'Incumbencia'], []);
+                // Actualizado para usar los nombres de columnas de tu CSV
+                renderTable('competenciasResults', ['Nombre', 'Titulo', 'Nombre DEL ESPACIO CURRICULAR', 'Alcance/INCUMBENCIA'], []);
                 return;
             }
 
             const filtered = competenciasData.filter(item => {
-                // Asumiendo que tus encabezados son 'Titulo', 'Materias_Espacios_Curriculares', 'Incumbencia'
-                // Ajusta estos nombres si son diferentes en tu hoja CSV
-                const titulo = item.Titulo ? item.Titulo.toLowerCase() : '';
-                const materias = item.Materias_Espacios_Curriculares ? item.Materias_Espacios_Curriculares.toLowerCase() : '';
-                const incumbencia = item.Incumbencia ? item.Incumbencia.toLowerCase() : '';
+                // Ajustado para usar los nombres de encabezados exactos de tu CSV
+                const titulo = item['Titulo'] ? item['Titulo'].toLowerCase() : '';
+                const nombreEspacio = item['Nombre DEL ESPACIO CURRICULAR'] ? item['Nombre DEL ESPACIO CURRICULAR'].toLowerCase() : '';
+                const alcance = item['Alcance/INCUMBENCIA'] ? item['Alcance/INCUMBENCIA'].toLowerCase() : '';
+                const nombre = item['Nombre'] ? item['Nombre'].toLowerCase() : ''; // Añadido para búsqueda
 
-                return titulo.includes(input) || materias.includes(input) || incumbencia.includes(input);
+                return titulo.includes(input) || nombreEspacio.includes(input) || alcance.includes(input) || nombre.includes(input);
             });
 
             // Los encabezados deben coincidir exactamente con los nombres de las columnas en tu hoja de cálculo
-            renderTable('competenciasResults', ['Titulo', 'Materias_Espacios_Curriculares', 'Incumbencia'], filtered);
+            renderTable('competenciasResults', ['Nombre', 'Titulo', 'Nombre DEL ESPACIO CURRICULAR', 'Alcance/INCUMBENCIA'], filtered);
         }
 
         function buscarOrientaciones() {
             const input = document.getElementById('orientacionInput').value.toLowerCase();
             if (!input) {
-                renderTable('orientacionesResults', ['Nombre_Colegio', 'Orientacion', 'Localidad', 'Departamento'], []);
+                // Actualizado para usar los nombres de columnas de tu CSV
+                renderTable('orientacionesResults', ['UNID EDUCATIVA', 'ORIENTACION', 'AREA GEOGRAFICA- LOCALIDAD-DPTO'], []);
                 return;
             }
 
             const filtered = orientacionesData.filter(item => {
-                // Asumiendo que tus encabezados son 'Nombre_Colegio', 'Orientacion', 'Localidad', 'Departamento'
-                // Ajusta estos nombres si son diferentes en tu hoja CSV
-                const orientacion = item.Orientacion ? item.Orientacion.toLowerCase() : '';
-                const nombreColegio = item.Nombre_Colegio ? item.Nombre_Colegio.toLowerCase() : '';
-                const localidad = item.Localidad ? item.Localidad.toLowerCase() : '';
-                const departamento = item.Departamento ? item.Departamento.toLowerCase() : '';
+                // Ajustado para usar los nombres de encabezados exactos de tu CSV
+                const orientacion = item['ORIENTACION'] ? item['ORIENTACION'].toLowerCase() : '';
+                const unidEducativa = item['UNID EDUCATIVA'] ? item['UNID EDUCATIVA'].toLowerCase() : '';
+                const areaGeo = item['AREA GEOGRAFICA- LOCALIDAD-DPTO'] ? item['AREA GEOGRAFICA- LOCALIDAD-DPTO'].toLowerCase() : '';
 
-                return orientacion.includes(input) || nombreColegio.includes(input) || localidad.includes(input) || departamento.includes(input);
+                return orientacion.includes(input) || unidEducativa.includes(input) || areaGeo.includes(input);
             });
 
             // Los encabezados deben coincidir exactamente con los nombres de las columnas en tu hoja de cálculo
-            renderTable('orientacionesResults', ['Nombre_Colegio', 'Orientacion', 'Localidad', 'Departamento'], filtered);
+            renderTable('orientacionesResults', ['UNID EDUCATIVA', 'ORIENTACION', 'AREA GEOGRAFICA- LOCALIDAD-DPTO'], filtered);
         }
 
         function buscarColegios() {
             const input = document.getElementById('localidadInput').value.toLowerCase();
             if (!input) {
-                renderTable('colegiosResults', ['Nombre_Colegio', 'Direccion_Completa', 'Localidad', 'Departamento'], []);
+                // Actualizado para usar los nombres de columnas de tu CSV
+                renderTable('colegiosResults', ['Nombre', 'Direccion', 'Localidad', 'Departamento', 'CodPostal'], []);
                 return;
             }
 
             const filtered = colegiosData.filter(item => {
-                // Asumiendo que tus encabezados son 'Nombre_Colegio', 'Direccion_Completa', 'Localidad', 'Departamento'
-                // Ajusta estos nombres si son diferentes en tu hoja CSV
-                const localidad = item.Localidad ? item.Localidad.toLowerCase() : '';
-                const departamento = item.Departamento ? item.Departamento.toLowerCase() : '';
-                const direccion = item.Direccion_Completa ? item.Direccion_Completa.toLowerCase() : '';
-                const nombreColegio = item.Nombre_Colegio ? item.Nombre_Colegio.toLowerCase() : '';
+                // Ajustado para usar los nombres de encabezados exactos de tu CSV
+                const localidad = item['Localidad'] ? item['Localidad'].toLowerCase() : '';
+                const departamento = item['Departamento'] ? item['Departamento'].toLowerCase() : '';
+                const direccion = item['Direccion'] ? item['Direccion'].toLowerCase() : '';
+                const nombre = item['Nombre'] ? item['Nombre'].toLowerCase() : '';
+                const codPostal = item['CodPostal'] ? item['CodPostal'].toLowerCase() : '';
 
-                return localidad.includes(input) || departamento.includes(input) || direccion.includes(input) || nombreColegio.includes(input);
+                return localidad.includes(input) || departamento.includes(input) || direccion.includes(input) || nombre.includes(input) || codPostal.includes(input);
             });
 
             // Los encabezados deben coincidir exactamente con los nombres de las columnas en tu hoja de cálculo
-            renderTable('colegiosResults', ['Nombre_Colegio', 'Direccion_Completa', 'Localidad', 'Departamento'], filtered);
+            renderTable('colegiosResults', ['Nombre', 'Direccion', 'Localidad', 'Departamento', 'CodPostal'], filtered);
         }
 
     </script>
