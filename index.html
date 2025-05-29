@@ -18,12 +18,16 @@
         <div class="container">
             <div class="header-content">
                 <div class="logo-section">
-                    <img src="/assets/logo.png" alt="JCMyD Logo" class="logo" width="500" height="137">
+                    <img src="/assets/logo.png" alt="JCMyD Logo" class="logo" height="80">
                     <div class="site-title">
                         <h1>Junta Calificadora de Méritos y Disciplina</h1>
-                        <p>Nivel Secundario y sus Modalidades - Provincia de Salta</p>
+                        <p>Nivel Secundario y sus Modalidades - Salta</p>
                     </div>
                 </div>
+                <input type="checkbox" id="nav-toggle" class="nav-toggle">
+                <label for="nav-toggle" class="nav-toggle-label">
+                    <span></span>
+                </label>
                 <nav aria-label="Menú principal">
                     <ul>
                         <li><a href="#inicio" aria-current="page">Inicio</a></li>
@@ -41,30 +45,30 @@
         <div class="container">
             <section id="inicio" class="hero">
                 <h1>Bienvenidos</h1>
-                <p>Portal oficial de la Junta Calificadora de Méritos y Disciplina de Nivel Secundario y sus modalidades dependiente del Ministerio de Educación de Salta</p>
+                <p>Portal oficial de la Junta Calificadora de Méritos y Disciplina, dependiente del Ministerio de Educación, Salta.</p>
                 <a href="#buscadores" class="cta-button">Explorar Servicios</a>
             </section>
 
             <section id="funciones" class="features">
                 <div class="feature-card">
-                    <div class="feature-icon">📋</div>
+                    <img src="/assets/icons/evaluation.svg" alt="Evaluación Icon" class="feature-icon">
                     <h3>Evaluación de Méritos</h3>
-                    <p>Calificamos los antecedentes docentes para cargos y horas cátedra en el nivel secundario según el Manual de Competencias.</p>
+                    <p>Calificamos antecedentes docentes según el Manual de Competencias.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">⚖️</div>
+                    <img src="/assets/icons/discipline.svg" alt="Disciplina Icon" class="feature-icon">
                     <h3>Régimen Disciplinario</h3>
-                    <p>Supervisamos el cumplimiento de las normativas disciplinarias para docentes de nivel secundario.</p>
+                    <p>Supervisamos normativas disciplinarias para docentes.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">🎯</div>
+                    <img src="/assets/icons/competitions.svg" alt="Concursos Icon" class="feature-icon">
                     <h3>Concursos y Designaciones</h3>
-                    <p>Organizamos concursos para interinatos, suplencias y cargos jerárquicos en escuelas secundarias.</p>
+                    <p>Organizamos concursos para interinatos y cargos jerárquicos.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">📊</div>
+                    <img src="/assets/icons/merit.svg" alt="Mérito Icon" class="feature-icon">
                     <h3>Listados de Mérito</h3>
-                    <p>Publicamos cuadros provisorios y definitivos para designaciones docentes en sga.edusalta.gov.ar.</p>
+                    <p>Publicamos cuadros de méritos en sga.edusalta.gov.ar.</p>
                 </div>
             </section>
 
@@ -77,7 +81,7 @@
                 </div>
 
                 <div id="titulos" class="search-form active" role="tabpanel" aria-labelledby="tab-titulos">
-                    <h3>Buscar Espacios Curriculares por Título</h3>
+                    <h3>Buscar Espacios Curriculares</h3>
                     <input type="text" class="search-input" id="titulo-input" placeholder="Ingrese su título docente..." aria-label="Título docente">
                     <button class="search-button" onclick="buscarPorTitulo()">Buscar</button>
                     <div id="titulo-results" class="results"></div>
@@ -103,10 +107,9 @@
             <section id="noticias" class="search-section">
                 <h2>Noticias y Comunicados</h2>
                 <div class="features" id="noticias-container">
-                    <div class="feature-card">
-                        <div class="feature-icon">📢</div>
-                        <h3>Cargando Noticias...</h3>
-                        <p>Espere mientras se cargan los últimos comunicados.</p>
+                    <div class="feature-card loading">
+                        <div class="spinner"></div>
+                        <p>Cargando noticias...</p>
                     </div>
                 </div>
             </section>
@@ -135,7 +138,7 @@
                     <p>Consultas Presenciales</p>
                 </div>
             </div>
-            <div style="border-top: 1px solid #34495e; padding-top: 2rem; margin-top: 2rem;">
+            <div class="footer-bottom">
                 <p>© 2025 Junta Calificadora de Méritos y Disciplina - Gobierno de Salta. Todos los derechos reservados.</p>
             </div>
         </div>
