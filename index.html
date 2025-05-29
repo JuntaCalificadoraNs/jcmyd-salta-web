@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Junta Calificadora de Méritos y Disciplina - Nivel Secundario</title>
-    <link rel="stylesheet" href="style.css"> <style>
-        /* Estilos básicos para la nueva funcionalidad */
+    <link rel="stylesheet" href="style.css"> <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet"> <style>
+        /* Estilos generales mejorados */
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Roboto', Arial, sans-serif;
             line-height: 1.6;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            background-color: #eef2f7; /* Un color de fondo más suave */
             color: #333;
         }
         .container {
@@ -19,155 +19,356 @@
             max-width: 1200px;
             margin: 20px auto;
             background: #fff;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Sombra más pronunciada */
+            border-radius: 10px; /* Bordes más redondeados */
         }
-        h1, h2 {
+        h1, h2, h3 {
             color: #0056b3;
             text-align: center;
+            margin-bottom: 25px;
         }
+        h1 {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-top: 20px;
+            color: #004085; /* Un azul más oscuro */
+        }
+        h2 {
+            font-size: 2em;
+            font-weight: 500;
+            border-bottom: 2px solid #e0e7ed; /* Línea de separación sutil */
+            padding-bottom: 10px;
+            margin-top: 40px;
+        }
+        h3 {
+            font-size: 1.5em;
+            font-weight: 400;
+            color: #007bff;
+        }
+
+        /* Header (Encabezado) */
+        header {
+            background-color: #004085; /* Azul oscuro corporativo */
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        header .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        header .logo img {
+            max-height: 80px; /* Ajusta el tamaño del logo */
+            width: auto;
+        }
+        header nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex; /* Para poner los elementos del menú en línea */
+        }
+        header nav ul li {
+            margin-left: 25px;
+        }
+        header nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1em;
+            transition: color 0.3s ease-in-out;
+        }
+        header nav ul li a:hover {
+            color: #a7d9ff; /* Un azul más claro al pasar el ratón */
+        }
+
+        /* Secciones de Contenido */
+        .content-section {
+            padding: 20px 0;
+            margin-bottom: 30px;
+            border-bottom: 1px dashed #e0e7ed; /* Línea punteada para separar secciones */
+        }
+        .content-section:last-of-type {
+            border-bottom: none; /* Eliminar la línea en la última sección */
+        }
+        .content-section p {
+            font-size: 1.1em;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        .content-section ul {
+            list-style: disc inside;
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        .content-section ul li {
+            margin-bottom: 8px;
+        }
+        .content-section a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: 400;
+        }
+        .content-section a:hover {
+            text-decoration: underline;
+        }
+
+        /* Buscadores - Estilos existentes mejorados */
         .search-section {
             margin-bottom: 30px;
             padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            background-color: #f9f9f9;
+            border: 1px solid #dbe2ea; /* Borde más suave */
+            border-radius: 8px;
+            background-color: #f7f9fc; /* Fondo más claro */
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05); /* Sombra interna sutil */
         }
         .search-section label {
             display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #555;
         }
         .search-section input[type="text"] {
             width: calc(100% - 22px);
-            padding: 10px;
+            padding: 12px;
             margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            border: 1px solid #c2d1e2;
+            border-radius: 6px;
+            font-size: 1em;
+            box-sizing: border-box; /* Asegura que padding no aumente el ancho total */
         }
         .search-section button {
             background-color: #007bff;
             color: white;
-            padding: 10px 20px;
+            padding: 12px 25px;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 1.1em;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
         }
         .search-section button:hover {
             background-color: #0056b3;
         }
         .results-container {
-            margin-top: 20px;
-            border-top: 1px solid #eee;
-            padding-top: 20px;
+            margin-top: 30px;
+            border-top: 1px solid #e0e7ed;
+            padding-top: 25px;
         }
         .results-container h3 {
             color: #007bff;
             text-align: center;
+            margin-bottom: 20px;
         }
         .results-table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 15px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden; /* Para que los bordes redondeados se apliquen a la tabla */
         }
         .results-table th, .results-table td {
-            border: 1px solid #ddd;
-            padding: 8px;
+            border: 1px solid #dee2e6; /* Borde de tabla más definido */
+            padding: 12px;
             text-align: left;
         }
         .results-table th {
             background-color: #007bff;
             color: white;
+            font-weight: 600;
+            text-transform: uppercase; /* Encabezados en mayúsculas */
+            font-size: 0.9em;
         }
         .results-table tr:nth-child(even) {
-            background-color: #f2f2f2;
+            background-color: #f2f7fb; /* Color de fila par más claro */
+        }
+        .results-table tr:hover {
+            background-color: #e9f2fa; /* Efecto hover en filas */
         }
         .no-results {
             text-align: center;
-            color: #666;
+            color: #777;
             padding: 20px;
+            font-style: italic;
         }
+
+        /* Footer (Pie de página) */
         footer {
             text-align: center;
-            padding: 20px;
-            background-color: #333;
+            padding: 25px;
+            background-color: #343a40; /* Gris oscuro */
             color: white;
             margin-top: 40px;
+            border-top: 5px solid #0056b3; /* Borde superior con color primario */
+            font-size: 0.9em;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            header nav ul {
+                flex-direction: column;
+                margin-top: 15px;
+            }
+            header nav ul li {
+                margin: 5px 0;
+            }
+            .container {
+                width: 95%;
+                padding: 15px;
+            }
+            h1 {
+                font-size: 2em;
+            }
+            h2 {
+                font-size: 1.7em;
+            }
+            h3 {
+                font-size: 1.3em;
+            }
+            .search-section input[type="text"] {
+                width: 100%; /* Full width on smaller screens */
+            }
         }
     </style>
 </head>
 <body>
     <header>
-        <nav>
-            <ul>
-                <li><a href="#competencias">Manual de Competencias</a></li>
-                <li><a href="#orientaciones">Orientaciones de Colegios</a></li>
-                <li><a href="#colegios">Colegios Secundarios</a></li>
-            </ul>
-        </nav>
+        <div class="header-content">
+            <div class="logo">
+                <img src="jcmyd-logo.png" alt="Logo Junta Calificadora de Méritos y Disciplina">
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#inicio">Inicio</a></li>
+                    <li><a href="#sobre-nosotros">Sobre Nosotros</a></li>
+                    <li><a href="#herramientas-consulta">Herramientas de Consulta</a></li>
+                    <li><a href="#normativas">Normativas</a></li>
+                    <li><a href="#contacto">Contacto</a></li> </ul>
+            </nav>
+        </div>
     </header>
 
     <div class="container">
-        <h1>Junta Calificadora de Méritos y Disciplina - Nivel Secundario</h1>
-        <p>Bienvenido a la plataforma de consulta de la Junta Calificadora de Méritos y Disciplina. Aquí podrás encontrar información relevante sobre incumbencias docentes y colegios secundarios de la provincia.</p>
-
-        <section id="competencias" class="search-section">
-            <h2>Búsqueda por Título y Materias/Espacios</h2>
-            <p>Ingresa tu título para conocer las materias o espacios curriculares que puedes dictar y sus incumbencias.</p>
-            <label for="tituloInput">Buscar por Título o Materia/Espacio:</label>
-            <input type="text" id="tituloInput" placeholder="Ej: Profesor de Lengua, Matemáticas">
-            <button onclick="buscarCompetencias()">Buscar Competencias</button>
-            
-            <div class="results-container">
-                <h3>Resultados de Competencias</h3>
-                <div id="competenciasResults">
-                    <p class="no-results">No hay resultados para mostrar.</p>
-                </div>
-            </div>
+        <section id="inicio" class="content-section">
+            <h1>Junta Calificadora de Méritos y Disciplina - Nivel Secundario</h1>
+            <p>Bienvenido a la plataforma de consulta de la Junta Calificadora de Méritos y Disciplina de Nivel Secundario de la Provincia de Salta. Aquí podrás encontrar información relevante sobre incumbencias docentes, orientaciones de colegios y datos de instituciones educativas.</p>
+            <p>Nuestro objetivo es facilitar el acceso a la información oficial de manera clara y eficiente para toda la comunidad educativa.</p>
         </section>
 
-        <section id="orientaciones" class="search-section">
-            <h2>Búsqueda de Colegios por Orientación</h2>
-            <p>Encuentra colegios secundarios según su orientación educativa.</p>
-            <label for="orientacionInput">Buscar por Orientación:</label>
-            <input type="text" id="orientacionInput" placeholder="Ej: Ciencias Naturales, Informática, Humanidades">
-            <button onclick="buscarOrientaciones()">Buscar Orientaciones</button>
-
-            <div class="results-container">
-                <h3>Resultados de Orientaciones</h3>
-                <div id="orientacionesResults">
-                    <p class="no-results">No hay resultados para mostrar.</p>
-                </div>
-            </div>
+        <section id="sobre-nosotros" class="content-section">
+            <h2>Sobre Nosotros: Junta Calificadora de Méritos y Disciplina</h2>
+            <p>La Junta Calificadora de Méritos y Disciplina es el organismo encargado de la evaluación, clasificación y registro de los antecedentes profesionales de los docentes de la Provincia de Salta. Nuestra misión es garantizar la transparencia y equidad en los procesos de selección y promoción del personal docente, contribuyendo a la calidad educativa.</p>
+            <h3>Funciones Principales:</h3>
+            <ul>
+                <li>Evaluación y calificación de títulos y antecedentes.</li>
+                <li>Elaboración y actualización de padrones de aspirantes.</li>
+                <li>Asesoramiento en materia de incumbencias docentes.</li>
+                <li>Intervención en procesos disciplinarios.</li>
+            </ul>
+            <h3>Objetivos:</h3>
+            <ul>
+                <li>Asegurar la idoneidad del personal docente.</li>
+                <li>Promover la estabilidad y el desarrollo de la carrera docente.</li>
+                <li>Garantizar la transparencia en todos los procedimientos.</li>
+                <li>Contribuir al mejoramiento continuo del sistema educativo provincial.</li>
+            </ul>
+            <p>[Aquí puedes expandir con más detalles sobre la historia, valores, o estructura del organismo.]</p>
         </section>
 
-        <section id="colegios" class="search-section">
-            <h2>Búsqueda de Colegios por Localidad/Departamento</h2>
-            <p>Encuentra colegios secundarios ingresando una localidad o departamento.</p>
-            <label for="localidadInput">Buscar por Localidad o Departamento:</label>
-            <input type="text" id="localidadInput" placeholder="Ej: Salta Capital, San Ramón de la Nueva Orán">
-            <button onclick="buscarColegios()">Buscar Colegios</button>
+        <section id="herramientas-consulta" class="content-section">
+            <h2>Herramientas de Consulta</h2>
+            <p>Accede a nuestras herramientas de búsqueda para encontrar la información que necesitas:</p>
 
-            <div class="results-container">
-                <h3>Resultados de Colegios</h3>
-                <div id="colegiosResults">
-                    <p class="no-results">No hay resultados para mostrar.</p>
+            <section id="competencias" class="search-section">
+                <h3>Búsqueda por Título y Materias/Espacios</h3>
+                <p>Ingresa tu título o el nombre de un espacio curricular para conocer las materias que puedes dictar, sus códigos y incumbencias.</p>
+                <label for="tituloInput">Buscar por Título o Materia/Espacio:</label>
+                <input type="text" id="tituloInput" placeholder="Ej: Profesor de Historia, Biología">
+                <button onclick="buscarCompetencias()">Buscar Competencias</button>
+                
+                <div class="results-container">
+                    <h3>Resultados de Competencias</h3>
+                    <div id="competenciasResults">
+                        <p class="no-results">No hay resultados para mostrar.</p>
+                    </div>
                 </div>
-            </div>
+            </section>
+
+            <section id="orientaciones" class="search-section">
+                <h3>Búsqueda de Colegios por Orientación</h3>
+                <p>Encuentra colegios secundarios según su orientación educativa.</p>
+                <label for="orientacionInput">Buscar por Orientación:</label>
+                <input type="text" id="orientacionInput" placeholder="Ej: Ciencias Naturales, Informática, Humanidades">
+                <button onclick="buscarOrientaciones()">Buscar Orientaciones</button>
+
+                <div class="results-container">
+                    <h3>Resultados de Orientaciones</h3>
+                    <div id="orientacionesResults">
+                        <p class="no-results">No hay resultados para mostrar.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="colegios" class="search-section">
+                <h3>Búsqueda de Colegios por Localidad/Departamento</h3>
+                <p>Encuentra colegios secundarios ingresando una localidad o departamento.</p>
+                <label for="localidadInput">Buscar por Localidad o Departamento:</label>
+                <input type="text" id="localidadInput" placeholder="Ej: Salta Capital, San Ramón de la Nueva Orán">
+                <button onclick="buscarColegios()">Buscar Colegios</button>
+
+                <div class="results-container">
+                    <h3>Resultados de Colegios</h3>
+                    <div id="colegiosResults">
+                        <p class="no-results">No hay resultados para mostrar.</p>
+                    </div>
+                </div>
+            </section>
+        </section>
+
+        <section id="normativas" class="content-section">
+            <h2>Normativas y Documentos Oficiales</h2>
+            <p>Accede a la legislación vigente y documentos de interés relacionados con la función docente y la Junta Calificadora de Méritos y Disciplina.</p>
+            <ul>
+                <li><a href="#" target="_blank">Ley Provincial de Educación N° 6.830</a></li>
+                <li><a href="#" target="_blank">Reglamento General de Calificación de Méritos y Disciplina</a></li>
+                <li><a href="#" target="_blank">Resoluciones y Disposiciones Recientes [Año]</a></li>
+                <li><a href="#" target="_blank">Preguntas Frecuentes (FAQ)</a></li>
+            </ul>
+            <p>[Puedes añadir enlaces a PDFs, documentos en línea o páginas externas aquí.]</p>
+        </section>
+
+        <section id="contacto" class="content-section">
+            <h2>Contacto</h2>
+            <p>Para consultas adicionales, puedes contactarnos a través de los siguientes medios:</p>
+            <p><strong>Dirección:</strong> [Dirección completa del organismo]</p>
+            <p><strong>Teléfono:</strong> [Número de teléfono]</p>
+            <p><strong>Correo Electrónico:</strong> <a href="mailto:info@ejemplo.com">info@ejemplo.com</a></p>
+            <p><strong>Horario de Atención:</strong> [Días y horarios]</p>
         </section>
 
     </div>
 
     <footer>
         <p>&copy; 2025 Junta Calificadora de Méritos y Disciplina - Nivel Secundario. Todos los derechos reservados.</p>
+        <p>Desarrollado con el apoyo de [Nombre de la Institución/Equipo si aplica]</p>
     </footer>
 
     <script>
         // URLs de tus Google Sheets publicadas como CSV
         // !!! ES CRUCIAL QUE REEMPLACES ESTAS URLs CON LAS TUYAS PUBLICADAS EN CSV !!!
-        const COMPETENCIAS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSJa52401OsVXfeO4FE-pQfG-THMCeq_jkOtepQwSmphVu9IsxBztvZ1oMWG3JRW9zFPTvL0K1ELXOz/pub?gid=941984598&single=true&output=csv'; // Reemplazar con tu URL CSV
+        const COMPETENCIAS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTKbpEclq2eJ6csuoUsfOWE3UF_SZ2DnahF3tanDcepAp7-i3ShacLmeL-hQyrkoliHLKHsxdcxDdON/pub?gid=941984598&single=true&output=csv'; // Reemplazar con tu URL CSV
         const ORIENTACIONES_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS7Qnph7TWvhLYl3KhpaDVqnYLqgNGbQ7FNtdw7TNzAlskfjVTg4DePvG2MoVuZf9DD3Fc2nZ5CEOms/pub?output=csv&gid=1943513223'; // Reemplazar con tu URL CSV
         const COLEGIOS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vStnrtyd-dwtpz4UlSU2OXrEgL79AlvRLL3c0mIPSGETpyT2sEVgaGjJOVSpryEC7Jhx4zM6HjKWZN_/pub?output=csv&gid=119647774'; // Reemplazar con tu URL CSV
 
@@ -183,61 +384,53 @@
                 return parseCSV(csvText);
             } catch (error) {
                 console.error('Error cargando datos de Google Sheets (CSV):', url, error);
-                alert('No se pudieron cargar los datos. Por favor, revisa las URLs de tus hojas de cálculo publicadas como CSV.');
+                // Si ocurre un error, mostraremos una alerta genérica.
+                // Podrías personalizar este mensaje para cada URL si lo deseas.
+                alert('No se pudieron cargar algunos datos. Por favor, revisa las URLs o la conexión.');
                 return [];
             }
         }
 
         // Función para parsear texto CSV a un array de objetos JavaScript
-        // Ajustada para manejar espacios y caracteres especiales en los encabezados del CSV
-        // Función para parsear texto CSV a un array de objetos JavaScript
-// Ajustada para manejar espacios y caracteres especiales en los encabezados del CSV
-// Función para parsear texto CSV a un array de objetos JavaScript
-// Ajustada para manejar espacios y caracteres especiales en los encabezados del CSV
-// Función para parsear texto CSV a un array de objetos JavaScript
-// Versión más robusta para manejar líneas incompletas o vacías
-function parseCSV(csvString) {
-    const lines = csvString.split('\n');
-    if (lines.length < 2) {
-        console.warn("CSV tiene menos de 2 líneas (encabezado + datos). Retornando array vacío.");
-        return [];
-    }
-
-    const headers = lines[0].split(',').map(header => header.trim()); 
-    const data = [];
-
-    for (let i = 1; i < lines.length; i++) {
-        const currentLine = lines[i].trim();
-        if (currentLine === '') {
-            // console.log("Línea vacía encontrada, saltando.");
-            continue; // Saltar líneas completamente vacías
-        }
-        
-        // Usamos split(',') directamente, ya que la barra '/' no interfiere con las comas
-        // Esto es más simple y a veces más confiable para CSVs donde las comas internas no están escapadas.
-        const values = currentLine.split(',');
-
-        const row = {};
-        for (let j = 0; j < headers.length; j++) {
-            if (headers[j]) { 
-                // Aseguramos que values[j] no sea undefined antes de intentar .trim()
-                row[headers[j]] = values[j] ? values[j].trim() : ''; 
+        // Versión más robusta para manejar líneas incompletas o vacías
+        function parseCSV(csvString) {
+            const lines = csvString.split('\n');
+            if (lines.length < 2) {
+                console.warn("CSV tiene menos de 2 líneas (encabezado + datos). Retornando array vacío.");
+                return [];
             }
-        }
-        data.push(row);
 
-        // --- Depuración: Mantener para la fila problemática ---
-        if (row['Nombre DEL ESPACIO CURRICULAR'] && row['Nombre DEL ESPACIO CURRICULAR'].includes('/')) {
-            console.log('--- Fila con / detectada (depuración) ---');
-            console.log('Nombre DEL ESPACIO CURRICULAR:', row['Nombre DEL ESPACIO CURRICULAR']);
-            console.log('CODIGO/Modulo:', row['CODIGO/Modulo']);
-            console.log('Alcance/INCUMBENCIA:', row['Alcance/INCUMBENCIA']);
-            console.log('Valores originales parseados (split por coma):', values); // Muestra todos los valores crudos
+            const headers = lines[0].split(',').map(header => header.trim()); 
+            const data = [];
+
+            for (let i = 1; i < lines.length; i++) {
+                const currentLine = lines[i].trim();
+                if (currentLine === '') {
+                    continue; // Saltar líneas completamente vacías
+                }
+                
+                const values = currentLine.split(',');
+
+                const row = {};
+                for (let j = 0; j < headers.length; j++) {
+                    if (headers[j]) { 
+                        row[headers[j]] = values[j] ? values[j].trim() : ''; 
+                    }
+                }
+                data.push(row);
+
+                // --- Depuración: Puedes eliminar este bloque si todo funciona ---
+                // if (row['Nombre DEL ESPACIO CURRICULAR'] && row['Nombre DEL ESPACIO CURRICULAR'].includes('/')) {
+                //     console.log('--- Fila con / detectada (depuración) ---');
+                //     console.log('Nombre DEL ESPACIO CURRICULAR:', row['Nombre DEL ESPACIO CURRICULAR']);
+                //     console.log('CODIGO/Modulo:', row['CODIGO/Modulo']);
+                //     console.log('Alcance/INCUMBENCIA:', row['Alcance/INCUMBENCIA']);
+                //     console.log('Valores originales parseados (split por coma):', values); 
+                // }
+                // --- Fin Depuración ---
+            }
+            return data;
         }
-        // --- Fin Depuración ---
-    }
-    return data;
-}
 
         // Cargar todos los datos al cargar la página
         document.addEventListener('DOMContentLoaded', async () => {
@@ -277,7 +470,6 @@ function parseCSV(csvString) {
                 const tr = document.createElement('tr');
                 headers.forEach(headerKey => {
                     const td = document.createElement('td');
-                    // Usar un nombre de clave dinámico si el encabezado original tiene espacios
                     td.textContent = item[headerKey] || ''; 
                     tr.appendChild(td);
                 });
@@ -293,45 +485,33 @@ function parseCSV(csvString) {
         function buscarCompetencias() {
             const input = document.getElementById('tituloInput').value.toLowerCase();
             if (!input) {
-                // Actualizado para usar los nombres de columnas de tu CSV
                 renderTable('competenciasResults', ['Titulo', 'Nombre DEL ESPACIO CURRICULAR', 'CODIGO/Modulo', 'Alcance/INCUMBENCIA'], []);
                 return;
             }
 
-            console.log("Input de búsqueda para competencias:", input);
-            console.log("Datos de competencias cargados (primeros 5):", competenciasData.slice(0, 5)); // Para depuración
-
             const filtered = competenciasData.filter(item => {
-                // Ajustado para usar los nombres de encabezados exactos de tu CSV
-                // La función String() asegura que estamos operando sobre una cadena de texto
                 const titulo = item['Titulo'] ? String(item['Titulo']).toLowerCase() : '';
                 const nombreEspacio = item['Nombre DEL ESPACIO CURRICULAR'] ? String(item['Nombre DEL ESPACIO CURRICULAR']).toLowerCase() : '';
                 const codigoModulo = item['CODIGO/Modulo'] ? String(item['CODIGO/Modulo']).toLowerCase() : '';
                 const alcance = item['Alcance/INCUMBENCIA'] ? String(item['Alcance/INCUMBENCIA']).toLowerCase() : '';
                 
-                // Incluimos todos los campos relevantes en la búsqueda
                 return titulo.includes(input) || 
                        nombreEspacio.includes(input) || 
                        codigoModulo.includes(input) || 
                        alcance.includes(input); 
             });
 
-            console.log("Resultados filtrados para competencias:", filtered); // Para depuración
-
-            // Los encabezados para mostrar en la tabla, coincidiendo exactamente con los de tu hoja de cálculo
             renderTable('competenciasResults', ['Titulo', 'Nombre DEL ESPACIO CURRICULAR', 'CODIGO/Modulo', 'Alcance/INCUMBENCIA'], filtered); 
         }
 
         function buscarOrientaciones() {
             const input = document.getElementById('orientacionInput').value.toLowerCase();
             if (!input) {
-                // Actualizado para usar los nombres de columnas de tu CSV
                 renderTable('orientacionesResults', ['UNID EDUCATIVA', 'ORIENTACION', 'AREA GEOGRAFICA- LOCALIDAD-DPTO'], []);
                 return;
             }
 
             const filtered = orientacionesData.filter(item => {
-                // Ajustado para usar los nombres de encabezados exactos de tu CSV
                 const orientacion = item['ORIENTACION'] ? String(item['ORIENTACION']).toLowerCase() : '';
                 const unidEducativa = item['UNID EDUCATIVA'] ? String(item['UNID EDUCATIVA']).toLowerCase() : '';
                 const areaGeo = item['AREA GEOGRAFICA- LOCALIDAD-DPTO'] ? String(item['AREA GEOGRAFICA- LOCALIDAD-DPTO']).toLowerCase() : '';
@@ -339,20 +519,17 @@ function parseCSV(csvString) {
                 return orientacion.includes(input) || unidEducativa.includes(input) || areaGeo.includes(input);
             });
 
-            // Los encabezados deben coincidir exactamente con los nombres de las columnas en tu hoja de cálculo
             renderTable('orientacionesResults', ['UNID EDUCATIVA', 'ORIENTACION', 'AREA GEOGRAFICA- LOCALIDAD-DPTO'], filtered);
         }
 
         function buscarColegios() {
             const input = document.getElementById('localidadInput').value.toLowerCase();
             if (!input) {
-                // Actualizado para usar los nombres de columnas de tu CSV
                 renderTable('colegiosResults', ['Nombre', 'Direccion', 'Localidad', 'Departamento', 'CodPostal'], []);
                 return;
             }
 
             const filtered = colegiosData.filter(item => {
-                // Ajustado para usar los nombres de encabezados exactos de tu CSV
                 const localidad = item['Localidad'] ? String(item['Localidad']).toLowerCase() : '';
                 const departamento = item['Departamento'] ? String(item['Departamento']).toLowerCase() : '';
                 const direccion = item['Direccion'] ? String(item['Direccion']).toLowerCase() : '';
@@ -362,7 +539,6 @@ function parseCSV(csvString) {
                 return localidad.includes(input) || departamento.includes(input) || direccion.includes(input) || nombre.includes(input) || codPostal.includes(input);
             });
 
-            // Los encabezados deben coincidir exactamente con los nombres de las columnas en tu hoja de cálculo
             renderTable('colegiosResults', ['Nombre', 'Direccion', 'Localidad', 'Departamento', 'CodPostal'], filtered);
         }
 
