@@ -201,24 +201,26 @@
         }
 
         /* Estilo para el botón de noticias */
-        .news-button {
-            display: inline-block; /* Para que el padding y margin funcionen correctamente */
-            background-color: #28a745; /* Un verde vibrante */
-            color: white;
-            padding: 15px 30px;
-            border: none;
+        /* Eliminamos el estilo news-button ya que ahora usaremos iframe */
+
+        /* Estilos para el iframe */
+        .news-iframe-container {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            padding-top: 75%; /* Proporción 4:3 (altura / ancho * 100%) - Ajusta esto si el sitio se ve cortado */
+            height: 0; /* Necesario para mantener la proporción con padding-top */
+            background-color: #f0f0f0; /* Color de fondo mientras carga */
             border-radius: 8px;
-            text-decoration: none; /* Quitar subrayado del enlace */
-            font-size: 1.2em;
-            font-weight: 700;
-            margin-top: 20px;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
-        .news-button:hover {
-            background-color: #218838; /* Verde más oscuro al pasar el ratón */
-            transform: translateY(-2px); /* Pequeño efecto de elevación */
+        .news-iframe-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none; /* Eliminar el borde del iframe */
         }
 
 
@@ -262,9 +264,8 @@
             .search-section input[type="text"] {
                 width: 100%; /* Full width on smaller screens */
             }
-            .news-button {
-                width: 90%; /* Ajuste para el botón en pantallas pequeñas */
-                padding: 15px 10px;
+            .news-iframe-container {
+                padding-top: 120%; /* Aumenta la altura del iframe en móviles si es necesario */
             }
         }
     </style>
@@ -375,10 +376,17 @@
 
         <section id="noticias" class="content-section" style="text-align: center;">
             <h2>Novedades y Noticias del Ministerio</h2>
-            <p>Para conocer las últimas noticias y comunicados oficiales del Ministerio de Educación, Cultura, Ciencia y Tecnología de Salta, haz clic en el botón a continuación. Serás redirigido al portal oficial de noticias.</p>
-            <a href="https://sga.edusalta.gov.ar/Frontend/Modulos/Noticias/Noticias.aspx" target="_blank" class="news-button">
-                Ir al Portal de Noticias del Ministerio
-            </a>
+            <p>Aquí puedes consultar las últimas noticias y comunicados oficiales del Ministerio de Educación, Cultura, Ciencia y Tecnología de Salta, incrustados directamente en nuestra página. Si el contenido no carga o tienes problemas para visualizarlo, puedes hacer clic en el enlace directo a continuación.</p>
+            
+            <div class="news-iframe-container">
+                <iframe src="https://sga.edusalta.gov.ar/Frontend/Modulos/Noticias/Noticias.aspx" title="Noticias Ministerio de Educación Salta"></iframe>
+            </div>
+
+            <p style="margin-top: 20px;">
+                <a href="https://sga.edusalta.gov.ar/Frontend/Modulos/Noticias/Noticias.aspx" target="_blank" style="color: #007bff; text-decoration: underline; font-weight: bold;">
+                    Ver noticias directamente en el portal del Ministerio (abre en una nueva pestaña)
+                </a>
+            </p>
         </section>
 
         <section id="contacto" class="content-section">
