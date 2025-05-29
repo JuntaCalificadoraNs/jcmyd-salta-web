@@ -190,36 +190,51 @@
 
         // Función para parsear texto CSV a un array de objetos JavaScript
         // Ajustada para manejar espacios y caracteres especiales en los encabezados del CSV
-        function parseCSV(csvString) {
-            const lines = csvString.split('\n');
-            if (lines.length < 2) return []; // No hay suficientes líneas para encabezados y datos
+        // Función para parsear texto CSV a un array de objetos JavaScript
+// Ajustada para manejar espacios y caracteres especiales en los encabezados del CSV
+function parseCSV(csvString) {
+    const lines = csvString.split('\n');
+    if (lines.length < 2) {
+        console.warn("CSV tiene menos de 2 líneas (encabezado + datos). Retornando array vacío.");
+        return []; // No hay suficientes líneas para encabezados y datos
+    }
 
-            // Limpia los encabezados para usarlos como claves de objeto (ej. "UNID EDUCATIVA" -> "UNID EDUCATIVA")
-            // Los encabezados se mantendrán tal cual como vienen del CSV para que la búsqueda los encuentre
-            const headers = lines[0].split(',').map(header => header.trim()); 
-            const data = [];
+    // Limpia los encabezados para usarlos como claves de objeto (ej. "UNID EDUCATIVA" -> "UNID EDUCATIVA")
+    const headers = lines[0].split(',').map(header => header.trim()); 
+    const data = [];
 
-            for (let i = 1; i < lines.length; i++) {
-                const currentLine = lines[i].trim();
-                if (currentLine === '') continue; // Saltar líneas vacías
-                
-                // Utiliza una expresión regular para dividir por comas pero ignorar comas dentro de comillas
-                const values = currentLine.match(/(".*?"|[^",]+)(,|$)/g)
-                                   .map(val => val.endsWith(',') ? val.slice(0, -1) : val) // Eliminar la coma final si existe
-                                   .map(val => val.startsWith('"') && val.endsWith('"') ? val.slice(1, -1).replace(/""/g, '"') : val) // Quitar comillas y desescapar
-                                   .map(val => val.trim()); // Limpiar espacios en blanco
-
-                const row = {};
-                for (let j = 0; j < headers.length; j++) {
-                    // Asegúrate de que el encabezado no esté vacío antes de asignarlo como clave
-                    if (headers[j]) { 
-                        row[headers[j]] = values[j] ? values[j].trim() : ''; // Asignar valor y limpiar espacios
-                    }
-                }
-                data.push(row);
-            }
-            return data;
+    for (let i = 1; i < lines.length; i++) {
+        const currentLine = lines[i].trim();
+        if (currentLine === '') {
+            // console.log("Línea vacía encontrada, saltando."); // Opcional: para depuración
+            continue; // Saltar líneas vacías
         }
+        
+        // Utiliza una expresión regular para dividir por comas pero ignorar comas dentro de comillas
+        // y maneja el caso en que match devuelva null
+        const matches = currentLine.match(/(".*?"|[^",]+)(,|$)/g);
+        
+        if (!matches) {
+            console.warn("No se pudieron parsear los valores de la línea:", currentLine);
+            continue; // Saltar líneas que no se pueden parsear
+        }
+
+        const values = matches
+                           .map(val => val.endsWith(',') ? val.slice(0, -1) : val) // Eliminar la coma final si existe
+                           .map(val => val.startsWith('"') && val.endsWith('"') ? val.slice(1, -1).replace(/""/g, '"') : val) // Quitar comillas y desescapar
+                           .map(val => val.trim()); // Limpiar espacios en blanco
+
+        const row = {};
+        for (let j = 0; j < headers.length; j++) {
+            // Asegúrate de que el encabezado no esté vacío antes de asignarlo como clave
+            if (headers[j]) { 
+                row[headers[j]] = values[j] ? values[j].trim() : ''; // Asignar valor y limpiar espacios
+            }
+        }
+        data.push(row);
+    }
+    return data;
+}
 
         // Cargar todos los datos al cargar la página
         document.addEventListener('DOMContentLoaded', async () => {
