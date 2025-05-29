@@ -194,11 +194,13 @@
 // Ajustada para manejar espacios y caracteres especiales en los encabezados del CSV
 // Función para parsear texto CSV a un array de objetos JavaScript
 // Ajustada para manejar espacios y caracteres especiales en los encabezados del CSV
+// Función para parsear texto CSV a un array de objetos JavaScript
+// Versión más robusta para manejar líneas incompletas o vacías
 function parseCSV(csvString) {
     const lines = csvString.split('\n');
     if (lines.length < 2) {
         console.warn("CSV tiene menos de 2 líneas (encabezado + datos). Retornando array vacío.");
-        return []; // No hay suficientes líneas para encabezados y datos
+        return [];
     }
 
     const headers = lines[0].split(',').map(header => header.trim()); 
@@ -207,39 +209,32 @@ function parseCSV(csvString) {
     for (let i = 1; i < lines.length; i++) {
         const currentLine = lines[i].trim();
         if (currentLine === '') {
-            continue; // Saltar líneas vacías
+            // console.log("Línea vacía encontrada, saltando.");
+            continue; // Saltar líneas completamente vacías
         }
         
-        const matches = currentLine.match(/(".*?"|[^",]+)(,|$)/g);
-        
-        if (!matches) {
-            console.warn("No se pudieron parsear los valores de la línea:", currentLine);
-            continue; // Saltar líneas que no se pueden parsear
-        }
-
-        const values = matches
-                           .map(val => val.endsWith(',') ? val.slice(0, -1) : val) // Eliminar la coma final si existe
-                           .map(val => val.startsWith('"') && val.endsWith('"') ? val.slice(1, -1).replace(/""/g, '"') : val) // Quitar comillas y desescapar
-                           .map(val => val.trim()); // Limpiar espacios en blanco
+        // Usamos split(',') directamente, ya que la barra '/' no interfiere con las comas
+        // Esto es más simple y a veces más confiable para CSVs donde las comas internas no están escapadas.
+        const values = currentLine.split(',');
 
         const row = {};
         for (let j = 0; j < headers.length; j++) {
             if (headers[j]) { 
+                // Aseguramos que values[j] no sea undefined antes de intentar .trim()
                 row[headers[j]] = values[j] ? values[j].trim() : ''; 
             }
         }
         data.push(row);
 
-        // --- NUEVA LÍNEA DE DEPURACIÓN CRÍTICA ---
-        // Si el 'Nombre DEL ESPACIO CURRICULAR' contiene '/', vamos a inspeccionar
+        // --- Depuración: Mantener para la fila problemática ---
         if (row['Nombre DEL ESPACIO CURRICULAR'] && row['Nombre DEL ESPACIO CURRICULAR'].includes('/')) {
-            console.log('--- Fila con / detectada ---');
+            console.log('--- Fila con / detectada (depuración) ---');
             console.log('Nombre DEL ESPACIO CURRICULAR:', row['Nombre DEL ESPACIO CURRICULAR']);
             console.log('CODIGO/Modulo:', row['CODIGO/Modulo']);
             console.log('Alcance/INCUMBENCIA:', row['Alcance/INCUMBENCIA']);
-            console.log('Valores originales parseados:', values); // Muestra todos los valores crudos de la línea
+            console.log('Valores originales parseados (split por coma):', values); // Muestra todos los valores crudos
         }
-        // --- FIN NUEVA LÍNEA DE DEPURACIÓN ---
+        // --- Fin Depuración ---
     }
     return data;
 }
