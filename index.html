@@ -269,22 +269,19 @@
 
         <section id="sobre-nosotros" class="content-section">
             <h2>Sobre Nosotros: Junta Calificadora de Méritos y Disciplina</h2>
-            <p>La Junta Calificadora de Méritos y Disciplina es el organismo encargado de la evaluación, clasificación y registro de los antecedentes profesionales de los docentes de la Provincia de Salta. Nuestra misión es garantizar la transparencia y equidad en los procesos de selección y promoción del personal docente, contribuyendo a la calidad educativa.</p>
-            <h3>Funciones Principales:</h3>
+            <p>La Junta Calificadora de Méritos y Disciplina de Nivel Secundario y sus Modalidades es un organismo permanente y desconcentrado del Ministerio de Educación, Cultura, Ciencia y Tecnología de la Provincia de Salta. Su misión es garantizar la transparencia, equidad y legalidad en la carrera docente, desde el ingreso hasta los ascensos y traslados.</p>
+            <p>Conforme a lo establecido en la Ley N.º 8325, que modifica el Estatuto del Educador (Ley N.º 6830), las funciones principales de la Junta incluyen:</p>
             <ul>
-                <li>Evaluación y calificación de títulos y antecedentes.</li>
-                <li>Elaboración y actualización de padrones de aspirantes.</li>
-                <li>Asesoramiento en materia de incumbencias docentes.</li>
-                <li>Intervención en procesos disciplinarios.</li>
+                <li>Estudiar y custodiar los legajos de antecedentes de todo el personal docente, efectuando su calificación general por orden de mérito.</li>
+                <li>Formular la nómina de aspirantes para el ingreso, interinatos y suplencias en el nivel secundario y sus modalidades.</li>
+                <li>Dictaminar en los pedidos de permutas, traslados y reincorporaciones, evaluando cada caso según la normativa vigente.</li>
+                <li>Considerar las peticiones de permanencia en actividad, de acuerdo con las disposiciones de las leyes jubilatorias.</li>
+                <li>Pronunciarse sobre las solicitudes de becas presentadas por el personal docente.</li>
+                <li>Emitir dictámenes previos en casos de aplicación de sanciones disciplinarias, asegurando el debido proceso y el derecho a defensa.</li>
+                <li>Dar amplia publicidad a las listas confeccionadas en base al mérito, relativas a ascensos, traslados, interinatos y suplencias, promoviendo la transparencia en los procesos.</li>
             </ul>
-            <h3>Objetivos:</h3>
-            <ul>
-                <li>Asegurar la idoneidad del personal docente.</li>
-                <li>Promover la estabilidad y el desarrollo de la carrera docente.</li>
-                <li>Garantizar la transparencia en todos los procedimientos.</li>
-                <li>Contribuir al mejoramiento continuo del sistema educativo provincial.</li>
-            </ul>
-            <p>[Aquí puedes expandir con más detalles sobre la historia, valores, o estructura del organismo.]</p>
+            <p>La Junta está integrada por diez miembros: seis elegidos por voto secreto y obligatorio del personal docente, tres designados por el Ministerio y uno propuesto por la asociación sindical con mayor representación en el nivel educativo correspondiente. Los miembros ejercen sus funciones por un período de cuatro años, con posibilidad de reelección por un período adicional.</p>
+            <p>Comprometida con el fortalecimiento del sistema educativo provincial, la Junta actúa con independencia técnica y responsabilidad institucional, promoviendo prácticas justas y meritocráticas en beneficio de la comunidad educativa.</p>
         </section>
 
         <section id="herramientas-consulta" class="content-section">
@@ -384,15 +381,12 @@
                 return parseCSV(csvText);
             } catch (error) {
                 console.error('Error cargando datos de Google Sheets (CSV):', url, error);
-                // Si ocurre un error, mostraremos una alerta genérica.
-                // Podrías personalizar este mensaje para cada URL si lo deseas.
                 alert('No se pudieron cargar algunos datos. Por favor, revisa las URLs o la conexión.');
                 return [];
             }
         }
 
         // Función para parsear texto CSV a un array de objetos JavaScript
-        // Versión más robusta para manejar líneas incompletas o vacías
         function parseCSV(csvString) {
             const lines = csvString.split('\n');
             if (lines.length < 2) {
