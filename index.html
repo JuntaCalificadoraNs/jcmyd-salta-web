@@ -221,26 +221,6 @@
             border: none; /* Eliminar el borde del iframe */
         }
 
-        /* Estilos para el mapa incrustado */
-        .map-container {
-            position: relative;
-            overflow: hidden;
-            padding-top: 56.25%; /* 16:9 Aspect Ratio */
-            height: 0;
-            margin-top: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            background-color: #f0f0f0;
-        }
-        .map-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: 0;
-        }
-
 
         /* Footer (Pie de página) */
         footer {
@@ -283,7 +263,7 @@
             .search-section select { /* Full width on smaller screens */
                 width: 100%; 
             }
-            .news-iframe-container, .map-container {
+            .news-iframe-container {
                 padding-top: 120%; /* Aumenta la altura del iframe en móviles si es necesario */
             }
         }
@@ -301,7 +281,7 @@
                     <li><a href="#sobre-nosotros">Sobre Nosotros</a></li>
                     <li><a href="#herramientas-consulta">Herramientas de Consulta</a></li>
                     <li><a href="#normativas">Normativas</a></li>
-                    <li><a href="#tramites">Trámites y Consultas</a></li> <li><a href="#noticias">Noticias</a></li>
+                    <li><a href="#noticias">Noticias</a></li>
                     <li><a href="#contacto">Contacto</a></li>
                 </ul>
             </nav>
@@ -408,26 +388,9 @@
                 <li><a href="#" target="_blank">Ley Provincial de Educación N° 6.830</a></li>
                 <li><a href="#" target="_blank">Reglamento General de Calificación de Méritos y Disciplina</a></li>
                 <li><a href="#" target="_blank">Resoluciones y Disposiciones Recientes [Año]</a></li>
-                </ul>
-        </section>
-
-        <section id="tramites" class="content-section">
-            <h2>Trámites y Consultas Frecuentes</h2>
-            <p>Encuentra información útil sobre los trámites más comunes y resuelve tus dudas.</p>
-
-            <h3>Incumbencias Docentes</h3>
-            <p>Consulta las incumbencias de tu título para conocer los espacios curriculares que puedes dictar. Utiliza nuestro <a href="#competencias-integradas">buscador de títulos y espacios curriculares</a> ubicado en la sección de Herramientas de Consulta.</p>
-            
-            <h3>Procedimientos para Inscripción</h3>
-            <p>Aquí encontrarás los pasos detallados para realizar tu inscripción en los diferentes registros o concursos que convoque la Junta. <br>
-            [Aquí se podría añadir un PDF descargable, una lista de pasos, o un enlace a una página específica con esta información.]</p>
-
-            <h3>Convocatorias y Llamados</h3>
-            <p>Mantente al tanto de las últimas convocatorias a interinatos, suplencias, concursos de ascenso y traslados. Las fechas y requisitos son publicados regularmente. Consulta la sección de <a href="#noticias">Noticias</a> para las últimas novedades.</p>
-
-            <h3>Preguntas Frecuentes (FAQ)</h3>
-            <p>Encuentra respuestas a las preguntas más comunes sobre la Junta Calificadora, trámites, documentación y procedimientos. <br>
-            [Aquí podrías añadir una lista de preguntas con sus respuestas, o un enlace a una página dedicada a las FAQs.]</p>
+                <li><a href="#" target="_blank">Preguntas Frecuentes (FAQ)</a></li>
+            </ul>
+            <p>[Puedes añadir enlaces a PDFs, documentos en línea o páginas externas aquí.]</p>
         </section>
 
         <section id="noticias" class="content-section" style="text-align: center;">
@@ -447,19 +410,11 @@
 
         <section id="contacto" class="content-section">
             <h2>Contacto</h2>
-            <p>Para consultas, puedes contactarnos a través de los siguientes medios:</p>
-            <p><strong>Dirección:</strong> Pje Fernando Ramos N° 22. Salta - Capital.</p>
-            <p><strong>Teléfonos:</strong> 387 5344660 / 387 5344662</p>
-            <p><strong>Correo Electrónico:</strong> <a href="mailto:juntacalificadorasecundario23@gmail.com">juntacalificadorasecundario23@gmail.com</a></p>
-            <p><strong>Horario de Atención:</strong> [Días y horarios - Rellenar si aplica]</p>
-
-            <h3>Nuestra Ubicación</h3>
-            <div class="map-container">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3621.579603099903!2d-65.41902262447957!3d-24.81596777793166!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x941bc3a8309a96e9%3A0xcf95a43878b30e20!2sPje%20Fernando%20Ramos%2022%2C%20Salta!5e0!3m2!1ses-419!2sar!4v1717342898991!5m2!1ses-419!2sar" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-            </div>
-            <p style="text-align: center; margin-top: 15px;">
-                <a href="https://www.google.com/maps/search/?api=1&query=Pje+Fernando+Ramos+N%C2%B0+22,+Salta+-+Capital" target="_blank" style="color: #007bff; text-decoration: underline;">Abrir en Google Maps</a>
-            </p>
+            <p>Para consultas adicionales, puedes contactarnos a través de los siguientes medios:</p>
+            <p><strong>Dirección:</strong> [Dirección completa del organismo]</p>
+            <p><strong>Teléfono:</strong> [Número de teléfono]</p>
+            <p><strong>Correo Electrónico:</strong> <a href="mailto:info@ejemplo.com">info@ejemplo.com</a></p>
+            <p><strong>Horario de Atención:</strong> [Días y horarios]</p>
         </section>
 
     </div>
@@ -748,7 +703,7 @@
                 const uniqueEspacios = new Set();
                 filtered.forEach(item => {
                     if (item['Nombre DEL ESPACIO CURRICULAR']) {
-                        uniqueEspacios.add(item['Nombre DEL ESPACULAR'].trim());
+                        uniqueEspacios.add(item['Nombre DEL ESPACIO CURRICULAR'].trim());
                     }
                 });
 
