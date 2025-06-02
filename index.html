@@ -261,7 +261,7 @@
             }
             .search-section input[type="text"],
             .search-section select { /* Full width on smaller screens */
-                width: 100%; 
+                width: 100%;
             }
             .news-iframe-container {
                 padding-top: 120%; /* Aumenta la altura del iframe en móviles si es necesario */
@@ -427,11 +427,11 @@
     <script>
         // URLs de tus Google Sheets publicadas como CSV
         // **IMPORTANTE**: ACTUALIZA LA URL DE COMPETENCIAS_URL CON LA DE TU HOJA NORMALIZADA
-        const COMPETENCIAS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS-EPPyl34acCgd03fTldc-6Bs7GhBXdAmKVoaIHJKT-5SW4c8VzIDGCNqU7E590SxXlHKPvu-U_qwr/pub?gid=1550756964&single=true&output=csv'; // Reemplaza con la URL de tu CSV normalizado
+        const COMPETENCIAS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS-EPPyl34acCgd03fTldc-6Bs7GhBXdAmKVoaIHJKT-5SW4c8VzIDGCNqU7E590SxXlHKPvu-U_qwr/pub?gid=941984598&single=true&output=csv'; // <--- ASEGÚRATE DE QUE ESTA ES LA URL DE TU CSV NORMALIZADO
 
         const ORIENTACIONES_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS7Qnph7TWvhLYl3KhpaDVqnYLqgNGbQ7FNtdw7TNzAlskfjVTg4DePvG2MoVuZf9DD3Fc2nZ5CEOms/pub?output=csv&gid=1943513223';
-        const COLEGIOS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vStnrtyd-dwtpz4UlSU2OXrEgL79AlvRLL3c0mIPSGETpyT2sEVgaGjJOVSpryEC7Jhx4zM6HjKWZN_/pub?output=csv&gid=119647774';
-        const PLAN_ESTUDIO_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRHqqcFr4mP1vwyt14wUjjMCryhv8bzp-A7Dum5jRKqGvQ5_nJYZlo23Q-90L6cPFF FoUXiFTiMKzI7/pub?gid=151813776&single=true&output=csv';
+        const COLEGIOS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vStnrtyd-dwtpz4UlSU2OXrEgL79AlvRLL3c0mIPSGETpyT2sEVgaGjJOVSpryEC7Jh4zM6HjKWZN_/pub?output=csv&gid=119647774';
+        const PLAN_ESTUDIO_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRHqqcFr4mP1vwyt14wUjjMCryhv8bzp-A7Dum5jRKqGvQ5_nJYZlo23Q-90L6cPFKFoUXiFTiMKzI7/pub?gid=151813776&single=true&output=csv';
 
         let competenciasData = [];
         let orientacionesData = [];
@@ -450,7 +450,7 @@
             }
         }
 
-        // Función para parsear texto CSV a un array de objetos JavaScript
+        // Función para parsear texto CSV a un array de objetos JavaScript (versión corregida)
         function parseCSV(csvString, type) {
             const lines = csvString.split('\n');
             if (lines.length < 2) {
@@ -467,17 +467,13 @@
                     continue;
                 }
                 
-                // Manejar comas dentro de valores (CSV estándar)
-                // Usar una expresión regular para dividir por comas, pero no si están dentro de comillas dobles
-                const values = currentLine.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g).map(val => {
-                    // Eliminar las comillas si existen y limpiar espacios
-                    return val.replace(/^"|"$/g, '').trim();
-                });
-
+                // Vuelve a la división simple por coma, que funcionaba con tus CSVs
+                const values = currentLine.split(',');
 
                 const row = {};
                 for (let j = 0; j < headers.length; j++) {
                     if (headers[j]) {
+                        // Asegurar que el valor no sea undefined y luego trim
                         row[headers[j]] = values[j] ? values[j].trim() : '';
                     }
                 }
@@ -627,7 +623,7 @@
         function buscarIncumbenciasIntegrado() {
             const input = document.getElementById('tituloInputIntegrado').value.toLowerCase();
             const selectEspacio = document.getElementById('espacioCurricularSelect');
-            const selectDepartamento = document.getElementById('departamentoSelect'); // Nuevo
+            const selectDepartamento = document.getElementById('departamentoSelect');
             const btnBuscarColegios = document.getElementById('btnBuscarColegios');
 
             // Limpiar resultados anteriores y los selects
@@ -636,8 +632,6 @@
             
             selectEspacio.innerHTML = '<option value="">-- Selecciona un espacio curricular --</option>';
             selectEspacio.disabled = true;
-            // selectDepartamento.innerHTML = '<option value="">-- Selecciona un departamento --</option>'; // Ya se llena al inicio
-            // selectDepartamento.disabled = true; // Se habilita al cargar datos
             btnBuscarColegios.disabled = true;
             foundEspaciosCurriculares = [];
 
@@ -672,11 +666,8 @@
                     option.textContent = espacio;
                     selectEspacio.appendChild(option);
                 });
-                selectEspacio.disabled = false; // Habilitar el select de espacio curricular
-                // btnBuscarColegios se habilita solo si ambos selects tienen valores válidos
-                if (selectEspacio.value && selectDepartamento.value) {
-                    btnBuscarColegios.disabled = false;
-                }
+                selectEspacio.disabled = false;
+                toggleBuscarColegiosButton(); // Verificar si se debe habilitar el botón ahora
             } else {
                  document.getElementById('incumbenciasResultsIntegrado').innerHTML = '<p class="no-results">No se encontraron espacios curriculares para ese título.</p>';
             }
@@ -684,29 +675,31 @@
 
         function buscarColegiosAleatoriosPorEspacio() {
             const selectedEspacio = document.getElementById('espacioCurricularSelect').value;
-            const selectedDepartamento = document.getElementById('departamentoSelect').value; // Obtener departamento seleccionado
+            const selectedDepartamento = document.getElementById('departamentoSelect').value;
             renderTable('colegiosPorEspacioResults', ['Nombre', 'Direccion', 'Localidad', 'Departamento'], []);
 
             if (!selectedEspacio) {
                 document.getElementById('colegiosPorEspacioResults').innerHTML = '<p class="no-results">Por favor, selecciona un espacio curricular.</p>';
                 return;
             }
-            if (!selectedDepartamento) { // Validar que se haya seleccionado un departamento
+            if (!selectedDepartamento) {
                 document.getElementById('colegiosPorEspacioResults').innerHTML = '<p class="no-results">Por favor, selecciona un departamento.</p>';
                 return;
             }
 
-
-            // 1. Filtrar los colegios del plan de estudio que dictan el espacio y están en el departamento seleccionado
-            const colegiosConEspacioYDepartamento = planEstudioData.filter(item => {
-                const espacio = item['ESPACIO CURRICULAR'] ? String(item['ESPACIO CURRICULAR']).toLowerCase() : '';
-                // Primero buscamos el detalle del colegio en colegiosData para obtener su departamento
+            // 1. Filtrar los colegios del plan de estudio que dictan el espacio y que pertenecen a un colegio del departamento seleccionado
+            const colegiosConEspacioYDepartamento = planEstudioData.filter(planItem => {
+                const planEspacio = planItem['ESPACIO CURRICULAR'] ? String(planItem['ESPACIO CURRICULAR']).toLowerCase() : '';
+                
+                // Buscamos el detalle del colegio en colegiosData usando NumeroUE
                 const colegioDetalle = colegiosData.find(c =>
-                    String(c['NumeroUE']).trim() === String(item['UE']).trim() &&
-                    String(c['Departamento']).trim().toLowerCase() === selectedDepartamento.toLowerCase()
+                    String(c['NumeroUE']).trim() === String(planItem['UE']).trim()
                 );
                 
-                return espacio === selectedEspacio.toLowerCase() && colegioDetalle;
+                // Verificamos si el espacio curricular coincide Y si el colegio detalle existe Y su departamento coincide
+                return planEspacio === selectedEspacio.toLowerCase() &&
+                       colegioDetalle &&
+                       String(colegioDetalle['Departamento']).trim().toLowerCase() === selectedDepartamento.toLowerCase();
             });
 
             if (colegiosConEspacioYDepartamento.length === 0) {
@@ -756,7 +749,6 @@
                         'Localidad': 'No disponible',
                         'Departamento': 'No disponible'
                     });
-                    // console.warn(`Detalles no encontrados para el colegio con UE: ${numeroUE}`); // Comentado para evitar spam en consola
                 }
             });
 
