@@ -201,7 +201,7 @@
             font-style: italic;
         }
 
-        /* Estilos para el iframe */
+        /* Estilos para el iframe de noticias */
         .news-iframe-container {
             position: relative;
             overflow: hidden;
@@ -219,6 +219,26 @@
             width: 100%;
             height: 100%;
             border: none; /* Eliminar el borde del iframe */
+        }
+
+        /* Estilos para el mapa incrustado */
+        .map-container {
+            position: relative;
+            overflow: hidden;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            margin-top: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            background-color: #f0f0f0;
+        }
+        .map-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
         }
 
 
@@ -263,7 +283,7 @@
             .search-section select { /* Full width on smaller screens */
                 width: 100%; 
             }
-            .news-iframe-container {
+            .news-iframe-container, .map-container {
                 padding-top: 120%; /* Aumenta la altura del iframe en móviles si es necesario */
             }
         }
@@ -281,7 +301,7 @@
                     <li><a href="#sobre-nosotros">Sobre Nosotros</a></li>
                     <li><a href="#herramientas-consulta">Herramientas de Consulta</a></li>
                     <li><a href="#normativas">Normativas</a></li>
-                    <li><a href="#noticias">Noticias</a></li>
+                    <li><a href="#tramites">Trámites y Consultas</a></li> <li><a href="#noticias">Noticias</a></li>
                     <li><a href="#contacto">Contacto</a></li>
                 </ul>
             </nav>
@@ -388,9 +408,26 @@
                 <li><a href="#" target="_blank">Ley Provincial de Educación N° 6.830</a></li>
                 <li><a href="#" target="_blank">Reglamento General de Calificación de Méritos y Disciplina</a></li>
                 <li><a href="#" target="_blank">Resoluciones y Disposiciones Recientes [Año]</a></li>
-                <li><a href="#" target="_blank">Preguntas Frecuentes (FAQ)</a></li>
-            </ul>
-            <p>[Puedes añadir enlaces a PDFs, documentos en línea o páginas externas aquí.]</p>
+                </ul>
+        </section>
+
+        <section id="tramites" class="content-section">
+            <h2>Trámites y Consultas Frecuentes</h2>
+            <p>Encuentra información útil sobre los trámites más comunes y resuelve tus dudas.</p>
+
+            <h3>Incumbencias Docentes</h3>
+            <p>Consulta las incumbencias de tu título para conocer los espacios curriculares que puedes dictar. Utiliza nuestro <a href="#competencias-integradas">buscador de títulos y espacios curriculares</a> ubicado en la sección de Herramientas de Consulta.</p>
+            
+            <h3>Procedimientos para Inscripción</h3>
+            <p>Aquí encontrarás los pasos detallados para realizar tu inscripción en los diferentes registros o concursos que convoque la Junta. <br>
+            [Aquí se podría añadir un PDF descargable, una lista de pasos, o un enlace a una página específica con esta información.]</p>
+
+            <h3>Convocatorias y Llamados</h3>
+            <p>Mantente al tanto de las últimas convocatorias a interinatos, suplencias, concursos de ascenso y traslados. Las fechas y requisitos son publicados regularmente. Consulta la sección de <a href="#noticias">Noticias</a> para las últimas novedades.</p>
+
+            <h3>Preguntas Frecuentes (FAQ)</h3>
+            <p>Encuentra respuestas a las preguntas más comunes sobre la Junta Calificadora, trámites, documentación y procedimientos. <br>
+            [Aquí podrías añadir una lista de preguntas con sus respuestas, o un enlace a una página dedicada a las FAQs.]</p>
         </section>
 
         <section id="noticias" class="content-section" style="text-align: center;">
@@ -410,27 +447,35 @@
 
         <section id="contacto" class="content-section">
             <h2>Contacto</h2>
-            <p>Para consultas adicionales, puedes contactarnos a través de los siguientes medios:</p>
-            <p><strong>Dirección:</strong> [Dirección completa del organismo]</p>
-            <p><strong>Teléfono:</strong> [Número de teléfono]</p>
-            <p><strong>Correo Electrónico:</strong> <a href="mailto:info@ejemplo.com">info@ejemplo.com</a></p>
-            <p><strong>Horario de Atención:</strong> [Días y horarios]</p>
+            <p>Para consultas, puedes contactarnos a través de los siguientes medios:</p>
+            <p><strong>Dirección:</strong> Pje Fernando Ramos N° 22. Salta - Capital.</p>
+            <p><strong>Teléfonos:</strong> 387 5344660 / 387 5344662</p>
+            <p><strong>Correo Electrónico:</strong> <a href="mailto:juntacalificadorasecundario23@gmail.com">juntacalificadorasecundario23@gmail.com</a></p>
+            <p><strong>Horario de Atención:</strong> [Días y horarios - Rellenar si aplica]</p>
+
+            <h3>Nuestra Ubicación</h3>
+            <div class="map-container">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3621.579469502967!2d-65.41783852504958!3d-24.8118086779435!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x941bc4d97e20b307%3A0x6b7b2b2b2b2b2b2b!2sPje%20Fernando%20Ramos%20N%C2%B0%2022%2C%20Salta%20Capital%2C%20Salta!5e0!3m2!1ses-419!2sar!4v1717367300000!5m2!1ses-419!2sar" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+            <p style="text-align: center; margin-top: 15px;">
+                <a href="https://www.google.com/maps/place/Pje+Fernando+Ramos+N%C2%B0+22,+Salta+Capital,+Salta/@-24.8118087,-65.4178385,17z/data=!3m1!4b1!4m6!3m5!1s0x941bc4d97e20b307:0x6b7b2b2b2b2b2b2b!8m2!3d-24.8118087!4d-65.4152636!16s%2Fg%2F11c6k2g2v6?entry=ttu" target="_blank" style="color: #007bff; text-decoration: underline;">Abrir en Google Maps</a>
+            </p>
         </section>
 
     </div>
 
     <footer>
-        <p>&copy; 2025 Junta Calificadora de Méritos y Disciplina - Nivel Secundario. Todos los derechos reservados.</p>
+        <p>© 2025 Junta Calificadora de Méritos y Disciplina - Nivel Secundario. Todos los derechos reservados.</p>
         <p>Desarrollado con el apoyo de [Nombre de la Institución/Equipo si aplica]</p>
     </footer>
 
     <script>
         // URLs de tus Google Sheets publicadas como CSV
-        // **IMPORTANTE**: TODAS ESTAS URLs HAN SIDO ACTUALIZADAS CON LAS QUE ME PROPORCIONASTE RECIENTEMENTE.
+        // **IMPORTANTE**: Estas URLs son las últimas que me proporcionaste y se usaron en la versión anterior.
         const COMPETENCIAS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS-EPPyl34acCgd03fTldc-6Bs7GhBXdAmKVoaIHJKT-5SW4c8VzIDGCNqU7E590SxXlHKPvu-U_qwr/pub?gid=1550756964&single=true&output=csv'; 
         const ORIENTACIONES_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS7Qnph7TWvhLYl3KhpaDVqnYLqgNGbQ7FNtdw7TNzAlskfjVTg4DePvG2MoVuZf9DD3Fc2nZ5CEOms/pub?gid=1943513223&single=true&output=csv';
         const COLEGIOS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vStnrtyd-dwtpz4UlSU2OXrEgL79AlvRLL3c0mIPSGETpyT2sEVgaGjJOVSpryEC7Jhx4zM6HjKWZN_/pub?gid=119647774&single=true&output=csv';
-        const PLAN_ESTUDIO_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRHqqcFr4mP1vwyt14wUjjMCryhv8bzp-A7Dum5jRKqGvQ5_nJYZlo23Q-90L6cPFKFoUXiFTiMKzI7/pub?gid=151813776&single=true&output=csv';
+        const PLAN_ESTUDIO_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRHqqcFr4mP1vwyt14wUjjMCryhv8bzp-A7Dum5jRKqGvQ5_nJYZlo23Q-90L6cPFKFoUXiFTiMKC7/pub?gid=151813776&single=true&output=csv';
 
         let competenciasData = [];
         let orientacionesData = [];
