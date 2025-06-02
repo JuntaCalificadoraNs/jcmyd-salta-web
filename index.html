@@ -378,7 +378,7 @@
                 <button onclick="buscarOrientaciones()">Buscar Orientaciones</button>
 
                 <div class="results-container">
-                    <h3>Resultados de Orientaciones</h3>
+                    <h3>Results de Orientaciones</h3>
                     <div id="orientacionesResults">
                         <p class="no-results">No hay resultados para mostrar.</p>
                     </div>
@@ -455,10 +455,10 @@
 
             <h3>Nuestra Ubicación</h3>
             <div class="map-container">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3621.579469502967!2d-65.41783852504958!3d-24.8118086779435!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x941bc4d97e20b307%3A0x6b7b2b2b2b2b2b2b!2sPje%20Fernando%20Ramos%20N%C2%B0%2022%2C%20Salta%20Capital%2C%20Salta!5e0!3m2!1ses-419!2sar!4v1717367300000!5m2!1ses-419!2sar" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3621.524419614457!2d-65.4093952!3d-24.8191289!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x941bc4d7429188d3%3A0xc34b7a44f53c1264!2sPje%20Fernando%20Ramos%2022%2C%20Salta!5e0!3m2!1ses-419!2sar!4v1717357497123!5m2!1ses-419!2sar" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
             <p style="text-align: center; margin-top: 15px;">
-                <a href="https://www.google.com/maps/place/Pje+Fernando+Ramos+N%C2%B0+22,+Salta+Capital,+Salta/@-24.8118087,-65.4178385,17z/data=!3m1!4b1!4m6!3m5!1s0x941bc4d97e20b307:0x6b7b2b2b2b2b2b2b!8m2!3d-24.8118087!4d-65.4152636!16s%2Fg%2F11c6k2g2v6?entry=ttu" target="_blank" style="color: #007bff; text-decoration: underline;">Abrir en Google Maps</a>
+                <a href="https://www.google.com/maps/place/Pje+Fernando+Ramos+22,+Salta/@-24.8191289,-65.4093952,17z/data=!3m1!4b1!4m6!3m5!1s0x941bc4d7429188d3:0xc34b7a44f53c1264!8m2!3d-24.8191289!4d-65.4093952!16s%2Fg%2F11j_664l1x?entry=ttu" target="_blank" style="color: #007bff; text-decoration: underline;">Abrir en Google Maps</a>
             </p>
         </section>
 
@@ -471,11 +471,11 @@
 
     <script>
         // URLs de tus Google Sheets publicadas como CSV
-        // **IMPORTANTE**: Estas URLs son las últimas que me proporcionaste y se usaron en la versión anterior.
         const COMPETENCIAS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS-EPPyl34acCgd03fTldc-6Bs7GhBXdAmKVoaIHJKT-5SW4c8VzIDGCNqU7E590SxXlHKPvu-U_qwr/pub?gid=1550756964&single=true&output=csv'; 
         const ORIENTACIONES_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS7Qnph7TWvhLYl3KhpaDVqnYLqgNGbQ7FNtdw7TNzAlskfjVTg4DePvG2MoVuZf9DD3Fc2nZ5CEOms/pub?gid=1943513223&single=true&output=csv';
         const COLEGIOS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vStnrtyd-dwtpz4UlSU2OXrEgL79AlvRLL3c0mIPSGETpyT2sEVgaGjJOVSpryEC7Jhx4zM6HjKWZN_/pub?gid=119647774&single=true&output=csv';
-        const PLAN_ESTUDIO_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRHqqcFr4mP1vwyt14wUjjMCryhv8bzp-A7Dum5jRKqGvQ5_nJYZlo23Q-90L6cPFKFoUXiFTiMKC7/pub?gid=151813776&single=true&output=csv';
+        // URL de Plan de Estudio ACTUALIZADA con la que me proporcionaste
+        const PLAN_ESTUDIO_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRHqqcFr4mP1vwyt14wUjjMCryhv8bzp-A7Dum5jRKqGvQ5_nJYZlo23Q-90L6cPFKFoUXiFTiMKzI7/pub?gid=151813776&single=true&output=csv';
 
         let competenciasData = [];
         let orientacionesData = [];
@@ -806,7 +806,7 @@
                 const espacio = item['ESPACIO CURRICULAR'] ? String(item['ESPACIO CURRICULAR']).toLowerCase() : '';
                 const ue = item['UE'] ? String(item['UE']).trim() : ''; 
                 
-                return espacio === selectedEspacio.toLowerCase() && uesEnDepartamento.includes(ue);
+                return espacio.toLowerCase() === selectedEspacio.toLowerCase() && uesEnDepartamento.includes(ue);
             });
 
             console.log('Colegios con espacio y departamento filtrados (planEstudioData):', colegiosConEspacioYDepartamento); // Depuración
