@@ -549,10 +549,10 @@
 
             <h3>Nuestra Ubicación</h3>
             <div class="map-container">
-                <iframe src="https://www.google.com/maps/search/?api=1&query=Pje+Fernando+Ramos+N%C2%B0+22,+Salta+-+Capital1" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <iframe src="https://www.google.com/maps/search/?api=1&query=Pje+Fernando+Ramos+N%C2%B0+22,+Salta+-+Capital3" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
             <p style="text-align: center; margin-top: 15px;">
-                <a href="https://www.google.com/maps/search/?api=1&query=Pje+Fernando+Ramos+N%C2%B0+22,+Salta+-+Capital2" target="_blank" style="color: #007bff; text-decoration: underline;">Abrir en Google Maps</a>
+                <a href="https://www.google.com/maps/search/?api=1&query=Pje+Fernando+Ramos+N%C2%B0+22,+Salta+-+Capital4" target="_blank" style="color: #007bff; text-decoration: underline;">Abrir en Google Maps</a>
             </p>
         </section>
 
@@ -564,6 +564,8 @@
     </footer>
 
     <script>
+        console.log('Script principal cargado.'); // DEBUG: Mensaje de carga muy temprano
+
         // URLs de tus Google Sheets publicadas como CSV
         const COMPETENCIAS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS-EPPyl34acCgd03fTldc-6Bs7GhBXdAmKVoaIHJKT-5SW4c8VzIDGCNqU7E590SxXlHKPvu-U_qwr/pub?gid=1550756964&single=true&output=csv'; 
         const ORIENTACIONES_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS7Qnph7TWvhLYl3KhpaDVqnYLqgNGbQ7FNtdw7TNzAlskfjVTg4DePvG2MoVuZf9DD3Fc2nZ5CEOms/pub?gid=1943513223&single=true&output=csv';
@@ -682,7 +684,7 @@
             // Rellenar el selector de departamentos una vez que colegiosData esté cargado
             populateDepartamentosSelect();
 
-            // *** NUEVO: Adjuntar evento de clic al botón de buscar colegios por localidad/dpto. ***
+            // *** Adjuntar evento de clic al botón de buscar colegios por localidad/dpto. ***
             console.log('Intentando adjuntar evento de clic al botón "Buscar Colegios por Localidad/Dpto."...');
             const btnBuscarColegiosLocalidad = document.getElementById('btnBuscarColegiosLocalidad');
             if (btnBuscarColegiosLocalidad) {
@@ -921,7 +923,7 @@
             console.log('Colegios con espacio y departamento filtrados (planEstudioData):', colegiosConEspacioYDepartamento); // Depuración
 
             if (colegiosConEspacioYDepartamento.length === 0) {
-                document.getElementById('colegiosPorEspacioResults').innerHTML = `<p class="no-results">No se encontraron colegios en "${selectedDepartamento}" que dicten "${selectedEspacio}".</p>`;
+                document.getElementById('colegiosPorEspacioResults').innerHTML = `<p class="no-results">No se encontraron colegios en "${selectedDepartamento}" que dicten "${selectedEspacio}".</p`;
                 return;
             }
 
