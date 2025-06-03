@@ -364,6 +364,10 @@
                 width: 80%; /* Ancho de los botones en móviles */
                 min-width: unset;
             }
+            /* Ajuste para el h4 dentro de search-section en móvil */
+            .search-section h4 {
+                margin-top: 20px; /* Espacio extra para el h4 en móvil */
+            }
         }
     </style>
 </head>
@@ -547,10 +551,10 @@
 
             <h3>Nuestra Ubicación</h3>
             <div class="map-container">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3621.579603099903!2d-65.41902262447957!3d-24.81596777793166!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x941bc3a8309a96e9%3A0xcf95a43878b30e20!2sPje%20Fernando%20Ramos%2022%2C%20Salta!5e0!3m2!1ses-419!2sar!4v1717342898991!5m2!1ses-419!2sar5" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3621.579603099903!2d-65.41902262447957!3d-24.81596777793166!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x941bc3a8309a96e9%3A0xcf95a43878b30e20!2sPje%20Fernando%20Ramos%2022%2C%20Salta!5e0!3m2!1ses-419!2sar!4v1717342898991!5m2!1ses-419!2sar7" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
             <p style="text-align: center; margin-top: 15px;">
-                <a href="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3621.579603099903!2d-65.41902262447957!3d-24.81596777793166!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x941bc3a8309a96e9%3A0xcf95a43878b30e20!2sPje%20Fernando%20Ramos%2022%2C%20Salta!5e0!3m2!1ses-419!2sar!4v1717342898991!5m2!1ses-419!2sar6" target="_blank" style="color: #007bff; text-decoration: underline;">Abrir en Google Maps</a>
+                <a href="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3621.579603099903!2d-65.41902262447957!3d-24.81596777793166!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x941bc3a8309a96e9%3A0xcf95a43878b30e20!2sPje%20Fernando%20Ramos%2022%2C%20Salta!5e0!3m2!1ses-419!2sar!4v1717342898991!5m2!1ses-419!2sar8" target="_blank" style="color: #007bff; text-decoration: underline;">Abrir en Google Maps</a>
             </p>
         </section>
 
@@ -745,7 +749,9 @@
 
         function buscarColegios() {
             const input = normalizeText(document.getElementById('localidadInput').value); // Normalizar input
+            console.log('Buscando colegios por localidad/dpto. Input:', input); // DEBUG: Muestra el valor de búsqueda
             if (!input) {
+                console.log('Input vacío, renderizando tabla vacía.'); // DEBUG
                 renderTable('colegiosResults', ['Nombre', 'Direccion', 'Localidad', 'Departamento', 'CodPostal'], []);
                 return;
             }
@@ -757,9 +763,12 @@
                 const nombre = normalizeText(item['Nombre']); // Normalizar dato de la hoja
                 const codPostal = normalizeText(item['CodPostal']); // Normalizar dato de la hoja
 
-                return localidad.includes(input) || departamento.includes(input) || direccion.includes(input) || nombre.includes(input) || codPostal.includes(input);
+                const match = localidad.includes(input) || departamento.includes(input) || direccion.includes(input) || nombre.includes(input) || codPostal.includes(input);
+                // console.log(`Comparando con: ${localidad}, ${departamento}, ${direccion}, ${nombre}, ${codPostal}. Coincide: ${match}`); // DEBUG: Depuración por cada item
+                return match;
             });
 
+            console.log('Resultados filtrados para colegios:', filtered.length, filtered); // DEBUG: Muestra la cantidad y los resultados filtrados
             renderTable('colegiosResults', ['Nombre', 'Direccion', 'Localidad', 'Departamento', 'CodPostal'], filtered);
         }
 
