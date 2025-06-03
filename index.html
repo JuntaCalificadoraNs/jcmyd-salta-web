@@ -398,13 +398,13 @@
             
             <div class="quick-access-buttons">
                 <a href="#herramientas-consulta" class="button">Buscar Incumbencias</a>
-                <a href="#colegios" class="button">Buscar Colegios por Localidad/Dpto.</a> <a href="#tramites" class="button">Trámites Docentes</a> </div>
+                <button type="button" class="button" onclick="triggerLocalidadSearchAndScroll()">Buscar Colegios por Localidad/Dpto.</button>
+                <a href="#tramites" class="button">Trámites Docentes</a> </div>
         </section>
 
         <section id="sobre-nosotros" class="content-section">
             <h2>Sobre Nosotros: Junta Calificadora de Méritos y Disciplina</h2>
             <p>La Junta Calificadora de Méritos y Disciplina de Nivel Secundario y sus Modalidades es un organismo permanente y desconcentrado del Ministerio de Educación, Cultura, Ciencia y Tecnología de la Provincia de Salta. Su misión es garantizar la transparencia, equidad y legalidad en la carrera docente, desde el ingreso hasta los ascensos y traslados.</p>
-            <p>Conforme a lo establecido en la Ley N.º 8325, que modifica el Estatuto del Educador (Ley N.º 6830), las funciones principales de la Junta incluyen:</p>
             <ul>
                 <li>Estudiar y custodiar los legajos de antecedentes de todo el personal docente, efectuando su calificación general por orden de mérito.</li>
                 <li>Formular la nómina de aspirantes para el ingreso, interinatos y suplencias en el nivel secundario y sus modalidades.</li>
@@ -480,12 +480,13 @@
                     </div>
                 </div>
 
-                <div class="search-section" style="margin-top: 20px;">
-                    <h4>Búsqueda por Localidad/Departamento</h4>
+                <div class="search-section" id="colegios" style="margin-top: 20px;"> <h4>Búsqueda por Localidad/Departamento</h4>
                     <p>Encuentra colegios secundarios ingresando una localidad o departamento.</p>
                     <label for="localidadInput">Buscar por Localidad o Departamento:</label>
                     <input type="text" id="localidadInput" placeholder="Ej: Salta Capital, San Ramón de la Nueva Orán">
-                    <button id="btnBuscarColegiosLocalidad">Buscar Colegios</button> <div class="results-container">
+                    <button id="btnBuscarColegiosLocalidad">Buscar Colegios</button> 
+
+                    <div class="results-container">
                         <h3>Resultados de Colegios</h3>
                         <div id="colegiosResults">
                             <p class="no-results">No hay resultados para mostrar.</p>
@@ -549,10 +550,10 @@
 
             <h3>Nuestra Ubicación</h3>
             <div class="map-container">
-                <iframe src="https://www.google.com/maps/search/?api=1&query=Pje+Fernando+Ramos+N%C2%B0+22,+Salta+-+Capital3" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <iframe src="https://www.google.com/maps/search/?api=1&query=Pje+Fernando+Ramos+N%C2%B0+22,+Salta+-+Capital7" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
             <p style="text-align: center; margin-top: 15px;">
-                <a href="https://www.google.com/maps/search/?api=1&query=Pje+Fernando+Ramos+N%C2%B0+22,+Salta+-+Capital4" target="_blank" style="color: #007bff; text-decoration: underline;">Abrir en Google Maps</a>
+                <a href="https://www.google.com/maps/search/?api=1&query=Pje+Fernando+Ramos+N%C2%B0+22,+Salta+-+Capital8" target="_blank" style="color: #007bff; text-decoration: underline;">Abrir en Google Maps</a>
             </p>
         </section>
 
@@ -684,15 +685,15 @@
             // Rellenar el selector de departamentos una vez que colegiosData esté cargado
             populateDepartamentosSelect();
 
-            // *** Adjuntar evento de clic al botón de buscar colegios por localidad/dpto. ***
-            console.log('Intentando adjuntar evento de clic al botón "Buscar Colegios por Localidad/Dpto."...');
+            // *** Adjuntar evento de clic al botón de buscar colegios por localidad/dpto. (el de la sección de búsqueda) ***
+            console.log('Intentando adjuntar evento de clic al botón "Buscar Colegios por Localidad/Dpto." (sección de búsqueda)...');
             const btnBuscarColegiosLocalidad = document.getElementById('btnBuscarColegiosLocalidad');
             if (btnBuscarColegiosLocalidad) {
-                console.log('Botón "Buscar Colegios por Localidad/Dpto." encontrado.');
+                console.log('Botón "Buscar Colegios por Localidad/Dpto." (sección de búsqueda) encontrado.');
                 btnBuscarColegiosLocalidad.addEventListener('click', buscarColegios);
-                console.log('Evento de clic adjuntado al botón "Buscar Colegios por Localidad/Dpto." correctamente.');
+                console.log('Evento de clic adjuntado al botón "Buscar Colegios por Localidad/Dpto." (sección de búsqueda) correctamente.');
             } else {
-                console.error('ERROR: No se encontró el botón con ID "btnBuscarColegiosLocalidad".');
+                console.error('ERROR: No se encontró el botón con ID "btnBuscarColegiosLocalidad" en la sección de búsqueda.');
             }
         });
 
@@ -782,6 +783,29 @@
             console.log('Resultados filtrados para colegios (cantidad):', filtered.length); // DEBUG: Muestra la cantidad de resultados
             console.log('Resultados filtrados para colegios (datos):', filtered); // DEBUG: Muestra los resultados filtrados
             renderTable('colegiosResults', ['Nombre', 'Direccion', 'Localidad', 'Departamento', 'CodPostal'], filtered);
+        }
+
+        // *** NUEVA FUNCIÓN: Para el botón de acceso rápido "Buscar Colegios por Localidad/Dpto." ***
+        function triggerLocalidadSearchAndScroll() {
+            console.log('Botón de acceso rápido "Buscar Colegios por Localidad/Dpto." clickeado.');
+            const localidadInput = document.getElementById('localidadInput');
+            
+            // Opcional: Si el campo está vacío, establece un valor predeterminado para la búsqueda rápida
+            if (!localidadInput.value.trim()) {
+                localidadInput.value = 'Salta'; // Puedes cambiar esto a un departamento o localidad común
+                console.log('Campo de localidad/departamento vacío, estableciendo valor predeterminado a "Salta".');
+            }
+
+            buscarColegios(); // Ejecuta la función de búsqueda
+
+            // Desplazarse a la sección de resultados
+            const colegiosSection = document.getElementById('colegios');
+            if (colegiosSection) {
+                colegiosSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                console.log('Desplazándose a la sección de colegios.');
+            } else {
+                console.warn('No se encontró la sección con ID "colegios" para desplazarse.');
+            }
         }
 
 
@@ -923,7 +947,7 @@
             console.log('Colegios con espacio y departamento filtrados (planEstudioData):', colegiosConEspacioYDepartamento); // Depuración
 
             if (colegiosConEspacioYDepartamento.length === 0) {
-                document.getElementById('colegiosPorEspacioResults').innerHTML = `<p class="no-results">No se encontraron colegios en "${selectedDepartamento}" que dicten "${selectedEspacio}".</p`;
+                document.getElementById('colegiosPorEspacioResults').innerHTML = `<p class="no-results">No se encontraron colegios en "${selectedDepartamento}" que dicten "${selectedEspacio}".</p>`;
                 return;
             }
 
