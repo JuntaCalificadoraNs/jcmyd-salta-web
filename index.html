@@ -48,6 +48,13 @@
             font-weight: 400;
             color: #007bff;
         }
+        h3 small { /* Estilo para el texto pequeño en los títulos */
+            display: block;
+            font-size: 0.7em;
+            color: #666;
+            margin-top: 5px;
+            font-weight: 300;
+        }
 
         /* Header (Encabezado) */
         header {
@@ -387,9 +394,7 @@
             
             <div class="quick-access-buttons">
                 <a href="#herramientas-consulta" class="button">Buscar Incumbencias</a>
-                <a href="#tramites" class="button">Trámites Docentes</a>
-                <a href="#noticias" class="button">Últimas Convocatorias</a>
-            </div>
+                <a href="#colegios" class="button">Buscar Colegios por Localidad/Dpto.</a> <a href="#tramites" class="button">Trámites Docentes</a> </div>
         </section>
 
         <section id="sobre-nosotros" class="content-section">
@@ -414,9 +419,7 @@
             <p>Utiliza nuestros buscadores para encontrar la información que necesitas sobre títulos, espacios curriculares y colegios. Si tienes dudas sobre cómo usar alguna herramienta, consulta nuestra futura <a href="#guia-rapida">Guía Rápida de Uso</a>.</p>
 
             <section class="search-group">
-                <h3>Buscador de Títulos y Espacios Curriculares (Para Docentes Ingresantes)</h3>
-                <p>Encuentra qué espacios curriculares puedes dictar con tu título. Una vez que obtengas los espacios, podrás usarlos para buscar colegios en el siguiente buscador.</p>
-                <div class="search-section">
+                <h3>Buscador de Títulos y Espacios Curriculares <small>(Ideal para docentes ingresantes)</small></h3> <p>Encuentra qué espacios curriculares puedes dictar con tu título. Las incumbencias responden al manual de competencias vigentes del Ministerio de Educación de Salta. Una vez que obtengas los espacios, podrás usarlos para buscar colegios en el siguiente buscador.</p> <div class="search-section">
                     <label for="tituloInputIntegrado">1. Ingresa tu Título (o parte de él):</label>
                     <input type="text" id="tituloInputIntegrado" placeholder="Ej: Profesor de Historia">
                     <button onclick="buscarIncumbenciasIntegrado()">Buscar Espacios Curriculares</button>
@@ -544,10 +547,10 @@
 
             <h3>Nuestra Ubicación</h3>
             <div class="map-container">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3621.144465495536!2d-65.4128564!3d-24.8257088!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x941bc3a8e94a10d9%3A0x6d9f7e5d2b7f0f6!2sPje%20Fernando%20Ramos%2022%2C%20Salta!5e0!3m2!1ses-419!2sar!4v1717520000000!5m2!1ses-419!2sar" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3621.579603099903!2d-65.41902262447957!3d-24.81596777793166!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x941bc3a8309a96e9%3A0xcf95a43878b30e20!2sPje%20Fernando%20Ramos%2022%2C%20Salta!5e0!3m2!1ses-419!2sar!4v1717342898991!5m2!1ses-419!2sar5" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
             <p style="text-align: center; margin-top: 15px;">
-                <a href="https://www.google.com/maps/place/Pje+Fernando+Ramos+22,+Salta" target="_blank" style="color: #007bff; text-decoration: underline;">Abrir en Google Maps</a>
+                <a href="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3621.579603099903!2d-65.41902262447957!3d-24.81596777793166!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x941bc3a8309a96e9%3A0xcf95a43878b30e20!2sPje%20Fernando%20Ramos%2022%2C%20Salta!5e0!3m2!1ses-419!2sar!4v1717342898991!5m2!1ses-419!2sar6" target="_blank" style="color: #007bff; text-decoration: underline;">Abrir en Google Maps</a>
             </p>
         </section>
 
