@@ -549,10 +549,10 @@
 
             <h3>Nuestra Ubicación</h3>
             <div class="map-container">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3621.579603099903!2d-65.41902262447957!3d-24.81596777793166!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x941bc3a8309a96e9%3A0xcf95a43878b30e20!2sPje%20Fernando%20Ramos%2022%2C%20Salta!5e0!3m2!1ses-419!2sar!4v1717342898991!5m2!1ses-419!2sar9" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <iframe src="https://www.google.com/maps/search/?api=1&query=Pje+Fernando+Ramos+N%C2%B0+22,+Salta+-+Capital1" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
             <p style="text-align: center; margin-top: 15px;">
-                <a href="https://www.google.com/maps/search/?api=1&query=Pje+Fernando+Ramos+N%C2%B0+22,+Salta+-+Capital0" target="_blank" style="color: #007bff; text-decoration: underline;">Abrir en Google Maps</a>
+                <a href="https://www.google.com/maps/search/?api=1&query=Pje+Fernando+Ramos+N%C2%B0+22,+Salta+-+Capital2" target="_blank" style="color: #007bff; text-decoration: underline;">Abrir en Google Maps</a>
             </p>
         </section>
 
@@ -683,10 +683,12 @@
             populateDepartamentosSelect();
 
             // *** NUEVO: Adjuntar evento de clic al botón de buscar colegios por localidad/dpto. ***
+            console.log('Intentando adjuntar evento de clic al botón "Buscar Colegios por Localidad/Dpto."...');
             const btnBuscarColegiosLocalidad = document.getElementById('btnBuscarColegiosLocalidad');
             if (btnBuscarColegiosLocalidad) {
+                console.log('Botón "Buscar Colegios por Localidad/Dpto." encontrado.');
                 btnBuscarColegiosLocalidad.addEventListener('click', buscarColegios);
-                console.log('Evento de clic adjuntado al botón "Buscar Colegios por Localidad/Dpto."');
+                console.log('Evento de clic adjuntado al botón "Buscar Colegios por Localidad/Dpto." correctamente.');
             } else {
                 console.error('ERROR: No se encontró el botón con ID "btnBuscarColegiosLocalidad".');
             }
