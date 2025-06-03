@@ -20,8 +20,8 @@
             margin: 20px auto;
             background: #fff;
             padding: 30px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Sombra más pronunciada */
-            border-radius: 10px; /* Bordes más redondeados */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Sombra más pronunciada y suave */
+            border-radius: 12px; /* Bordes más redondeados */
         }
         h1, h2, h3 {
             color: #0056b3;
@@ -29,20 +29,22 @@
             margin-bottom: 25px;
         }
         h1 {
-            font-size: 2.5em;
+            font-size: 2.8em; /* Título principal más grande */
             font-weight: 700;
             margin-top: 20px;
             color: #004085; /* Un azul más oscuro */
+            line-height: 1.2;
         }
         h2 {
-            font-size: 2em;
+            font-size: 2.2em; /* Títulos de sección más grandes */
             font-weight: 500;
-            border-bottom: 2px solid #e0e7ed; /* Línea de separación sutil */
+            border-bottom: 2px solid #d0dae6; /* Línea de separación sutil */
             padding-bottom: 10px;
             margin-top: 40px;
+            color: #004085; /* Consistencia con h1 */
         }
         h3 {
-            font-size: 1.5em;
+            font-size: 1.6em; /* Subtítulos un poco más grandes */
             font-weight: 400;
             color: #007bff;
         }
@@ -124,9 +126,9 @@
             margin-bottom: 40px; /* Más espacio entre grupos de buscadores */
             padding: 25px;
             border: 1px solid #dbe2ea;
-            border-radius: 10px;
+            border-radius: 12px; /* Más redondeado */
             background-color: #fcfdff; /* Fondo ligeramente diferente para el grupo */
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Sombra más pronunciada */
         }
         .search-group h3 {
             margin-top: 0;
@@ -146,9 +148,9 @@
             margin-bottom: 30px;
             padding: 20px;
             border: 1px solid #dbe2ea; /* Borde más suave */
-            border-radius: 8px;
+            border-radius: 10px; /* Más redondeado */
             background-color: #f7f9fc; /* Fondo más claro */
-            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05); /* Sombra interna sutil */
+            box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.07); /* Sombra interna sutil */
         }
         .search-section:last-of-type {
             margin-bottom: 0; /* Eliminar margen inferior del último search-section dentro de un grupo */
@@ -165,23 +167,26 @@
             padding: 12px;
             margin-bottom: 15px;
             border: 1px solid #c2d1e2;
-            border-radius: 6px;
+            border-radius: 8px; /* Más redondeado */
             font-size: 1em;
             box-sizing: border-box; /* Asegura que padding no aumente el ancho total */
         }
         .search-section button {
-            background-color: #007bff;
+            background-color: #007bff; /* Azul vibrante */
             color: white;
             padding: 12px 25px;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px; /* Más redondeado */
             cursor: pointer;
             font-size: 1.1em;
             font-weight: 600;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2); /* Sombra para el botón */
         }
         .search-section button:hover {
-            background-color: #0056b3;
+            background-color: #0056b3; /* Azul más oscuro al pasar el ratón */
+            transform: translateY(-2px); /* Pequeño efecto de "levantar" */
+            box-shadow: 0 6px 12px rgba(0, 123, 255, 0.3); /* Sombra más grande al pasar el ratón */
         }
         .results-container {
             margin-top: 30px;
@@ -278,6 +283,39 @@
             font-size: 0.9em;
         }
 
+        /* Botones de Acceso Rápido en Inicio */
+        .quick-access-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px; /* Espacio entre los botones */
+            margin-top: 30px;
+            margin-bottom: 40px;
+        }
+        .quick-access-buttons .button {
+            background-color: #007bff; /* Azul vibrante */
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px; /* Más redondeado */
+            cursor: pointer;
+            font-size: 1.2em;
+            font-weight: 600;
+            text-decoration: none; /* Para que parezca un botón */
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 6px 12px rgba(0, 123, 255, 0.3); /* Sombra para el botón */
+            display: inline-flex; /* Para centrar contenido si hay iconos */
+            align-items: center;
+            justify-content: center;
+            min-width: 200px; /* Ancho mínimo para que se vean bien */
+        }
+        .quick-access-buttons .button:hover {
+            background-color: #0056b3; /* Azul más oscuro al pasar el ratón */
+            transform: translateY(-3px); /* Efecto de "levantar" más pronunciado */
+            box-shadow: 0 8px 16px rgba(0, 123, 255, 0.4); /* Sombra más grande al pasar el ratón */
+        }
+
+
         /* Responsive Design */
         @media (max-width: 768px) {
             header .header-content {
@@ -311,6 +349,14 @@
             .news-iframe-container, .map-container {
                 padding-top: 120%; /* Aumenta la altura del iframe en móviles si es necesario */
             }
+            .quick-access-buttons {
+                flex-direction: column; /* Apila los botones en móviles */
+                align-items: center;
+            }
+            .quick-access-buttons .button {
+                width: 80%; /* Ancho de los botones en móviles */
+                min-width: unset;
+            }
         }
     </style>
 </head>
@@ -336,8 +382,14 @@
     <div class="container">
         <section id="inicio" class="content-section">
             <h1>Junta Calificadora de Méritos y Disciplina - Nivel Secundario</h1>
-            <p>Bienvenido a la plataforma de consulta de la Junta Calificadora de Méritos y Disciplina de Nivel Secundario de la Provincia de Salta. Aquí podrás encontrar información relevante sobre incumbencias docentes, orientaciones de colegios y datos de instituciones educativas.</p>
-            <p>Nuestro objetivo es facilitar el acceso a la información oficial de manera clara y eficiente para toda la comunidad educativa.</p>
+            <p>Bienvenido a la plataforma oficial de la Junta Calificadora de Méritos y Disciplina de Nivel Secundario de la Provincia de Salta. Aquí encontrarás herramientas esenciales y toda la información necesaria para tu carrera docente.</p>
+            <p>Nuestro compromiso es brindarte un acceso fácil y transparente a normativas, incumbencias, convocatorias y datos de instituciones educativas.</p>
+            
+            <div class="quick-access-buttons">
+                <a href="#herramientas-consulta" class="button">Buscar Incumbencias</a>
+                <a href="#tramites" class="button">Trámites Docentes</a>
+                <a href="#noticias" class="button">Últimas Convocatorias</a>
+            </div>
         </section>
 
         <section id="sobre-nosotros" class="content-section">
@@ -359,7 +411,7 @@
 
         <section id="herramientas-consulta" class="content-section">
             <h2>Herramientas de Consulta</h2>
-            <p>Accede a nuestras herramientas de búsqueda para encontrar la información que necesitas:</p>
+            <p>Utiliza nuestros buscadores para encontrar la información que necesitas sobre títulos, espacios curriculares y colegios. Si tienes dudas sobre cómo usar alguna herramienta, consulta nuestra futura <a href="#guia-rapida">Guía Rápida de Uso</a>.</p>
 
             <section class="search-group">
                 <h3>Buscador de Títulos y Espacios Curriculares (Para Docentes Ingresantes)</h3>
@@ -453,7 +505,7 @@
             <p>Encuentra información útil sobre los trámites más comunes y resuelve tus dudas.</p>
 
             <h3>Incumbencias Docentes</h3>
-            <p>Consulta las incumbencias de tu título para conocer los espacios curriculares que puedes dictar. Utiliza nuestro <a href="#competencias-integradas">buscador de títulos y espacios curriculares</a> ubicado en la sección de Herramientas de Consulta.</p>
+            <p>Consulta las incumbencias de tu título para conocer los espacios curriculares que puedes dictar. Utiliza nuestro <a href="#herramientas-consulta">buscador de títulos y espacios curriculares</a> ubicado en la sección de Herramientas de Consulta.</p>
             
             <h3>Procedimientos para Inscripción</h3>
             <p>Aquí encontrarás los pasos detallados para realizar tu inscripción en los diferentes registros o concursos que convoque la Junta. <br>
@@ -492,10 +544,10 @@
 
             <h3>Nuestra Ubicación</h3>
             <div class="map-container">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3621.579603099903!2d-65.41902262447957!3d-24.81596777793166!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x941bc3a8309a96e9%3A0xcf95a43878b30e20!2sPje%20Fernando%20Ramos%2022%2C%20Salta!5e0!3m2!1ses-419!2sar!4v1717342898991!5m2!1ses-419!2sar1" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3621.144465495536!2d-65.4128564!3d-24.8257088!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x941bc3a8e94a10d9%3A0x6d9f7e5d2b7f0f6!2sPje%20Fernando%20Ramos%2022%2C%20Salta!5e0!3m2!1ses-419!2sar!4v1717520000000!5m2!1ses-419!2sar" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
             <p style="text-align: center; margin-top: 15px;">
-                <a href="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3621.579603099903!2d-65.41902262447957!3d-24.81596777793166!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x941bc3a8309a96e9%3A0xcf95a43878b30e20!2sPje%20Fernando%20Ramos%2022%2C%20Salta!5e0!3m2!1ses-419!2sar!4v1717342898991!5m2!1ses-419!2sar2" target="_blank" style="color: #007bff; text-decoration: underline;">Abrir en Google Maps</a>
+                <a href="https://www.google.com/maps/place/Pje+Fernando+Ramos+22,+Salta" target="_blank" style="color: #007bff; text-decoration: underline;">Abrir en Google Maps</a>
             </p>
         </section>
 
@@ -530,7 +582,6 @@
                 return parseCSV(csvText, type);
             } catch (error) {
                 console.error(`Error cargando datos de ${type} desde ${url}:`, error);
-                // Si COLEGIOS_URL falla, es importante que sepamos por qué
                 if (type === 'colegios') {
                      alert('¡Advertencia! Error cargando la lista de Colegios. Algunas funciones podrían no operar correctamente. Por favor, revisa la consola para más detalles y asegúrate que la URL de COLEGIOS_URL es correcta y pública.');
                 }
@@ -822,6 +873,7 @@
                 console.error('Datos de colegiosData o planEstudioData no disponibles para la búsqueda aleatoria.');
                 return;
             }
+
 
             // 1. Obtener los UEs (Números de Unidad Educativa) de los colegios que están en el departamento seleccionado
             const uesEnDepartamento = colegiosData.filter(c =>
