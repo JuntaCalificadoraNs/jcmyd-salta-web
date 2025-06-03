@@ -438,7 +438,7 @@
             </section>
 
             <section class="search-group">
-                <h3>Buscador de Colegios por Espacio Curricular y Ubicación (Ideal para docentes con experiencia)</h3>
+                <h3>Buscador de Colegios por Espacio Curricular y Ubicación (Para Docentes con Experiencia)</h3>
                 <p>Encuentra colegios que dictan un espacio curricular específico en un departamento. Puedes usar un espacio obtenido del buscador anterior o ingresar uno directamente.</p>
                 <div class="search-section">
                     <label for="espacioCurricularSelect">2. Selecciona un Espacio Curricular:</label>
@@ -485,9 +485,7 @@
                     <p>Encuentra colegios secundarios ingresando una localidad o departamento.</p>
                     <label for="localidadInput">Buscar por Localidad o Departamento:</label>
                     <input type="text" id="localidadInput" placeholder="Ej: Salta Capital, San Ramón de la Nueva Orán">
-                    <button onclick="buscarColegios()">Buscar Colegios</button>
-
-                    <div class="results-container">
+                    <button id="btnBuscarColegiosLocalidad">Buscar Colegios</button> <div class="results-container">
                         <h3>Resultados de Colegios</h3>
                         <div id="colegiosResults">
                             <p class="no-results">No hay resultados para mostrar.</p>
@@ -547,14 +545,14 @@
             <p><strong>Dirección:</strong> Pje Fernando Ramos N° 22. Salta - Capital.</p>
             <p><strong>Teléfonos:</strong> 387 5344660 / 387 5344662</p>
             <p><strong>Correo Electrónico:</strong> <a href="mailto:juntacalificadorasecundario23@gmail.com">juntacalificadorasecundario23@gmail.com</a></p>
-            <p><strong>Horario de Atención:</strong> [Lunes a Viernes de 08:00 a 16:00 horas]</p>
+            <p><strong>Horario de Atención:</strong> [Días y horarios - Rellenar si aplica]</p>
 
             <h3>Nuestra Ubicación</h3>
             <div class="map-container">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3621.579603099903!2d-65.41902262447957!3d-24.81596777793166!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x941bc3a8309a96e9%3A0xcf95a43878b30e20!2sPje%20Fernando%20Ramos%2022%2C%20Salta!5e0!3m2!1ses-419!2sar!4v1717342898991!5m2!1ses-419!2sar7" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3621.579603099903!2d-65.41902262447957!3d-24.81596777793166!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x941bc3a8309a96e9%3A0xcf95a43878b30e20!2sPje%20Fernando%20Ramos%2022%2C%20Salta!5e0!3m2!1ses-419!2sar!4v1717342898991!5m2!1ses-419!2sar9" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
             <p style="text-align: center; margin-top: 15px;">
-                <a href="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3621.579603099903!2d-65.41902262447957!3d-24.81596777793166!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x941bc3a8309a96e9%3A0xcf95a43878b30e20!2sPje%20Fernando%20Ramos%2022%2C%20Salta!5e0!3m2!1ses-419!2sar!4v1717342898991!5m2!1ses-419!2sar8" target="_blank" style="color: #007bff; text-decoration: underline;">Abrir en Google Maps</a>
+                <a href="https://www.google.com/maps/search/?api=1&query=Pje+Fernando+Ramos+N%C2%B0+22,+Salta+-+Capital0" target="_blank" style="color: #007bff; text-decoration: underline;">Abrir en Google Maps</a>
             </p>
         </section>
 
@@ -683,6 +681,15 @@
             
             // Rellenar el selector de departamentos una vez que colegiosData esté cargado
             populateDepartamentosSelect();
+
+            // *** NUEVO: Adjuntar evento de clic al botón de buscar colegios por localidad/dpto. ***
+            const btnBuscarColegiosLocalidad = document.getElementById('btnBuscarColegiosLocalidad');
+            if (btnBuscarColegiosLocalidad) {
+                btnBuscarColegiosLocalidad.addEventListener('click', buscarColegios);
+                console.log('Evento de clic adjuntado al botón "Buscar Colegios por Localidad/Dpto."');
+            } else {
+                console.error('ERROR: No se encontró el botón con ID "btnBuscarColegiosLocalidad".');
+            }
         });
 
         // Función para renderizar una tabla de resultados
@@ -748,10 +755,11 @@
         }
 
         function buscarColegios() {
+            console.log('Función buscarColegios() ejecutada.'); // DEBUG: Confirmar que la función se llama
             const input = normalizeText(document.getElementById('localidadInput').value); // Normalizar input
-            console.log('Buscando colegios por localidad/dpto. Input:', input); // DEBUG: Muestra el valor de búsqueda
+            console.log('Buscando colegios por localidad/dpto. Input normalizado:', input); // DEBUG: Muestra el valor de búsqueda
             if (!input) {
-                console.log('Input vacío, renderizando tabla vacía.'); // DEBUG
+                console.log('Input vacío, renderizando tabla vacía para colegios.'); // DEBUG
                 renderTable('colegiosResults', ['Nombre', 'Direccion', 'Localidad', 'Departamento', 'CodPostal'], []);
                 return;
             }
@@ -764,11 +772,11 @@
                 const codPostal = normalizeText(item['CodPostal']); // Normalizar dato de la hoja
 
                 const match = localidad.includes(input) || departamento.includes(input) || direccion.includes(input) || nombre.includes(input) || codPostal.includes(input);
-                // console.log(`Comparando con: ${localidad}, ${departamento}, ${direccion}, ${nombre}, ${codPostal}. Coincide: ${match}`); // DEBUG: Depuración por cada item
                 return match;
             });
 
-            console.log('Resultados filtrados para colegios:', filtered.length, filtered); // DEBUG: Muestra la cantidad y los resultados filtrados
+            console.log('Resultados filtrados para colegios (cantidad):', filtered.length); // DEBUG: Muestra la cantidad de resultados
+            console.log('Resultados filtrados para colegios (datos):', filtered); // DEBUG: Muestra los resultados filtrados
             renderTable('colegiosResults', ['Nombre', 'Direccion', 'Localidad', 'Departamento', 'CodPostal'], filtered);
         }
 
