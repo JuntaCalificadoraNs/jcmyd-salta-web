@@ -365,7 +365,7 @@
             }
             .search-section input[type="text"],
             .search-section select { /* Full width on smaller screens */
-                width: 100%; 
+                width: 100%;
             }
             .news-iframe-container, .map-container {
                 padding-top: 120%; /* Aumenta la altura del iframe en móviles si es necesario */
@@ -382,6 +382,13 @@
             .search-section h4 {
                 margin-top: 20px; /* Espacio extra para el h4 en móvil */
             }
+        }
+
+        /* Estilo para resaltar filas completas que contienen la búsqueda */
+        .results-table tr.highlighted-row {
+            background-color: #e6ffe6; /* Un color verde muy suave para la fila completa */
+            /* Puedes probar con un borde para más contraste: */
+            /* border-left: 5px solid #28a745; */
         }
     </style>
 </head>
@@ -411,7 +418,7 @@
             <h1>Junta Calificadora de Méritos y Disciplina - Nivel Secundario</h1>
             <p>Bienvenido a la plataforma oficial de la Junta Calificadora de Méritos y Disciplina de Nivel Secundario de la Provincia de Salta. Aquí encontrarás herramientas esenciales y toda la información necesaria para tu carrera docente.</p>
             <p>Nuestro compromiso es brindarte un acceso fácil y transparente a normativas, incumbencias, convocatorias y datos de instituciones educativas.</p>
-            
+
             <div class="quick-access-buttons">
                 <a href="#herramientas-consulta" class="button">Buscar Incumbencias</a>
                 <!-- Botón de acceso rápido modificado: ahora es un <button> que llama a una función -->
@@ -450,7 +457,7 @@
                     <label for="tituloInputIntegrado">1. Ingresa tu Título (o parte de él):</label>
                     <input type="text" id="tituloInputIntegrado" placeholder="Ej: Profesor de Historia">
                     <button onclick="buscarIncumbenciasIntegrado()">Buscar Espacios Curriculares</button>
-                    
+
                     <div class="results-container">
                         <h3>Resultados de Incumbencias</h3>
                         <div id="incumbenciasResultsIntegrado">
@@ -512,7 +519,7 @@
                     <p>Encuentra colegios secundarios ingresando una localidad o departamento.</p>
                     <label for="localidadInput">Buscar por Localidad o Departamento:</label>
                     <input type="text" id="localidadInput" placeholder="Ej: Salta Capital, San Ramón de la Nueva Orán">
-                    <button id="btnBuscarColegiosLocalidad">Buscar Colegios</button> 
+                    <button id="btnBuscarColegiosLocalidad">Buscar Colegios</button>
 
                     <div class="results-container">
                         <h3>Resultados de Colegios</h3>
@@ -543,7 +550,7 @@
 
             <h3>Incumbencias Docentes</h3>
             <p>Consulta las incumbencias de tu título para conocer los espacios curriculares que puedes dictar. Utiliza nuestro <a href="#herramientas-consulta">buscador de títulos y espacios curriculares</a> ubicado en la sección de Herramientas de Consulta.</p>
-            
+
             <h3>Procedimientos para Inscripción</h3>
             <p>Aquí encontrarás los pasos detallados para realizar tu inscripción en los diferentes registros o concursos que convoque la Junta. <br>
             [Aquí se podría añadir un PDF descargable, una lista de pasos, o un enlace a una página específica con esta información.]</p>
@@ -560,7 +567,7 @@
         <section id="noticias" class="content-section" style="text-align: center;">
             <h2>Novedades y Noticias del Ministerio</h2>
             <p>Aquí puedes consultar las últimas noticias y comunicados oficiales del Ministerio de Educación, Cultura, Ciencia y Tecnología de Salta, incrustados directamente en nuestra página. Si el contenido no carga o tienes problemas para visualizarlo, puedes hacer clic en el enlace directo a continuación.</p>
-            
+
             <div class="news-iframe-container">
                 <iframe src="https://sga.edusalta.gov.ar/Frontend/Modulos/Noticias/Noticias.aspx" title="Noticias Ministerio de Educación Salta"></iframe>
             </div>
@@ -584,10 +591,10 @@
             <h3>Nuestra Ubicación</h3>
             <div class="map-container">
                 <!-- Mapa incrustado de Google Maps para Pje Fernando Ramos N° 22, Salta - Capital -->
-                <iframe src="https://www.google.com/maps/search/?api=1&query=Pje+Fernando+Ramos+N%C2%B0+22,+Salta+-+Capital9" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3621.579482598387!2d-65.4093959885822!3d-24.62916857997972!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x941bc3a18a99499d%3A0x7df6b0d9e8c4e43b!2sPje%20Fernando%20Ramos%2022%2C%20A4400%20Salta!5e0!3m2!1ses-419!2sar!4v1700000000000!5m2!1ses-419!2sar" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
             <p style="text-align: center; margin-top: 15px;">
-                <a href="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3621.144445885265!2d-65.41400262445873!3d-24.823906177815343!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x941bc48232c45353%3A0xa1969a24d55b4130!2sPje%20Fernando%20Ramos%2022%2C%20Salta%2C%20Argentina!5e0!3m2!1ses-419!2sar!4v1700000000000!5m2!1ses-419!2sar0" target="_blank" style="color: #007bff; text-decoration: underline;">Abrir en Google Maps</a>
+                <a href="https://www.google.com/maps/place/Pje+Fernando+Ramos+22,+A4400+Salta" target="_blank" style="color: #007bff; text-decoration: underline;">Abrir en Google Maps</a>
             </p>
         </section>
 
@@ -602,9 +609,10 @@
         console.log('Script principal cargado.'); // DEBUG: Mensaje de carga muy temprano
 
         // URLs de tus Google Sheets publicadas como CSV
-        const COMPETENCIAS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS-EPPyl34acCgd03fTldc-6Bs7GhBXdAmKVoaIHJKT-5SW4c8VzIDGCNqU7E590SxXlHKPvu-U_qwr/pub?gid=1550756964&single=true&output=csv'; 
+        const COMPETENCIAS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS-EPPyl34acCgd03fTldc-6Bs7GhBXdAmKVoaIHJKT-5SW4c8VzIDGCNqU7E590SxXlHKPvu-U_qwr/pub?gid=1550756964&single=true&output=csv';
         const ORIENTACIONES_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS7Qnph7TWvhLYl3KhpaDVqnYLqgNGbQ7FNtdw7TNzAlskfjVTg4DePvG2MoVuZf9DD3Fc2nZ5CEOms/pub?gid=1943513223&single=true&output=csv';
         const COLEGIOS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vStnrtyd-dwtpz4UlSU2OXrEgL79AlvRLL3c0mIPSGETpyT2sEVgaGjJOVSpryEC7Jhx4zM6HjKWZN_/pub?gid=119647774&single=true&output=csv';
+        // Por favor, verifica esta URL si sigues teniendo el error 404.
         const PLAN_ESTUDIO_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRHqqcFr4mP1vwyt14wUjjMCryhv8bzp-A7Dum5jRKqGvQ5_nJYZlo23Q-90L6cPFKFoUXiFTiMKzI7/pub?gid=151813776&single=true&output=csv';
 
         let competenciasData = [];
@@ -615,7 +623,7 @@
         // Función para cargar y parsear datos CSV
         async function loadData(url, type = 'generic') {
             try {
-                console.log(`Cargando datos desde: ${url} (Tipo: ${type})`); 
+                console.log(`Cargando datos desde: ${url} (Tipo: ${type})`);
                 const response = await fetch(url);
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status} al cargar ${type}`);
@@ -626,6 +634,8 @@
                 console.error(`Error cargando datos de ${type} desde ${url}:`, error);
                 if (type === 'colegios') {
                      alert('¡Advertencia! Error cargando la lista de Colegios. Algunas funciones podrían no operar correctamente. Por favor, revisa la consola para más detalles y asegúrate que la URL de COLEGIOS_URL es correcta y pública.');
+                } else if (type === 'planEstudio') { // Added specific alert for planEstudio
+                    alert('¡Advertencia! Error cargando los datos del Plan de Estudio. La búsqueda de colegios por espacio curricular podría no funcionar. Por favor, revisa la consola para más detalles y asegúrate que la URL de PLAN_ESTUDIO_URL es correcta y pública.');
                 }
                 return [];
             }
@@ -647,7 +657,7 @@
                 if (currentLine === '') {
                     continue;
                 }
-                
+
                 // Manejo robusto de comas dentro de valores (CSV estándar)
                 const values = [];
                 let inQuote = false;
@@ -672,14 +682,14 @@
                         row[headers[j]] = values[j] ? values[j].replace(/^"|"$/g, '').trim() : ''; // Eliminar comillas dobles y limpiar
                     }
                 }
-                
+
                 // Lógica específica para la hoja de COLEGIOS_URL (extraer NumeroUE)
                 if (type === 'colegios' && row['Nombre']) {
-                    const match = row['Nombre'].match(/Nº\s*(\d+)/); 
+                    const match = row['Nombre'].match(/Nº\s*(\d+)/);
                     if (match && match[1]) {
-                        row['NumeroUE'] = match[1]; 
+                        row['NumeroUE'] = match[1];
                     } else {
-                        row['NumeroUE'] = ''; 
+                        row['NumeroUE'] = '';
                     }
                 }
                 data.push(row);
@@ -694,6 +704,33 @@
             return text.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase();
         }
 
+        // Función para resaltar la coincidencia en el texto
+        function highlightMatch(text, query) {
+            if (!text || !query) return text;
+            const normalizedText = normalizeText(text);
+            const normalizedQuery = normalizeText(query);
+
+            let lastIndex = 0;
+            let highlightedHtml = '';
+            let match;
+
+            // Usar una expresión regular global y case-insensitive para encontrar todas las coincidencias
+            const regex = new RegExp(normalizedQuery.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi'); // Escapar caracteres especiales de la query
+
+            while ((match = regex.exec(normalizedText)) !== null) {
+                // Añadir la parte del texto antes de la coincidencia
+                highlightedHtml += text.substring(lastIndex, match.index);
+                // Añadir la coincidencia resaltada
+                highlightedHtml += '<strong>' + text.substring(match.index, regex.lastIndex) + '</strong>';
+                lastIndex = regex.lastIndex;
+            }
+            // Añadir el resto del texto después de la última coincidencia
+            highlightedHtml += text.substring(lastIndex);
+
+            return highlightedHtml;
+        }
+
+
         // Cargar todos los datos al cargar la página
         document.addEventListener('DOMContentLoaded', async () => {
             // Cargar datos en paralelo para mayor velocidad
@@ -703,19 +740,19 @@
                 loadData(COLEGIOS_URL, 'colegios'),
                 loadData(PLAN_ESTUDIO_URL, 'planEstudio')
             ]);
-            
+
             competenciasData = compData;
             orientacionesData = orientData;
             colegiosData = coleData;
             planEstudioData = planData;
-            
+
             console.log('Datos cargados (final):', {
                 competenciasCount: competenciasData.length,
                 orientacionesCount: orientacionesData.length,
                 colegiosCount: colegiosData.length,
                 planEstudioCount: planEstudioData.length
             });
-            
+
             // Rellenar el selector de departamentos una vez que colegiosData esté cargado
             populateDepartamentosSelect();
 
@@ -732,11 +769,13 @@
         });
 
         // Función para renderizar una tabla de resultados
-        function renderTable(containerId, headers, data) {
+        // Se modificó para aceptar una clave de columna para aplicar innerHTML (para el resaltado) Y searchTerm para resaltar filas
+        function renderTable(containerId, headers, data, htmlColumns = [], searchTerm = '') {
             const container = document.getElementById(containerId);
             if (!container) return;
 
             container.innerHTML = '';
+            const normalizedSearchTerm = normalizeText(searchTerm);
 
             if (data.length === 0) {
                 container.innerHTML = '<p class="no-results">No se encontraron resultados.</p>';
@@ -759,13 +798,31 @@
             const tbody = document.createElement('tbody');
             data.forEach(item => {
                 const tr = document.createElement('tr');
+                let rowMatchesSearch = false; // Bandera para saber si la fila debe ser resaltada
+
                 headers.forEach(headerKey => {
-                    // Usar un valor por defecto si la propiedad no existe
-                    const cellContent = item[headerKey] !== undefined ? item[headerKey] : ''; 
                     const td = document.createElement('td');
-                    td.textContent = cellContent;
+                    const cellContent = item[headerKey] !== undefined ? String(item[headerKey]) : '';
+
+                    // Si la columna es una de las que permite HTML (para el resaltado de texto)
+                    if (htmlColumns.includes(headerKey)) {
+                        td.innerHTML = cellContent;
+                    } else {
+                        td.textContent = cellContent;
+                    }
                     tr.appendChild(td);
+
+                    // Verificar si el contenido de la celda (normalizado) contiene el término de búsqueda
+                    if (normalizedSearchTerm && normalizeText(cellContent).includes(normalizedSearchTerm)) {
+                        rowMatchesSearch = true;
+                    }
                 });
+
+                // Si la fila completa contiene el término de búsqueda, agregar la clase de resaltado
+                if (rowMatchesSearch) {
+                    tr.classList.add('highlighted-row');
+                }
+
                 tbody.appendChild(tr);
             });
             table.appendChild(tbody);
@@ -790,14 +847,17 @@
                 return orientacion.includes(input) || unidEducativa.includes(input) || areaGeo.includes(input);
             });
 
-            renderTable('orientacionesResults', ['UNID EDUCATIVA', 'ORIENTACION', 'AREA GEOGRAFICA- LOCALIDAD-DPTO'], filtered);
+            // Pasar el input para que renderTable pueda resaltar las filas
+            renderTable('orientacionesResults', ['UNID EDUCATIVA', 'ORIENTACION', 'AREA GEOGRAFICA- LOCALIDAD-DPTO'], filtered, [], input);
         }
 
         function buscarColegios() {
             console.log('Función buscarColegios() ejecutada.'); // DEBUG: Confirmar que la función se llama
-            const input = normalizeText(document.getElementById('localidadInput').value); // Normalizar input
-            console.log('Buscando colegios por localidad/dpto. Input normalizado:', input); // DEBUG: Muestra el valor de búsqueda
-            if (!input) {
+            const inputElement = document.getElementById('localidadInput');
+            const rawInput = inputElement.value; // Obtener el valor sin normalizar para el resaltado de filas
+            const normalizedInput = normalizeText(rawInput); // Normalizar para la búsqueda
+            console.log('Buscando colegios por localidad/dpto. Input normalizado:', normalizedInput); // DEBUG: Muestra el valor de búsqueda
+            if (!normalizedInput) {
                 console.log('Input vacío, renderizando tabla vacía para colegios.'); // DEBUG
                 renderTable('colegiosResults', ['Nombre', 'Direccion', 'Localidad', 'Departamento', 'CodPostal'], []);
                 return;
@@ -810,20 +870,21 @@
                 const nombre = normalizeText(item['Nombre']); // Normalizar dato de la hoja
                 const codPostal = normalizeText(item['CodPostal']); // Normalizar dato de la hoja
 
-                const match = localidad.includes(input) || departamento.includes(input) || direccion.includes(input) || nombre.includes(input) || codPostal.includes(input);
+                const match = localidad.includes(normalizedInput) || departamento.includes(normalizedInput) || direccion.includes(normalizedInput) || nombre.includes(normalizedInput) || codPostal.includes(normalizedInput);
                 return match;
             });
 
             console.log('Resultados filtrados para colegios (cantidad):', filtered.length); // DEBUG: Muestra la cantidad de resultados
             console.log('Resultados filtrados para colegios (datos):', filtered); // DEBUG: Muestra los resultados filtrados
-            renderTable('colegiosResults', ['Nombre', 'Direccion', 'Localidad', 'Departamento', 'CodPostal'], filtered);
+            // Pasar el rawInput para que renderTable pueda resaltar las filas
+            renderTable('colegiosResults', ['Nombre', 'Direccion', 'Localidad', 'Departamento', 'CodPostal'], filtered, [], rawInput);
         }
 
         // *** NUEVA FUNCIÓN: Para el botón de acceso rápido "Buscar Colegios por Localidad/Dpto." ***
         function triggerLocalidadSearchAndScroll() {
             console.log('Botón de acceso rápido "Buscar Colegios por Localidad/Dpto." clickeado.');
             const localidadInput = document.getElementById('localidadInput');
-            
+
             // Opcional: Si el campo está vacío, establece un valor predeterminado para la búsqueda rápida
             if (!localidadInput.value.trim()) {
                 localidadInput.value = 'Salta'; // Puedes cambiar esto a un departamento o localidad común
@@ -859,7 +920,7 @@
 
             const uniqueDepartamentos = new Set();
             colegiosData.forEach(item => {
-                if (item['Departamento']) { 
+                if (item['Departamento']) {
                     uniqueDepartamentos.add(item['Departamento'].trim());
                 }
             });
@@ -880,43 +941,64 @@
             });
 
             departamentoSelect.disabled = false; // Habilitar el select de departamentos
-            console.log('Departamentos poblados:', sortedDepartamentos); 
+            console.log('Departamentos poblados:', sortedDepartamentos);
         }
 
 
         function buscarIncumbenciasIntegrado() {
-            const input = normalizeText(document.getElementById('tituloInputIntegrado').value); // Normalizar input
+            const inputElement = document.getElementById('tituloInputIntegrado');
+            const rawInput = inputElement.value; // Obtener el valor sin normalizar para el resaltado de texto y fila
+            const normalizedInput = normalizeText(rawInput); // Normalizar para la búsqueda
+
             const selectEspacio = document.getElementById('espacioCurricularSelect');
-            const selectDepartamento = document.getElementById('departamentoSelect'); 
+            const selectDepartamento = document.getElementById('departamentoSelect');
             const btnBuscarColegios = document.getElementById('btnBuscarColegios');
 
             // Limpiar resultados anteriores y resetear selects/botones
             renderTable('incumbenciasResultsIntegrado', ['Titulo', 'Nombre DEL ESPACIO CURRICULAR', 'CODIGO/Modulo', 'Alcance/INCUMBENCIA'], []);
             renderTable('colegiosPorEspacioResults', ['Nombre', 'Direccion', 'Localidad', 'Departamento'], []);
-            
+
             selectEspacio.innerHTML = '<option value="">-- Selecciona un espacio curricular --</option>';
             selectEspacio.disabled = true;
             btnBuscarColegios.disabled = true;
 
             foundEspaciosCurriculares = [];
 
-            if (!input) {
+            if (!normalizedInput) {
                 document.getElementById('incumbenciasResultsIntegrado').innerHTML = '<p class="no-results">Por favor, ingresa un título para buscar incumbencias.</p>';
                 return;
             }
 
-            const filtered = competenciasData.filter(item => {
-                const titulo = normalizeText(item['Titulo']); // Normalizar dato de la hoja
-                return titulo.includes(input);
+            const filteredAndHighlighted = competenciasData.filter(item => {
+                // Verificar coincidencia en cualquiera de las columnas relevantes para la fila
+                const titulo = normalizeText(item['Titulo'] || '');
+                const espacioCurricular = normalizeText(item['Nombre DEL ESPACIO CURRICULAR'] || '');
+                const codigoModulo = normalizeText(item['CODIGO/Modulo'] || '');
+                const alcanceIncumbencia = normalizeText(item['Alcance/INCUMBENCIA'] || '');
+
+                return titulo.includes(normalizedInput) ||
+                       espacioCurricular.includes(normalizedInput) ||
+                       codigoModulo.includes(normalizedInput) ||
+                       alcanceIncumbencia.includes(normalizedInput);
+
+            }).map(item => {
+                // Crear una copia del item para no modificar el original
+                const newItem = { ...item };
+                // Resaltar el título en la copia para el "strong"
+                newItem['Titulo'] = highlightMatch(item['Titulo'], rawInput);
+                return newItem;
             });
 
-            renderTable('incumbenciasResultsIntegrado', ['Titulo', 'Nombre DEL ESPACIO CURRICULAR', 'CODIGO/Modulo', 'Alcance/INCUMBENCIA'], filtered);
+            // Pasar 'Titulo' como columna que debe usar innerHTML y también el rawInput para el resaltado de filas
+            renderTable('incumbenciasResultsIntegrado', ['Titulo', 'Nombre DEL ESPACIO CURRICULAR', 'CODIGO/Modulo', 'Alcance/INCUMBENCIA'], filteredAndHighlighted, ['Titulo'], rawInput);
 
             // Llenar el select con los espacios curriculares encontrados
-            if (filtered.length > 0) {
+            if (filteredAndHighlighted.length > 0) {
                 const uniqueEspacios = new Set();
-                filtered.forEach(item => {
+                filteredAndHighlighted.forEach(item => {
+                    // Usar el título original (no resaltado) para el select
                     if (item['Nombre DEL ESPACIO CURRICULAR']) {
+                        // Asegurarse de que el valor en el select sea el texto original, no el HTML resaltado
                         uniqueEspacios.add(item['Nombre DEL ESPACIO CURRICULAR'].trim());
                     }
                 });
@@ -939,14 +1021,14 @@
 
         function buscarColegiosAleatoriosPorEspacio() {
             const selectedEspacio = document.getElementById('espacioCurricularSelect').value;
-            const selectedDepartamento = document.getElementById('departamentoSelect').value; 
+            const selectedDepartamento = document.getElementById('departamentoSelect').value;
             renderTable('colegiosPorEspacioResults', ['Nombre', 'Direccion', 'Localidad', 'Departamento'], []);
 
             if (!selectedEspacio) {
                 document.getElementById('colegiosPorEspacioResults').innerHTML = '<p class="no-results">Por favor, selecciona un espacio curricular.</p>';
                 return;
             }
-            if (!selectedDepartamento) { 
+            if (!selectedDepartamento) {
                 document.getElementById('colegiosPorEspacioResults').innerHTML = '<p class="no-results">Por favor, selecciona un departamento.</p>';
                 return;
             }
@@ -973,8 +1055,8 @@
             // 2. Filtrar el planEstudioData por el espacio curricular seleccionado Y por los UEs del departamento
             const colegiosConEspacioYDepartamento = planEstudioData.filter(item => {
                 const espacio = normalizeText(item['ESPACIO CURRICULAR']); // Normalizar dato de la hoja
-                const ue = item['UE'] ? String(item['UE']).trim() : ''; 
-                
+                const ue = item['UE'] ? String(item['UE']).trim() : '';
+
                 return espacio === normalizeText(selectedEspacio) && uesEnDepartamento.includes(ue); // Normalizar el espacio seleccionado
             });
 
@@ -1029,11 +1111,12 @@
                         'Localidad': 'No disponible',
                         'Departamento': 'No disponible'
                     });
-                    console.warn(`Detalles no encontrados en colegiosData para el NumeroUE: ${numeroUE}. Esto podría indicar un problema de consistencia entre las hojas.`); 
+                    console.warn(`Detalles no encontrados en colegiosData para el NumeroUE: ${numeroUE}. Esto podría indicar un problema de consistencia entre las hojas.`);
                 }
             });
 
-            renderTable('colegiosPorEspacioResults', ['Nombre', 'Direccion', 'Localidad', 'Departamento'], resultadosFinales);
+            // Pasar el selectedEspacio y selectedDepartamento para que renderTable pueda resaltar las filas
+            renderTable('colegiosPorEspacioResults', ['Nombre', 'Direccion', 'Localidad', 'Departamento'], resultadosFinales, [], `${selectedEspacio} ${selectedDepartamento}`);
         }
 
         // Habilitar/deshabilitar el botón de búsqueda de colegios
