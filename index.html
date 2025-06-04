@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Junta Calificadora de Méritos y Disciplina - Nivel Secundario</title>
-    <link rel="stylesheet" href="style.css"> <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet"> <style>
+    <link rel="stylesheet" href="style.css"> <!-- Tu archivo style.css -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet"> <!-- Fuente Google Fonts -->
+
+    <style>
         /* Estilos generales mejorados */
         body {
             font-family: 'Roboto', Arial, sans-serif;
@@ -46,7 +49,11 @@
         h3 {
             font-size: 1.6em; /* Subtítulos un poco más grandes */
             font-weight: 400;
-            color: #007bff;
+            color: #004085; /* Color más oscuro para h3 */
+            text-align: left; /* Alineado a la izquierda para los grupos de búsqueda */
+            border-bottom: 1px solid #d0dae6; /* Línea debajo de h3 */
+            padding-bottom: 8px;
+            margin-bottom: 20px;
         }
         h3 small { /* Estilo para el texto pequeño en los títulos */
             display: block;
@@ -55,10 +62,17 @@
             margin-top: 5px;
             font-weight: 300;
         }
+        h4 { /* Estilo para los h4 (sub-subtítulos) */
+            font-size: 1.3em;
+            font-weight: 500;
+            color: #007bff; /* Azul vibrante para h4 */
+            margin-bottom: 15px;
+            margin-top: 25px; /* Espacio superior para separar */
+        }
 
         /* Header (Encabezado) */
         header {
-            background-color: #004085; /* Azul oscuro corporativo */
+            background: linear-gradient(to right, #004085, #0056b3); /* Degradado sutil */
             color: white;
             padding: 15px 0;
             text-align: center;
@@ -375,6 +389,7 @@
     <header>
         <div class="header-content">
             <div class="logo">
+                <!-- Asegúrate de que tu imagen 'jcmyd-logo.png' esté en la misma carpeta que index.html o ajusta la ruta -->
                 <img src="jcmyd-logo.png" alt="Logo Junta Calificadora de Méritos y Disciplina">
             </div>
             <nav>
@@ -383,7 +398,8 @@
                     <li><a href="#sobre-nosotros">Sobre Nosotros</a></li>
                     <li><a href="#herramientas-consulta">Herramientas de Consulta</a></li>
                     <li><a href="#normativas">Normativas</a></li>
-                    <li><a href="#tramites">Trámites y Consultas</a></li> <li><a href="#noticias">Noticias</a></li>
+                    <li><a href="#tramites">Trámites y Consultas</a></li> <!-- Nuevo enlace -->
+                    <li><a href="#noticias">Noticias</a></li>
                     <li><a href="#contacto">Contacto</a></li>
                 </ul>
             </nav>
@@ -398,10 +414,13 @@
             
             <div class="quick-access-buttons">
                 <a href="#herramientas-consulta" class="button">Buscar Incumbencias</a>
+                <!-- Botón de acceso rápido modificado: ahora es un <button> que llama a una función -->
                 <button type="button" class="button" onclick="triggerLocalidadSearchAndScroll()">Buscar Colegios por Localidad/Dpto.</button>
-                <a href="#tramites" class="button">Trámites Docentes</a> </div>
+                <a href="#tramites" class="button">Trámites Docentes</a> <!-- Botón modificado -->
+            </div>
         </section>
 
+        <!-- SECCIÓN SOBRE NOSOTROS -->
         <section id="sobre-nosotros" class="content-section">
             <h2>Sobre Nosotros: Junta Calificadora de Méritos y Disciplina</h2>
             <p>La Junta Calificadora de Méritos y Disciplina de Nivel Secundario y sus Modalidades es un organismo permanente y desconcentrado del Ministerio de Educación, Cultura, Ciencia y Tecnología de la Provincia de Salta. Su misión es garantizar la transparencia, equidad y legalidad en la carrera docente, desde el ingreso hasta los ascensos y traslados.</p>
@@ -418,12 +437,16 @@
             <p>Comprometida con el fortalecimiento del sistema educativo provincial, la Junta actúa con independencia técnica y responsabilidad institucional, promoviendo prácticas justas y meritocráticas en beneficio de la comunidad educativa.</p>
         </section>
 
+        <!-- SECCIÓN PORTAL DE SERVICIOS / HERRAMIENTAS DE CONSULTA -->
         <section id="herramientas-consulta" class="content-section">
             <h2>Herramientas de Consulta</h2>
             <p>Utiliza nuestros buscadores para encontrar la información que necesitas sobre títulos, espacios curriculares y colegios. Si tienes dudas sobre cómo usar alguna herramienta, consulta nuestra futura <a href="#guia-rapida">Guía Rápida de Uso</a>.</p>
 
+            <!-- Buscador para Docentes Ingresantes: Títulos y Espacios Curriculares -->
             <section class="search-group">
-                <h3>Buscador de Títulos y Espacios Curriculares <small>(Ideal para docentes ingresantes)</small></h3> <p>Encuentra qué espacios curriculares puedes dictar con tu título. Las incumbencias responden al manual de competencias vigentes del Ministerio de Educación de Salta. Una vez que obtengas los espacios, podrás usarlos para buscar colegios en el siguiente buscador.</p> <div class="search-section">
+                <h3>Buscador de Títulos y Espacios Curriculares <small>(Ideal para docentes ingresantes)</small></h3> <!-- Título modificado -->
+                <p>Encuentra qué espacios curriculares puedes dictar con tu título. Las incumbencias responden al manual de competencias vigentes del Ministerio de Educación de Salta. Una vez que obtengas los espacios, podrás usarlos para buscar colegios en el siguiente buscador.</p> <!-- Descripción modificada -->
+                <div class="search-section">
                     <label for="tituloInputIntegrado">1. Ingresa tu Título (o parte de él):</label>
                     <input type="text" id="tituloInputIntegrado" placeholder="Ej: Profesor de Historia">
                     <button onclick="buscarIncumbenciasIntegrado()">Buscar Espacios Curriculares</button>
@@ -437,6 +460,7 @@
                 </div>
             </section>
 
+            <!-- Buscador de Colegios por Espacio Curricular y Ubicación (Para Docentes con Experiencia) -->
             <section class="search-group">
                 <h3>Buscador de Colegios por Espacio Curricular y Ubicación (Para Docentes con Experiencia)</h3>
                 <p>Encuentra colegios que dictan un espacio curricular específico en un departamento. Puedes usar un espacio obtenido del buscador anterior o ingresar uno directamente.</p>
@@ -461,10 +485,12 @@
                 </div>
             </section>
 
+            <!-- Otras Búsquedas de Colegios -->
             <section class="search-group">
                 <h3>Otras Búsquedas de Colegios</h3>
                 <p>Herramientas adicionales para encontrar colegios por diferentes criterios.</p>
 
+                <!-- Búsqueda de Colegios por Orientación -->
                 <div class="search-section">
                     <h4>Búsqueda por Orientación</h4>
                     <p>Encuentra colegios secundarios según su orientación educativa.</p>
@@ -480,7 +506,9 @@
                     </div>
                 </div>
 
-                <div class="search-section" id="colegios" style="margin-top: 20px;"> <h4>Búsqueda por Localidad/Departamento</h4>
+                <!-- Búsqueda de Colegios por Localidad/Departamento -->
+                <div class="search-section" id="colegios" style="margin-top: 20px;"> <!-- Se añadió id="colegios" para el scroll -->
+                    <h4>Búsqueda por Localidad/Departamento</h4>
                     <p>Encuentra colegios secundarios ingresando una localidad o departamento.</p>
                     <label for="localidadInput">Buscar por Localidad o Departamento:</label>
                     <input type="text" id="localidadInput" placeholder="Ej: Salta Capital, San Ramón de la Nueva Orán">
@@ -496,6 +524,7 @@
             </section>
         </section>
 
+        <!-- SECCIÓN DE NORMATIVAS -->
         <section id="normativas" class="content-section">
             <h2>Normativas y Documentos Oficiales</h2>
             <p>Accede a la legislación vigente y documentos de interés relacionados con la función docente y la Junta Calificadora de Méritos y Disciplina.</p>
@@ -503,9 +532,11 @@
                 <li><a href="#" target="_blank">Ley Provincial de Educación N° 6.830</a></li>
                 <li><a href="#" target="_blank">Reglamento General de Calificación de Méritos y Disciplina</a></li>
                 <li><a href="#" target="_blank">Resoluciones y Disposiciones Recientes [Año]</a></li>
-                </ul>
+                <!-- Puedes añadir más enlaces aquí -->
+            </ul>
         </section>
 
+        <!-- NUEVA SECCIÓN: TRÁMITES Y CONSULTAS FRECUENTES -->
         <section id="tramites" class="content-section">
             <h2>Trámites y Consultas Frecuentes</h2>
             <p>Encuentra información útil sobre los trámites más comunes y resuelve tus dudas.</p>
@@ -525,6 +556,7 @@
             [Aquí podrías añadir una lista de preguntas con sus respuestas, o un enlace a una página dedicada a las FAQs.]</p>
         </section>
 
+        <!-- SECCIÓN DE NOTICIAS CON IFRAME -->
         <section id="noticias" class="content-section" style="text-align: center;">
             <h2>Novedades y Noticias del Ministerio</h2>
             <p>Aquí puedes consultar las últimas noticias y comunicados oficiales del Ministerio de Educación, Cultura, Ciencia y Tecnología de Salta, incrustados directamente en nuestra página. Si el contenido no carga o tienes problemas para visualizarlo, puedes hacer clic en el enlace directo a continuación.</p>
@@ -540,6 +572,7 @@
             </p>
         </section>
 
+        <!-- SECCIÓN DE CONTACTO -->
         <section id="contacto" class="content-section">
             <h2>Contacto</h2>
             <p>Para consultas, puedes contactarnos a través de los siguientes medios:</p>
@@ -550,10 +583,11 @@
 
             <h3>Nuestra Ubicación</h3>
             <div class="map-container">
-                <iframe src="https://www.google.com/maps/search/?api=1&query=Pje+Fernando+Ramos+N%C2%B0+22,+Salta+-+Capital7" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <!-- Mapa incrustado de Google Maps para Pje Fernando Ramos N° 22, Salta - Capital -->
+                <iframe src="https://www.google.com/maps/search/?api=1&query=Pje+Fernando+Ramos+N%C2%B0+22,+Salta+-+Capital9" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
             <p style="text-align: center; margin-top: 15px;">
-                <a href="https://www.google.com/maps/search/?api=1&query=Pje+Fernando+Ramos+N%C2%B0+22,+Salta+-+Capital8" target="_blank" style="color: #007bff; text-decoration: underline;">Abrir en Google Maps</a>
+                <a href="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3621.144445885265!2d-65.41400262445873!3d-24.823906177815343!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x941bc48232c45353%3A0xa1969a24d55b4130!2sPje%20Fernando%20Ramos%2022%2C%20Salta%2C%20Argentina!5e0!3m2!1ses-419!2sar!4v1700000000000!5m2!1ses-419!2sar0" target="_blank" style="color: #007bff; text-decoration: underline;">Abrir en Google Maps</a>
             </p>
         </section>
 
