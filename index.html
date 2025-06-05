@@ -10,12 +10,12 @@
 
     <style>
         :root {
-            --primary: #003087; /* Azul oscuro institucional */
-            --secondary: #28a745; /* Verde para acciones positivas */
-            --background: #f5f7fa; /* Fondo claro */
-            --text: #1a202c; /* Texto oscuro para contraste */
-            --accent: #ff8c00; /* Naranja para resaltar */
-            --space-unit: 8px; /* Unidad base para espaciado */
+            --primary: #003087;
+            --secondary: #28a745;
+            --background: #f5f7fa;
+            --text: #1a202c;
+            --accent: #ff8c00;
+            --space-unit: 8px;
         }
 
         body {
@@ -50,10 +50,10 @@
         }
 
         h2 {
-            font-size: clamp(1.6rem, 4vw, 2rem);
+            font-size: clamp(1.6vw, 1.5, rem, 2rem);
             font-weight: 500;
             line-height: 1.4;
-            border-bottom: 2px solid #d0dae6;
+            border-bottom: calc(var(--space-unit));
             padding-bottom: calc(var(--space-unit));
         }
 
@@ -65,7 +65,7 @@
             padding-bottom: calc(var(--space-unit));
         }
 
-        h3 small {
+        h3 {
             display: block;
             font-size: 0.7em;
             color: #666;
@@ -415,7 +415,7 @@
             }
 
             .news-iframe-container, .map-container {
-                padding-top: 60%; /* Reducido para móviles */
+                padding-top: 60%;
             }
 
             .quick-access-buttons {
@@ -636,40 +636,30 @@
 
         const COMPETENCIAS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS-EPPyl34acCgd03fTldc-6Bs7GhBXdAmKVoaIHJKT-5SW4c8VzIDGCNqU7E590SxXlHKPvu-U_qwr/pub?gid=1550756964&single=true&output=csv';
         const ORIENTACIONES_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS7Qnph7TWvhLYl3KhpaDVqnYLqgNGbQ7FNtdw7TNzAlskfjVTg4DePvG2MoVuZf9DD3Fc2nZ5CEOms/pub?gid=1943513223&single=true&output=csv';
-        const COLEGIOS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vStnrtyd-dwtpz4UlSU2OXrEgL79AlvRLL3c0mIPSGETpyT2sEVgaGjJOVSpryEC7Jhx4zM6HjKWZN_/pub?gid=119647774&single=true&output=csv';
-        const PLAN_ESTUDIO_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRHqqcFr4mP1vwyt14wUjjMCryhv8bzp-A7Dum5jRKqGvQ5_nJYZlo23Q-90L6cPFKFoUXiFTiMKzI7/pub?gid=151813776&single=true&output=csv';
+        const COLEGIOS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vStnrtyd-dwtpz4UlSU2OXrEgL79AlvRLL3c0mIPSGETpyT2sEVgaGjJOVSpryEC7Jhx4zM6HjKWZN_/pub?gid=119607894&single=true&output=csv';
+        const PLAN_ESTUDIO_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRHqqc0Fr4wytP1vwyt14wUjjMCryhv8bzp-A7Dum5jRKqGvQ5_nJYGlo23Q-90L6cPFKFoUXiFTiMKzI7/public?output=csv';
 
         let competenciasData = [];
         let orientacionesData = [];
         let colegiosData = [];
         let planEstudioData = [];
 
-        async function loadData(url, type = 'generic') {
+        async function loadData(url, type = 'general') {
             const loader = document.getElementById('loader');
             loader.classList.add('active');
-            const cacheKey = `cached_${type}`;
-            const cachedData = localStorage.getItem(cacheKey);
-            if (cachedData) {
-                loader.classList.remove('active');
-                return JSON.parse(cachedData);
-            }
             try {
-                console.log(`Cargando datos desde: ${url} (Tipo: ${type})`);
+                console.log(`Cargando datos desde: ${url} (${type})`);
                 const response = await fetch(url);
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status} al cargar ${type}`);
+                    throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 const csvText = await response.text();
                 const data = parseCSV(csvText, type);
-                localStorage.setItem(cacheKey, JSON.stringify(data));
+                console.log(`Datos de ${type} parseados. Filas: ${data.length}`);
                 return data;
             } catch (error) {
-                console.error(`Error cargando datos de ${type}:`, error);
-                if (type === 'colegios') {
-                    alert('¡Advertencia! Error cargando la lista de Colegios.');
-                } else if (type === 'planEstudio') {
-                    alert('¡Advertencia! Error cargando los datos del Plan de Estudio.');
-                }
+                console.error(`Error cargando ${type}:`, error);
+                alert(`Error al cargar datos de ${type}. Revisa la consola o verifica la URL.`);
                 return [];
             } finally {
                 loader.classList.remove('active');
@@ -723,7 +713,6 @@
                 }
                 data.push(row);
             }
-            console.log(`Datos de ${type} parseados. Filas: ${data.length}.`);
             return data;
         }
 
@@ -751,32 +740,36 @@
         }
 
         document.addEventListener('DOMContentLoaded', async () => {
-            const [compData, orientData, coleData, planData] = await Promise.all([
-                loadData(COMPETENCIAS_URL, 'competencias'),
-                loadData(ORIENTACIONES_URL, 'orientaciones'),
-                loadData(COLEGIOS_URL, 'colegios'),
-                loadData(PLAN_ESTUDIO_URL, 'planEstudio')
-            ]);
+            try {
+                const [compData, orientData, coleData, planData] = await Promise.all([
+                    loadData(COMPETENCIAS_URL, 'competencias'),
+                    loadData(ORIENTACIONES_URL, 'orientaciones'),
+                    loadData(COLEGIOS_URL, 'colegios'),
+                    loadData(PLAN_ESTUDIO_URL, 'planEstudio')
+                ]);
 
-            competenciasData = compData;
-            orientacionesData = orientData;
-            colegiosData = coleData;
-            planEstudioData = planData;
+                competenciasData = compData;
+                orientacionesData = orientData;
+                colegiosData = coleData;
+                planEstudioData = planData;
 
-            console.log('Datos cargados:', {
-                competenciasCount: competenciasData.length,
-                orientacionesCount: orientacionesData.length,
-                colegiosCount: colegiosData.length,
-                planEstudioCount: planEstudioData.length
-            });
+                console.log('Datos cargados:', {
+                    competenciasCount: competenciasData.length,
+                    orientacionesCount: orientacionesData.length,
+                    colegiosCount: colegiosData.length,
+                    planEstudioCount: planEstudioData.length
+                });
 
-            populateDepartamentosSelect();
+                populateDepartamentosSelect();
 
-            const btnBuscarColegiosLocalidad = document.getElementById('btnBuscarColegiosLocalidad');
-            if (btnBuscarColegiosLocalidad) {
-                btnBuscarColegiosLocalidad.addEventListener('click', buscarColegios);
-            } else {
-                console.error('No se encontró el botón con ID "btnBuscarColegiosLocalidad".');
+                const btnBuscarColegiosLocalidad = document.getElementById('btnBuscarColegiosLocalidad');
+                if (btnBuscarColegiosLocalidad) {
+                    btnBuscarColegiosLocalidad.addEventListener('click', buscarColegios);
+                } else {
+                    console.error('No se encontró el botón con ID "btnBuscarColegiosLocalidad".');
+                }
+            } catch (error) {
+                console.error('Error durante la inicialización:', error);
             }
         });
 
@@ -847,7 +840,7 @@
 
                 tbody.appendChild(tr);
             });
-            table.appendChild(ttbody);
+            table.appendChild(tbody);
 
             container.appendChild(table);
         }
