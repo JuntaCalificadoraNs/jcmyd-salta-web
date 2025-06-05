@@ -50,10 +50,10 @@
         }
 
         h2 {
-            font-size: clamp(1.6vw, 1.5, rem, 2rem);
+            font-size: clamp(1.6rem, 4vw, 2rem);
             font-weight: 500;
             line-height: 1.4;
-            border-bottom: calc(var(--space-unit));
+            border-bottom: 2px solid #d0dae6;
             padding-bottom: calc(var(--space-unit));
         }
 
@@ -65,7 +65,7 @@
             padding-bottom: calc(var(--space-unit));
         }
 
-        h3 {
+        h3 small {
             display: block;
             font-size: 0.7em;
             color: #666;
@@ -98,7 +98,7 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         }
 
-        header .header-content {
+        .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -119,11 +119,11 @@
             display: flex;
         }
 
-        header nav ul li {
+        header li {
             margin-left: calc(var(--space-unit) * 3);
         }
 
-        header nav ul li a {
+        header li a {
             color: white;
             text-decoration: none;
             font-weight: 500;
@@ -131,7 +131,7 @@
             transition: color 0.3s ease-in-out;
         }
 
-        header nav ul li a:hover, header nav ul li a:focus {
+        header li a:hover, header li a:focus {
             color: #a7d9ff;
             outline: 3px solid var(--accent);
             outline-offset: 2px;
@@ -195,7 +195,7 @@
             display: block;
             margin-bottom: calc(var(--space-unit));
             font-weight: 600;
-            color: #555;
+            color: #333;
         }
 
         .search-section input[type="text"],
@@ -203,7 +203,7 @@
             width: calc(100% - 22px);
             padding: calc(var(--space-unit) * 1.5);
             margin-bottom: calc(var(--space-unit) * 2);
-            border: 1px solid #c2d1e2;
+            border: 1px solid #c2d1e6;
             border-radius: 8px;
             font-size: 1rem;
             box-sizing: border-box;
@@ -225,14 +225,14 @@
         .search-section button:hover, .search-section button:focus {
             background-color: #218838;
             transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(40, 167, 69, 0.3);
-            outline: 3px solid var(--accent);
+            box-shadow: 0 6px 16px rgba(40, 167, 69, 0.3);
+            outline: 2px solid var(--accent);
             outline-offset: 2px;
         }
 
         .results-container {
             margin-top: calc(var(--space-unit) * 3);
-            border-top: 1px solid #e0e7ed;
+            border-top: 2px solid #e0e6ed;
             padding-top: calc(var(--space-unit) * 3);
         }
 
@@ -248,7 +248,7 @@
 
         .results-table th, .results-table td {
             border: 1px solid #dee2e6;
-            padding: calc(var(--space-unit) * 1.5);
+            padding: 12px;
             text-align: left;
         }
 
@@ -261,7 +261,7 @@
         }
 
         .results-table tr:nth-child(even) {
-            background-color: #f2f7fb;
+            background-color: #f2f7fa;
         }
 
         .results-table tr:hover {
@@ -276,7 +276,6 @@
         .results-table th:nth-child(3),
         .results-table td:nth-child(3) {
             text-align: center;
-            font-size: 1.2rem;
             font-weight: bold;
             width: 10%;
         }
@@ -284,7 +283,7 @@
         .no-results {
             text-align: center;
             color: #777;
-            padding: calc(var(--space-unit) * 2);
+            padding: 2rem;
             font-style: italic;
         }
 
@@ -292,11 +291,10 @@
             position: relative;
             overflow: hidden;
             width: 100%;
-            padding-top: 75%;
-            height: 0;
-            background-color: #f0f0f0;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
             border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            background-color: #f0f0f0;
         }
 
         .news-iframe-container iframe, .map-container iframe {
@@ -309,10 +307,10 @@
         }
 
         footer {
-            text-align: center;
-            padding: calc(var(--space-unit) * 3);
             background-color: #343a40;
             color: white;
+            text-align: center;
+            padding: calc(var(--space-unit) * 3);
             margin-top: calc(var(--space-unit) * 5);
             border-top: 5px solid var(--primary);
             font-size: 0.9rem;
@@ -323,7 +321,7 @@
             justify-content: center;
             flex-wrap: wrap;
             gap: calc(var(--space-unit) * 2);
-            margin: calc(var(--space-unit) * 3) 0 calc(var(--space-unit) * 4);
+            margin: calc(var(--space-unit) * 3) 0;
         }
 
         .quick-access-buttons .button {
@@ -363,16 +361,20 @@
             display: none;
             cursor: pointer;
             z-index: 1000;
+            transition: opacity 0.3s ease;
         }
 
         .back-to-top.active {
             display: block;
+            opacity: 1;
         }
 
         .loader {
             display: none;
             text-align: center;
             padding: calc(var(--space-unit) * 2);
+            font-size: 1.2rem;
+            color: var(--primary);
         }
 
         .loader.active {
@@ -384,10 +386,11 @@
             padding: calc(var(--space-unit) * 2);
             border-radius: 8px;
             margin-bottom: calc(var(--space-unit) * 2);
+            border-left: 4px solid var(--accent);
         }
 
         @media (max-width: 768px) {
-            header .header-content {
+            .header-content {
                 flex-direction: column;
                 text-align: center;
             }
@@ -415,7 +418,7 @@
             }
 
             .news-iframe-container, .map-container {
-                padding-top: 60%;
+                padding-top: 75%;
             }
 
             .quick-access-buttons {
@@ -637,7 +640,7 @@
         const COMPETENCIAS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS-EPPyl34acCgd03fTldc-6Bs7GhBXdAmKVoaIHJKT-5SW4c8VzIDGCNqU7E590SxXlHKPvu-U_qwr/pub?gid=1550756964&single=true&output=csv';
         const ORIENTACIONES_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS7Qnph7TWvhLYl3KhpaDVqnYLqgNGbQ7FNtdw7TNzAlskfjVTg4DePvG2MoVuZf9DD3Fc2nZ5CEOms/pub?gid=1943513223&single=true&output=csv';
         const COLEGIOS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vStnrtyd-dwtpz4UlSU2OXrEgL79AlvRLL3c0mIPSGETpyT2sEVgaGjJOVSpryEC7Jhx4zM6HjKWZN_/pub?gid=119607894&single=true&output=csv';
-        const PLAN_ESTUDIO_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRHqqc0Fr4wytP1vwyt14wUjjMCryhv8bzp-A7Dum5jRKqGvQ5_nJYGlo23Q-90L6cPFKFoUXiFTiMKzI7/public?output=csv';
+        const PLAN_ESTUDIO_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRHqqc0Fr4wytP1vwyt14wUjjMCryhv8bzp-A7Dum5jRKqGvQ5_nJYGlo23Q-90L6cPFKFoUXiFTiMKzI7/pub?gid=151813776&single=true&output=csv';
 
         let competenciasData = [];
         let orientacionesData = [];
@@ -648,7 +651,7 @@
             const loader = document.getElementById('loader');
             loader.classList.add('active');
             try {
-                console.log(`Cargando datos desde: ${url} (${type})`);
+                console.log(`Cargando datos desde: ${url} (Tipo: ${type})`);
                 const response = await fetch(url);
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -658,33 +661,32 @@
                 console.log(`Datos de ${type} parseados. Filas: ${data.length}`);
                 return data;
             } catch (error) {
-                console.error(`Error cargando ${type}:`, error);
-                alert(`Error al cargar datos de ${type}. Revisa la consola o verifica la URL.`);
+                console.error(`Error cargando datos de ${type}:`, error);
+                alert(`Error al cargar los datos de ${type}. Por favor, revisa la consola o verifica la URL.`);
                 return [];
             } finally {
                 loader.classList.remove('active');
             }
         }
 
-        function parseCSV(csvString, type) {
-            const lines = csvString.split('\n');
-            if (lines.length < 2) {
-                console.warn(`CSV de ${type} tiene menos de 2 líneas.`);
+        function parseCSV(csvText, type) {
+            const rows = csvText.split('\n').filter(row => row.trim());
+            if (rows.length < 2) {
+                console.warn(`CSV de ${type} tiene menos de 2 filas.`);
                 return [];
             }
 
-            const headers = lines[0].split(',').map(header => header.trim());
+            const headers = rows[0].split(',').map(header => header.trim());
             const data = [];
 
-            for (let i = 1; i < lines.length; i++) {
-                const currentLine = lines[i].trim();
-                if (currentLine === '') continue;
-
+            for (let i = 1; i < rows.length; i++) {
+                const row = rows[i];
                 const values = [];
-                let inQuote = false;
                 let currentValue = '';
-                for (let k = 0; k < currentLine.length; k++) {
-                    const char = currentLine[k];
+                let inQuote = false;
+
+                for (let j = 0; j < row.length; j++) {
+                    const char = row[j];
                     if (char === '"') {
                         inQuote = !inQuote;
                     } else if (char === ',' && !inQuote) {
@@ -696,29 +698,26 @@
                 }
                 values.push(currentValue.trim());
 
-                const row = {};
-                for (let j = 0; j < headers.length; j++) {
-                    if (headers[j]) {
-                        row[headers[j]] = values[j] ? values[j].replace(/^"|"$/g, '').trim() : '';
+                const obj = {};
+                headers.forEach((header, index) => {
+                    if (header) {
+                        obj[header] = values[index] ? values[index].replace(/^"|"$/g, '').trim() : '';
                     }
+                });
+
+                if (type === 'colegios' && obj['Nombre']) {
+                    const match = obj['Nombre'].match(/Nº\s*(\d+)/);
+                    obj['NumeroUE'] = match ? match[1] : '';
                 }
 
-                if (type === 'colegios' && row['Nombre']) {
-                    const match = row['Nombre'].match(/Nº\s*(\d+)/);
-                    if (match && match[1]) {
-                        row['NumeroUE'] = match[1];
-                    } else {
-                        row['NumeroUE'] = '';
-                    }
-                }
-                data.push(row);
+                data.push(obj);
             }
             return data;
         }
 
         function normalizeText(text) {
             if (typeof text !== 'string') return '';
-            return text.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase();
+            return text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
         }
 
         function highlightMatch(text, query) {
@@ -726,17 +725,13 @@
             const normalizedText = normalizeText(text);
             const normalizedQuery = normalizeText(query);
             const regex = new RegExp(normalizedQuery.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
-            let lastIndex = 0;
-            let highlightedHtml = '';
+            let result = text;
             let match;
-
             while ((match = regex.exec(normalizedText)) !== null) {
-                highlightedHtml += text.substring(lastIndex, match.index);
-                highlightedHtml += '<strong>' + text.substring(match.index, regex.lastIndex) + '</strong>';
-                lastIndex = regex.lastIndex;
+                result = result.slice(0, match.index) + `<strong>${text.slice(match.index, match.index + match[0].length)}</strong>` + result.slice(match.index + match[0].length);
+                regex.lastIndex = match.index + match[0].length + 15; // Adjust for added <strong> tags
             }
-            highlightedHtml += text.substring(lastIndex);
-            return highlightedHtml;
+            return result;
         }
 
         document.addEventListener('DOMContentLoaded', async () => {
@@ -761,12 +756,11 @@
                 });
 
                 populateDepartamentosSelect();
-
                 const btnBuscarColegiosLocalidad = document.getElementById('btnBuscarColegiosLocalidad');
                 if (btnBuscarColegiosLocalidad) {
                     btnBuscarColegiosLocalidad.addEventListener('click', buscarColegios);
                 } else {
-                    console.error('No se encontró el botón con ID "btnBuscarColegiosLocalidad".');
+                    console.error('Botón con ID "btnBuscarColegiosLocalidad" no encontrado.');
                 }
             } catch (error) {
                 console.error('Error durante la inicialización:', error);
@@ -794,54 +788,45 @@
             table.classList.add('results-table');
 
             const thead = document.createElement('thead');
-            const headerRow = document.createElement('tr');
-            headers.forEach(headerText => {
+            const tr = document.createElement('tr');
+            headers.forEach(header => {
                 const th = document.createElement('th');
-                th.textContent = headerText;
-                headerRow.appendChild(th);
+                th.textContent = header;
+                tr.appendChild(th);
             });
-            thead.appendChild(headerRow);
+            thead.appendChild(tr);
             table.appendChild(thead);
 
             const tbody = document.createElement('tbody');
             data.forEach(item => {
                 const tr = document.createElement('tr');
-                let rowShouldBeHighlighted = false;
+                let shouldHighlight = false;
 
                 if (exactHighlightColumn && item[exactHighlightColumn] !== undefined) {
-                    const columnContent = normalizeText(String(item[exactHighlightColumn]));
-                    if (columnContent === normalizedSearchTerm) {
-                        rowShouldBeHighlighted = true;
+                    if (normalizeText(String(item[exactHighlightColumn])) === normalizedSearchTerm) {
+                        shouldHighlight = true;
                     }
                 } else if (normalizedSearchTerm) {
-                    for (const headerKey of headers) {
-                        const cellContent = item[headerKey] !== undefined ? String(item[headerKey]) : '';
-                        if (normalizeText(cellContent).includes(normalizedSearchTerm)) {
-                            rowShouldBeHighlighted = true;
-                            break;
-                        }
-                    }
+                    shouldHighlight = headers.some(header => {
+                        const content = item[header] !== undefined ? String(item[header]) : '';
+                        return normalizeText(content).includes(normalizedSearchTerm);
+                    });
                 }
 
-                headers.forEach(headerKey => {
+                headers.forEach(header => {
                     const td = document.createElement('td');
-                    const cellContent = item[headerKey] !== undefined ? String(item[headerKey]) : '';
-                    if (htmlColumns.includes(headerKey)) {
-                        td.innerHTML = cellContent;
-                    } else {
-                        td.textContent = cellContent;
-                    }
+                    const content = item[header] !== undefined ? String(item[header]) : '';
+                    td.innerHTML = htmlColumns.includes(header) ? content : content.replace(/</g, '&lt;').replace(/>/g, '&gt;');
                     tr.appendChild(td);
                 });
 
-                if (rowShouldBeHighlighted) {
+                if (shouldHighlight) {
                     tr.classList.add('highlighted-row');
                 }
 
                 tbody.appendChild(tr);
             });
             table.appendChild(tbody);
-
             container.appendChild(table);
         }
 
@@ -853,9 +838,9 @@
             }
 
             const filtered = orientacionesData.filter(item => {
-                const orientacion = normalizeText(item['ORIENTACION']);
-                const unidEducativa = normalizeText(item['UNID EDUCATIVA']);
-                const areaGeo = normalizeText(item['AREA GEOGRAFICA- LOCALIDAD-DPTO']);
+                const orientacion = normalizeText(item['ORIENTACION'] || '');
+                const unidEducativa = normalizeText(item['UNID EDUCATIVA'] || '');
+                const areaGeo = normalizeText(item['AREA GEOGRAFICA- LOCALIDAD-DPTO'] || '');
                 return orientacion.includes(input) || unidEducativa.includes(input) || areaGeo.includes(input);
             });
 
@@ -873,11 +858,11 @@
             }
 
             const filtered = colegiosData.filter(item => {
-                const localidad = normalizeText(item['Localidad']);
-                const departamento = normalizeText(item['Departamento']);
-                const direccion = normalizeText(item['Direccion']);
-                const nombre = normalizeText(item['Nombre']);
-                const codPostal = normalizeText(item['CodPostal']);
+                const localidad = normalizeText(item['Localidad'] || '');
+                const departamento = normalizeText(item['Departamento'] || '');
+                const direccion = normalizeText(item['Direccion'] || '');
+                const nombre = normalizeText(item['Nombre'] || '');
+                const codPostal = normalizeText(item['CodPostal'] || '');
                 return localidad.includes(normalizedInput) || departamento.includes(normalizedInput) || direccion.includes(normalizedInput) || nombre.includes(normalizedInput) || codPostal.includes(normalizedInput);
             });
 
@@ -907,15 +892,8 @@
                 return;
             }
 
-            const uniqueDepartamentos = new Set();
-            colegiosData.forEach(item => {
-                if (item['Departamento']) {
-                    uniqueDepartamentos.add(item['Departamento'].trim());
-                }
-            });
-
-            const sortedDepartamentos = Array.from(uniqueDepartamentos).sort();
-            sortedDepartamentos.forEach(departamento => {
+            const departamentos = [...new Set(colegiosData.map(item => item['Departamento']).filter(Boolean))].sort();
+            departamentos.forEach(departamento => {
                 const option = document.createElement('option');
                 option.value = departamento;
                 option.textContent = departamento;
@@ -955,31 +933,21 @@
                 return titulo.includes(normalizedInput) || espacioCurricular.includes(normalizedInput) || codigoModulo.includes(normalizedInput) || alcanceIncumbencia.includes(normalizedInput);
             });
 
-            const filteredAndHighlighted = filteredData.map(item => {
-                const newItem = { ...item };
-                newItem['Titulo'] = highlightMatch(item['Titulo'], rawInput);
-                return newItem;
-            });
+            const filteredAndHighlighted = filteredData.map(item => ({
+                ...item,
+                'Titulo': highlightMatch(item['Titulo'] || '', rawInput)
+            }));
 
             renderTable('incumbenciasResultsIntegrado',
-                        ['Titulo', 'Nombre DEL ESPACIO CURRICULAR', 'CODIGO/Modulo', 'Alcance/INCUMBENCIA'],
-                        filteredAndHighlighted,
-                        ['Titulo'],
-                        rawInput,
-                        'Titulo'
+                ['Titulo', 'Nombre DEL ESPACIO CURRICULAR', 'CODIGO/Modulo', 'Alcance/INCUMBENCIA'],
+                filteredAndHighlighted,
+                ['Titulo'],
+                rawInput,
+                'Titulo'
             );
 
             if (filteredAndHighlighted.length > 0) {
-                const uniqueEspacios = new Set();
-                filteredAndHighlighted.forEach(item => {
-                    if (item['Nombre DEL ESPACIO CURRICULAR']) {
-                        uniqueEspacios.add(item['Nombre DEL ESPACIO CURRICULAR'].trim());
-                    }
-                });
-
-                foundEspaciosCurriculares = Array.from(uniqueEspacios);
-                foundEspaciosCurriculares.sort();
-
+                foundEspaciosCurriculares = [...new Set(filteredAndHighlighted.map(item => item['Nombre DEL ESPACIO CURRICULAR']).filter(Boolean))].sort();
                 foundEspaciosCurriculares.forEach(espacio => {
                     const option = document.createElement('option');
                     option.value = espacio;
@@ -1003,68 +971,53 @@
                 return;
             }
 
-            const uesEnDepartamento = colegiosData.filter(c =>
-                c['Departamento'] && normalizeText(c['Departamento']) === normalizeText(selectedDepartamento) && c['NumeroUE']
-            ).map(c => String(c['NumeroUE']).trim());
+            const uesEnDepartamento = colegiosData
+                .filter(c => c['Departamento'] && normalizeText(c['Departamento']) === normalizeText(selectedDepartamento) && c['NumeroUE'])
+                .map(c => String(c['NumeroUE']).trim());
 
             if (uesEnDepartamento.length === 0) {
                 document.getElementById('colegiosPorEspacioResults').innerHTML = `<p class="no-results">No se encontraron colegios en "${selectedDepartamento}".</p>`;
                 return;
             }
 
-            const colegiosConEspacioYDepartamento = planEstudioData.filter(item => {
-                const espacio = normalizeText(item['ESPACIO CURRICULAR']);
-                const ue = item['UE'] ? String(item['UE']).trim() : '';
+            const colegiosConEspacio = planEstudioData.filter(item => {
+                const espacio = normalizeText(item['ESPACIO CURRICULAR'] || '');
+                const ue = String(item['UE'] || '').trim();
                 return espacio === normalizeText(selectedEspacio) && uesEnDepartamento.includes(ue);
             });
 
-            if (colegiosConEspacioYDepartamento.length === 0) {
+            if (colegiosConEspacio.length === 0) {
                 document.getElementById('colegiosPorEspacioResults').innerHTML = `<p class="no-results">No se encontraron colegios en "${selectedDepartamento}" que dicten "${selectedEspacio}".</p>`;
                 return;
             }
 
-            const numerosUnicosUEFiltrados = new Set();
-            colegiosConEspacioYDepartamento.forEach(item => {
-                if (item['UE']) {
-                    numerosUnicosUEFiltrados.add(item['UE'].trim());
-                }
-            });
+            const uniqueUEs = [...new Set(colegiosConEspacio.map(item => String(item['UE']).trim()))];
+            const randomUEs = [];
+            const maxColegios = Math.min(7, uniqueUEs.length);
+            let availableUEs = [...uniqueUEs];
 
-            const uesDisponibles = Array.from(numerosUnicosUEFiltrados);
-            const uesAleatorios = [];
-            let numColegios = Math.min(7, uesDisponibles.length);
-            let tempUEs = [...uesDisponibles];
-
-            for (let i = 0; i < numColegios; i++) {
-                const randomIndex = Math.floor(Math.random() * tempUEs.length);
-                const randomUE = tempUEs[randomIndex];
-                uesAleatorios.push(randomUE);
-                tempUEs.splice(randomIndex, 1);
+            for (let i = 0; i < maxColegios; i++) {
+                const randomIndex = Math.floor(Math.random() * availableUEs.length);
+                randomUEs.push(availableUEs[randomIndex]);
+                availableUEs.splice(randomIndex, 1);
             }
 
-            const resultadosFinales = [];
-            uesAleatorios.forEach(numeroUE => {
-                const colegioDetalle = colegiosData.find(c =>
-                    String(c['NumeroUE']).trim() === String(numeroUE).trim()
-                );
-                if (colegioDetalle) {
-                    resultadosFinales.push({
-                        'Nombre': colegioDetalle['Nombre'],
-                        'Direccion': colegioDetalle['Direccion'],
-                        'Localidad': colegioDetalle['Localidad'],
-                        'Departamento': colegioDetalle['Departamento']
-                    });
-                } else {
-                    resultadosFinales.push({
-                        'Nombre': `Nº ${numeroUE} (Nombre no encontrado)`,
-                        'Direccion': 'No disponible',
-                        'Localidad': 'No disponible',
-                        'Departamento': 'No disponible'
-                    });
-                }
+            const resultados = randomUEs.map(ue => {
+                const colegio = colegiosData.find(c => String(c['NumeroUE']).trim() === ue);
+                return colegio ? {
+                    'Nombre': colegio['Nombre'],
+                    'Direccion': colegio['Direccion'],
+                    'Localidad': colegio['Localidad'],
+                    'Departamento': colegio['Departamento']
+                } : {
+                    'Nombre': `Nº ${ue} (Nombre no encontrado)`,
+                    'Direccion': 'No disponible',
+                    'Localidad': 'No disponible',
+                    'Departamento': 'No disponible'
+                };
             });
 
-            renderTable('colegiosPorEspacioResults', ['Nombre', 'Direccion', 'Localidad', 'Departamento'], resultadosFinales, [], `${selectedEspacio} ${selectedDepartamento}`);
+            renderTable('colegiosPorEspacioResults', ['Nombre', 'Direccion', 'Localidad', 'Departamento'], resultados, [], `${selectedEspacio} ${selectedDepartamento}`);
         }
 
         document.getElementById('espacioCurricularSelect').addEventListener('change', toggleBuscarColegiosButton);
