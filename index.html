@@ -386,8 +386,17 @@
 
         /* Estilo para resaltar filas completas que contienen la búsqueda */
         .results-table tr.highlighted-row {
-            background-color: #e6ffe6; /* Mantener el color suave actual */
+            background-color: #e6ffe6; /* Un color verde muy suave para la fila completa */
             border-left: 5px solid #28a745; /* Un borde verde sólido a la izquierda */
+        }
+
+        /* Estilos para la columna CODIGO/Modulo */
+        .results-table th:nth-child(3), /* Selecciona el 3er encabezado (CODIGO/Modulo) */
+        .results-table td:nth-child(3) {  /* Selecciona la 3ra celda de cada fila (CODIGO/Modulo) */
+            text-align: center; /* Centrar el contenido */
+            font-size: 1.2em;   /* Agrandar la fuente (1.2 veces el tamaño base de la tabla) */
+            font-weight: bold;  /* Poner en negrita el número */
+            width: 10%; /* Darle un ancho fijo para que no sea muy pequeña o grande */
         }
     </style>
 </head>
@@ -611,7 +620,6 @@
         const COMPETENCIAS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS-EPPyl34acCgd03fTldc-6Bs7GhBXdAmKVoaIHJKT-5SW4c8VzIDGCNqU7E590SxXlHKPvu-U_qwr/pub?gid=1550756964&single=true&output=csv';
         const ORIENTACIONES_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS7Qnph7TWvhLYl3KhpaDVqnYLqgNGbQ7FNtdw7TNzAlskfjVTg4DePvG2MoVuZf9DD3Fc2nZ5CEOms/pub?gid=1943513223&single=true&output=csv';
         const COLEGIOS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vStnrtyd-dwtpz4UlSU2OXrEgL79AlvRLL3c0mIPSGETpyT2sEVgaGjJOVSpryEC7Jhx4zM6HjKWZN_/pub?gid=119647774&single=true&output=csv';
-        // Por favor, verifica esta URL si sigues teniendo el error 404.
         const PLAN_ESTUDIO_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRHqqcFr4mP1vwyt14wUjjMCryhv8bzp-A7Dum5jRKqGvQ5_nJYZlo23Q-90L6cPFKFoUXiFTiMKzI7/pub?gid=151813776&single=true&output=csv';
 
         let competenciasData = [];
@@ -769,7 +777,8 @@
 
         // Función para renderizar una tabla de resultados
         // Se modificó para aceptar una clave de columna para aplicar innerHTML (para el resaltado) Y searchTerm para resaltar filas
-        function renderTable(containerId, headers, data, htmlColumns = [], searchTerm = '') {
+        // exactHighlightColumn: Si se proporciona, la fila solo se resaltará si el searchTerm coincide exactamente con el contenido de esta columna.
+        function renderTable(containerId, headers, data, htmlColumns = [], searchTerm = '', exactHighlightColumn = null) {
             const container = document.getElementById(containerId);
             if (!container) return;
 
@@ -787,7 +796,7 @@
             const thead = document.createElement('thead');
             const headerRow = document.createElement('tr');
             headers.forEach(headerText => {
-                const th = document.createElement('th');
+                const th = document.createElement('th'); // Corregido: document.createElement('th')
                 th.textContent = headerText;
                 headerRow.appendChild(th);
             });
@@ -797,7 +806,26 @@
             const tbody = document.createElement('tbody');
             data.forEach(item => {
                 const tr = document.createElement('tr');
-                let rowMatchesSearch = false; // Bandera para saber si la fila debe ser resaltada
+                let rowShouldBeHighlighted = false; // Nueva bandera para controlar el resaltado de la fila
+
+                // Lógica para determinar si la fila debe ser resaltada
+                if (exactHighlightColumn && item[exactHighlightColumn] !== undefined) {
+                    // Si se especificó una columna para el resaltado exacto, verificar solo esa columna
+                    const columnContent = normalizeText(String(item[exactHighlightColumn]));
+                    if (columnContent === normalizedSearchTerm) {
+                        rowShouldBeHighlighted = true;
+                    }
+                } else if (normalizedSearchTerm) {
+                    // Si no se especificó una columna exacta, o la columna exacta no tiene valor,
+                    // el comportamiento anterior (resaltar si cualquier celda contiene el término)
+                    for (const headerKey of headers) {
+                        const cellContent = item[headerKey] !== undefined ? String(item[headerKey]) : '';
+                        if (normalizeText(cellContent).includes(normalizedSearchTerm)) {
+                            rowShouldBeHighlighted = true;
+                            break; // No necesitamos revisar más celdas en esta fila
+                        }
+                    }
+                }
 
                 headers.forEach(headerKey => {
                     const td = document.createElement('td');
@@ -810,15 +838,10 @@
                         td.textContent = cellContent;
                     }
                     tr.appendChild(td);
-
-                    // Verificar si el contenido de la celda (normalizado) contiene el término de búsqueda
-                    if (normalizedSearchTerm && normalizeText(cellContent).includes(normalizedSearchTerm)) {
-                        rowMatchesSearch = true;
-                    }
                 });
 
-                // Si la fila completa contiene el término de búsqueda, agregar la clase de resaltado
-                if (rowMatchesSearch) {
+                // Aplicar la clase de resaltado si la bandera está activa
+                if (rowShouldBeHighlighted) {
                     tr.classList.add('highlighted-row');
                 }
 
@@ -846,7 +869,7 @@
                 return orientacion.includes(input) || unidEducativa.includes(input) || areaGeo.includes(input);
             });
 
-            // Pasar el input para que renderTable pueda resaltar las filas
+            // Pasar el input para que renderTable pueda resaltar las filas (comportamiento original de 'includes')
             renderTable('orientacionesResults', ['UNID EDUCATIVA', 'ORIENTACION', 'AREA GEOGRAFICA- LOCALIDAD-DPTO'], filtered, [], input);
         }
 
@@ -875,7 +898,7 @@
 
             console.log('Resultados filtrados para colegios (cantidad):', filtered.length); // DEBUG: Muestra la cantidad de resultados
             console.log('Resultados filtrados para colegios (datos):', filtered); // DEBUG: Muestra los resultados filtrados
-            // Pasar el rawInput para que renderTable pueda resaltar las filas
+            // Pasar el rawInput para que renderTable pueda resaltar las filas (comportamiento original de 'includes')
             renderTable('colegiosResults', ['Nombre', 'Direccion', 'Localidad', 'Departamento', 'CodPostal'], filtered, [], rawInput);
         }
 
@@ -968,8 +991,9 @@
                 return;
             }
 
-            const filteredAndHighlighted = competenciasData.filter(item => {
-                // Verificar coincidencia en cualquiera de las columnas relevantes para la fila
+            // Filtramos los datos para mostrar solo las filas que son relevantes para la búsqueda
+            // Aquí mantenemos la lógica de 'includes' para que la búsqueda sea flexible y muestre todos los resultados relevantes
+            const filteredData = competenciasData.filter(item => {
                 const titulo = normalizeText(item['Titulo'] || '');
                 const espacioCurricular = normalizeText(item['Nombre DEL ESPACIO CURRICULAR'] || '');
                 const codigoModulo = normalizeText(item['CODIGO/Modulo'] || '');
@@ -979,17 +1003,25 @@
                        espacioCurricular.includes(normalizedInput) ||
                        codigoModulo.includes(normalizedInput) ||
                        alcanceIncumbencia.includes(normalizedInput);
+            });
 
-            }).map(item => {
-                // Crear una copia del item para no modificar el original
+            // Luego, preparamos los datos para renderizar, aplicando el resaltado de texto
+            const filteredAndHighlighted = filteredData.map(item => {
                 const newItem = { ...item };
-                // Resaltar el título en la copia para el "strong"
+                // Resaltar el texto dentro de la celda 'Titulo'
                 newItem['Titulo'] = highlightMatch(item['Titulo'], rawInput);
                 return newItem;
             });
 
-            // Pasar 'Titulo' como columna que debe usar innerHTML y también el rawInput para el resaltado de filas
-            renderTable('incumbenciasResultsIntegrado', ['Titulo', 'Nombre DEL ESPACIO CURRICULAR', 'CODIGO/Modulo', 'Alcance/INCUMBENCIA'], filteredAndHighlighted, ['Titulo'], rawInput);
+            // Llama a renderTable, pasando `rawInput` como `searchTerm` y 'Titulo' como `exactHighlightColumn`
+            // Esto hará que la fila completa se resalte SOLO si el 'Titulo' de la fila coincide exactamente con la búsqueda.
+            renderTable('incumbenciasResultsIntegrado',
+                        ['Titulo', 'Nombre DEL ESPACIO CURRICULAR', 'CODIGO/Modulo', 'Alcance/INCUMBENCIA'],
+                        filteredAndHighlighted,
+                        ['Titulo'], // Columnas que pueden contener HTML (para el resaltado de texto)
+                        rawInput,   // Término de búsqueda para el resaltado de la fila
+                        'Titulo'    // Columna para la coincidencia exacta de resaltado de fila
+            );
 
             // Llenar el select con los espacios curriculares encontrados
             if (filteredAndHighlighted.length > 0) {
