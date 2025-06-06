@@ -35,6 +35,7 @@
             padding: calc(var(--space-unit) * 3);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
             border-radius: 12px;
+            margin-top: calc(var(--space-unit) * 10); /* Añadido para evitar solapamiento con el header sticky */
         }
 
         h1, h2, h3, h4 {
@@ -91,7 +92,7 @@
         header {
             background: linear-gradient(to right, var(--primary), #004aad);
             color: white;
-            padding: calc(var(--space-unit) * 2) 0;
+            padding: calc(var(--space-unit) * 3) 0; /* Aumentado para que el banner no se vea achicado */
             position: sticky;
             top: 0;
             z-index: 1000;
@@ -108,8 +109,16 @@
         }
 
         header .logo {
-            max-height: 80px;
+            max-height: 60px; /* Reducido para controlar el tamaño del logo */
+            max-width: 200px; /* Añadido para limitar el ancho del logo */
+        }
+
+        header .logo img {
+            display: block; /* Para evitar espacio extra debajo de la imagen */
+            max-height: 100%; /* Se ajusta al contenedor */
+            max-width: 100%; /* Se ajusta al contenedor */
             width: auto;
+            height: auto;
         }
 
         header nav ul {
@@ -117,6 +126,7 @@
             margin: 0;
             padding: 0;
             display: flex;
+            align-items: center; /* Añadido para centrar verticalmente los enlaces */
         }
 
         header li {
@@ -138,7 +148,7 @@
         }
 
         .content-section {
-            padding: calc(var(--space-unit) * 2) 0);
+            padding: calc(var(--space-unit) * 2) 0;
             margin-bottom: calc(var(--space-unit) * 5);
             border-bottom: 1px dashed #e0e7ed;
         }
@@ -393,23 +403,39 @@
             .header-content {
                 flex-direction: column;
                 text-align: center;
+                gap: calc(var(--space-unit) * 2); /* Añadido para espaciar logo y navegación */
+            }
+
+            header {
+                padding: calc(var(--space-unit) * 2) 0; /* Ajustado para pantallas pequeñas */
+            }
+
+            header .logo {
+                max-height: 50px; /* Reducido aún más para móviles */
+                max-width: 150px; /* Ajustado para móviles */
+                margin-bottom: calc(var(--space-unit) * 2); /* Espacio debajo del logo */
             }
 
             header nav ul {
                 flex-direction: column;
-                margin-top: calc(var(--space-unit) * 2);
+                margin-top: 0; /* Ajustado para no añadir espacio extra */
+                gap: calc(var(--space-unit)); /* Espacio entre elementos de navegación */
             }
 
-            header nav ul li {
-                margin: calc(var(--space-unit) * 0.5) 0;
+            header li {
+                margin: calc(var(--space-unit) * 0.5) 0; /* Ajustado para consistencia */
             }
 
             .container {
                 width: 95%;
                 padding: calc(var(--space-unit) * 2);
+                margin-top: calc(var(--space-unit) * 12); /* Aumentado para evitar solapamiento en móviles */
             }
 
-            h1 { font-size: clamp(1.5rem, 4vw, 2rem); }
+            h1 { 
+                font-size: clamp(1.5rem, 4vw, 2rem); 
+                margin-top: calc(var(--space-unit) * 2); /* Añadido para espacio extra en móviles */
+            }
             h2 { font-size: clamp(1.3rem, 3.5vw, 1.7rem); }
             h3 { font-size: clamp(1rem, 3vw, 1.3rem); }
 
@@ -818,7 +844,7 @@
                 headers.forEach(header => {
                     const td = document.createElement('td');
                     const content = item[header] !== undefined ? String(item[header]) : '';
-                    td.innerHTML = htmlColumns.includes(header) ? content : content.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                    td.innerHTML = htmlColumns.includes(header) ? content : content.replace(/</g, '<').replace(/>/g, '>');
                     tr.appendChild(td);
                 });
 
