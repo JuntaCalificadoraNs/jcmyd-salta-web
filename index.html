@@ -663,41 +663,45 @@
     </button>
 
     <script>
-        console.log('Script principal cargado.');
+    console.log('Script principal cargado.');
 
-        const COMPETENCIAS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS-EPPyl34acCgd03fTldc-6Bs7GhBXdAmKVoaIHJKT-5SW4c8VzIDGCNqU7E590SxXlHKPvu-U_qwr/pub?gid=1550756964&single=true&output=csv';
-        const ORIENTACIONES_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS7Qnph7TWvhLYl3KhpaDVqnYLqgNGbQ7FNtdw7TNzAlskfjVTg4DePvG2MoVuZf9DD3Fc2nZ5CEOms/pub?gid=1943513223&single=true&output=csv';
-        const COLEGIOS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vStnrtyd-dwtpz4UlSU2OXrEgL79AlvRLL3c0mIPSGETpyT2sEVgaGjJOVSpryEC7Jhx4zM6HjKWZN_/pub?gid=119647774&single=true&output=csv';
-        const PLAN_ESTUDIO_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRHqqcFr4mP1vwyt14wUjjMCryhv8bzp-A7Dum5jRKqGvQ5_nJYZlo23Q-90L6cPFKFoUXiFTiMKzI7/pub?gid=151813776&single=true&output=csv';
+    const COMPETENCIAS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS-EPPyl34acCgd03fTldc-6Bs7GhBXdAmKVoaIHJKT-5SW4c8VzIDGCNqU7E590SxXlHKPvu-U_qwr/pub?gid=1550756964&single=true&output=csv';
+    const ORIENTACIONES_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS7Qnph7TWvhLYl3KhpaDVqnYLqgNGbQ7FNtdw7TNzAlskfjVTg4DePvG2MoVuZf9DD3Fc2nZ5CEOms/pub?gid=1943513223&single=true&output=csv';
+    const COLEGIOS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vStnrtyd-dwtpz4UlSU2OXrEgL79AlvRLL3c0mIPSGETpyT2sEVgaGjJOVSpryEC7Jhx4zM6HjKWZN_/pub?gid=119647774&single=true&output=csv';
+    const PLAN_ESTUDIO_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRHqqcFr4mP1vwyt14wUjjMCryhv8bzp-A7Dum5jRKqGvQ5_nJYZlo23Q-90L6cPFKFoUXiFTiMKzI7/pub?gid=151813776&single=true&output=csv';
 
-        let competenciasData = [];
-        let orientacionesData = [];
-        let colegiosData = [];
-        let planEstudioData = [];
+    let competenciasData = [];
+    let orientacionesData = [];
+    let colegiosData = [];
+    let planEstudioData = [];
 
-        async function loadData(url, type = 'general') {
-            const loader = document.getElementById('loader');
-            loader.classList.add('active');
-            try {
-                console.log(`Cargando datos desde: ${url} (Tipo: ${type})`);
-                const response = await fetch(url);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const csvText = await response.text();
-                const data = parseCSV(csvText, type);
-                console.log(`Datos de ${type} parseados. Filas: ${data.length}`);
-                return data;
-            } catch (error) {
-                console.error(`Error cargando datos de ${type}:`, error);
-                alert(`Error al cargar los datos de ${type}. Por favor, revisa la consola o verifica la URL.`);
-                return [];
-            } finally {
-                loader.classList.remove('active');
+    async function loadData(url, type = 'general') {
+        const loader = document.getElementById('loader');
+        if (loader) loader.classList.add('active');
+        try {
+            console.log(`Intentando cargar datos desde: ${url} (Tipo: ${type})`);
+            const response = await fetch(url, { mode: 'cors' }); // Añadido mode: 'cors' para manejar restricciones
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status} - ${response.statusText}`);
             }
+            const csvText = await response.text();
+            if (!csvText.trim()) {
+                throw new Error(`El archivo CSV está vacío o no contiene datos válidos.`);
+            }
+            const data = parseCSV(csvText, type);
+            console.log(`Datos de ${type} cargados exitosamente. Filas: ${data.length}`);
+            return data;
+        } catch (error) {
+            console.error(`Error cargando datos de ${type}:`, error.message);
+            alert(`Error al cargar los datos de ${type}: ${error.message}. Por favor, verifica la conexión o la URL.`);
+            return [];
+        } finally {
+            if (loader) loader.classList.remove('active');
         }
+    }
 
-        function parseCSV(csvText, type) {
+    function parseCSV(csvText, type) {
+        try {
             const rows = csvText.split('\n').filter(row => row.trim());
             if (rows.length < 2) {
                 console.warn(`CSV de ${type} tiene menos de 2 filas.`);
@@ -709,6 +713,7 @@
 
             for (let i = 1; i < rows.length; i++) {
                 const row = rows[i];
+                if (!row.trim()) continue; // Saltar filas vacías
                 const values = [];
                 let currentValue = '';
                 let inQuote = false;
@@ -741,322 +746,371 @@
                 data.push(obj);
             }
             return data;
+        } catch (error) {
+            console.error(`Error al parsear CSV de ${type}:`, error);
+            return [];
         }
+    }
 
-        function normalizeText(text) {
-            if (typeof text !== 'string') return '';
-            return text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+    function normalizeText(text) {
+        if (typeof text !== 'string') return '';
+        return text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+    }
+
+    function highlightMatch(text, query) {
+        if (!text || !query) return text;
+        const normalizedText = normalizeText(text);
+        const normalizedQuery = normalizeText(query);
+        const regex = new RegExp(normalizedQuery.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+        let result = text;
+        let match;
+        while ((match = regex.exec(normalizedText)) !== null) {
+            result = result.slice(0, match.index) + `<strong>${text.slice(match.index, match.index + match[0].length)}</strong>` + result.slice(match.index + match[0].length);
+            regex.lastIndex = match.index + match[0].length + 15; // Adjust for added <strong> tags
         }
+        return result;
+    }
 
-        function highlightMatch(text, query) {
-            if (!text || !query) return text;
-            const normalizedText = normalizeText(text);
-            const normalizedQuery = normalizeText(query);
-            const regex = new RegExp(normalizedQuery.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
-            let result = text;
-            let match;
-            while ((match = regex.exec(normalizedText)) !== null) {
-                result = result.slice(0, match.index) + `<strong>${text.slice(match.index, match.index + match[0].length)}</strong>` + result.slice(match.index + match[0].length);
-                regex.lastIndex = match.index + match[0].length + 15; // Adjust for added <strong> tags
-            }
-            return result;
-        }
+    document.addEventListener('DOMContentLoaded', async () => {
+        try {
+            console.log('Iniciando carga de datos...');
+            const [compData, orientData, coleData, planData] = await Promise.all([
+                loadData(COMPETENCIAS_URL, 'competencias'),
+                loadData(ORIENTACIONES_URL, 'orientaciones'),
+                loadData(COLEGIOS_URL, 'colegios'),
+                loadData(PLAN_ESTUDIO_URL, 'planEstudio')
+            ]);
 
-        document.addEventListener('DOMContentLoaded', async () => {
-            try {
-                const [compData, orientData, coleData, planData] = await Promise.all([
-                    loadData(COMPETENCIAS_URL, 'competencias'),
-                    loadData(ORIENTACIONES_URL, 'orientaciones'),
-                    loadData(COLEGIOS_URL, 'colegios'),
-                    loadData(PLAN_ESTUDIO_URL, 'planEstudio')
-                ]);
+            competenciasData = compData || [];
+            orientacionesData = orientData || [];
+            colegiosData = coleData || [];
+            planEstudioData = planData || [];
 
-                competenciasData = compData;
-                orientacionesData = orientData;
-                colegiosData = coleData;
-                planEstudioData = planData;
-
-                console.log('Datos cargados:', {
-                    competenciasCount: competenciasData.length,
-                    orientacionesCount: orientacionesData.length,
-                    colegiosCount: colegiosData.length,
-                    planEstudioCount: planEstudioData.length
-                });
-
-                populateDepartamentosSelect();
-                const btnBuscarColegiosLocalidad = document.getElementById('btnBuscarColegiosLocalidad');
-                if (btnBuscarColegiosLocalidad) {
-                    btnBuscarColegiosLocalidad.addEventListener('click', buscarColegios);
-                } else {
-                    console.error('Botón con ID "btnBuscarColegiosLocalidad" no encontrado.');
-                }
-            } catch (error) {
-                console.error('Error durante la inicialización:', error);
-            }
-        });
-
-        window.addEventListener('scroll', () => {
-            const backToTop = document.querySelector('.back-to-top');
-            backToTop.classList.toggle('active', window.scrollY > 300);
-        });
-
-        function renderTable(containerId, headers, data, htmlColumns = [], searchTerm = '', exactHighlightColumn = null) {
-            const container = document.getElementById(containerId);
-            if (!container) return;
-
-            container.innerHTML = '';
-            const normalizedSearchTerm = normalizeText(searchTerm);
-
-            if (data.length === 0) {
-                container.innerHTML = '<p class="no-results">No se encontraron resultados.</p>';
-                return;
-            }
-
-            const table = document.createElement('table');
-            table.classList.add('results-table');
-
-            const thead = document.createElement('thead');
-            const tr = document.createElement('tr');
-            headers.forEach(header => {
-                const th = document.createElement('th');
-                th.textContent = header;
-                tr.appendChild(th);
-            });
-            thead.appendChild(tr);
-            table.appendChild(thead);
-
-            const tbody = document.createElement('tbody');
-            data.forEach(item => {
-                const tr = document.createElement('tr');
-                let shouldHighlight = false;
-
-                if (exactHighlightColumn && item[exactHighlightColumn] !== undefined) {
-                    if (normalizeText(String(item[exactHighlightColumn])) === normalizedSearchTerm) {
-                        shouldHighlight = true;
-                    }
-                } else if (normalizedSearchTerm) {
-                    shouldHighlight = headers.some(header => {
-                        const content = item[header] !== undefined ? String(item[header]) : '';
-                        return normalizeText(content).includes(normalizedSearchTerm);
-                    });
-                }
-
-                headers.forEach(header => {
-                    const td = document.createElement('td');
-                    const content = item[header] !== undefined ? String(item[header]) : '';
-                    td.innerHTML = htmlColumns.includes(header) ? content : content.replace(/</g, '<').replace(/>/g, '>');
-                    tr.appendChild(td);
-                });
-
-                if (shouldHighlight) {
-                    tr.classList.add('highlighted-row');
-                }
-
-                tbody.appendChild(tr);
-            });
-            table.appendChild(tbody);
-            container.appendChild(table);
-        }
-
-        function buscarOrientaciones() {
-            const input = normalizeText(document.getElementById('orientacionInput').value);
-            if (!input) {
-                renderTable('orientacionesResults', ['UNID EDUCATIVA', 'ORIENTACION', 'AREA GEOGRAFICA- LOCALIDAD-DPTO'], []);
-                return;
-            }
-
-            const filtered = orientacionesData.filter(item => {
-                const orientacion = normalizeText(item['ORIENTACION'] || '');
-                const unidEducativa = normalizeText(item['UNID EDUCATIVA'] || '');
-                const areaGeo = normalizeText(item['AREA GEOGRAFICA- LOCALIDAD-DPTO'] || '');
-                return orientacion.includes(input) || unidEducativa.includes(input) || areaGeo.includes(input);
+            console.log('Datos cargados:', {
+                competenciasCount: competenciasData.length,
+                orientacionesCount: orientacionesData.length,
+                colegiosCount: colegiosData.length,
+                planEstudioCount: planEstudioData.length
             });
 
-            renderTable('orientacionesResults', ['UNID EDUCATIVA', 'ORIENTACION', 'AREA GEOGRAFICA- LOCALIDAD-DPTO'], filtered, [], input);
-        }
-
-        function buscarColegios() {
-            console.log('Función buscarColegios() ejecutada.');
-            const inputElement = document.getElementById('localidadInput');
-            const rawInput = inputElement.value;
-            const normalizedInput = normalizeText(rawInput);
-            if (!normalizedInput) {
-                renderTable('colegiosResults', ['Nombre', 'Direccion', 'Localidad', 'Departamento', 'CodPostal'], []);
-                return;
-            }
-
-            const filtered = colegiosData.filter(item => {
-                const localidad = normalizeText(item['Localidad'] || '');
-                const departamento = normalizeText(item['Departamento'] || '');
-                const direccion = normalizeText(item['Direccion'] || '');
-                const nombre = normalizeText(item['Nombre'] || '');
-                const codPostal = normalizeText(item['CodPostal'] || '');
-                return localidad.includes(normalizedInput) || departamento.includes(normalizedInput) || direccion.includes(normalizedInput) || nombre.includes(normalizedInput) || codPostal.includes(normalizedInput);
-            });
-
-            renderTable('colegiosResults', ['Nombre', 'Direccion', 'Localidad', 'Departamento', 'CodPostal'], filtered, [], rawInput);
-        }
-
-        function triggerLocalidadSearchAndScroll() {
-            const localidadInput = document.getElementById('localidadInput');
-            if (!localidadInput.value.trim()) {
-                localidadInput.value = 'Salta';
-            }
-            buscarColegios();
-            const colegiosSection = document.getElementById('colegios');
-            if (colegiosSection) {
-                colegiosSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        }
-
-        let foundEspaciosCurriculares = [];
-
-        function populateDepartamentosSelect() {
-            const departamentoSelect = document.getElementById('departamentoSelect');
-            departamentoSelect.innerHTML = '<option value="">-- Selecciona un departamento --</option>';
-
-            if (!colegiosData || colegiosData.length === 0) {
-                departamentoSelect.disabled = true;
-                return;
-            }
-
-            const departamentos = [...new Set(colegiosData.map(item => item['Departamento']).filter(Boolean))].sort();
-            departamentos.forEach(departamento => {
-                const option = document.createElement('option');
-                option.value = departamento;
-                option.textContent = departamento;
-                departamentoSelect.appendChild(option);
-            });
-
-            departamentoSelect.disabled = false;
-        }
-
-        function buscarIncumbenciasIntegrado() {
-            const inputElement = document.getElementById('tituloInputIntegrado');
-            const rawInput = inputElement.value;
-            const normalizedInput = normalizeText(rawInput);
-            const selectEspacio = document.getElementById('espacioCurricularSelect');
-            const selectDepartamento = document.getElementById('departamentoSelect');
-            const btnBuscarColegios = document.getElementById('btnBuscarColegios');
-
-            renderTable('incumbenciasResultsIntegrado', ['Titulo', 'Nombre DEL ESPACIO CURRICULAR', 'CODIGO/Modulo', 'Alcance/INCUMBENCIA'], []);
-            renderTable('colegiosPorEspacioResults', ['Nombre', 'Direccion', 'Localidad', 'Departamento'], []);
-
-            selectEspacio.innerHTML = '<option value="">-- Selecciona un espacio curricular --</option>';
-            selectEspacio.disabled = true;
-            btnBuscarColegios.disabled = true;
-
-            foundEspaciosCurriculares = [];
-
-            if (!normalizedInput) {
-                document.getElementById('incumbenciasResultsIntegrado').innerHTML = '<p class="no-results">Por favor, ingresa un título.</p>';
-                return;
-            }
-
-            const filteredData = competenciasData.filter(item => {
-                const titulo = normalizeText(item['Titulo'] || '');
-                const espacioCurricular = normalizeText(item['Nombre DEL ESPACIO CURRICULAR'] || '');
-                const codigoModulo = normalizeText(item['CODIGO/Modulo'] || '');
-                const alcanceIncumbencia = normalizeText(item['Alcance/INCUMBENCIA'] || '');
-                return titulo.includes(normalizedInput) || espacioCurricular.includes(normalizedInput) || codigoModulo.includes(normalizedInput) || alcanceIncumbencia.includes(normalizedInput);
-            });
-
-            const filteredAndHighlighted = filteredData.map(item => ({
-                ...item,
-                'Titulo': highlightMatch(item['Titulo'] || '', rawInput)
-            }));
-
-            renderTable('incumbenciasResultsIntegrado',
-                ['Titulo', 'Nombre DEL ESPACIO CURRICULAR', 'CODIGO/Modulo', 'Alcance/INCUMBENCIA'],
-                filteredAndHighlighted,
-                ['Titulo'],
-                rawInput,
-                'Titulo'
-            );
-
-            if (filteredAndHighlighted.length > 0) {
-                foundEspaciosCurriculares = [...new Set(filteredAndHighlighted.map(item => item['Nombre DEL ESPACIO CURRICULAR']).filter(Boolean))].sort();
-                foundEspaciosCurriculares.forEach(espacio => {
-                    const option = document.createElement('option');
-                    option.value = espacio;
-                    option.textContent = espacio;
-                    selectEspacio.appendChild(option);
-                });
-                selectEspacio.disabled = false;
+            // Asignar eventos solo si los elementos existen
+            const btnBuscarColegiosLocalidad = document.getElementById('btnBuscarColegiosLocalidad');
+            if (btnBuscarColegiosLocalidad) {
+                btnBuscarColegiosLocalidad.addEventListener('click', buscarColegios);
             } else {
-                document.getElementById('incumbenciasResultsIntegrado').innerHTML = '<p class="no-results">No se encontraron espacios curriculares.</p>';
+                console.warn('Elemento con ID "btnBuscarColegiosLocalidad" no encontrado.');
             }
-            toggleBuscarColegiosButton();
+
+            populateDepartamentosSelect();
+            const espacioCurricularSelect = document.getElementById('espacioCurricularSelect');
+            if (espacioCurricularSelect) {
+                espacioCurricularSelect.addEventListener('change', toggleBuscarColegiosButton);
+            } else {
+                console.warn('Elemento con ID "espacioCurricularSelect" no encontrado.');
+            }
+
+            const departamentoSelect = document.getElementById('departamentoSelect');
+            if (departamentoSelect) {
+                departamentoSelect.addEventListener('change', toggleBuscarColegiosButton);
+            } else {
+                console.warn('Elemento con ID "departamentoSelect" no encontrado.');
+            }
+        } catch (error) {
+            console.error('Error durante la inicialización:', error);
+            // Mostrar un mensaje genérico al usuario si falla la inicialización
+            const loader = document.getElementById('loader');
+            if (loader) loader.classList.remove('active');
+            alert('Hubo un error al inicializar la página. Por favor, recarga o verifica tu conexión.');
+        }
+    });
+
+    window.addEventListener('scroll', () => {
+        const backToTop = document.querySelector('.back-to-top');
+        backToTop.classList.toggle('active', window.scrollY > 300);
+    });
+
+    function renderTable(containerId, headers, data, htmlColumns = [], searchTerm = '', exactHighlightColumn = null) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+
+        container.innerHTML = '';
+        const normalizedSearchTerm = normalizeText(searchTerm);
+
+        if (data.length === 0) {
+            container.innerHTML = '<p class="no-results">No se encontraron resultados.</p>';
+            return;
         }
 
-        function buscarColegiosAleatoriosPorEspacio() {
-            const selectedEspacio = document.getElementById('espacioCurricularSelect').value;
-            const selectedDepartamento = document.getElementById('departamentoSelect').value;
-            renderTable('colegiosPorEspacioResults', ['Nombre', 'Direccion', 'Localidad', 'Departamento'], []);
+        const table = document.createElement('table');
+        table.classList.add('results-table');
 
-            if (!selectedEspacio || !selectedDepartamento) {
-                document.getElementById('colegiosPorEspacioResults').innerHTML = '<p class="no-results">Selecciona un espacio curricular y un departamento.</p>';
-                return;
+        const thead = document.createElement('thead');
+        const tr = document.createElement('tr');
+        headers.forEach(header => {
+            const th = document.createElement('th');
+            th.textContent = header;
+            tr.appendChild(th);
+        });
+        thead.appendChild(tr);
+        table.appendChild(thead);
+
+        const tbody = document.createElement('tbody');
+        data.forEach(item => {
+            const tr = document.createElement('tr');
+            tr.addEventListener('click', () => mostrarDetallesPorTitulo(item['Titulo'])); // Añadido evento clic
+            let shouldHighlight = false;
+
+            if (exactHighlightColumn && item[exactHighlightColumn] !== undefined) {
+                if (normalizeText(String(item[exactHighlightColumn])) === normalizedSearchTerm) {
+                    shouldHighlight = true;
+                }
+            } else if (normalizedSearchTerm) {
+                shouldHighlight = headers.some(header => {
+                    const content = item[header] !== undefined ? String(item[header]) : '';
+                    return normalizeText(content).includes(normalizedSearchTerm);
+                });
             }
 
-            const uesEnDepartamento = colegiosData
-                .filter(c => c['Departamento'] && normalizeText(c['Departamento']) === normalizeText(selectedDepartamento) && c['NumeroUE'])
-                .map(c => String(c['NumeroUE']).trim());
-
-            if (uesEnDepartamento.length === 0) {
-                document.getElementById('colegiosPorEspacioResults').innerHTML = `<p class="no-results">No se encontraron colegios en "${selectedDepartamento}".</p>`;
-                return;
-            }
-
-            const colegiosConEspacio = planEstudioData.filter(item => {
-                const espacio = normalizeText(item['ESPACIO CURRICULAR'] || '');
-                const ue = String(item['UE'] || '').trim();
-                return espacio === normalizeText(selectedEspacio) && uesEnDepartamento.includes(ue);
+            headers.forEach(header => {
+                const td = document.createElement('td');
+                const content = item[header] !== undefined ? String(item[header]) : '';
+                td.innerHTML = htmlColumns.includes(header) ? content : content.replace(/</g, '<').replace(/>/g, '>');
+                tr.appendChild(td);
             });
 
-            if (colegiosConEspacio.length === 0) {
-                document.getElementById('colegiosPorEspacioResults').innerHTML = `<p class="no-results">No se encontraron colegios en "${selectedDepartamento}" que dicten "${selectedEspacio}".</p>`;
-                return;
+            if (shouldHighlight) {
+                tr.classList.add('highlighted-row');
             }
 
-            const uniqueUEs = [...new Set(colegiosConEspacio.map(item => String(item['UE']).trim()))];
-            const randomUEs = [];
-            const maxColegios = Math.min(7, uniqueUEs.length);
-            let availableUEs = [...uniqueUEs];
+            tbody.appendChild(tr);
+        });
+        table.appendChild(tbody);
+        container.appendChild(table);
+    }
 
-            for (let i = 0; i < maxColegios; i++) {
-                const randomIndex = Math.floor(Math.random() * availableUEs.length);
-                randomUEs.push(availableUEs[randomIndex]);
-                availableUEs.splice(randomIndex, 1);
-            }
-
-            const resultados = randomUEs.map(ue => {
-                const colegio = colegiosData.find(c => String(c['NumeroUE']).trim() === ue);
-                return colegio ? {
-                    'Nombre': colegio['Nombre'],
-                    'Direccion': colegio['Direccion'],
-                    'Localidad': colegio['Localidad'],
-                    'Departamento': colegio['Departamento']
-                } : {
-                    'Nombre': `Nº ${ue} (Nombre no encontrado)`,
-                    'Direccion': 'No disponible',
-                    'Localidad': 'No disponible',
-                    'Departamento': 'No disponible'
-                };
-            });
-
-            renderTable('colegiosPorEspacioResults', ['Nombre', 'Direccion', 'Localidad', 'Departamento'], resultados, [], `${selectedEspacio} ${selectedDepartamento}`);
+    function buscarOrientaciones() {
+        const input = normalizeText(document.getElementById('orientacionInput').value);
+        if (!input) {
+            renderTable('orientacionesResults', ['UNID EDUCATIVA', 'ORIENTACION', 'AREA GEOGRAFICA- LOCALIDAD-DPTO'], []);
+            return;
         }
 
-        document.getElementById('espacioCurricularSelect').addEventListener('change', toggleBuscarColegiosButton);
-        document.getElementById('departamentoSelect').addEventListener('change', toggleBuscarColegiosButton);
+        const filtered = orientacionesData.filter(item => {
+            const orientacion = normalizeText(item['ORIENTACION'] || '');
+            const unidEducativa = normalizeText(item['UNID EDUCATIVA'] || '');
+            const areaGeo = normalizeText(item['AREA GEOGRAFICA- LOCALIDAD-DPTO'] || '');
+            return orientacion.includes(input) || unidEducativa.includes(input) || areaGeo.includes(input);
+        });
 
-        function toggleBuscarColegiosButton() {
-            const selectEspacio = document.getElementById('espacioCurricularSelect');
-            const selectDepartamento = document.getElementById('departamentoSelect');
-            const btnBuscarColegios = document.getElementById('btnBuscarColegios');
+        renderTable('orientacionesResults', ['UNID EDUCATIVA', 'ORIENTACION', 'AREA GEOGRAFICA- LOCALIDAD-DPTO'], filtered, [], input);
+    }
+
+    function buscarColegios() {
+        console.log('Función buscarColegios() ejecutada.');
+        const inputElement = document.getElementById('localidadInput');
+        const rawInput = inputElement.value;
+        const normalizedInput = normalizeText(rawInput);
+        if (!normalizedInput) {
+            renderTable('colegiosResults', ['Nombre', 'Direccion', 'Localidad', 'Departamento', 'CodPostal'], []);
+            return;
+        }
+
+        const filtered = colegiosData.filter(item => {
+            const localidad = normalizeText(item['Localidad'] || '');
+            const departamento = normalizeText(item['Departamento'] || '');
+            const direccion = normalizeText(item['Direccion'] || '');
+            const nombre = normalizeText(item['Nombre'] || '');
+            const codPostal = normalizeText(item['CodPostal'] || '');
+            return localidad.includes(normalizedInput) || departamento.includes(normalizedInput) || direccion.includes(normalizedInput) || nombre.includes(normalizedInput) || codPostal.includes(normalizedInput);
+        });
+
+        renderTable('colegiosResults', ['Nombre', 'Direccion', 'Localidad', 'Departamento', 'CodPostal'], filtered, [], rawInput);
+    }
+
+    function triggerLocalidadSearchAndScroll() {
+        const localidadInput = document.getElementById('localidadInput');
+        if (!localidadInput.value.trim()) {
+            localidadInput.value = 'Salta';
+        }
+        buscarColegios();
+        const colegiosSection = document.getElementById('colegios');
+        if (colegiosSection) {
+            colegiosSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
+
+    let foundEspaciosCurriculares = [];
+
+    function populateDepartamentosSelect() {
+        const departamentoSelect = document.getElementById('departamentoSelect');
+        if (!departamentoSelect) {
+            console.warn('Elemento con ID "departamentoSelect" no encontrado. No se puede poblar el select.');
+            return;
+        }
+        departamentoSelect.innerHTML = '<option value="">-- Selecciona un departamento --</option>';
+
+        if (!colegiosData || colegiosData.length === 0) {
+            departamentoSelect.disabled = true;
+            console.warn('No hay datos de colegios disponibles para poblar el select.');
+            return;
+        }
+
+        const departamentos = [...new Set(colegiosData.map(item => item['Departamento']).filter(Boolean))].sort();
+        if (departamentos.length === 0) {
+            console.warn('No se encontraron departamentos en los datos de colegios.');
+            return;
+        }
+        departamentos.forEach(departamento => {
+            const option = document.createElement('option');
+            option.value = departamento;
+            option.textContent = departamento;
+            departamentoSelect.appendChild(option);
+        });
+
+        departamentoSelect.disabled = false;
+    }
+
+    function buscarIncumbenciasIntegrado() {
+        const inputElement = document.getElementById('tituloInputIntegrado');
+        const rawInput = inputElement.value;
+        const normalizedInput = normalizeText(rawInput);
+        const selectEspacio = document.getElementById('espacioCurricularSelect');
+        const selectDepartamento = document.getElementById('departamentoSelect');
+        const btnBuscarColegios = document.getElementById('btnBuscarColegios');
+
+        renderTable('incumbenciasResultsIntegrado', ['Titulo', 'Nombre DEL ESPACIO CURRICULAR', 'CODIGO/Modulo', 'Alcance/INCUMBENCIA'], []);
+        renderTable('colegiosPorEspacioResults', ['Nombre', 'Direccion', 'Localidad', 'Departamento'], []);
+
+        if (selectEspacio) selectEspacio.innerHTML = '<option value="">-- Selecciona un espacio curricular --</option>';
+        if (selectEspacio) selectEspacio.disabled = true;
+        if (btnBuscarColegios) btnBuscarColegios.disabled = true;
+
+        foundEspaciosCurriculares = [];
+
+        if (!normalizedInput) {
+            document.getElementById('incumbenciasResultsIntegrado').innerHTML = '<p class="no-results">Por favor, ingresa un título.</p>';
+            return;
+        }
+
+        const filteredData = competenciasData.filter(item => {
+            const titulo = normalizeText(item['Titulo'] || '');
+            const espacioCurricular = normalizeText(item['Nombre DEL ESPACIO CURRICULAR'] || '');
+            const codigoModulo = normalizeText(item['CODIGO/Modulo'] || '');
+            const alcanceIncumbencia = normalizeText(item['Alcance/INCUMBENCIA'] || '');
+            return titulo.includes(normalizedInput) || espacioCurricular.includes(normalizedInput) || codigoModulo.includes(normalizedInput) || alcanceIncumbencia.includes(normalizedInput);
+        });
+
+        const filteredAndHighlighted = filteredData.map(item => ({
+            ...item,
+            'Titulo': highlightMatch(item['Titulo'] || '', rawInput)
+        }));
+
+        renderTable('incumbenciasResultsIntegrado',
+            ['Titulo', 'Nombre DEL ESPACIO CURRICULAR', 'CODIGO/Modulo', 'Alcance/INCUMBENCIA'],
+            filteredAndHighlighted,
+            ['Titulo'],
+            rawInput,
+            'Titulo'
+        );
+
+        if (filteredAndHighlighted.length > 0 && selectEspacio) {
+            foundEspaciosCurriculares = [...new Set(filteredAndHighlighted.map(item => item['Nombre DEL ESPACIO CURRICULAR']).filter(Boolean))].sort();
+            foundEspaciosCurriculares.forEach(espacio => {
+                const option = document.createElement('option');
+                option.value = espacio;
+                option.textContent = espacio;
+                selectEspacio.appendChild(option);
+            });
+            selectEspacio.disabled = false;
+        } else if (selectEspacio) {
+            document.getElementById('incumbenciasResultsIntegrado').innerHTML = '<p class="no-results">No se encontraron espacios curriculares.</p>';
+        }
+        if (btnBuscarColegios) toggleBuscarColegiosButton();
+    }
+
+    function buscarColegiosAleatoriosPorEspacio() {
+        const selectedEspacio = document.getElementById('espacioCurricularSelect').value;
+        const selectedDepartamento = document.getElementById('departamentoSelect').value;
+        renderTable('colegiosPorEspacioResults', ['Nombre', 'Direccion', 'Localidad', 'Departamento'], []);
+
+        if (!selectedEspacio || !selectedDepartamento) {
+            document.getElementById('colegiosPorEspacioResults').innerHTML = '<p class="no-results">Selecciona un espacio curricular y un departamento.</p>';
+            return;
+        }
+
+        const uesEnDepartamento = colegiosData
+            .filter(c => c['Departamento'] && normalizeText(c['Departamento']) === normalizeText(selectedDepartamento) && c['NumeroUE'])
+            .map(c => String(c['NumeroUE']).trim());
+
+        if (uesEnDepartamento.length === 0) {
+            document.getElementById('colegiosPorEspacioResults').innerHTML = `<p class="no-results">No se encontraron colegios en "${selectedDepartamento}".</p>`;
+            return;
+        }
+
+        const colegiosConEspacio = planEstudioData.filter(item => {
+            const espacio = normalizeText(item['ESPACIO CURRICULAR'] || '');
+            const ue = String(item['UE'] || '').trim();
+            return espacio === normalizeText(selectedEspacio) && uesEnDepartamento.includes(ue);
+        });
+
+        if (colegiosConEspacio.length === 0) {
+            document.getElementById('colegiosPorEspacioResults').innerHTML = `<p class="no-results">No se encontraron colegios en "${selectedDepartamento}" que dicten "${selectedEspacio}".</p>`;
+            return;
+        }
+
+        const uniqueUEs = [...new Set(colegiosConEspacio.map(item => String(item['UE']).trim()))];
+        const randomUEs = [];
+        const maxColegios = Math.min(7, uniqueUEs.length);
+        let availableUEs = [...uniqueUEs];
+
+        for (let i = 0; i < maxColegios; i++) {
+            const randomIndex = Math.floor(Math.random() * availableUEs.length);
+            randomUEs.push(availableUEs[randomIndex]);
+            availableUEs.splice(randomIndex, 1);
+        }
+
+        const resultados = randomUEs.map(ue => {
+            const colegio = colegiosData.find(c => String(c['NumeroUE']).trim() === ue);
+            return colegio ? {
+                'Nombre': colegio['Nombre'],
+                'Direccion': colegio['Direccion'],
+                'Localidad': colegio['Localidad'],
+                'Departamento': colegio['Departamento']
+            } : {
+                'Nombre': `Nº ${ue} (Nombre no encontrado)`,
+                'Direccion': 'No disponible',
+                'Localidad': 'No disponible',
+                'Departamento': 'No disponible'
+            };
+        });
+
+        renderTable('colegiosPorEspacioResults', ['Nombre', 'Direccion', 'Localidad', 'Departamento'], resultados, [], `${selectedEspacio} ${selectedDepartamento}`);
+    }
+
+    function toggleBuscarColegiosButton() {
+        const selectEspacio = document.getElementById('espacioCurricularSelect');
+        const selectDepartamento = document.getElementById('departamentoSelect');
+        const btnBuscarColegios = document.getElementById('btnBuscarColegios');
+        if (selectEspacio && selectDepartamento && btnBuscarColegios) {
             btnBuscarColegios.disabled = !(selectEspacio.value && selectDepartamento.value);
         }
-    </script>
+    }
+
+    function mostrarDetallesPorTitulo(tituloSeleccionado) {
+        const normalizedTitulo = normalizeText(tituloSeleccionado);
+        const detalles = competenciasData.filter(item => normalizeText(item['Titulo'] || '') === normalizedTitulo);
+
+        if (detalles.length > 0) {
+            renderTable('incumbenciasResultsIntegrado',
+                ['CODIGO/Modulo', 'Nombre DEL ESPACIO CURRICULAR', 'Alcance/INCUMBENCIA'],
+                detalles,
+                [],
+                ''
+            );
+        } else {
+            document.getElementById('incumbenciasResultsIntegrado').innerHTML = '<p class="no-results">No se encontraron detalles para este título.</p>';
+        }
+    }
+</script>
 </body>
 </html>
