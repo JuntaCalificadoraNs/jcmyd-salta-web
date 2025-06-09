@@ -662,7 +662,7 @@
         <i class="fas fa-arrow-up"></i>
     </button>
 
-    <script>
+<script>
     console.log('Script principal cargado.');
 
     const COMPETENCIAS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS-EPPyl34acCgd03fTldc-6Bs7GhBXdAmKVoaIHJKT-5SW4c8VzIDGCNqU7E590SxXlHKPvu-U_qwr/pub?gid=1550756964&single=true&output=csv';
@@ -680,7 +680,7 @@
         if (loader) loader.classList.add('active');
         try {
             console.log(`Intentando cargar datos desde: ${url} (Tipo: ${type})`);
-            const response = await fetch(url, { mode: 'cors' }); // Añadido mode: 'cors' para manejar restricciones
+            const response = await fetch(url, { mode: 'cors' });
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status} - ${response.statusText}`);
             }
@@ -713,7 +713,7 @@
 
             for (let i = 1; i < rows.length; i++) {
                 const row = rows[i];
-                if (!row.trim()) continue; // Saltar filas vacías
+                if (!row.trim()) continue;
                 const values = [];
                 let currentValue = '';
                 let inQuote = false;
@@ -754,7 +754,7 @@
 
     function normalizeText(text) {
         if (typeof text !== 'string') return '';
-        return text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+        return text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
     }
 
     function highlightMatch(text, query) {
@@ -766,7 +766,7 @@
         let match;
         while ((match = regex.exec(normalizedText)) !== null) {
             result = result.slice(0, match.index) + `<strong>${text.slice(match.index, match.index + match[0].length)}</strong>` + result.slice(match.index + match[0].length);
-            regex.lastIndex = match.index + match[0].length + 15; // Adjust for added <strong> tags
+            regex.lastIndex = match.index + match[0].length + 15;
         }
         return result;
     }
@@ -793,7 +793,6 @@
                 planEstudioCount: planEstudioData.length
             });
 
-            // Asignar eventos solo si los elementos existen
             const btnBuscarColegiosLocalidad = document.getElementById('btnBuscarColegiosLocalidad');
             if (btnBuscarColegiosLocalidad) {
                 btnBuscarColegiosLocalidad.addEventListener('click', buscarColegios);
@@ -817,7 +816,6 @@
             }
         } catch (error) {
             console.error('Error durante la inicialización:', error);
-            // Mostrar un mensaje genérico al usuario si falla la inicialización
             const loader = document.getElementById('loader');
             if (loader) loader.classList.remove('active');
             alert('Hubo un error al inicializar la página. Por favor, recarga o verifica tu conexión.');
@@ -857,7 +855,10 @@
         const tbody = document.createElement('tbody');
         data.forEach(item => {
             const tr = document.createElement('tr');
-            tr.addEventListener('click', () => mostrarDetallesPorTitulo(item['Titulo'])); // Añadido evento clic
+            tr.addEventListener('click', () => {
+                console.log('Título seleccionado:', item['Titulo']);
+                mostrarDetallesPorTitulo(item['Titulo']);
+            });
             let shouldHighlight = false;
 
             if (exactHighlightColumn && item[exactHighlightColumn] !== undefined) {
@@ -1097,9 +1098,16 @@
     }
 
     function mostrarDetallesPorTitulo(tituloSeleccionado) {
-        const normalizedTitulo = normalizeText(tituloSeleccionado);
-        const detalles = competenciasData.filter(item => normalizeText(item['Titulo'] || '') === normalizedTitulo);
+        console.log('Buscando detalles para título:', tituloSeleccionado);
+        const normalizedTitulo = normalizeText(tituloSeleccionado).trim();
+        console.log('Título normalizado:', normalizedTitulo);
+        const detalles = competenciasData.filter(item => {
+            const itemTitulo = normalizeText(item['Titulo'] || '').trim();
+            console.log('Comparando con:', itemTitulo);
+            return itemTitulo === normalizedTitulo;
+        });
 
+        console.log('Resultados filtrados:', detalles);
         if (detalles.length > 0) {
             renderTable('incumbenciasResultsIntegrado',
                 ['CODIGO/Modulo', 'Nombre DEL ESPACIO CURRICULAR', 'Alcance/INCUMBENCIA'],
