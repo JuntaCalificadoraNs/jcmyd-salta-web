@@ -1099,8 +1099,10 @@
 
     function mostrarDetallesPorTitulo(tituloSeleccionado) {
         console.log('Buscando detalles para título:', tituloSeleccionado);
-        const normalizedTitulo = normalizeText(tituloSeleccionado).trim();
-        console.log('Título normalizado:', normalizedTitulo);
+        // Extraer texto puro eliminando etiquetas HTML
+        const textoPuro = tituloSeleccionado.replace(/<[^>]+>/g, '').trim();
+        const normalizedTitulo = normalizeText(textoPuro);
+        console.log('Título normalizado (sin HTML):', normalizedTitulo);
         const detalles = competenciasData.filter(item => {
             const itemTitulo = normalizeText(item['Titulo'] || '').trim();
             console.log('Comparando con:', itemTitulo);
