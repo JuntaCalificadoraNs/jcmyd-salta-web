@@ -20,13 +20,11 @@
         .container {
             width: 90%;
             max-width: 1200px;
-            /* MODIFICADO: Ajustamos el margen superior para evitar que el título quede debajo del banner */
-            /* La altura de tu header es aproximadamente 100px (padding + logo). Le damos un poco más de espacio. */
-            margin: 120px auto 20px auto; /* 120px de margen superior */
+            margin: 0 auto; /* MODIFICADO: Cambiamos el margin-top a 0 para que el contenedor suba */
             background: #fff;
-            padding: 30px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Sombra más pronunciada y suave */
-            border-radius: 12px; /* Bordes más redondeados */
+            padding: 10px 30px 30px; /* MODIFICADO: Reducimos el padding-top del contenedor */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            border-radius: 12px;
         }
         h1, h2, h3 {
             color: #0056b3;
@@ -34,10 +32,10 @@
             margin-bottom: 25px;
         }
         h1 {
-            font-size: 2.8em; /* Título principal más grande */
+            font-size: 2.8em;
             font-weight: 700;
-            margin-top: 20px;
-            color: #004085; /* Un azul más oscuro */
+            margin-top: 0; /* MODIFICADO: Eliminamos el margen superior del h1 */
+            color: #004085;
             line-height: 1.2;
         }
         h2 {
@@ -119,9 +117,14 @@
 
         /* Secciones de Contenido */
         .content-section {
-            padding: 20px 0;
+            padding: 20px 0; /* Se mantiene para secciones generales */
             margin-bottom: 30px;
-            border-bottom: 1px dashed #e0e7ed; /* Línea punteada para separar secciones */
+            border-bottom: 1px dashed #e0e7ed;
+        }
+     /* NUEVO: Ajustes específicos para la primera sección (#inicio) */
+        #inicio {
+            padding-top: 0; /* MODIFICADO: Eliminamos el padding superior de la primera sección para subir el h1 */
+            margin-top: 0; /* Aseguramos que no haya margen extra aquí */
         }
         .content-section:last-of-type {
             border-bottom: none; /* Eliminar la línea en la última sección */
