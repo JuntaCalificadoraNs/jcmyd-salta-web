@@ -4,102 +4,81 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Junta Calificadora de Méritos y Disciplina - Nivel Secundario</title>
-    <link rel="icon" type="image/png" href="favicon.png">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css"> <!-- Tu archivo style.css -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet"> <!-- Fuente Google Fonts -->
 
     <style>
-        :root {
-            --primary: #003087;
-            --secondary: #28a745;
-            --background: #f5f7fa;
-            --text: #1a202c;
-            --accent: #ff8c00;
-            --space-unit: 8px;
-        }
-
+        /* Estilos generales mejorados */
         body {
             font-family: 'Roboto', Arial, sans-serif;
             line-height: 1.6;
             margin: 0;
             padding: 0;
-            background-color: var(--background);
-            color: var(--text);
+            background-color: #eef2f7; /* Un color de fondo más suave */
+            color: #333;
         }
-
         .container {
             width: 90%;
             max-width: 1200px;
-            margin: calc(var(--space-unit) * 4) auto;
-            background: white;
-            padding: calc(var(--space-unit) * 3);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-            border-radius: 12px;
-            margin-top: calc(var(--space-unit) * 10); /* Añadido para evitar solapamiento con el header sticky */
+            margin: 20px auto;
+            background: #fff;
+            padding: 30px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Sombra más pronunciada y suave */
+            border-radius: 12px; /* Bordes más redondeados */
         }
-
-        h1, h2, h3, h4 {
-            color: var(--primary);
-            margin-bottom: calc(var(--space-unit) * 3);
-        }
-
-        h1 {
-            font-size: clamp(2rem, 5vw, 2.5rem);
-            font-weight: 700;
-            line-height: 1.3;
+        h1, h2, h3 {
+            color: #0056b3;
             text-align: center;
+            margin-bottom: 25px;
         }
-
+        h1 {
+            font-size: 2.8em; /* Título principal más grande */
+            font-weight: 700;
+            margin-top: 20px;
+            color: #004085; /* Un azul más oscuro */
+            line-height: 1.2;
+        }
         h2 {
-            font-size: clamp(1.6rem, 4vw, 2rem);
+            font-size: 2.2em; /* Títulos de sección más grandes */
             font-weight: 500;
-            line-height: 1.4;
-            border-bottom: 2px solid #d0d0e6;
-            padding-bottom: calc(var(--space-unit));
+            border-bottom: 2px solid #d0dae6; /* Línea de separación sutil */
+            padding-bottom: 10px;
+            margin-top: 40px;
+            color: #004085; /* Consistencia con h1 */
         }
-
         h3 {
-            font-size: clamp(1.2rem, 3vw, 1.5rem);
+            font-size: 1.6em; /* Subtítulos un poco más grandes */
             font-weight: 400;
-            text-align: left;
-            border-bottom: 1px solid #d0dae6;
-            padding-bottom: calc(var(--space-unit));
+            color: #004085; /* Color más oscuro para h3 */
+            text-align: left; /* Alineado a la izquierda para los grupos de búsqueda */
+            border-bottom: 1px solid #d0dae6; /* Línea debajo de h3 */
+            padding-bottom: 8px;
+            margin-bottom: 20px;
         }
-
-        h3 small {
+        h3 small { /* Estilo para el texto pequeño en los títulos */
             display: block;
             font-size: 0.7em;
             color: #666;
-            margin-top: calc(var(--space-unit));
+            margin-top: 5px;
             font-weight: 300;
         }
-
-        h4 {
-            font-size: clamp(1rem, 2.5vw, 1.3rem);
+        h4 { /* Estilo para los h4 (sub-subtítulos) */
+            font-size: 1.3em;
             font-weight: 500;
-            color: var(--accent);
-            margin-top: calc(var(--space-unit) * 3);
+            color: #007bff; /* Azul vibrante para h4 */
+            margin-bottom: 15px;
+            margin-top: 25px; /* Espacio superior para separar */
         }
 
-        p {
-            font-size: 1rem;
-            line-height: 1.8;
-            font-weight: 300;
-            text-align: justify;
-            margin-bottom: calc(var(--space-unit) * 2);
-        }
-
+        /* Header (Encabezado) */
         header {
-            background: linear-gradient(to right, var(--primary), #004aad);
+            background: linear-gradient(to right, #004085, #0056b3); /* Degradado sutil */
             color: white;
-            padding: calc(var(--space-unit) * 3) 0; /* Aumentado para que el banner no se vea achicado */
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            padding: 15px 0;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         }
-
-        .header-content {
+        header .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -107,366 +86,339 @@
             max-width: 1200px;
             margin: 0 auto;
         }
-
-        header .logo {
-            max-height: 60px; /* Reducido para controlar el tamaño del logo */
-            max-width: 200px; /* Añadido para limitar el ancho del logo */
-        }
-
         header .logo img {
-            display: block; /* Para evitar espacio extra debajo de la imagen */
-            max-height: 100%; /* Se ajusta al contenedor */
-            max-width: 100%; /* Se ajusta al contenedor */
+            max-height: 80px; /* Ajusta el tamaño del logo */
             width: auto;
-            height: auto;
         }
-
         header nav ul {
             list-style: none;
             margin: 0;
             padding: 0;
-            display: flex;
-            align-items: center; /* Añadido para centrar verticalmente los enlaces */
+            display: flex; /* Para poner los elementos del menú en línea */
         }
-
-        header li {
-            margin-left: calc(var(--space-unit) * 3);
+        header nav ul li {
+            margin-left: 25px;
         }
-
-        header li a {
+        header nav ul li a {
             color: white;
             text-decoration: none;
             font-weight: 500;
-            font-size: 1.1rem;
+            font-size: 1.1em;
             transition: color 0.3s ease-in-out;
         }
-
-        header li a:hover, header li a:focus {
-            color: #a7d9ff;
-            outline: 3px solid var(--accent);
-            outline-offset: 2px;
+        header nav ul li a:hover {
+            color: #a7d9ff; /* Un azul más claro al pasar el ratón */
         }
 
+        /* Secciones de Contenido */
         .content-section {
-            padding: calc(var(--space-unit) * 2) 0;
-            margin-bottom: calc(var(--space-unit) * 5);
-            border-bottom: 1px dashed #e0e7ed;
+            padding: 20px 0;
+            margin-bottom: 30px;
+            border-bottom: 1px dashed #e0e7ed; /* Línea punteada para separar secciones */
         }
-
         .content-section:last-of-type {
-            border-bottom: none;
+            border-bottom: none; /* Eliminar la línea en la última sección */
         }
-
+        .content-section p {
+            font-size: 1.1em;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            text-align: justify;
+        }
         .content-section ul {
             list-style: disc inside;
-            margin-left: calc(var(--space-unit) * 2);
-            margin-bottom: calc(var(--space-unit) * 2);
+            margin-left: 20px;
+            margin-bottom: 15px;
         }
-
         .content-section ul li {
-            margin-bottom: calc(var(--space-unit-unit));
+            margin-bottom: 8px;
         }
-
         .content-section a {
-            color: var(--primary);
+            color: #007bff;
             text-decoration: none;
             font-weight: 400;
         }
-
-        .content-section a:hover, .content-section a:focus {
+        .content-section a:hover {
             text-decoration: underline;
-            outline: 3px solid var(--accent);
-            outline-offset: 2px;
         }
 
-        .search-group {
-            margin-bottom: calc(var(--space-unit) * 5);
-            padding: calc(var(--space-unit) * 3);
+        /* Buscadores - Estilos existentes mejorados */
+        .search-group { /* Nuevo estilo para agrupar buscadores */
+            margin-bottom: 40px; /* Más espacio entre grupos de buscadores */
+            padding: 25px;
             border: 1px solid #dbe2ea;
-            border-radius: 12px;
-            background-color: #fcfcff;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border-radius: 12px; /* Más redondeado */
+            background-color: #fcfdff; /* Fondo ligeramente diferente para el grupo */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Sombra más pronunciada */
         }
-
         .search-group h3 {
             margin-top: 0;
+            margin-bottom: 20px;
+            color: #004085;
+            font-size: 1.8em;
+            text-align: left; /* Título del grupo alineado a la izquierda */
+            border-bottom: 1px solid #e0e7ed;
+            padding-bottom: 10px;
         }
-
+        .search-group p {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 20px;
+        }
         .search-section {
-            margin-bottom: calc(var(--space-unit) * 3);
-            padding: calc(var(--space-unit) * 2);
-            border: 1px solid #dbe2ea;
-            border-radius: 10px;
-            background-color: #f7f9fc;
-            box-shadow: inset 0 1px 4px rgba(0,0,0,0.07);
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #dbe2ea; /* Borde más suave */
+            border-radius: 10px; /* Más redondeado */
+            background-color: #f7f9fc; /* Fondo más claro */
+            box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.07); /* Sombra interna sutil */
         }
-
+        .search-section:last-of-type {
+            margin-bottom: 0; /* Eliminar margen inferior del último search-section dentro de un grupo */
+        }
         .search-section label {
             display: block;
-            margin-bottom: calc(var(--space-unit));
+            margin-bottom: 10px;
             font-weight: 600;
-            color: #333;
+            color: #555;
         }
-
         .search-section input[type="text"],
-        .search-section select {
+        .search-section select { /* Añadido estilo para el select */
             width: calc(100% - 22px);
-            padding: calc(var(--space-unit) * 1.5);
-            margin-bottom: calc(var(--space-unit) * 2);
-            border: 1px solid #c2d1e6;
-            border-radius: 8px;
-            font-size: 1rem;
-            box-sizing: border-box;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #c2d1e2;
+            border-radius: 8px; /* Más redondeado */
+            font-size: 1em;
+            box-sizing: border-box; /* Asegura que padding no aumente el ancho total */
         }
-
         .search-section button {
-            background-color: var(--secondary);
+            background-color: #007bff; /* Azul vibrante */
             color: white;
-            padding: calc(var(--space-unit) * 1.5) calc(var(--space-unit) * 3);
+            padding: 12px 25px;
             border: none;
-            border-radius: 8px;
+            border-radius: 8px; /* Más redondeado */
             cursor: pointer;
-            font-size: 1.1rem;
+            font-size: 1.1em;
             font-weight: 600;
             transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-            box-shadow: 0 4px 8px rgba(40, 167, 69, 0.2);
+            box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2); /* Sombra para el botón */
         }
-
-        .search-section button:hover, .search-section button:focus {
-            background-color: #218838;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(40, 167, 69, 0.3);
-            outline: 2px solid var(--accent);
-            outline-offset: 2px;
+        .search-section button:hover {
+            background-color: #0056b3; /* Azul más oscuro al pasar el ratón */
+            transform: translateY(-2px); /* Pequeño efecto de "levantar" */
+            box-shadow: 0 6px 12px rgba(0, 123, 255, 0.3); /* Sombra más grande al pasar el ratón */
         }
-
         .results-container {
-            margin-top: calc(var(--space-unit) * 3);
-            border-top: 2px solid #e0e6ed;
-            padding-top: calc(var(--space-unit) * 3);
+            margin-top: 30px;
+            border-top: 1px solid #e0e7ed;
+            padding-top: 25px;
         }
-
+        .results-container h3 {
+            color: #007bff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
         .results-table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: calc(var(--space-unit) * 2);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-top: 15px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
-            overflow-x: auto;
-            display: block;
+            overflow: hidden; /* Para que los bordes redondeados se apliquen a la tabla */
         }
-
         .results-table th, .results-table td {
-            border: 1px solid #dee2e6;
+            border: 1px solid #dee2e6; /* Borde de tabla más definido */
             padding: 12px;
             text-align: left;
         }
-
         .results-table th {
-            background-color: var(--primary);
+            background-color: #007bff;
             color: white;
             font-weight: 600;
-            text-transform: uppercase;
-            font-size: 0.9rem;
+            text-transform: uppercase; /* Encabezados en mayúsculas */
+            font-size: 0.9em;
         }
-
         .results-table tr:nth-child(even) {
-            background-color: #f2f7fa;
+            background-color: #f2f7fb; /* Color de fila par más claro */
         }
-
         .results-table tr:hover {
-            background-color: #e9f2fa;
+            background-color: #e9f2fa; /* Efecto hover en filas */
         }
-
-        .results-table tr.highlighted-row {
-            background-color: #e6ffe6;
-            border-left: 5px solid var(--secondary);
-        }
-
-        .results-table th:nth-child(3),
-        .results-table td:nth-child(3) {
-            text-align: center;
-            font-weight: bold;
-            width: 10%;
-        }
-
         .no-results {
             text-align: center;
             color: #777;
-            padding: 2rem;
+            padding: 20px;
             font-style: italic;
         }
 
-        .news-iframe-container, .map-container {
+        /* Estilos para el iframe de noticias */
+        .news-iframe-container {
             position: relative;
             overflow: hidden;
             width: 100%;
-            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            padding-top: 75%; /* Proporción 4:3 (altura / ancho * 100%) - Ajusta esto si el sitio se ve cortado */
+            height: 0; /* Necesario para mantener la proporción con padding-top */
+            background-color: #f0f0f0; /* Color de fondo mientras carga */
             border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            background-color: #f0f0f0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
-
-        .news-iframe-container iframe, .map-container iframe {
+        .news-iframe-container iframe {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            border: none;
+            border: none; /* Eliminar el borde del iframe */
         }
 
+        /* Estilos para el mapa incrustado */
+        .map-container {
+            position: relative;
+            overflow: hidden;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            margin-top: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            background-color: #f0f0f0;
+        }
+        .map-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+
+        /* Footer (Pie de página) */
         footer {
-            background-color: #343a40;
-            color: white;
             text-align: center;
-            padding: calc(var(--space-unit) * 3);
-            margin-top: calc(var(--space-unit) * 5);
-            border-top: 5px solid var(--primary);
-            font-size: 0.9rem;
+            padding: 25px;
+            background-color: #343a40; /* Gris oscuro */
+            color: white;
+            margin-top: 40px;
+            border-top: 5px solid #0056b3; /* Borde superior con color primario */
+            font-size: 0.9em;
         }
 
+        /* Botones de Acceso Rápido en Inicio */
         .quick-access-buttons {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            gap: calc(var(--space-unit) * 2);
-            margin: calc(var(--space-unit) * 3) 0;
+            gap: 20px; /* Espacio entre los botones */
+            margin-top: 30px;
+            margin-bottom: 40px;
         }
-
         .quick-access-buttons .button {
-            background-color: var(--secondary);
+            background-color: #007bff; /* Azul vibrante */
             color: white;
-            padding: calc(var(--space-unit) * 1.5) calc(var(--space-unit) * 3);
+            padding: 15px 30px;
             border: none;
-            border-radius: 10px;
+            border-radius: 10px; /* Más redondeado */
             cursor: pointer;
-            font-size: 1.2rem;
+            font-size: 1.2em;
             font-weight: 600;
-            text-decoration: none;
+            text-decoration: none; /* Para que parezca un botón */
             transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-            box-shadow: 0 6px 12px rgba(40, 167, 69, 0.3);
-            display: inline-flex;
+            box-shadow: 0 6px 12px rgba(0, 123, 255, 0.3); /* Sombra para el botón */
+            display: inline-flex; /* Para centrar contenido si hay iconos */
             align-items: center;
             justify-content: center;
-            min-width: 200px;
+            min-width: 200px; /* Ancho mínimo para que se vean bien */
+        }
+        .quick-access-buttons .button:hover {
+            background-color: #0056b3; /* Azul más oscuro al pasar el ratón */
+            transform: translateY(-3px); /* Efecto de "levantar" más pronunciado */
+            box-shadow: 0 8px 16px rgba(0, 123, 255, 0.4); /* Sombra más grande al pasar el ratón */
         }
 
-        .quick-access-buttons .button:hover, .quick-access-buttons .button:focus {
-            background-color: #218838;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 16px rgba(40, 167, 69, 0.4);
-            outline: 3px solid var(--accent);
-            outline-offset: 2px;
-        }
 
-        .back-to-top {
-            position: fixed;
-            bottom: calc(var(--space-unit) * 2);
-            right: calc(var(--space-unit) * 2);
-            background-color: var(--primary);
-            color: white;
-            padding: calc(var(--space-unit));
-            border-radius: 50%;
-            display: none;
-            cursor: pointer;
-            z-index: 1000;
-            transition: opacity 0.3s ease;
-        }
-
-        .back-to-top.active {
-            display: block;
-            opacity: 1;
-        }
-
-        .loader {
-            display: none;
-            text-align: center;
-            padding: calc(var(--space-unit) * 2);
-            font-size: 1.2rem;
-            color: var(--primary);
-        }
-
-        .loader.active {
-            display: block;
-        }
-
-        .tutorial {
-            background-color: #f7f9fc;
-            padding: calc(var(--space-unit) * 2);
-            border-radius: 8px;
-            margin-bottom: calc(var(--space-unit) * 2);
-            border-left: 4px solid var(--accent);
-        }
-
+        /* Responsive Design */
         @media (max-width: 768px) {
-            .header-content {
+            header .header-content {
                 flex-direction: column;
                 text-align: center;
-                gap: calc(var(--space-unit) * 2); /* Añadido para espaciar logo y navegación */
             }
-
-            header {
-                padding: calc(var(--space-unit) * 2) 0; /* Ajustado para pantallas pequeñas */
-            }
-
-            header .logo {
-                max-height: 50px; /* Reducido aún más para móviles */
-                max-width: 150px; /* Ajustado para móviles */
-                margin-bottom: calc(var(--space-unit) * 2); /* Espacio debajo del logo */
-            }
-
             header nav ul {
                 flex-direction: column;
-                margin-top: 0; /* Ajustado para no añadir espacio extra */
-                gap: calc(var(--space-unit)); /* Espacio entre elementos de navegación */
+                margin-top: 15px;
             }
-
-            header li {
-                margin: calc(var(--space-unit) * 0.5) 0; /* Ajustado para consistencia */
+            header nav ul li {
+                margin: 5px 0;
             }
-
             .container {
                 width: 95%;
-                padding: calc(var(--space-unit) * 2);
-                margin-top: calc(var(--space-unit) * 12); /* Aumentado para evitar solapamiento en móviles */
+                padding: 15px;
             }
-
-            h1 { 
-                font-size: clamp(1.5rem, 4vw, 2rem); 
-                margin-top: calc(var(--space-unit) * 2); /* Añadido para espacio extra en móviles */
+            h1 {
+                font-size: 2em;
             }
-            h2 { font-size: clamp(1.3rem, 3.5vw, 1.7rem); }
-            h3 { font-size: clamp(1rem, 3vw, 1.3rem); }
-
-            .search-section input[type="text"], .search-section select {
+            h2 {
+                font-size: 1.7em;
+            }
+            h3 {
+                font-size: 1.3em;
+            }
+            .search-section input[type="text"],
+            .search-section select { /* Full width on smaller screens */
                 width: 100%;
             }
-
             .news-iframe-container, .map-container {
-                padding-top: 75%;
+                padding-top: 120%; /* Aumenta la altura del iframe en móviles si es necesario */
             }
-
             .quick-access-buttons {
-                flex-direction: column;
+                flex-direction: column; /* Apila los botones en móviles */
                 align-items: center;
             }
-
             .quick-access-buttons .button {
-                width: 80%;
+                width: 80%; /* Ancho de los botones en móviles */
                 min-width: unset;
-                padding: calc(var(--space-unit)) calc(var(--space-unit) * 2);
-                font-size: 1rem;
             }
+            /* Ajuste para el h4 dentro de search-section en móvil */
+            .search-section h4 {
+                margin-top: 20px; /* Espacio extra para el h4 en móvil */
+            }
+        }
+
+        /* Estilo para resaltar filas completas que contienen la búsqueda */
+        .results-table tr.highlighted-row {
+            background-color: #e6ffe6; /* Un color verde muy suave para la fila completa */
+            border-left: 5px solid #28a745; /* Un borde verde sólido a la izquierda */
+        }
+
+        /* Estilos para la columna CODIGO/Modulo */
+        .results-table th:nth-child(3), /* Selecciona el 3er encabezado (CODIGO/Modulo) */
+        .results-table td:nth-child(3) {  /* Selecciona la 3ra celda de cada fila (CODIGO/Modulo) */
+            text-align: center; /* Centrar el contenido */
+            font-size: 1.2em;   /* Agrandar la fuente (1.2 veces el tamaño base de la tabla) */
+            font-weight: bold;  /* Poner en negrita el número */
+            width: 10%; /* Darle un ancho fijo para que no sea muy pequeña o grande */
+        }
+
+        /* NUEVO ESTILO: Para hacer los títulos cliqueables */
+        .results-table td .clickable-title {
+            cursor: pointer;
+            text-decoration: none; /* Empezar sin subrayado */
+            color: #004085; /* Un color de texto que invite al clic */
+            font-weight: 500;
+            transition: text-decoration 0.2s ease, color 0.2s ease;
+        }
+
+        .results-table td .clickable-title:hover {
+            text-decoration: underline; /* Subrayado al pasar el ratón */
+            color: #007bff; /* Cambio de color al pasar el ratón */
         }
     </style>
 </head>
 <body>
-    <div class="loader" id="loader"><i class="fas fa-spinner fa-spin"></i> Cargando datos...</div>
-
     <header>
         <div class="header-content">
             <div class="logo">
+                <!-- Asegúrate de que tu imagen 'jcmyd-logo.png' esté en la misma carpeta que index.html o ajusta la ruta -->
                 <img src="jcmyd-logo.png" alt="Logo Junta Calificadora de Méritos y Disciplina">
             </div>
             <nav>
@@ -475,7 +427,7 @@
                     <li><a href="#sobre-nosotros">Sobre Nosotros</a></li>
                     <li><a href="#herramientas-consulta">Herramientas de Consulta</a></li>
                     <li><a href="#normativas">Normativas</a></li>
-                    <li><a href="#tramites">Trámites y Consultas</a></li>
+                    <li><a href="#tramites">Trámites y Consultas</a></li> <!-- Nuevo enlace -->
                     <li><a href="#noticias">Noticias</a></li>
                     <li><a href="#contacto">Contacto</a></li>
                 </ul>
@@ -486,46 +438,47 @@
     <div class="container">
         <section id="inicio" class="content-section">
             <h1>Junta Calificadora de Méritos y Disciplina - Nivel Secundario</h1>
-            <p>Plataforma oficial para docentes de Salta. Encuentra recursos, normativas y herramientas para tu carrera.</p>
-            <p>Accede a información transparente sobre incumbencias, convocatorias y colegios.</p>
+            <p>Bienvenido a la plataforma oficial de la Junta Calificadora de Méritos y Disciplina de Nivel Secundario de la Provincia de Salta. Aquí encontrarás herramientas esenciales y toda la información necesaria para tu carrera docente.</p>
+            <p>Nuestro compromiso es brindarte un acceso fácil y transparente a normativas, incumbencias, convocatorias y datos de instituciones educativas.</p>
 
             <div class="quick-access-buttons">
-                <a href="#herramientas-consulta" class="button" title="Consulta los espacios curriculares para tu título"><i class="fas fa-search"></i> Explorar Incumbencias</a>
-                <button type="button" class="button" onclick="triggerLocalidadSearchAndScroll()" title="Encuentra colegios por ubicación"><i class="fas fa-map-marker-alt"></i> Buscar Colegios</button>
-                <a href="#tramites" class="button" title="Guía de trámites docentes"><i class="fas fa-file-alt"></i> Iniciar Trámite</a>
+                <a href="#herramientas-consulta" class="button">Buscar Incumbencias</a>
+                <!-- Botón de acceso rápido modificado: ahora es un <button> que llama a una función -->
+                <button type="button" class="button" onclick="triggerLocalidadSearchAndScroll()">Buscar Colegios por Localidad/Dpto.</button>
+                <a href="#tramites" class="button">Trámites Docentes</a> <!-- Botón modificado -->
             </div>
         </section>
 
+        <!-- SECCIÓN SOBRE NOSOTROS -->
         <section id="sobre-nosotros" class="content-section">
-            <h2>Sobre Nosotros</h2>
-            <p>La Junta Calificadora de Méritos y Disciplina garantiza transparencia y equidad en la carrera docente en Salta.</p>
-            <h3>Funciones Principales</h3>
+            <h2>Sobre Nosotros: Junta Calificadora de Méritos y Disciplina</h2>
+            <p>La Junta Calificadora de Méritos y Disciplina de Nivel Secundario y sus Modalidades es un organismo permanente y desconcentrado del Ministerio de Educación, Cultura, Ciencia y Tecnología de la Provincia de Salta. Su misión es garantizar la transparencia, equidad y legalidad en la carrera docente, desde el ingreso hasta los ascensos y traslados.</p>
             <ul>
-                <li>Evaluar y clasificar legajos docentes por mérito.</li>
-                <li>Formular nóminas para interinatos y suplencias.</li>
-                <li>Dictaminar en traslados, permutas y sanciones.</li>
-                <li>Gestionar becas y permanencias en actividad.</li>
-                <li>Publicar listas de mérito con transparencia.</li>
+                <li>Estudiar y custodiar los legajos de antecedentes de todo el personal docente, efectuando su calificación general por orden de mérito.</li>
+                <li>Formular la nómina de aspirantes para el ingreso, interinatos y suplencias en el nivel secundario y sus modalidades.</li>
+                <li>Dictaminar en los pedidos de permutas, traslados y reincorporaciones, evaluando cada caso según la normativa vigente.</li>
+                <li>Considerar las peticiones de permanencia en actividad, de acuerdo con las disposiciones de las leyes jubilatorias.</li>
+                <li>Pronunciarse sobre las solicitudes de becas presentadas por el personal docente.</li>
+                <li>Emitir dictámenes previos en casos de aplicación de sanciones disciplinarias, asegurando el debido proceso y el derecho a defensa.</li>
+                <li>Dar amplia publicidad a las listas confeccionadas en base al mérito, relativas a ascensos, traslados, interinatos y suplencias, promoviendo la transparencia en los procesos.</li>
             </ul>
-            <h3>Composición</h3>
-            <p>Conformada por 10 miembros: 6 elegidos por docentes, 3 por el Ministerio y 1 por el sindicato. Mandato de 4 años.</p>
+            <p>La Junta está integrada por diez miembros: seis elegidos por voto secreto y obligatorio del personal docente, tres designados por el Ministerio y uno propuesto por la asociación sindical con mayor representación en el nivel educativo correspondiente. Los miembros ejercen sus funciones por un período de cuatro años, con posibilidad de reelección por un período adicional.</p>
+            <p>Comprometida con el fortalecimiento del sistema educativo provincial, la Junta actúa con independencia técnica y responsabilidad institucional, promoviendo prácticas justas y meritocráticas en beneficio de la comunidad educativa.</p>
         </section>
 
+        <!-- SECCIÓN PORTAL DE SERVICIOS / HERRAMIENTAS DE CONSULTA -->
         <section id="herramientas-consulta" class="content-section">
             <h2>Herramientas de Consulta</h2>
-            <p>Encuentra información sobre títulos, espacios curriculares y colegios. Usa nuestra <a href="#guia-rapida">Guía Rápida</a> si necesitas ayuda.</p>
+            <p>Utiliza nuestros buscadores para encontrar la información que necesitas sobre títulos, espacios curriculares y colegios. Si tienes dudas sobre cómo usar alguna herramienta, consulta nuestra futura <a href="#guia-rapida">Guía Rápida de Uso</a>.</p>
 
+            <!-- Buscador para Docentes Ingresantes: Títulos y Espacios Curriculares -->
             <section class="search-group">
-                <h3>Buscador de Títulos y Espacios Curriculares <small>(Ideal para docentes ingresantes)</small></h3>
-                <div class="tutorial">
-                    <p><strong>Paso 1:</strong> Ingresa tu título (ej. "Profesor de Matemática").</p>
-                    <p><strong>Paso 2:</strong> Selecciona un espacio curricular de los resultados.</p>
-                    <p><strong>Paso 3:</strong> Busca colegios que ofrezcan ese espacio.</p>
-                </div>
+                <h3>Buscador de Títulos y Espacios Curriculares <small>(Ideal para docentes ingresantes)</small></h3> <!-- Título modificado -->
+                <p>Encuentra qué espacios curriculares puedes dictar con tu título. Las incumbencias responden al manual de competencias vigentes del Ministerio de Educación de Salta. **Puedes hacer clic en cualquier título de la tabla de resultados para filtrar y ver solo sus incumbencias exactas.**</p> <!-- Descripción modificada -->
                 <div class="search-section">
-                    <label for="tituloInputIntegrado">1. Ingresa tu Título:</label>
-                    <input type="text" id="tituloInputIntegrado" placeholder="Ej: Profesor de Matemática">
-                    <button onclick="buscarIncumbenciasIntegrado()" aria-label="Buscar espacios curriculares por título">Buscar</button>
+                    <label for="tituloInputIntegrado">1. Ingresa tu Título (o parte de él):</label>
+                    <input type="text" id="tituloInputIntegrado" placeholder="Ej: Profesor de Historia">
+                    <button onclick="buscarIncumbenciasIntegrado()">Buscar Espacios Curriculares</button>
 
                     <div class="results-container">
                         <h3>Resultados de Incumbencias</h3>
@@ -536,20 +489,17 @@
                 </div>
             </section>
 
+            <!-- Buscador de Colegios por Espacio Curricular y Ubicación (Para Docentes con Experiencia) -->
             <section class="search-group">
-                <h3>Buscador de Colegios por Espacio Curricular y Ubicación</h3>
-                <div class="tutorial">
-                    <p><strong>Paso 1:</strong> Selecciona un espacio curricular.</p>
-                    <p><strong>Paso 2:</strong> Elige un departamento.</p>
-                    <p><strong>Paso 3:</strong> Visualiza colegios que dictan ese espacio.</p>
-                </div>
+                <h3>Buscador de Colegios por Espacio Curricular y Ubicación (Para Docentes con Experiencia)</h3>
+                <p>Encuentra colegios que dictan un espacio curricular específico en un departamento. Puedes usar un espacio obtenido del buscador anterior o ingresar uno directamente.</p>
                 <div class="search-section">
-                    <label for="espacioCurricularSelect">1. Selecciona un Espacio Curricular:</label>
+                    <label for="espacioCurricularSelect">2. Selecciona un Espacio Curricular:</label>
                     <select id="espacioCurricularSelect" disabled>
                         <option value="">-- Selecciona un espacio curricular --</option>
                     </select>
 
-                    <label for="departamentoSelect">2. Selecciona un Departamento:</label>
+                    <label for="departamentoSelect">3. Selecciona un Departamento:</label>
                     <select id="departamentoSelect" disabled>
                         <option value="">-- Selecciona un departamento --</option>
                     </select>
@@ -564,15 +514,17 @@
                 </div>
             </section>
 
+            <!-- Otras Búsquedas de Colegios -->
             <section class="search-group">
                 <h3>Otras Búsquedas de Colegios</h3>
                 <p>Herramientas adicionales para encontrar colegios por diferentes criterios.</p>
 
+                <!-- Búsqueda de Colegios por Orientación -->
                 <div class="search-section">
                     <h4>Búsqueda por Orientación</h4>
                     <p>Encuentra colegios secundarios según su orientación educativa.</p>
                     <label for="orientacionInput">Buscar por Orientación:</label>
-                    <input type="text" id="orientacionInput" placeholder="Ej: Ciencias Naturales, Informática">
+                    <input type="text" id="orientacionInput" placeholder="Ej: Ciencias Naturales, Informática, Humanidades">
                     <button onclick="buscarOrientaciones()">Buscar Orientaciones</button>
 
                     <div class="results-container">
@@ -583,11 +535,12 @@
                     </div>
                 </div>
 
-                <div class="search-section" id="colegios">
+                <!-- Búsqueda de Colegios por Localidad/Departamento -->
+                <div class="search-section" id="colegios" style="margin-top: 20px;"> <!-- Se añadió id="colegios" para el scroll -->
                     <h4>Búsqueda por Localidad/Departamento</h4>
-                    <p>Encuentra colegios secundarios por localidad o departamento.</p>
+                    <p>Encuentra colegios secundarios ingresando una localidad o departamento.</p>
                     <label for="localidadInput">Buscar por Localidad o Departamento:</label>
-                    <input type="text" id="localidadInput" placeholder="Ej: Salta Capital, Orán">
+                    <input type="text" id="localidadInput" placeholder="Ej: Salta Capital, San Ramón de la Nueva Orán">
                     <button id="btnBuscarColegiosLocalidad">Buscar Colegios</button>
 
                     <div class="results-container">
@@ -600,71 +553,85 @@
             </section>
         </section>
 
+        <!-- SECCIÓN DE NORMATIVAS -->
         <section id="normativas" class="content-section">
             <h2>Normativas y Documentos Oficiales</h2>
-            <p>Consulta la legislación vigente y documentos relacionados con la función docente.</p>
+            <p>Accede a la legislación vigente y documentos de interés relacionados con la función docente y la Junta Calificadora de Méritos y Disciplina. Es crucial verificar la última versión de cada normativa en fuentes oficiales.</p>
             <ul>
-                <li><a href="http://www.bnm.me.gov.ar/giga1/documentos/EL006396.pdf" target="_blank">Ley N° 7546 - Ley Provincial de Educación</a></li>
-                <li><a href="https://boletinoficialsalta.gob.ar/Texto_Actualizado.php?cXdlcnR5dGFibGE9THw2ODMwJmNhYmU9PGg2PiBQdWJsaWNhZG8gZW4gZWwgQm9sZXTDg8KtbiBPZmljaWFsIE7DgsKwIDAsIGVsIGTDg8KtYSAgZGUgIGRlIDwvaDY+PEJSPnF3ZXJ0eQ==" target="_blank">Ley N° 6830/95 - Ley de Educación</a></li>
-                <li><a href="https://boletinoficialsalta.gob.ar/instrumento.php?cXdlcnR5dGFibGE9UnwxODUxLzA4cXdlcnR5" target="_blank">Resolución N° 1851/08</a></li>
-                <li><a href="https://boletinoficialsalta.gob.ar/instrumento.php?cXdlcnR5dGFibGE9Unw5NzgvMjJxd2VydHk=" target="_blank">Resolución N° 978/22</a></li>
-                <li><a href="https://www.edusalta.gov.ar/index.php/docman/normativa-educativa/resoluciones/2698-res-min-no-3666-12/file" target="_blank">Resolución N° 3666/12 - Reglamento para Inscripción en Escuelas de Educación Secundaria y Técnico Profesional</a></li>
+                <li><a href="URL_LEY_6830_AQUI" target="_blank">Ley Provincial de Educación N° 6.830 (Estatuto del Educador)</a></li>
+                <li><a href="URL_LEY_8325_AQUI" target="_blank">Ley Provincial N° 8.325 (Modificatoria del Estatuto del Educador)</a></li>
+                <li><a href="URL_REGLAMENTO_AQUI" target="_blank">Reglamento General de Calificación de Méritos y Disciplina (Buscar Resolución/Decreto)</a></li>
+                <li><a href="URL_RESOLUCIONES_RECIENTES_AQUI" target="_blank">Resoluciones y Disposiciones Recientes (Acceso al repositorio oficial)</a></li>
+                <!-- Puedes añadir más enlaces aquí siguiendo el mismo formato -->
             </ul>
         </section>
 
+        <!-- NUEVA SECCIÓN: TRÁMITES Y CONSULTAS FRECUENTES -->
         <section id="tramites" class="content-section">
             <h2>Trámites y Consultas Frecuentes</h2>
-            <p>Resuelve tus dudas y accede a información sobre trámites docentes.</p>
+            <p>Encuentra información útil sobre los trámites más comunes y resuelve tus dudas.</p>
 
             <h3>Incumbencias Docentes</h3>
-            <p>Consulta los espacios curriculares que puedes dictar. Usa el <a href="#herramientas-consulta">buscador de títulos</a>.</p>
+            <p>Consulta las incumbencias de tu título para conocer los espacios curriculares que puedes dictar. Utiliza nuestro <a href="#herramientas-consulta">buscador de títulos y espacios curriculares</a> ubicado en la sección de Herramientas de Consulta.</p>
 
-            <h3>Inscripciones</h3>
-            <p>Sigue los pasos para inscribirte en registros o concursos de la Junta.</p>
+            <h3>Procedimientos para Inscripción</h3>
+            <p>Aquí encontrarás los pasos detallados para realizar tu inscripción en los diferentes registros o concursos que convoque la Junta. <br>
+            [Aquí se podría añadir un PDF descargable, una lista de pasos, o un enlace a una página específica con esta información.]</p>
 
-            <h3>Convocatorias</h3>
-            <p>Infórmate sobre interinatos, suplencias y traslados en la sección <a href="#noticias">Noticias</a>.</p>
+            <h3>Convocatorias y Llamados</h3>
+            <p>Mantente al tanto de las últimas convocatorias a interinatos, suplencias, concursos de ascenso y traslados. Las fechas y requisitos son publicados regularmente. Consulta la sección de <a href="#noticias">Noticias</a> para las últimas novedades.</p>
 
-            <h3>Preguntas Frecuentes</h3>
-            <p>Encuentra respuestas a dudas comunes sobre trámites y procedimientos.</p>
+            <h3>Preguntas Frecuentes (FAQ)</h3>
+            <p>Encuentra respuestas a las preguntas más comunes sobre la Junta Calificadora, trámites, documentación y procedimientos. <br>
+            [Aquí podrías añadir una lista de preguntas con sus respuestas, o un enlace a una página dedicada a las FAQs.]</p>
         </section>
 
-        <section id="noticias" class="content-section">
-            <h2>Novedades y Noticias</h2>
-            <p>Consulta los comunicados oficiales del Ministerio de Educación de Salta.</p>
+        <!-- SECCIÓN DE NOTICIAS CON IFRAME -->
+        <section id="noticias" class="content-section" style="text-align: center;">
+            <h2>Novedades y Noticias del Ministerio</h2>
+            <p>Aquí puedes consultar las últimas noticias y comunicados oficiales del Ministerio de Educación, Cultura, Ciencia y Tecnología de Salta, incrustados directamente en nuestra página. Si el contenido no carga o tienes problemas para visualizarlo, puedes hacer clic en el enlace directo a continuación.</p>
+
             <div class="news-iframe-container">
-                <iframe src="https://sga.edusalta.gov.ar/Frontend/Modulos/Noticias/Noticias.aspx" title="Noticias Ministerio de Educación"></iframe>
+                <iframe src="https://sga.edusalta.gov.ar/Frontend/Modulos/Noticias/Noticias.aspx" title="Noticias Ministerio de Educación Salta"></iframe>
             </div>
-            <p><a href="https://sga.edusalta.gov.ar/Frontend/Modulos/Noticias/Noticias.aspx" target="_blank">Ver noticias en el portal del Ministerio</a></p>
+
+            <p style="margin-top: 20px;">
+                <a href="https://sga.edusalta.gov.ar/Frontend/Modulos/Noticias/Noticias.aspx" target="_blank" style="color: #007bff; text-decoration: underline; font-weight: bold;">
+                    Ver noticias directamente en el portal del Ministerio (abre en una nueva pestaña)
+                </a>
+            </p>
         </section>
 
+        <!-- SECCIÓN DE CONTACTO -->
         <section id="contacto" class="content-section">
             <h2>Contacto</h2>
-            <p>Contacta con nosotros para resolver tus consultas:</p>
-            <p><strong>Dirección:</strong> Pje Fernando Ramos N° 22, Salta - Capital.</p>
+            <p>Para consultas, puedes contactarnos a través de los siguientes medios:</p>
+            <p><strong>Dirección:</strong> Pje Fernando Ramos N° 22. Salta - Capital.</p>
             <p><strong>Teléfonos:</strong> 387 5344660 / 387 5344662</p>
-            <p><strong>Email:</strong> <a href="mailto:juntacalificadorasecundario23@gmail.com">juntacalificadorasecundario23@gmail.com</a></p>
+            <p><strong>Correo Electrónico:</strong> <a href="mailto:juntacalificadorasecundario23@gmail.com">juntacalificadorasecundario23@gmail.com</a></p>
+            <p><strong>Horario de Atención:</strong> [Días y horarios - Rellenar si aplica]</p>
 
             <h3>Nuestra Ubicación</h3>
             <div class="map-container">
+                <!-- Mapa incrustado de Google Maps para Pje Fernando Ramos N° 22, Salta - Capital -->
                 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3621.579482598387!2d-65.4093959885822!3d-24.62916857997972!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x941bc3a18a99499d%3A0x7df6b0d9e8c4e43b!2sPje%20Fernando%20Ramos%2022%2C%20A4400%20Salta!5e0!3m2!1ses-419!2sar!4v1700000000000!5m2!1ses-419!2sar" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
-            <p><a href="https://www.google.com/maps/place/Pje+Fernando+Ramos+22,+A4400+Salta" target="_blank">Abrir en Google Maps</a></p>
+            <p style="text-align: center; margin-top: 15px;">
+                <a href="https://www.google.com/maps/place/Pje+Fernando+Ramos+22,+A4400+Salta" target="_blank" style="color: #007bff; text-decoration: underline;">Abrir en Google Maps</a>
+            </p>
         </section>
+
     </div>
 
     <footer>
-        <p>© 2025 Junta Calificadora de Méritos y Disciplina - Nivel Secundario.</p>
-        <p>Desarrollado con el apoyo de [Nombre de la Institución].</p>
+        <p>© 2025 Junta Calificadora de Méritos y Disciplina - Nivel Secundario. Todos los derechos reservados.</p>
+        <p>Desarrollado con el apoyo de [Nombre de la Institución/Equipo si aplica]</p>
     </footer>
 
-    <button class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
-        <i class="fas fa-arrow-up"></i>
-    </button>
-
     <script>
-        console.log('Script principal cargado.');
+        console.log('Script principal cargado.'); // DEBUG: Mensaje de carga muy temprano
 
+        // URLs de tus Google Sheets publicadas como CSV
         const COMPETENCIAS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS-EPPyl34acCgd03fTldc-6Bs7GhBXdAmKVoaIHJKT-5SW4c8VzIDGCNqU7E590SxXlHKPvu-U_qwr/pub?gid=1550756964&single=true&output=csv';
         const ORIENTACIONES_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS7Qnph7TWvhLYl3KhpaDVqnYLqgNGbQ7FNtdw7TNzAlskfjVTg4DePvG2MoVuZf9DD3Fc2nZ5CEOms/pub?gid=1943513223&single=true&output=csv';
         const COLEGIOS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vStnrtyd-dwtpz4UlSU2OXrEgL79AlvRLL3c0mIPSGETpyT2sEVgaGjJOVSpryEC7Jhx4zM6HjKWZN_/pub?gid=119647774&single=true&output=csv';
@@ -675,46 +642,55 @@
         let colegiosData = [];
         let planEstudioData = [];
 
-        async function loadData(url, type = 'general') {
-            const loader = document.getElementById('loader');
-            loader.classList.add('active');
+        // Función para cargar y parsear datos CSV
+        async function loadData(url, type = 'generic') {
             try {
                 console.log(`Cargando datos desde: ${url} (Tipo: ${type})`);
                 const response = await fetch(url);
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    // Modificación: Agregado un alert más específico para el error 404
+                    if (response.status === 404) {
+                        alert(`¡Advertencia! Error 404: No se pudo cargar la hoja de ${type} desde la URL. Por favor, verifica que la URL es correcta y que la hoja de Google Sheets está 'Publicada en la web' como CSV.`);
+                    }
+                    throw new Error(`HTTP error! status: ${response.status} al cargar ${type}`);
                 }
                 const csvText = await response.text();
-                const data = parseCSV(csvText, type);
-                console.log(`Datos de ${type} parseados. Filas: ${data.length}`);
-                return data;
+                return parseCSV(csvText, type);
             } catch (error) {
-                console.error(`Error cargando datos de ${type}:`, error);
-                alert(`Error al cargar los datos de ${type}. Por favor, revisa la consola o verifica la URL.`);
+                console.error(`Error cargando datos de ${type} desde ${url}:`, error);
+                if (type === 'colegios') {
+                     alert('¡Advertencia! Error cargando la lista de Colegios. Algunas funciones podrían no operar correctamente. Por favor, revisa la consola para más detalles y asegúrate que la URL de COLEGIOS_URL es correcta y pública.');
+                } else if (type === 'planEstudio') { 
+                    // El alert específico para 404 ya se maneja arriba, este es un fallback para otros errores
+                    alert('¡Advertencia! Error cargando los datos del Plan de Estudio. La búsqueda de colegios por espacio curricular podría no funcionar. Por favor, revisa la consola para más detalles y asegúrate que la URL de PLAN_ESTUDIO_URL es correcta y pública.');
+                }
                 return [];
-            } finally {
-                loader.classList.remove('active');
             }
         }
 
-        function parseCSV(csvText, type) {
-            const rows = csvText.split('\n').filter(row => row.trim());
-            if (rows.length < 2) {
-                console.warn(`CSV de ${type} tiene menos de 2 filas.`);
+        // Función para parsear texto CSV a un array de objetos JavaScript
+        function parseCSV(csvString, type) {
+            const lines = csvString.split('\n');
+            if (lines.length < 2) {
+                console.warn(`CSV de ${type} tiene menos de 2 líneas (encabezado + datos). Retornando array vacío.`);
                 return [];
             }
 
-            const headers = rows[0].split(',').map(header => header.trim());
+            const headers = lines[0].split(',').map(header => header.trim());
             const data = [];
 
-            for (let i = 1; i < rows.length; i++) {
-                const row = rows[i];
-                const values = [];
-                let currentValue = '';
-                let inQuote = false;
+            for (let i = 1; i < lines.length; i++) {
+                const currentLine = lines[i].trim();
+                if (currentLine === '') {
+                    continue;
+                }
 
-                for (let j = 0; j < row.length; j++) {
-                    const char = row[j];
+                // Manejo robusto de comas dentro de valores (CSV estándar)
+                const values = [];
+                let inQuote = false;
+                let currentValue = '';
+                for (let k = 0; k < currentLine.length; k++) {
+                    const char = currentLine[k];
                     if (char === '"') {
                         inQuote = !inQuote;
                     } else if (char === ',' && !inQuote) {
@@ -724,83 +700,105 @@
                         currentValue += char;
                     }
                 }
-                values.push(currentValue.trim());
+                values.push(currentValue.trim()); // Add the last value
 
-                const obj = {};
-                headers.forEach((header, index) => {
-                    if (header) {
-                        obj[header] = values[index] ? values[index].replace(/^"|"$/g, '').trim() : '';
+
+                const row = {};
+                for (let j = 0; j < headers.length; j++) {
+                    if (headers[j]) { // Asegura que el encabezado no esté vacío
+                        row[headers[j]] = values[j] ? values[j].replace(/^"|"$/g, '').trim() : ''; // Eliminar comillas dobles y limpiar
                     }
-                });
-
-                if (type === 'colegios' && obj['Nombre']) {
-                    const match = obj['Nombre'].match(/Nº\s*(\d+)/);
-                    obj['NumeroUE'] = match ? match[1] : '';
                 }
 
-                data.push(obj);
+                // Lógica específica para la hoja de COLEGIOS_URL (extraer NumeroUE)
+                if (type === 'colegios' && row['Nombre']) {
+                    const match = row['Nombre'].match(/Nº\s*(\d+)/);
+                    if (match && match[1]) {
+                        row['NumeroUE'] = match[1];
+                    } else {
+                        row['NumeroUE'] = '';
+                    }
+                }
+                data.push(row);
             }
+            console.log(`Datos de ${type} parseados. Filas: ${data.length}. Ej. primera fila:`, data[0]); // Depuración
             return data;
         }
 
+        // Función para normalizar texto (quitar acentos y convertir a minúsculas)
         function normalizeText(text) {
             if (typeof text !== 'string') return '';
-            return text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+            return text.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase();
         }
 
+        // Función para resaltar la coincidencia en el texto
         function highlightMatch(text, query) {
             if (!text || !query) return text;
             const normalizedText = normalizeText(text);
             const normalizedQuery = normalizeText(query);
-            const regex = new RegExp(normalizedQuery.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
-            let result = text;
+
+            let lastIndex = 0;
+            let highlightedHtml = '';
             let match;
+
+            // Usar una expresión regular global y case-insensitive para encontrar todas las coincidencias
+            const regex = new RegExp(normalizedQuery.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi'); // Escapar caracteres especiales de la query
+
             while ((match = regex.exec(normalizedText)) !== null) {
-                result = result.slice(0, match.index) + `<strong>${text.slice(match.index, match.index + match[0].length)}</strong>` + result.slice(match.index + match[0].length);
-                regex.lastIndex = match.index + match[0].length + 15; // Adjust for added <strong> tags
+                // Añadir la parte del texto antes de la coincidencia
+                highlightedHtml += text.substring(lastIndex, match.index);
+                // Añadir la coincidencia resaltada
+                highlightedHtml += '<strong>' + text.substring(match.index, regex.lastIndex) + '</strong>';
+                lastIndex = regex.lastIndex;
             }
-            return result;
+            // Añadir el resto del texto después de la última coincidencia
+            highlightedHtml += text.substring(lastIndex);
+
+            return highlightedHtml;
         }
 
+
+        // Cargar todos los datos al cargar la página
         document.addEventListener('DOMContentLoaded', async () => {
-            try {
-                const [compData, orientData, coleData, planData] = await Promise.all([
-                    loadData(COMPETENCIAS_URL, 'competencias'),
-                    loadData(ORIENTACIONES_URL, 'orientaciones'),
-                    loadData(COLEGIOS_URL, 'colegios'),
-                    loadData(PLAN_ESTUDIO_URL, 'planEstudio')
-                ]);
+            // Cargar datos en paralelo para mayor velocidad
+            const [compData, orientData, coleData, planData] = await Promise.all([
+                loadData(COMPETENCIAS_URL, 'competencias'),
+                loadData(ORIENTACIONES_URL, 'orientaciones'),
+                loadData(COLEGIOS_URL, 'colegios'),
+                loadData(PLAN_ESTUDIO_URL, 'planEstudio')
+            ]);
 
-                competenciasData = compData;
-                orientacionesData = orientData;
-                colegiosData = coleData;
-                planEstudioData = planData;
+            competenciasData = compData;
+            orientacionesData = orientData;
+            colegiosData = coleData;
+            planEstudioData = planData;
 
-                console.log('Datos cargados:', {
-                    competenciasCount: competenciasData.length,
-                    orientacionesCount: orientacionesData.length,
-                    colegiosCount: colegiosData.length,
-                    planEstudioCount: planEstudioData.length
-                });
+            console.log('Datos cargados (final):', {
+                competenciasCount: competenciasData.length,
+                orientacionesCount: orientacionesData.length,
+                colegiosCount: colegiosData.length,
+                planEstudioCount: planEstudioData.length
+            });
 
-                populateDepartamentosSelect();
-                const btnBuscarColegiosLocalidad = document.getElementById('btnBuscarColegiosLocalidad');
-                if (btnBuscarColegiosLocalidad) {
-                    btnBuscarColegiosLocalidad.addEventListener('click', buscarColegios);
-                } else {
-                    console.error('Botón con ID "btnBuscarColegiosLocalidad" no encontrado.');
-                }
-            } catch (error) {
-                console.error('Error durante la inicialización:', error);
+            // Rellenar el selector de departamentos una vez que colegiosData esté cargado
+            populateDepartamentosSelect();
+
+            // *** Adjuntar evento de clic al botón de buscar colegios por localidad/dpto. (el de la sección de búsqueda) ***
+            console.log('Intentando adjuntar evento de clic al botón "Buscar Colegios por Localidad/Dpto." (sección de búsqueda)...');
+            const btnBuscarColegiosLocalidad = document.getElementById('btnBuscarColegiosLocalidad');
+            if (btnBuscarColegiosLocalidad) {
+                console.log('Botón "Buscar Colegios por Localidad/Dpto." (sección de búsqueda) encontrado.');
+                btnBuscarColegiosLocalidad.addEventListener('click', buscarColegios);
+                console.log('Evento de clic adjuntado al botón "Buscar Colegios por Localidad/Dpto." (sección de búsqueda) correctamente.');
+            } else {
+                console.error('ERROR: No se encontró el botón con ID "btnBuscarColegiosLocalidad" en la sección de búsqueda.');
             }
         });
 
-        window.addEventListener('scroll', () => {
-            const backToTop = document.querySelector('.back-to-top');
-            backToTop.classList.toggle('active', window.scrollY > 300);
-        });
-
-        function renderTable(containerId, headers, data, htmlColumns = [], searchTerm = '', exactHighlightColumn = null) {
+        // Función para renderizar una tabla de resultados
+        // exactHighlightColumn: Si se proporciona, la fila solo se resaltará si el searchTerm coincide exactamente con el contenido de esta columna.
+        // clickableColumn: Si se proporciona, la celda de esta columna se hará clickeable para filtrar por el valor de esa celda.
+        function renderTable(containerId, headers, data, htmlColumns = [], searchTerm = '', exactHighlightColumn = null, clickableColumn = null) {
             const container = document.getElementById(containerId);
             if (!container) return;
 
@@ -816,129 +814,204 @@
             table.classList.add('results-table');
 
             const thead = document.createElement('thead');
-            const tr = document.createElement('tr');
-            headers.forEach(header => {
+            const headerRow = document.createElement('tr');
+            headers.forEach(headerText => {
                 const th = document.createElement('th');
-                th.textContent = header;
-                tr.appendChild(th);
+                th.textContent = headerText;
+                headerRow.appendChild(th);
             });
-            thead.appendChild(tr);
+            thead.appendChild(headerRow);
             table.appendChild(thead);
 
             const tbody = document.createElement('tbody');
             data.forEach(item => {
                 const tr = document.createElement('tr');
-                let shouldHighlight = false;
+                let rowShouldBeHighlighted = false; // Bandera para controlar el resaltado de la fila
 
+                // Lógica para determinar si la fila debe ser resaltada
                 if (exactHighlightColumn && item[exactHighlightColumn] !== undefined) {
-                    if (normalizeText(String(item[exactHighlightColumn])) === normalizedSearchTerm) {
-                        shouldHighlight = true;
+                    // Si se especificó una columna para el resaltado exacto, verificar solo esa columna
+                    const columnContent = normalizeText(String(item[exactHighlightColumn]));
+                    if (columnContent === normalizedSearchTerm) {
+                        rowShouldBeHighlighted = true;
                     }
                 } else if (normalizedSearchTerm) {
-                    shouldHighlight = headers.some(header => {
-                        const content = item[header] !== undefined ? String(item[header]) : '';
-                        return normalizeText(content).includes(normalizedSearchTerm);
-                    });
+                    // Si no se especificó una columna exacta, o la columna exacta no tiene valor,
+                    // el comportamiento anterior (resaltar si cualquier celda contiene el término)
+                    for (const headerKey of headers) {
+                        const cellContent = item[headerKey] !== undefined ? String(item[headerKey]) : '';
+                        if (normalizeText(cellContent).includes(normalizedSearchTerm)) {
+                            rowShouldBeHighlighted = true;
+                            break; // No necesitamos revisar más celdas en esta fila
+                        }
+                    }
                 }
 
-                headers.forEach(header => {
+                headers.forEach(headerKey => {
                     const td = document.createElement('td');
-                    const content = item[header] !== undefined ? String(item[header]) : '';
-                    td.innerHTML = htmlColumns.includes(header) ? content : content.replace(/</g, '<').replace(/>/g, '>');
+                    const cellContent = item[headerKey] !== undefined ? String(item[headerKey]) : '';
+
+                    // Si la columna es una de las que permite HTML (para el resaltado de texto)
+                    if (htmlColumns.includes(headerKey)) {
+                        // NUEVO: Envuelve el contenido en un span cliqueable si es la columna designada
+                        if (clickableColumn === headerKey) {
+                            const clickableSpan = document.createElement('span');
+                            clickableSpan.classList.add('clickable-title');
+                            // Guarda el título original (no resaltado) para usarlo en la función de filtrado
+                            clickableSpan.dataset.fullTitle = item[headerKey].replace(/<\/?strong>/g, ''); // Elimina <strong> para guardar el texto puro
+                            clickableSpan.innerHTML = cellContent; // Usar innerHTML para el contenido resaltado
+                            clickableSpan.onclick = () => filterAndDisplayExactTitle(clickableSpan.dataset.fullTitle);
+                            td.appendChild(clickableSpan);
+                        } else {
+                            td.innerHTML = cellContent;
+                        }
+                    } else {
+                        td.textContent = cellContent;
+                    }
+                    td.setAttribute('data-col-name', headerKey); // Útil para CSS nth-child si el orden de columnas cambia
                     tr.appendChild(td);
                 });
 
-                if (shouldHighlight) {
+                // Aplicar la clase de resaltado si la bandera está activa
+                if (rowShouldBeHighlighted) {
                     tr.classList.add('highlighted-row');
                 }
 
                 tbody.appendChild(tr);
             });
             table.appendChild(tbody);
+
             container.appendChild(table);
         }
 
+        // --- FUNCIONES DE BÚSQUEDA ESPECÍFICAS (Mantenidas para los buscadores independientes) ---
+
         function buscarOrientaciones() {
-            const input = normalizeText(document.getElementById('orientacionInput').value);
-            if (!input) {
+            const inputElement = document.getElementById('orientacionInput');
+            const rawInput = inputElement.value;
+            const normalizedInput = normalizeText(rawInput);
+            if (!normalizedInput) {
                 renderTable('orientacionesResults', ['UNID EDUCATIVA', 'ORIENTACION', 'AREA GEOGRAFICA- LOCALIDAD-DPTO'], []);
                 return;
             }
 
             const filtered = orientacionesData.filter(item => {
-                const orientacion = normalizeText(item['ORIENTACION'] || '');
-                const unidEducativa = normalizeText(item['UNID EDUCATIVA'] || '');
-                const areaGeo = normalizeText(item['AREA GEOGRAFICA- LOCALIDAD-DPTO'] || '');
-                return orientacion.includes(input) || unidEducativa.includes(input) || areaGeo.includes(input);
+                const orientacion = normalizeText(item['ORIENTACION']); // Normalizar dato de la hoja
+                const unidEducativa = normalizeText(item['UNID EDUCATIVA']); // Normalizar dato de la hoja
+                const areaGeo = normalizeText(item['AREA GEOGRAFICA- LOCALIDAD-DPTO']); // Normalizar dato de la hoja
+
+                return orientacion.includes(normalizedInput) || unidEducativa.includes(normalizedInput) || areaGeo.includes(normalizedInput);
             });
 
-            renderTable('orientacionesResults', ['UNID EDUCATIVA', 'ORIENTACION', 'AREA GEOGRAFICA- LOCALIDAD-DPTO'], filtered, [], input);
+            // Pasar el input para que renderTable pueda resaltar las filas
+            renderTable('orientacionesResults', ['UNID EDUCATIVA', 'ORIENTACION', 'AREA GEOGRAFICA- LOCALIDAD-DPTO'], filtered, [], rawInput);
         }
 
         function buscarColegios() {
-            console.log('Función buscarColegios() ejecutada.');
+            console.log('Función buscarColegios() ejecutada.'); // DEBUG: Confirmar que la función se llama
             const inputElement = document.getElementById('localidadInput');
-            const rawInput = inputElement.value;
-            const normalizedInput = normalizeText(rawInput);
+            const rawInput = inputElement.value; // Obtener el valor sin normalizar para el resaltado de filas
+            const normalizedInput = normalizeText(rawInput); // Normalizar para la búsqueda
+            console.log('Buscando colegios por localidad/dpto. Input normalizado:', normalizedInput); // DEBUG: Muestra el valor de búsqueda
             if (!normalizedInput) {
+                console.log('Input vacío, renderizando tabla vacía para colegios.'); // DEBUG
                 renderTable('colegiosResults', ['Nombre', 'Direccion', 'Localidad', 'Departamento', 'CodPostal'], []);
                 return;
             }
 
             const filtered = colegiosData.filter(item => {
-                const localidad = normalizeText(item['Localidad'] || '');
-                const departamento = normalizeText(item['Departamento'] || '');
-                const direccion = normalizeText(item['Direccion'] || '');
-                const nombre = normalizeText(item['Nombre'] || '');
-                const codPostal = normalizeText(item['CodPostal'] || '');
-                return localidad.includes(normalizedInput) || departamento.includes(normalizedInput) || direccion.includes(normalizedInput) || nombre.includes(normalizedInput) || codPostal.includes(normalizedInput);
+                const localidad = normalizeText(item['Localidad']); // Normalizar dato de la hoja
+                const departamento = normalizeText(item['Departamento']); // Normalizar dato de la hoja
+                const direccion = normalizeText(item['Direccion']); // Normalizar dato de la hoja
+                const nombre = normalizeText(item['Nombre']); // Normalizar dato de la hoja
+                const codPostal = normalizeText(item['CodPostal']); // Normalizar dato de la hoja
+
+                const match = localidad.includes(normalizedInput) || departamento.includes(normalizedInput) || direccion.includes(normalizedInput) || nombre.includes(normalizedInput) || codPostal.includes(normalizedInput);
+                return match;
             });
 
+            console.log('Resultados filtrados para colegios (cantidad):', filtered.length); // DEBUG: Muestra la cantidad de resultados
+            console.log('Resultados filtrados para colegios (datos):', filtered); // DEBUG: Muestra los resultados filtrados
+            // Pasar el rawInput para que renderTable pueda resaltar las filas (comportamiento original de 'includes')
             renderTable('colegiosResults', ['Nombre', 'Direccion', 'Localidad', 'Departamento', 'CodPostal'], filtered, [], rawInput);
         }
 
+        // *** NUEVA FUNCIÓN: Para el botón de acceso rápido "Buscar Colegios por Localidad/Dpto." ***
         function triggerLocalidadSearchAndScroll() {
+            console.log('Botón de acceso rápido "Buscar Colegios por Localidad/Dpto." clickeado.');
             const localidadInput = document.getElementById('localidadInput');
+
+            // Opcional: Si el campo está vacío, establece un valor predeterminado para la búsqueda rápida
             if (!localidadInput.value.trim()) {
-                localidadInput.value = 'Salta';
+                localidadInput.value = 'Salta'; // Puedes cambiar esto a un departamento o localidad común
+                console.log('Campo de localidad/departamento vacío, estableciendo valor predeterminado a "Salta".');
             }
-            buscarColegios();
+
+            buscarColegios(); // Ejecuta la función de búsqueda
+
+            // Desplazarse a la sección de resultados
             const colegiosSection = document.getElementById('colegios');
             if (colegiosSection) {
                 colegiosSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                console.log('Desplazándose a la sección de colegios.');
+            } else {
+                console.warn('No se encontró la sección con ID "colegios" para desplazarse.');
             }
         }
+
+
+        // --- FUNCIONES PARA EL BUSCADOR INTEGRADO ---
 
         let foundEspaciosCurriculares = [];
 
         function populateDepartamentosSelect() {
             const departamentoSelect = document.getElementById('departamentoSelect');
-            departamentoSelect.innerHTML = '<option value="">-- Selecciona un departamento --</option>';
+            departamentoSelect.innerHTML = '<option value="">-- Selecciona un departamento --</option>'; // Limpiar opciones anteriores
 
             if (!colegiosData || colegiosData.length === 0) {
+                console.warn('colegiosData está vacío o no se cargó correctamente. No se pueden poblar los departamentos.');
                 departamentoSelect.disabled = true;
                 return;
             }
 
-            const departamentos = [...new Set(colegiosData.map(item => item['Departamento']).filter(Boolean))].sort();
-            departamentos.forEach(departamento => {
+            const uniqueDepartamentos = new Set();
+            colegiosData.forEach(item => {
+                if (item['Departamento']) {
+                    uniqueDepartamentos.add(item['Departamento'].trim());
+                }
+            });
+
+            if (uniqueDepartamentos.size === 0) {
+                 console.warn('No se encontraron departamentos únicos en colegiosData. La columna "Departamento" podría estar vacía o mal nombrada en tu hoja de Colegios.');
+                 departamentoSelect.disabled = true;
+                 return;
+            }
+
+            const sortedDepartamentos = Array.from(uniqueDepartamentos).sort();
+
+            sortedDepartamentos.forEach(departamento => {
                 const option = document.createElement('option');
                 option.value = departamento;
                 option.textContent = departamento;
                 departamentoSelect.appendChild(option);
             });
 
-            departamentoSelect.disabled = false;
+            departamentoSelect.disabled = false; // Habilitar el select de departamentos
+            console.log('Departamentos poblados:', sortedDepartamentos);
         }
+
 
         function buscarIncumbenciasIntegrado() {
             const inputElement = document.getElementById('tituloInputIntegrado');
-            const rawInput = inputElement.value;
-            const normalizedInput = normalizeText(rawInput);
+            const rawInput = inputElement.value; // Obtener el valor sin normalizar para el resaltado de texto y fila
+            const normalizedInput = normalizeText(rawInput); // Normalizar para la búsqueda
+
             const selectEspacio = document.getElementById('espacioCurricularSelect');
             const selectDepartamento = document.getElementById('departamentoSelect');
             const btnBuscarColegios = document.getElementById('btnBuscarColegios');
 
+            // Limpiar resultados anteriores y resetear selects/botones
+            // Ahora renderTable puede recibir null para searchTerm y exactHighlightColumn
             renderTable('incumbenciasResultsIntegrado', ['Titulo', 'Nombre DEL ESPACIO CURRICULAR', 'CODIGO/Modulo', 'Alcance/INCUMBENCIA'], []);
             renderTable('colegiosPorEspacioResults', ['Nombre', 'Direccion', 'Localidad', 'Departamento'], []);
 
@@ -949,34 +1022,122 @@
             foundEspaciosCurriculares = [];
 
             if (!normalizedInput) {
-                document.getElementById('incumbenciasResultsIntegrado').innerHTML = '<p class="no-results">Por favor, ingresa un título.</p>';
+                document.getElementById('incumbenciasResultsIntegrado').innerHTML = '<p class="no-results">Por favor, ingresa un título para buscar incumbencias.</p>';
                 return;
             }
 
+            // Filtramos los datos para mostrar solo las filas que son relevantes para la búsqueda
+            // Aquí mantenemos la lógica de 'includes' para que la búsqueda inicial sea flexible
             const filteredData = competenciasData.filter(item => {
                 const titulo = normalizeText(item['Titulo'] || '');
                 const espacioCurricular = normalizeText(item['Nombre DEL ESPACIO CURRICULAR'] || '');
                 const codigoModulo = normalizeText(item['CODIGO/Modulo'] || '');
                 const alcanceIncumbencia = normalizeText(item['Alcance/INCUMBENCIA'] || '');
-                return titulo.includes(normalizedInput) || espacioCurricular.includes(normalizedInput) || codigoModulo.includes(normalizedInput) || alcanceIncumbencia.includes(normalizedInput);
+
+                return titulo.includes(normalizedInput) ||
+                       espacioCurricular.includes(normalizedInput) ||
+                       codigoModulo.includes(normalizedInput) ||
+                       alcanceIncumbencia.includes(normalizedInput);
             });
 
-            const filteredAndHighlighted = filteredData.map(item => ({
-                ...item,
-                'Titulo': highlightMatch(item['Titulo'] || '', rawInput)
-            }));
+            // Preparamos los datos para renderizar, aplicando el resaltado de texto en la columna "Titulo"
+            const dataToRender = filteredData.map(item => {
+                const newItem = { ...item };
+                newItem['Titulo'] = highlightMatch(item['Titulo'], rawInput);
+                return newItem;
+            });
 
-            renderTable('incumbenciasResultsIntegrado',
+            // Llamada a renderTable:
+            // - 'Titulo' para htmlColumns para que se aplique el bold.
+            // - rawInput como searchTerm para el resaltado de fila.
+            // - 'Titulo' como exactHighlightColumn para que SOLO las filas con coincidencia exacta en 'Titulo' se resalten.
+            // - 'Titulo' como clickableColumn para que las celdas de título sean cliqueables.
+            renderTable(
+                'incumbenciasResultsIntegrado',
                 ['Titulo', 'Nombre DEL ESPACIO CURRICULAR', 'CODIGO/Modulo', 'Alcance/INCUMBENCIA'],
-                filteredAndHighlighted,
-                ['Titulo'],
-                rawInput,
-                'Titulo'
+                dataToRender,
+                ['Titulo'], // Columnas que pueden contener HTML (para el resaltado de texto)
+                rawInput,   // Término de búsqueda para el resaltado de la fila (coincidencia exacta en 'Titulo')
+                'Titulo',   // Columna para la coincidencia exacta de resaltado de fila
+                'Titulo'    // Columna que se hará clickeable
             );
 
-            if (filteredAndHighlighted.length > 0) {
-                foundEspaciosCurriculares = [...new Set(filteredAndHighlighted.map(item => item['Nombre DEL ESPACIO CURRICULAR']).filter(Boolean))].sort();
+
+            // Llenar el select con los espacios curriculares encontrados
+            if (filteredData.length > 0) { // Usar filteredData, no dataToRender, para los valores del select
+                const uniqueEspacios = new Set();
+                filteredData.forEach(item => {
+                    if (item['Nombre DEL ESPACIO CURRICULAR']) {
+                        uniqueEspacios.add(item['Nombre DEL ESPACIO CURRICULAR'].trim());
+                    }
+                });
+
+                foundEspaciosCurriculares = Array.from(uniqueEspacios);
+                foundEspaciosCurriculares.sort();
+
+                selectEspacio.innerHTML = '<option value="">-- Selecciona un espacio curricular --</option>'; // Asegurar que la opción por defecto esté
                 foundEspaciosCurriculares.forEach(espacio => {
+                    const option = document.createElement('option');
+                    option.value = espacio;
+                    option.textContent = espacio;
+                    selectEspacio.appendChild(option);
+                });
+                selectEspacio.disabled = false; // Habilitar el select de espacio curricular
+            } else {
+                 document.getElementById('incumbenciasResultsIntegrado').innerHTML = '<p class="no-results">No se encontraron espacios curriculares para ese título.</p>';
+            }
+            toggleBuscarColegiosButton(); // Verificar estado del botón después de buscar incumbencias
+        }
+
+
+        // NUEVA FUNCIÓN: Filtra y muestra solo las incumbencias de un título exacto seleccionado
+        function filterAndDisplayExactTitle(selectedTitle) {
+            console.log('Título seleccionado para filtro exacto:', selectedTitle);
+
+            // Actualizar el input del buscador con el título seleccionado
+            const tituloInput = document.getElementById('tituloInputIntegrado');
+            if (tituloInput) {
+                tituloInput.value = selectedTitle;
+            }
+
+            const normalizedSelectedTitle = normalizeText(selectedTitle);
+
+            // Filtrar los datos originales para encontrar solo las entradas de este título exacto
+            const exactFilteredData = competenciasData.filter(item => {
+                return normalizeText(item['Titulo'] || '') === normalizedSelectedTitle;
+            });
+
+            // Preparar los datos para renderizar, aplicando el resaltado de texto (negrita)
+            const dataToRender = exactFilteredData.map(item => {
+                const newItem = { ...item };
+                newItem['Titulo'] = highlightMatch(item['Titulo'], selectedTitle);
+                return newItem;
+            });
+
+            // Volver a renderizar la tabla con los resultados exactos
+            // Para el resaltado de fila, usaremos selectedTitle como searchTerm y 'Titulo' como exactHighlightColumn
+            // Para las celdas clickeables, seguimos permitiéndolo en la columna 'Titulo'
+            renderTable(
+                'incumbenciasResultsIntegrado',
+                ['Titulo', 'Nombre DEL ESPACIO CURRICULAR', 'CODIGO/Modulo', 'Alcance/INCUMBENCIA'],
+                dataToRender,
+                ['Titulo'],
+                selectedTitle, // searchTerm para que la fila exacta se resalte
+                'Titulo',      // exactHighlightColumn para asegurar el resaltado exacto de fila
+                'Titulo'       // clickableColumn para que siga siendo cliqueable
+            );
+
+            // Opcional: Re-poblar el select de espacio curricular solo con los espacios de este título exacto
+            const selectEspacio = document.getElementById('espacioCurricularSelect');
+            selectEspacio.innerHTML = '<option value="">-- Selecciona un espacio curricular --</option>';
+            if (dataToRender.length > 0) {
+                const uniqueEspaciosExact = new Set();
+                dataToRender.forEach(item => {
+                    if (item['Nombre DEL ESPACIO CURRICULAR']) {
+                        uniqueEspaciosExact.add(item['Nombre DEL ESPACIO CURRICULAR'].trim());
+                    }
+                });
+                Array.from(uniqueEspaciosExact).sort().forEach(espacio => {
                     const option = document.createElement('option');
                     option.value = espacio;
                     option.textContent = espacio;
@@ -984,7 +1145,7 @@
                 });
                 selectEspacio.disabled = false;
             } else {
-                document.getElementById('incumbenciasResultsIntegrado').innerHTML = '<p class="no-results">No se encontraron espacios curriculares.</p>';
+                selectEspacio.disabled = true;
             }
             toggleBuscarColegiosButton();
         }
@@ -994,60 +1155,102 @@
             const selectedDepartamento = document.getElementById('departamentoSelect').value;
             renderTable('colegiosPorEspacioResults', ['Nombre', 'Direccion', 'Localidad', 'Departamento'], []);
 
-            if (!selectedEspacio || !selectedDepartamento) {
-                document.getElementById('colegiosPorEspacioResults').innerHTML = '<p class="no-results">Selecciona un espacio curricular y un departamento.</p>';
+            if (!selectedEspacio) {
+                document.getElementById('colegiosPorEspacioResults').innerHTML = '<p class="no-results">Por favor, selecciona un espacio curricular.</p>';
+                return;
+            }
+            if (!selectedDepartamento) {
+                document.getElementById('colegiosPorEspacioResults').innerHTML = '<p class="no-results">Por favor, selecciona un departamento.</p>';
+                return;
+            }
+            if (!colegiosData || colegiosData.length === 0 || !planEstudioData || planEstudioData.length === 0) {
+                 document.getElementById('colegiosPorEspacioResults').innerHTML = '<p class="no-results">Los datos de colegios o plan de estudio no se cargaron correctamente. Intenta recargar la página o revisa la consola.</p>';
+                console.error('Datos de colegiosData o planEstudioData no disponibles para la búsqueda aleatoria.');
                 return;
             }
 
-            const uesEnDepartamento = colegiosData
-                .filter(c => c['Departamento'] && normalizeText(c['Departamento']) === normalizeText(selectedDepartamento) && c['NumeroUE'])
-                .map(c => String(c['NumeroUE']).trim());
+
+            // 1. Obtener los UEs (Números de Unidad Educativa) de los colegios que están en el departamento seleccionado
+            const uesEnDepartamento = colegiosData.filter(c =>
+                c['Departamento'] && normalizeText(c['Departamento']) === normalizeText(selectedDepartamento) && c['NumeroUE']
+            ).map(c => String(c['NumeroUE']).trim());
+
+            console.log('UEs en el departamento seleccionado:', uesEnDepartamento); // Depuración
 
             if (uesEnDepartamento.length === 0) {
-                document.getElementById('colegiosPorEspacioResults').innerHTML = `<p class="no-results">No se encontraron colegios en "${selectedDepartamento}".</p>`;
+                document.getElementById('colegiosPorEspacioResults').innerHTML = `<p class="no-results">No se encontraron colegios con un número de UE válido en el departamento "${selectedDepartamento}".</p>`;
                 return;
             }
 
-            const colegiosConEspacio = planEstudioData.filter(item => {
-                const espacio = normalizeText(item['ESPACIO CURRICULAR'] || '');
-                const ue = String(item['UE'] || '').trim();
-                return espacio === normalizeText(selectedEspacio) && uesEnDepartamento.includes(ue);
+
+            // 2. Filtrar el planEstudioData por el espacio curricular seleccionado Y por los UEs del departamento
+            const colegiosConEspacioYDepartamento = planEstudioData.filter(item => {
+                const espacio = normalizeText(item['ESPACIO CURRICULAR']); // Normalizar dato de la hoja
+                const ue = item['UE'] ? String(item['UE']).trim() : '';
+
+                return espacio === normalizeText(selectedEspacio) && uesEnDepartamento.includes(ue); // Normalizar el espacio seleccionado
             });
 
-            if (colegiosConEspacio.length === 0) {
+            console.log('Colegios con espacio y departamento filtrados (planEstudioData):', colegiosConEspacioYDepartamento); // Depuración
+
+            if (colegiosConEspacioYDepartamento.length === 0) {
                 document.getElementById('colegiosPorEspacioResults').innerHTML = `<p class="no-results">No se encontraron colegios en "${selectedDepartamento}" que dicten "${selectedEspacio}".</p>`;
                 return;
             }
 
-            const uniqueUEs = [...new Set(colegiosConEspacio.map(item => String(item['UE']).trim()))];
-            const randomUEs = [];
-            const maxColegios = Math.min(7, uniqueUEs.length);
-            let availableUEs = [...uniqueUEs];
-
-            for (let i = 0; i < maxColegios; i++) {
-                const randomIndex = Math.floor(Math.random() * availableUEs.length);
-                randomUEs.push(availableUEs[randomIndex]);
-                availableUEs.splice(randomIndex, 1);
-            }
-
-            const resultados = randomUEs.map(ue => {
-                const colegio = colegiosData.find(c => String(c['NumeroUE']).trim() === ue);
-                return colegio ? {
-                    'Nombre': colegio['Nombre'],
-                    'Direccion': colegio['Direccion'],
-                    'Localidad': colegio['Localidad'],
-                    'Departamento': colegio['Departamento']
-                } : {
-                    'Nombre': `Nº ${ue} (Nombre no encontrado)`,
-                    'Direccion': 'No disponible',
-                    'Localidad': 'No disponible',
-                    'Departamento': 'No disponible'
-                };
+            // 3. Obtener los números de UE únicos de colegios filtrados del plan de estudio
+            const numerosUnicosUEFiltrados = new Set();
+            colegiosConEspacioYDepartamento.forEach(item => {
+                if (item['UE']) {
+                    numerosUnicosUEFiltrados.add(item['UE'].trim());
+                }
             });
 
-            renderTable('colegiosPorEspacioResults', ['Nombre', 'Direccion', 'Localidad', 'Departamento'], resultados, [], `${selectedEspacio} ${selectedDepartamento}`);
+            const uesDisponibles = Array.from(numerosUnicosUEFiltrados);
+            console.log('UEs únicos disponibles después de filtrar por espacio y departamento:', uesDisponibles); // Depuración
+
+            // 4. Seleccionar 7 colegios al azar (o menos si no hay 7)
+            const uesAleatorios = [];
+            let numColegios = Math.min(7, uesDisponibles.length);
+            let tempUEs = [...uesDisponibles];
+
+            for (let i = 0; i < numColegios; i++) {
+                const randomIndex = Math.floor(Math.random() * tempUEs.length);
+                const randomUE = tempUEs[randomIndex];
+                uesAleatorios.push(randomUE);
+                tempUEs.splice(randomIndex, 1);
+            }
+            console.log('UEs seleccionados aleatoriamente:', uesAleatorios); // Depuración
+
+            // 5. Buscar los detalles completos de los colegios seleccionados usando el NumeroUE
+            const resultadosFinales = [];
+            uesAleatorios.forEach(numeroUE => {
+                const colegioDetalle = colegiosData.find(c =>
+                    String(c['NumeroUE']).trim() === String(numeroUE).trim()
+                );
+                if (colegioDetalle) {
+                    resultadosFinales.push({
+                        'Nombre': colegioDetalle['Nombre'],
+                        'Direccion': colegioDetalle['Direccion'],
+                        'Localidad': colegioDetalle['Localidad'],
+                        'Departamento': colegioDetalle['Departamento']
+                    });
+                } else {
+                    resultadosFinales.push({
+                        'Nombre': `Nº ${numeroUE} (Nombre no encontrado)`,
+                        'Direccion': 'No disponible',
+                        'Localidad': 'No disponible',
+                        'Departamento': 'No disponible'
+                    });
+                    console.warn(`Detalles no encontrados en colegiosData para el NumeroUE: ${numeroUE}. Esto podría indicar un problema de consistencia entre las hojas.`);
+                }
+            });
+
+            // Pasar el selectedEspacio y selectedDepartamento para que renderTable pueda resaltar las filas
+            renderTable('colegiosPorEspacioResults', ['Nombre', 'Direccion', 'Localidad', 'Departamento'], resultadosFinales, [], `${selectedEspacio} ${selectedDepartamento}`);
         }
 
+        // Habilitar/deshabilitar el botón de búsqueda de colegios
         document.getElementById('espacioCurricularSelect').addEventListener('change', toggleBuscarColegiosButton);
         document.getElementById('departamentoSelect').addEventListener('change', toggleBuscarColegiosButton);
 
@@ -1055,7 +1258,12 @@
             const selectEspacio = document.getElementById('espacioCurricularSelect');
             const selectDepartamento = document.getElementById('departamentoSelect');
             const btnBuscarColegios = document.getElementById('btnBuscarColegios');
-            btnBuscarColegios.disabled = !(selectEspacio.value && selectDepartamento.value);
+
+            if (selectEspacio.value && selectDepartamento.value) {
+                btnBuscarColegios.disabled = false;
+            } else {
+                btnBuscarColegios.disabled = true;
+            }
         }
     </script>
 </body>
