@@ -95,9 +95,11 @@
             margin: 0;
             padding: 0;
             display: flex; /* Para poner los elementos del menú en línea */
+            justify-content: center; /* NUEVO: Centra los elementos del menú horizontalmente */
+            gap: 25px; /* NUEVO: Añade espacio entre los elementos del menú de forma consistente */
         }
         header nav ul li {
-            margin-left: 25px;
+            /* margin-left: 25px; */ /* ELIMINADO: Ahora el espacio se maneja con 'gap' en el ul padre */
         }
         header nav ul li a {
             color: white;
