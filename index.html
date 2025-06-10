@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="style.css"> <!-- Tu archivo style.css -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet"> <!-- Fuente Google Fonts -->
 
- <style>
+    <style>
         /* Estilos generales mejorados */
         body {
             font-family: 'Roboto', Arial, sans-serif;
@@ -20,11 +20,11 @@
         .container {
             width: 90%;
             max-width: 1200px;
-            margin: 0 auto; /* MODIFICADO: Cambiamos el margin-top a 0 para que el contenedor suba */
+            margin: 20px auto;
             background: #fff;
-            padding: 10px 30px 30px; /* MODIFICADO: Reducimos el padding-top del contenedor */
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Sombra más pronunciada y suave */
+            border-radius: 12px; /* Bordes más redondeados */
         }
         h1, h2, h3 {
             color: #0056b3;
@@ -32,10 +32,10 @@
             margin-bottom: 25px;
         }
         h1 {
-            font-size: 2.8em;
+            font-size: 2.8em; /* Título principal más grande */
             font-weight: 700;
-            margin-top: 0; /* MODIFICADO: Eliminamos el margen superior del h1 */
-            color: #004085;
+            margin-top: 20px;
+            color: #004085; /* Un azul más oscuro */
             line-height: 1.2;
         }
         h2 {
@@ -77,11 +77,6 @@
             padding: 15px 0;
             text-align: center;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-            /* AÑADIDO: Posición fija y z-index alto para que el header esté siempre visible encima del contenido */
-            position: sticky; /* O 'fixed' si no quieres que se mueva con el scroll */
-            top: 0;
-            width: 100%;
-            z-index: 1000; /* Asegura que esté por encima de otros elementos */
         }
         header .header-content {
             display: flex;
@@ -117,14 +112,9 @@
 
         /* Secciones de Contenido */
         .content-section {
-            padding: 20px 0; /* Se mantiene para secciones generales */
+            padding: 20px 0;
             margin-bottom: 30px;
-            border-bottom: 1px dashed #e0e7ed;
-        }
-     /* NUEVO: Ajustes específicos para la primera sección (#inicio) */
-        #inicio {
-            padding-top: 0; /* MODIFICADO: Eliminamos el padding superior de la primera sección para subir el h1 */
-            margin-top: 0; /* Aseguramos que no haya margen extra aquí */
+            border-bottom: 1px dashed #e0e7ed; /* Línea punteada para separar secciones */
         }
         .content-section:last-of-type {
             border-bottom: none; /* Eliminar la línea en la última sección */
@@ -363,8 +353,6 @@
             .container {
                 width: 95%;
                 padding: 15px;
-                /* Ajuste el margen superior en móvil para dar espacio al encabezado */
-                margin-top: 100px; /* Un poco menos que en desktop si es necesario, o déjalo igual */
             }
             h1 {
                 font-size: 2em;
@@ -449,7 +437,7 @@
 
     <div class="container">
         <section id="inicio" class="content-section">
-            <h1>JUNTA CALIFICADORA DE MÉRITOS Y DISCIPLINA DEL NIVEL SECUNDARIO Y SUS MODALIDADES</h1>
+            <h1>Junta Calificadora de Méritos y Disciplina - Nivel Secundario</h1>
             <p>Bienvenido a la plataforma oficial de la Junta Calificadora de Méritos y Disciplina de Nivel Secundario de la Provincia de Salta. Aquí encontrarás herramientas esenciales y toda la información necesaria para tu carrera docente.</p>
             <p>Nuestro compromiso es brindarte un acceso fácil y transparente a normativas, incumbencias, convocatorias y datos de instituciones educativas.</p>
 
@@ -569,13 +557,13 @@
         <section id="normativas" class="content-section">
             <h2>Normativas y Documentos Oficiales</h2>
             <p>Accede a la legislación vigente y documentos de interés relacionados con la función docente y la Junta Calificadora de Méritos y Disciplina. Es crucial verificar la última versión de cada normativa en fuentes oficiales.</p>
-           <ul>
-                <li><a href="http://www.bnm.me.gov.ar/giga1/documentos/EL006396.pdf" target="_blank">Ley N° 7546 - Ley Provincial de Educación</a></li>
-                <li><a href="https://boletinoficialsalta.gob.ar/Texto_Actualizado.php?cXdlcnR5dGFibGE9THw2ODMwJmNhYmU9PGg2PiBQdWJsaWNhZG8gZW4gZWwgQm9sZXTDg8KtbiBPZmljaWFsIE7DgsKwIDAsIGVsIGTDg8KtYSAgZGUgIGRlIDwvaDY+PEJSPnF3ZXJ0eQ==" target="_blank">Ley N° 6830/95 - Ley de Educación</a></li>
-                <li><a href="https://boletinoficialsalta.gob.ar/instrumento.php?cXdlcnR5dGFibGE9UnwxODUxLzA4cXdlcnR5" target="_blank">Resolución N° 1851/08</a></li>
-                <li><a href="https://boletinoficialsalta.gob.ar/instrumento.php?cXdlcnR5dGFibGE9Unw5NzgvMjJxd2VydHk=" target="_blank">Resolución N° 978/22</a></li>
-                <li><a href="https://www.edusalta.gov.ar/index.php/docentes/normativa-educativa/resoluciones/2698-res-min-no-3666-12/file" target="_blank">Resolución N° 3666/12 - Reglamento para Inscripción en Escuelas de Educación Secundaria y Técnico Profesional</a></li>
-          </ul>
+            <ul>
+                <li><a href="URL_LEY_6830_AQUI" target="_blank">Ley Provincial de Educación N° 6.830 (Estatuto del Educador)</a></li>
+                <li><a href="URL_LEY_8325_AQUI" target="_blank">Ley Provincial N° 8.325 (Modificatoria del Estatuto del Educador)</a></li>
+                <li><a href="URL_REGLAMENTO_AQUI" target="_blank">Reglamento General de Calificación de Méritos y Disciplina (Buscar Resolución/Decreto)</a></li>
+                <li><a href="URL_RESOLUCIONES_RECIENTES_AQUI" target="_blank">Resoluciones y Disposiciones Recientes (Acceso al repositorio oficial)</a></li>
+                <!-- Puedes añadir más enlaces aquí siguiendo el mismo formato -->
+            </ul>
         </section>
 
         <!-- NUEVA SECCIÓN: TRÁMITES Y CONSULTAS FRECUENTES -->
@@ -583,63 +571,15 @@
             <h2>Trámites y Consultas Frecuentes</h2>
             <p>Encuentra información útil sobre los trámites más comunes y resuelve tus dudas.</p>
 
-            <!-- NUEVA SECCIÓN DE CONVOCATORIA DE INSCRIPCIÓN -->
-            <div class="search-group" style="background-color: #eaf6fd; border-color: #a7d9ff;">
-                <h3 style="color: #004085; border-bottom-color: #a7d9ff;">CONVOCATORIA PARA INSCRIPCIÓN Y REINSCRIPCIÓN DE INTERESADOS A CUBRIR INTERINATOS Y SUPLENCIAS - PERÍODO 2026</h3>
-                <p style="font-size: 1.1em; font-weight: bold; color: #333;">Salta, 06 de junio de 2025</p>
-                <p style="font-size: 1.1em; font-weight: bold; color: #333;">C I R C U L A R Nº 01/2025</p>
-
-                <h4>1.- LLAMADO A INSCRIPCIÓN:</h4>
-                <p>Junta Calificadora de Méritos y Disciplina del Nivel Secundario y sus modalidades llama a inscripción de interesados a cubrir interinatos y suplencias – Período 2026 - en los establecimientos dependientes de la Dirección Gral. de Educación Secundaria, Dirección Gral. de Educación Técnico y Formación Profesional, Dirección Gral. de Educación de Jóvenes y Adultos y la Subsecretaría de Políticas Socioeducativas en horas cátedra y cargos.</p>
-                <p>No se registrará inscripción en los Cursos de Capacitación Laboral (C.C.L.), Cursos de Capacitación Laboral Técnico (C.C.L.T.), Cursos de Adiestramiento Laboral (C.A.L.), Cursos de Formación Profesional (C.F.P.) y Maestro de Enseñanza Práctica dependientes de la Dirección General de Educación Técnico y Formación Profesional, los que se designan por concurso; tampoco para el Polo de Reingreso, Colegios mediados por TIC; Colegios Virtuales, Domiciliarias y/u Hospitalarias dependientes de la Dirección Gral. de Educación Secundaria.</p>
-                <p>Deberán tenerse en cuenta los códigos de los espacios curriculares y/o cargos, los que se adjuntan en Anexo II, para consignarlos correctamente en la ficha de inscripción, a fin de evitar omisiones o errores.</p>
-                <p>En virtud de la implementación del sistema integral virtual, este organismo informa la existencia de dos modalidades de inscripción:</p>
-
-                <h5>A – PRESENCIAL</h5>
-                <p>Tanto la apertura de legajo como la reinscripción se realizarán en Unidades Educativas, dependiente de cualquiera de las Direcciones del Nivel mencionadas y reconocidas por el Ministerio de Educación. Junta Calificadora no realizará inscripciones individuales y /o personales en la sede del Organismo.</p>
-
-                <h5>B – VIRTUAL</h5>
-                <p>Las Inscripciones se realizarán mediante el sistema integral virtual “Gestión de Trayectoria Docente”. Esta modalidad de inscripción y reinscripción cuenta con sus videos instructivos. Este organismo se reserva la facultad de solicitar documentación respaldatoria. </p>
-                <p style="text-align: center; margin-top: 15px;">
-                    <a href="https://sga.edusalta.gov.ar:5900/gestiontrayectoriadocente" target="_blank" style="color: #007bff; text-decoration: underline; font-weight: bold;">Acceder al Sistema de Gestión de Trayectoria Docente</a>
-                </p>
-
-                <h4>2.- CALENDARIO DE ACTIVIDADES:</h4>
-                <p><strong>Período de Inscripción:</strong></p>
-                <ul style="list-style: none; padding-left: 0;">
-                    <li><strong>DESDE:</strong> 09/06/2025</li>
-                    <li><strong>HASTA:</strong> 27/06/2025</li>
-                </ul>
-                <p>Los establecimientos receptores deberán elevar a la Junta Calificadora de Méritos y Disciplina de Nivel Secundario y sus Modalidades, sito en Pasaje Fernando Ramos N° 22, la nómina de aspirantes inscriptos, solicitudes de reinscripción y toda documentación aportada por los aspirantes HASTA EL VIERNES 11 de julio DE 2025 INDEFECTIBLEMENTE.</p>
-
-                <h4 style="margin-top: 30px;">Documentos para Descargar:</h4>
-                <ul>
-                    <li><a href="https://drive.google.com/file/d/1SLEZ-qWbe2iSumm685_ivbH9gtF5tRBs/view" target="_blank">DESCARGAR CIRCULAR 01/25 NIVEL SECUNDARIO</a></li>
-                    <li><a href="https://drive.google.com/file/d/1NY58CffeE1Ryp6TewYFDho5brtO243bj/view" target="_blank">DESCARGAR FORMULARIO C</a></li>
-                    <li><a href="https://drive.google.com/file/d/1U_hZPXBgxdJSRZibmVLWYtfgaTS-6rPM/view" target="_blank">DESCARGAR ANEXO II - CODIGOS DE ESPACIOS CURRICULARES</a></li>
-                    <li><a href="https://drive.google.com/file/d/13GMz4VQ8RPCoD53vOTVt1WIz20uy8Qjv/view" target="_blank">DESCARGAR ANEXO III - LISTADO DE DOCENTES</a></li>
-                </ul>
-            </div>
-            <!-- FIN SECCIÓN DE CONVOCATORIA -->
-
             <h3>Incumbencias Docentes</h3>
             <p>Consulta las incumbencias de tu título para conocer los espacios curriculares que puedes dictar. Utiliza nuestro <a href="#herramientas-consulta">buscador de títulos y espacios curriculares</a> ubicado en la sección de Herramientas de Consulta.</p>
 
-           <h3>Procedimientos para Inscripción</h3>
-            <p>Leer como paso esencial la Circular 01/25, como guía de una buena inscripción. </p>
-            <p style="text-align: center; margin-top: 10px; margin-bottom: 20px;">
-                <a href="https://drive.google.com/file/d/1SLEZ-qWbe2iSumm685_ivbH9gtF5tRBs/view" target="_blank" style="color: #007bff; text-decoration: underline; font-weight: bold;">
-                    Ver Circular 01/25 (Guía de Inscripción)
-                </a>
-            </p>
+            <h3>Procedimientos para Inscripción</h3>
+            <p>Aquí encontrarás los pasos detallados para realizar tu inscripción en los diferentes registros o concursos que convoque la Junta. <br>
+            [Aquí se podría añadir un PDF descargable, una lista de pasos, o un enlace a una página específica con esta información.]</p>
 
-            <h3>Acciones de capacitación con puntaje</h3>
-            <p>Aquí puedes consultar las capacitaciones que otorgarán puntaje, en el marco de la Resol 332/24. </p>
-            <p style="text-align: center; margin-top: 10px; margin-bottom: 20px;">
-                <a href="https://docs.google.com/spreadsheets/d/1kEh7E0H3UXsJAl4Elegd2lNvNrjdLNvE/edit?gid=838291378#gid=838291378" target="_blank" style="color: #007bff; text-decoration: underline; font-weight: bold;">
-                    Consultar Capacitaciones con Puntaje
-                </a>
-            </p>
+            <h3>Convocatorias y Llamados</h3>
+            <p>Mantente al tanto de las últimas convocatorias a interinatos, suplencias, concursos de ascenso y traslados. Las fechas y requisitos son publicados regularmente. Consulta la sección de <a href="#noticias">Noticias</a> para las últimas novedades.</p>
 
             <h3>Preguntas Frecuentes (FAQ)</h3>
             <p>Encuentra respuestas a las preguntas más comunes sobre la Junta Calificadora, trámites, documentación y procedimientos. <br>
@@ -684,8 +624,8 @@
     </div>
 
     <footer>
-        <p>© JCMyD- N.S. 2025 | Derechos Reservados</p>
-        <p>Webmaster: Susje® </p> 
+        <p>© 2025 Junta Calificadora de Méritos y Disciplina - Nivel Secundario. Todos los derechos reservados.</p>
+        <p>Desarrollado con el apoyo de [Nombre de la Institución/Equipo si aplica]</p>
     </footer>
 
     <script>
