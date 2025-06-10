@@ -963,8 +963,13 @@
         }
 
         // *** NUEVA FUNCIÓN: Para el botón de acceso rápido "Buscar Colegios por Localidad/Dpto." ***
+        // *** FUNCIÓN: Para el botón de acceso rápido "Buscar Colegios por Localidad/Dpto." ***
         function triggerLocalidadSearchAndScroll() {
             console.log('Botón de acceso rápido "Buscar Colegios por Localidad/Dpto." clickeado.');
+
+            // Primero, aseguramos que la sección principal de herramientas sea visible
+            showSection('herramientas-consulta');
+
             const localidadInput = document.getElementById('localidadInput');
 
             // Opcional: Si el campo está vacío, establece un valor predeterminado para la búsqueda rápida
@@ -973,16 +978,21 @@
                 console.log('Campo de localidad/departamento vacío, estableciendo valor predeterminado a "Salta".');
             }
 
-            buscarColegios(); // Ejecuta la función de búsqueda
+            buscarColegios(); // Ejecuta la función de búsqueda (esto cargará los resultados en la tabla)
 
-            // Desplazarse a la sección de resultados
-            const colegiosSection = document.getElementById('colegios');
-            if (colegiosSection) {
-                colegiosSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                console.log('Desplazándose a la sección de colegios.');
-            } else {
-                console.warn('No se encontró la sección con ID "colegios" para desplazarse.');
-            }
+            // Esperamos un momento para que la sección sea visible y el DOM se actualice antes de hacer scroll
+            setTimeout(() => {
+                const colegiosSection = document.getElementById('colegios'); // Es el div con el ID "colegios"
+                if (colegiosSection) {
+                    // Calculamos la posición para desplazarnos (justo encima de la sección, con un pequeño offset)
+                    const offset = 80; // Ajusta este valor si necesitas más o menos espacio desde el top
+                    const elementPosition = colegiosSection.getBoundingClientRect().top + window.pageYOffset;
+                    window.scrollTo({ top: elementPosition - offset, behavior: 'smooth' });
+                    console.log('Desplazándose a la sección de colegios.');
+                } else {
+                    console.warn('No se encontró la sección con ID "colegios" para desplazarse.');
+                }
+            }, 100); // Pequeño retraso de 100ms para asegurar que el display esté listo
         }
 
 
@@ -1117,6 +1127,7 @@
 // --- FUNCIONALIDAD DE NAVEGACIÓN POR SECCIONES ---
 
         // Función para mostrar una sección específica y ocultar las demás
+        // Función para mostrar una sección específica y ocultar las demás
         function showSection(sectionId) {
             // Oculta todas las secciones de contenido
             const allSections = document.querySelectorAll('.content-section');
@@ -1128,8 +1139,7 @@
             const targetSection = document.getElementById(sectionId);
             if (targetSection) {
                 targetSection.style.display = 'block'; // O 'flex' si tu sección usa flexbox
-                // Opcional: Desplazar la ventana al principio de la sección mostrada
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                // Ya no hay scroll automático aquí, se manejará de forma específica si es necesario
             }
 
             // Opcional: Resaltar el enlace activo en la navegación
