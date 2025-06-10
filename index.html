@@ -112,9 +112,15 @@
 
         /* Secciones de Contenido */
         .content-section {
+            display: none; /* NUEVO: Oculta todas las secciones por defecto */
             padding: 20px 0; /* Se mantiene para secciones generales */
             margin-bottom: 30px;
             border-bottom: 1px dashed #e0e7ed;
+        }
+        /* Opcional: Estilo para el enlace activo en el menú (para indicar dónde está el usuario) */
+        .active-nav-link {
+            color: #a7d9ff !important; /* Un color más claro para el enlace activo */
+            font-weight: 700; /* Negrita para el enlace activo */
         }
         /* NUEVO: Ajustes específicos para la primera sección (#inicio) */
         #inicio {
@@ -807,6 +813,9 @@
             } else {
                 console.error('ERROR: No se encontró el botón con ID "btnBuscarColegiosLocalidad" en la sección de búsqueda.');
             }
+            // AÑADE ESTO AL FINAL DE TU DOMContentLoaded
+            const initialSection = window.location.hash ? window.location.hash.substring(1) : 'inicio';
+            showSection(initialSection);
         });
 
         // Función para renderizar una tabla de resultados
@@ -1102,7 +1111,58 @@
             }
             toggleBuscarColegiosButton(); // Verificar estado del botón después de buscar incumbencias
         }
+// --- FUNCIONALIDAD DE NAVEGACIÓN POR SECCIONES ---
 
+        // Función para mostrar una sección específica y ocultar las demás
+        function showSection(sectionId) {
+            // Oculta todas las secciones de contenido
+            const allSections = document.querySelectorAll('.content-section');
+            allSections.forEach(section => {
+                section.style.display = 'none';
+            });
+
+            // Muestra la sección deseada
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.style.display = 'block'; // O 'flex' si tu sección usa flexbox
+                // Opcional: Desplazar la ventana al principio de la sección mostrada
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            // Opcional: Resaltar el enlace activo en la navegación
+            const navLinks = document.querySelectorAll('header nav ul li a');
+            navLinks.forEach(link => link.classList.remove('active-nav-link')); // Quita la clase activa de todos
+            const activeLink = document.querySelector(`header nav ul li a[href="#${sectionId}"]`);
+            if (activeLink) {
+                activeLink.classList.add('active-nav-link'); // Añade la clase activa al enlace clicado
+            }
+        }
+
+        // Asigna el evento de clic a cada enlace de navegación
+        document.querySelectorAll('header nav ul li a').forEach(link => {
+            link.addEventListener('click', function(event) {
+                event.preventDefault(); // Previene el comportamiento de scroll por defecto del ancla
+                const sectionId = this.getAttribute('href').substring(1); // Obtiene el ID de la sección del atributo href
+                showSection(sectionId); // Llama a la función para mostrar la sección
+            });
+        });
+
+        // Asegura que la sección "Inicio" se muestre al cargar la página por primera vez
+        // Esto se ejecutará una vez que el DOM esté completamente cargado y los datos listos.
+        // Podrías poner esto al final de tu `DOMContentLoaded` para asegurarte de que todo lo demás esté cargado.
+        document.addEventListener('DOMContentLoaded', () => {
+            // ... (resto de tu código DOMContentLoaded, como la carga de datos) ...
+
+            // Asegurar que la sección de inicio sea la primera en mostrarse
+            // Si la URL tiene un hash (ej. #sobre-nosotros), ir a esa sección; de lo contrario, ir a 'inicio'.
+            const initialSection = window.location.hash ? window.location.hash.substring(1) : 'inicio';
+            showSection(initialSection);
+
+            // ... (resto de tu código DOMContentLoaded) ...
+        });
+
+        // Asegúrate de mover la llamada a showSection('inicio'); si la tenías directamente en DOMContentLoaded.
+        // El bloque `document.addEventListener('DOMContentLoaded', () => { ... });` ya maneja esto.
 
         // NUEVA FUNCIÓN: Filtra y muestra solo las incumbencias de un título exacto seleccionado
         function filterAndDisplayExactTitle(selectedTitle) {
