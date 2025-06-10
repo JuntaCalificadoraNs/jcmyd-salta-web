@@ -455,7 +455,9 @@
             <div class="quick-access-buttons">
                 <a href="#" class="button" onclick="showSection('herramientas-consulta')">Buscar Incumbencias</a>
                 
-                <a href="#" class="button" onclick="showSection('herramientas-consulta')">Buscar Colegios por Localidad/Dpto.</a>
+                <<!-- Botón para "Buscar Colegios por Localidad/Dpto." -->
+                <!-- MODIFICADO: Ahora llama directamente a triggerLocalidadSearchAndScroll() -->
+                <button type="button" class="button" onclick="triggerLocalidadSearchAndScroll()">Buscar Colegios por Localidad/Dpto.</button>
                 
                 <a href="#" class="button" onclick="showSection('tramites')">Trámites Docentes</a>
             </div>
