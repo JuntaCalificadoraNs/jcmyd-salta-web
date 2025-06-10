@@ -1177,7 +1177,7 @@
         // Asegúrate de mover la llamada a showSection('inicio'); si la tenías directamente en DOMContentLoaded.
         // El bloque `document.addEventListener('DOMContentLoaded', () => { ... });` ya maneja esto.
 
-        // NUEVA FUNCIÓN: Filtra y muestra solo las incumbencias de un título exacto seleccionado
+// NUEVA FUNCIÓN: Filtra y muestra solo las incumbencias de un título exacto seleccionado
         function filterAndDisplayExactTitle(selectedTitle) {
             console.log('Título seleccionado para filtro exacto:', selectedTitle);
 
@@ -1235,6 +1235,25 @@
                 selectEspacio.disabled = true;
             }
             toggleBuscarColegiosButton();
+
+            // *** MODIFICACIÓN AÑADIDA AQUÍ ***
+            // Desplazar la vista al contenedor de resultados del buscador de títulos
+            const incumbenciasResultsContainer = document.getElementById('incumbenciasResultsIntegrado');
+            if (incumbenciasResultsContainer) {
+                // Obtenemos el elemento padre del buscador de títulos para asegurar que también se vea el input
+                const parentSearchGroup = incumbenciasResultsContainer.closest('.search-group');
+                if (parentSearchGroup) {
+                    const offset = 80; // Pequeño offset para que el header no tape el título del buscador
+                    const elementPosition = parentSearchGroup.getBoundingClientRect().top + window.pageYOffset;
+                    window.scrollTo({ top: elementPosition - offset, behavior: 'smooth' });
+                    console.log('Desplazándose al buscador de títulos y espacios curriculares.');
+                } else {
+                    // Si no encuentra el .search-group, al menos sube a los resultados
+                    incumbenciasResultsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    console.warn('No se encontró el .search-group padre para el scroll, desplazándose solo a los resultados de incumbencias.');
+                }
+            }
+            // *** FIN DE MODIFICACIÓN ***
         }
 
         function buscarColegiosAleatoriosPorEspacio() {
