@@ -20,11 +20,11 @@
         .container {
             width: 90%;
             max-width: 1200px;
-            margin: 20px auto;
+            margin: 0 auto; /* MODIFICADO: Cambiamos el margin-top a 0 para que el contenedor suba */
             background: #fff;
-            padding: 30px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Sombra más pronunciada y suave */
-            border-radius: 12px; /* Bordes más redondeados */
+            padding: 10px 30px 30px; /* MODIFICADO: Reducimos el padding-top del contenedor */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            border-radius: 12px;
         }
         h1, h2, h3 {
             color: #0056b3;
@@ -32,10 +32,10 @@
             margin-bottom: 25px;
         }
         h1 {
-            font-size: 2.8em; /* Título principal más grande */
+            font-size: 2.8em;
             font-weight: 700;
-            margin-top: 20px;
-            color: #004085; /* Un azul más oscuro */
+            margin-top: 0; /* MODIFICADO: Eliminamos el margen superior del h1 */
+            color: #004085;
             line-height: 1.2;
         }
         h2 {
@@ -112,9 +112,14 @@
 
         /* Secciones de Contenido */
         .content-section {
-            padding: 20px 0;
+            padding: 20px 0; /* Se mantiene para secciones generales */
             margin-bottom: 30px;
-            border-bottom: 1px dashed #e0e7ed; /* Línea punteada para separar secciones */
+            border-bottom: 1px dashed #e0e7ed;
+        }
+        /* NUEVO: Ajustes específicos para la primera sección (#inicio) */
+        #inicio {
+            padding-top: 0; /* MODIFICADO: Eliminamos el padding superior de la primera sección para subir el h1 */
+            margin-top: 0; /* Aseguramos que no haya margen extra aquí */
         }
         .content-section:last-of-type {
             border-bottom: none; /* Eliminar la línea en la última sección */
@@ -574,12 +579,21 @@
             <h3>Incumbencias Docentes</h3>
             <p>Consulta las incumbencias de tu título para conocer los espacios curriculares que puedes dictar. Utiliza nuestro <a href="#herramientas-consulta">buscador de títulos y espacios curriculares</a> ubicado en la sección de Herramientas de Consulta.</p>
 
-            <h3>Procedimientos para Inscripción</h3>
-            <p>Aquí encontrarás los pasos detallados para realizar tu inscripción en los diferentes registros o concursos que convoque la Junta. <br>
-            [Aquí se podría añadir un PDF descargable, una lista de pasos, o un enlace a una página específica con esta información.]</p>
+            <<h3>Procedimientos para Inscripción</h3>
+            <p>Leer como paso esencial la Circular 01/25, como guía de una buena inscripción. </p>
+            <p style="text-align: center; margin-top: 10px; margin-bottom: 20px;">
+                <a href="https://drive.google.com/file/d/1SLEZ-qWbe2iSumm685_ivbH9gtF5tRBs/view" target="_blank" style="color: #007bff; text-decoration: underline; font-weight: bold;">
+                    Ver Circular 01/25 (Guía de Inscripción)
+                </a>
+            </p>
 
-            <h3>Convocatorias y Llamados</h3>
-            <p>Mantente al tanto de las últimas convocatorias a interinatos, suplencias, concursos de ascenso y traslados. Las fechas y requisitos son publicados regularmente. Consulta la sección de <a href="#noticias">Noticias</a> para las últimas novedades.</p>
+            <h3>Acciones de capacitación con puntaje</h3>
+            <p>Aquí puedes consultar las capacitaciones que otorgarán puntaje, en el marco de la Resol 332/24. </p>
+            <p style="text-align: center; margin-top: 10px; margin-bottom: 20px;">
+                <a href="https://docs.google.com/spreadsheets/d/1kEh7E0H3UXsJAl4Elegd2lNvNrjdLNvE/edit?gid=838291378#gid=838291378" target="_blank" style="color: #007bff; text-decoration: underline; font-weight: bold;">
+                    Consultar Capacitaciones con Puntaje
+                </a>
+            </p>
 
             <h3>Preguntas Frecuentes (FAQ)</h3>
             <p>Encuentra respuestas a las preguntas más comunes sobre la Junta Calificadora, trámites, documentación y procedimientos. <br>
@@ -623,10 +637,10 @@
 
     </div>
 
-    <footer>
-        <p>© 2025 Junta Calificadora de Méritos y Disciplina - Nivel Secundario. Todos los derechos reservados.</p>
-        <p>Desarrollado con el apoyo de [Nombre de la Institución/Equipo si aplica]</p>
-    </footer>
+   <footer>
+        <p>© JCMyD- N.S. 2025 | Derechos Reservados</p>
+        <p>Webmaster: susje®</p> 
+   </footer>
 
     <script>
         console.log('Script principal cargado.'); // DEBUG: Mensaje de carga muy temprano
