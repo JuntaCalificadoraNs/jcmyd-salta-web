@@ -152,10 +152,15 @@
                 align-items: center;
                 padding: 0 15px; /* Pequeño padding lateral */
             }
-
+             header .logo img { /* NUEVO: Reducir el logo en móviles */
+                max-height: 50px; /* Tamaño del logo en móviles */
+                flex-shrink: 0; /* Evitar que el logo se encoja */
+            }
             .menu-toggle {
                 display: flex; /* Mostrar el botón hamburguesa en móviles */
+                flex-shrink: 0; /* NUEVO: Evitar que el botón se encoja */
             }
+            
 
             header nav {
                 position: fixed; /* Menú overlay */
