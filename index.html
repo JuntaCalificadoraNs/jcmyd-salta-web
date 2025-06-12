@@ -544,6 +544,62 @@
             text-decoration: underline; /* Subrayado al pasar el ratón */
             color: #007bff; /* Cambio de color al pasar el ratón */
         }
+        /* Estilos para impresión */
+        @media print {
+            body {
+                background-color: #fff; /* Fondo blanco para impresión */
+                -webkit-print-color-adjust: exact; /* Para imprimir colores de fondo */
+            }
+            .container, header, footer, .menu-toggle, .quick-access-buttons,
+            .search-section label, .search-section input, .search-section select,
+            .search-section button, h1, h2, h3 small, p, ul:not(.results-table),
+            .news-iframe-container, .map-container, .search-group:not(.print-visible) {
+                display: none !important; /* Oculta todo lo que no sea la tabla */
+            }
+
+            .results-table-container {
+                display: block !important; /* Asegura que el contenedor de la tabla sea visible */
+                overflow-x: visible !important; /* Desactiva el scroll horizontal para impresión */
+            }
+
+            .results-table {
+                width: 100% !important; /* Asegura que la tabla ocupe todo el ancho de la página */
+                border-collapse: collapse !important;
+                margin-top: 0 !important;
+                box-shadow: none !important; /* Elimina sombras */
+                border-radius: 0 !important; /* Elimina bordes redondeados */
+            }
+            .results-table th, .results-table td {
+                border: 1px solid #000 !important; /* Bordes negros para impresión */
+                padding: 8px !important;
+                color: #000 !important; /* Texto negro */
+                background-color: #f0f0f0 !important; /* Color de fondo ligero para encabezados */
+            }
+            .results-table th {
+                background-color: #ddd !important; /* Fondo gris claro para encabezados */
+            }
+            .results-table tr:nth-child(even) {
+                background-color: #f7f7f7 !important; /* Fondo para filas pares */
+            }
+            .results-table tr:hover {
+                background-color: #f7f7f7 !important; /* Desactiva el hover en impresión */
+            }
+            .results-table td .clickable-title {
+                text-decoration: none !important; /* Sin subrayado en impresión */
+                color: #000 !important; /* Texto negro */
+                font-weight: normal !important;
+                cursor: default !important;
+            }
+            .results-table tr.highlighted-row {
+                background-color: #e0ffe0 !important; /* Resaltado más tenue para impresión */
+                border-left: 5px solid #66bb6a !important;
+            }
+            /* Asegúrate de que los strong para el resaltado de búsqueda también sean visibles */
+            .results-table strong {
+                font-weight: bold !important;
+                color: #000 !important;
+            }
+        }
     </style>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-8M7TMMZ47B"></script>
@@ -640,6 +696,8 @@
                                 <!-- La tabla se genera aquí dinámicamente por JS -->
                             </div>
                         </div>
+                        !-- NUEVO BOTÓN IMPRIMIR -->
+                        <button class="button mt-4" onclick="printTableResults('incumbenciasResultsIntegrado')">Imprimir Incumbencias</button>
                     </div>
                 </div>
             </section>
@@ -874,6 +932,67 @@
         });
     }
 });
+        // --- FUNCIÓN PARA IMPRIMIR RESULTADOS DE TABLAS ---
+        function printTableResults(containerId) {
+            const container = document.getElementById(containerId);
+            if (!container) {
+                alert('No se encontraron resultados para imprimir.');
+                return;
+            }
+
+            const tableHtml = container.querySelector('table'); // Asegura que obtenemos la tabla real
+            if (!tableHtml) {
+                alert('No hay una tabla para imprimir en este contenedor.');
+                return;
+            }
+
+            let printWindow = window.open('', '', 'height=600,width=800');
+            printWindow.document.write('<html><head><title>Resultados de Búsqueda</title>');
+            // Incluir solo los estilos necesarios para la tabla en la ventana de impresión
+            printWindow.document.write(`
+                <style>
+                    body { font-family: 'Roboto', Arial, sans-serif; margin: 20px; }
+                    table {
+                        width: 100%;
+                        border-collapse: collapse;
+                        margin-top: 20px;
+                        font-size: 0.9em;
+                    }
+                    th, td {
+                        border: 1px solid #ccc;
+                        padding: 8px;
+                        text-align: left;
+                    }
+                    th {
+                        background-color: #f2f2f2;
+                        font-weight: bold;
+                        color: #333;
+                    }
+                    tr:nth-child(even) {
+                        background-color: #f9f9f9;
+                    }
+                    /* Estilos para el resaltado si la tabla los tiene */
+                    strong {
+                        font-weight: bold;
+                        color: #000;
+                    }
+                    .highlighted-row {
+                        background-color: #e0ffe0 !important;
+                        border-left: 5px solid #66bb6a !important;
+                    }
+                </style>
+            `);
+            printWindow.document.write('</head><body>');
+            printWindow.document.write('<h1>Resultados de la Búsqueda</h1>');
+            printWindow.document.write(tableHtml.outerHTML); // Obtener el HTML completo de la tabla
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+
+            printWindow.onload = function() {
+                printWindow.print();
+                // printWindow.close(); // Se puede cerrar automáticamente después de imprimir
+            };
+        }
 
         // Función para cargar y parsear datos CSV
         async function loadData(url, type = 'generic') {
