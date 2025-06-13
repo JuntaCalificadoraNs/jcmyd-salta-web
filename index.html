@@ -157,10 +157,20 @@
              header .logo img { /* NUEVO: Reducir el logo en móviles */
                 max-height: 50px; /* Tamaño del logo en móviles */
                 flex-shrink: 0; /* Evitar que el logo se encoja */
+                 /* Ajustamos el margen derecho del logo para dejar espacio al menú */
+                margin-right: 70px; /* Aumentamos ligeramente el margen si 60px no es suficiente */
+                padding-left: 15px; /* Pequeño padding a la izquierda para el logo */
             }
-            .menu-toggle {
+                .menu-toggle {
                 display: flex; /* Mostrar el botón hamburguesa en móviles */
-                flex-shrink: 0; /* NUEVO: Evitar que el botón se encoja */
+                flex-direction: column; /* Asegura que las barras se apilen verticalmente */
+                justify-content: space-around; /* Distribuye espacio entre las barras */
+                width: 30px; /* Ancho del icono */
+                height: 25px; /* Alto del icono para 3 barras */
+                position: absolute; /* Sacarlo del flujo normal */
+                top: 25px;          /* Bajar un poco más para que no esté tan pegado al borde superior */
+                right: 20px;        /* Mantenerlo pegado al borde derecho */
+                z-index: 1000;      /* Asegurarse de que esté por encima de todo */
             }
             
 
