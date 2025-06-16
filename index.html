@@ -610,6 +610,22 @@
                 color: #000 !important;
             }
         }
+                /* NUEVOS ESTILOS PARA LA TABLA DE RESULTADOS DE CATEGORÍA Y ORIENTACIÓN POR COLEGIO */
+        /* Esto asegura que el contenedor de la tabla tenga scroll horizontal en móviles */
+        .results-table-container { 
+            overflow-x: auto; 
+            -webkit-overflow-scrolling: touch; 
+        } 
+        /* Asegura que la tabla dentro del contenedor ocupe el 100% y tenga un ancho mínimo para el scroll */
+        .results-table { 
+            width: 100%; 
+            min-width: 600px; /* Ajusta este valor si tus tablas son más anchas */
+        } 
+
+        /* Asegúrate de que el botón de imprimir tenga margen superior */
+        .button.mt-4 {
+            margin-top: 1rem !important; /* Tailwind mt-4 equivalent */
+        }
     </style>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-8M7TMMZ47B"></script>
@@ -780,6 +796,72 @@
                     </div>
                 </div>
             </section>
+                      <!-- NUEVO: Buscador por Categoría de Colegios (con Departamento y Localidad) -->
+            <section class="search-group">
+                <h3>Buscador por Categoría <small>Encuentra colegios por su tipo (Secundario Común, EET, BSPA).</small></h3>
+                <p>Selecciona la categoría de colegio y opcionalmente filtra por departamento y/o localidad:</p>
+                <div class="search-section">
+                    <label for="categoriaColegioSelect">Categoría de Colegio:</label>
+                    <select id="categoriaColegioSelect">
+                        <option value="">Seleccione una categoría</option>
+                        <option value="comun">Secundario Común (N° 5xxx)</option>
+                        <option value="eet">EET (N° 3xxx)</option>
+                        <option value="bspa">BSPA (N° 7xxx)</option>
+                    </select>
+                </div>
+                <div class="search-section">
+                    <label for="categoriaDepartamentoSelect">Departamento:</label>
+                    <select id="categoriaDepartamentoSelect">
+                        <option value="">-- Todos los Departamentos --</option>
+                        <!-- Opciones se cargarán dinámicamente con JS -->
+                    </select>
+                </div>
+                <div class="search-section">
+                    <label for="categoriaLocalidadSelect">Localidad:</label>
+                    <select id="categoriaLocalidadSelect" disabled>
+                        <option value="">-- Todas las Localidades --</option>
+                        <!-- Opciones se cargarán dinámicamente con JS según el departamento -->
+                    </select>
+                </div>
+                <div class="search-section">
+                    <button class="button" id="btnBuscarColegiosPorCategoria">Buscar por Categoría</button>
+                </div>
+                <div class="results-container">
+                    <h3>Resultados por Categoría</h3>
+                    <div id="colegiosPorCategoriaResults">
+                        <div class="results-table-container"> <!-- Contenedor para scroll horizontal -->
+                            <p class="no-results">Aquí se mostrarán los colegios por categoría, departamento y/o localidad.</p>
+                        </div>
+                    </div>
+                    <!-- Botón Imprimir para esta tabla -->
+                    <button class="button" onclick="printTableResults('colegiosPorCategoriaResults')">Imprimir Colegios (Categoría)</button>
+                </div>
+            </section>
+            <!-- FIN NUEVO BUSCADOR POR CATEGORÍA -->
+
+            <!-- NUEVO: Buscador de Orientaciones por Número de Colegio -->
+            <section class="search-group">
+                <h3>Buscar Orientaciones por N° de Colegio <small>Encuentra las orientaciones ofrecidas por una unidad educativa específica.</small></h3>
+                <p>Ingrese el número de la Unidad Educativa para ver sus orientaciones:</p>
+                <div class="search-section">
+                    <label for="colegioNumeroInput">N° de Unidad Educativa:</label>
+                    <input type="text" id="colegioNumeroInput" placeholder="Ej: 5093, 3135">
+                </div>
+                <div class="search-section">
+                    <button class="button" id="btnBuscarOrientacionesPorColegio">Buscar Orientaciones del Colegio</button>
+                </div>
+                <div class="results-container">
+                    <h3>Orientaciones Encontradas</h3>
+                    <div id="orientacionesPorColegioResults">
+                        <div class="results-table-container"> <!-- Contenedor para scroll horizontal -->
+                            <p class="no-results">Aquí se mostrarán las orientaciones del colegio.</p>
+                        </div>
+                    </div>
+                    <!-- Botón Imprimir para esta tabla -->
+                    <button class="button" onclick="printTableResults('orientacionesPorColegioResults')">Imprimir Orientaciones del Colegio</button>
+                </div>
+            </section>
+            <!-- FIN NUEVO BUSCADOR DE ORIENTACIONES POR N° DE COLEGIO -->
         </section>
 
         <!-- SECCIÓN DE NORMATIVAS -->
@@ -1718,6 +1800,488 @@
                 btnBuscarColegios.disabled = true;
             }
         }
+                <!-- NUEVAS FUNCIONES DE BUSCADORES -->
+
+        // *** FUNCIÓN: Poblar el selector de Departamentos para el buscador por Categoría ***
+        function populateCategoriaDepartamentosSelect() {
+            const departamentoSelect = document.getElementById('categoriaDepartamentoSelect');
+            departamentoSelect.innerHTML = '<option value="">-- Todos los Departamentos --</option>'; // Limpiar opciones anteriores
+
+            if (!colegiosData || colegiosData.length === 0) {
+                console.warn('colegiosData está vacío o no se cargó correctamente. No se pueden poblar los departamentos para el buscador de categoría.');
+                departamentoSelect.disabled = true;
+                return;
+            }
+
+            const uniqueDepartamentos = new Set();
+            colegiosData.forEach(item => {
+                if (item['Departamento']) {
+                    uniqueDepartamentos.add(item['Departamento'].trim());
+                }
+            });
+
+            if (uniqueDepartamentos.size === 0) {
+                console.warn('No se encontraron departamentos únicos en colegiosData para el buscador de categoría. La columna "Departamento" podría estar vacía o mal nombrada en tu hoja de Colegios.');
+                departamentoSelect.disabled = true;
+                return;
+            }
+
+            const sortedDepartamentos = Array.from(uniqueDepartamentos).sort();
+
+            sortedDepartamentos.forEach(departamento => {
+                const option = document.createElement('option');
+                option.value = departamento;
+                option.textContent = departamento;
+                departamentoSelect.appendChild(option);
+            });
+
+            departamentoSelect.disabled = false; // Habilitar el select de departamentos
+            console.log('Departamentos poblados para buscador de categoría:', sortedDepartamentos);
+        }
+
+        // *** FUNCIÓN: Poblar el selector de Localidades para el buscador por Categoría (depende del Departamento) ***
+        function populateCategoriaLocalidadesSelect() {
+            const departamentoSelect = document.getElementById('categoriaDepartamentoSelect');
+            const localidadSelect = document.getElementById('categoriaLocalidadSelect');
+            const selectedDepartamento = departamentoSelect.value;
+
+            localidadSelect.innerHTML = '<option value="">-- Todas las Localidades --</option>'; // Limpiar opciones anteriores
+            localidadSelect.disabled = true; // Deshabilitar por defecto
+
+            if (!selectedDepartamento) {
+                return; // No hay departamento seleccionado, no hay localidades para mostrar
+            }
+
+            if (!colegiosData || colegiosData.length === 0) {
+                console.warn('colegiosData está vacío o no se cargó correctamente. No se pueden poblar las localidades para el buscador de categoría.');
+                return;
+            }
+
+            const uniqueLocalidades = new Set();
+            colegiosData.filter(colegio =>
+                colegio.Departamento && normalizeText(colegio.Departamento) === normalizeText(selectedDepartamento)
+            ).forEach(colegio => {
+                if (colegio.Localidad) {
+                    uniqueLocalidades.add(colegio.Localidad.trim());
+                }
+            });
+
+            if (uniqueLocalidades.size === 0) {
+                console.warn(`No se encontraron localidades únicas para el departamento "${selectedDepartamento}" en colegiosData.`);
+                return;
+            }
+
+            const sortedLocalidades = Array.from(uniqueLocalidades).sort();
+
+            sortedLocalidades.forEach(localidad => {
+                const option = document.createElement('option');
+                option.value = localidad;
+                option.textContent = localidad;
+                localidadSelect.appendChild(option);
+            });
+
+            localidadSelect.disabled = false; // Habilitar el select de localidades
+            console.log(`Localidades pobladas para ${selectedDepartamento}:`, sortedLocalidades);
+        }
+
+        // *** FUNCIÓN: Buscar Colegios por Categoría (ACTUALIZADA con Departamento y Localidad) ***
+        function buscarColegiosPorCategoria() {
+            const categoriaSelect = document.getElementById('categoriaColegioSelect');
+            const selectedCategory = categoriaSelect.value;
+
+            const departamentoSelect = document.getElementById('categoriaDepartamentoSelect');
+            const selectedDepartamento = departamentoSelect.value;
+
+            const localidadSelect = document.getElementById('categoriaLocalidadSelect');
+            const selectedLocalidad = localidadSelect.value;
+
+            const resultsContainer = document.getElementById('colegiosPorCategoriaResults');
+
+            resultsContainer.innerHTML = '<div class="results-table-container"><p class="no-results">Aquí se mostrarán los colegios por categoría, departamento y/o localidad.</p></div>';
+
+            if (!selectedCategory) {
+                resultsContainer.querySelector('.no-results').textContent = 'Por favor, selecciona una categoría de colegio.';
+                return;
+            }
+
+            if (!colegiosData || colegiosData.length === 0) {
+                resultsContainer.querySelector('.no-results').textContent = 'Datos de colegios no cargados correctamente. Intenta recargar la página.';
+                console.error('Datos de colegiosData no disponibles para la búsqueda por categoría.');
+                return;
+            }
+
+            let filteredColegios = [];
+
+            // Filtrar primero por la categoría seleccionada
+            switch (selectedCategory) {
+                case 'comun': // Secundario Común (Nº 5xxx)
+                    filteredColegios = colegiosData.filter(colegio =>
+                        colegio.Nombre && (colegio.Nombre.startsWith('Nº 5') || colegio.Nombre.startsWith('N° 5'))
+                    );
+                    break;
+                case 'eet': // EET (Nº 3xxx)
+                    filteredColegios = colegiosData.filter(colegio =>
+                        colegio.Nombre && (colegio.Nombre.startsWith('Nº 3') || colegio.Nombre.startsWith('N° 3'))
+                    );
+                    break;
+                case 'bspa': // BSPA (Nº 7xxx)
+                    filteredColegios = colegiosData.filter(colegio =>
+                        colegio.Nombre && (colegio.Nombre.startsWith('Nº 7') || colegio.Nombre.startsWith('N° 7'))
+                    );
+                    break;
+                default:
+                    resultsContainer.querySelector('.no-results').textContent = 'Categoría no reconocida.';
+                    return;
+            }
+
+            // Aplicar filtro por departamento si se seleccionó uno
+            if (selectedDepartamento) {
+                filteredColegios = filteredColegios.filter(colegio =>
+                    colegio.Departamento && normalizeText(colegio.Departamento) === normalizeText(selectedDepartamento)
+                );
+            }
+
+            // Aplicar filtro por localidad si se seleccionó una
+            if (selectedLocalidad) {
+                filteredColegios = filteredColegios.filter(colegio =>
+                    colegio.Localidad && normalizeText(colegio.Localidad) === normalizeText(selectedLocalidad)
+                );
+            }
+            
+            if (filteredColegios.length > 0) {
+                // El searchTerm para resaltar filas será la combinación de los filtros aplicados
+                const searchTerm = `${selectedCategory} ${selectedDepartamento} ${selectedLocalidad}`.trim();
+                renderTable(
+                    'colegiosPorCategoriaResults',
+                    ['Nombre', 'Direccion', 'Localidad', 'Departamento'],
+                    filteredColegios,
+                    [], // No hay columnas HTML por defecto para resaltar texto dentro de la celda
+                    searchTerm // Término de búsqueda para resaltar la fila
+                );
+                // Desplazar al contenedor de resultados de esta búsqueda
+                const offset = 120; // Ajuste para que el header no tape el título del buscador
+                const elementPosition = resultsContainer.getBoundingClientRect().top + window.pageYOffset;
+                window.scrollTo({ top: elementPosition - offset, behavior: 'smooth' });
+            } else {
+                resultsContainer.querySelector('.no-results').textContent = 'No se encontraron colegios con los filtros seleccionados.';
+            }
+        }
+
+        // *** FUNCIÓN: Buscar Orientaciones por Número de Colegio ***
+        function buscarOrientacionesPorColegio() {
+            const colegioNumeroInput = document.getElementById('colegioNumeroInput');
+            const numeroColegio = normalizeText(colegioNumeroInput.value.trim()); // Normalizar y limpiar input
+            const resultsContainer = document.getElementById('orientacionesPorColegioResults');
+
+            resultsContainer.innerHTML = '<div class="results-table-container"><p class="no-results">Aquí se mostrarán las orientaciones del colegio.</p></div>';
+
+            if (!numeroColegio) {
+                resultsContainer.querySelector('.no-results').textContent = 'Por favor, ingrese un número de Unidad Educativa.';
+                return;
+            }
+
+            if (!orientacionesData || orientacionesData.length === 0) {
+                resultsContainer.querySelector('.no-results').textContent = 'Datos de orientaciones no cargados correctamente. Intenta recargar la página.';
+                console.error('Datos de orientacionesData no disponibles para la búsqueda por número de colegio.');
+                return;
+            }
+
+            const filteredOrientaciones = orientacionesData.filter(item =>
+                // Asumimos que 'UNID EDUCATIVA' en orientacionesData contiene el número de colegio
+                normalizeText(item['UNID EDUCATIVA'] || '') === numeroColegio
+            );
+
+            if (filteredOrientaciones.length > 0) {
+                const dataToDisplay = filteredOrientaciones.map(item => ({
+                    'UNID EDUCATIVA': item['UNID EDUCATIVA'],
+                    'ORIENTACION': item['ORIENTACION']
+                }));
+                // Usamos 'UNID EDUCATIVA' como la columna de resaltado exacto
+                renderTable(
+                    'orientacionesPorColegioResults',
+                    ['UNID EDUCATIVA', 'ORIENTACION'], // Columnas a mostrar
+                    dataToDisplay,
+                    [], // No hay columnas HTML para resaltar texto dentro de la celda
+                    numeroColegio, // Término de búsqueda para resaltar la fila
+                    'UNID EDUCATIVA' // Columna para la coincidencia exacta de resaltado de fila
+                );
+                // Desplazar al contenedor de resultados de esta búsqueda
+                const offset = 120;
+                const elementPosition = resultsContainer.getBoundingClientRect().top + window.pageYOffset;
+                window.scrollTo({ top: elementPosition - offset, behavior: 'smooth' });
+            } else {
+                resultsContainer.querySelector('.no-results').textContent = `No se encontraron orientaciones para el N° de Colegio "${numeroColegio}".`;
+            }
+        }
+
+        // --- FUNCIONALIDAD DE NAVEGACIÓN POR SECCIONES (AJUSTADA PARA EL MENÚ MÓVIL) ---
+
+        // Función para mostrar una sección específica y ocultar las demás
+        function showSection(sectionId) {
+            // Oculta todas las secciones de contenido
+            const allSections = document.querySelectorAll('.content-section');
+            allSections.forEach(section => {
+                section.style.display = 'none';
+            });
+
+            // Muestra la sección deseada
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.style.display = 'block'; // O 'flex' si tu sección usa flexbox
+                window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll al inicio de la sección
+            }
+
+            // Opcional: Resaltar el enlace activo en la navegación
+            const navLinks = document.querySelectorAll('header nav ul li a');
+            navLinks.forEach(link => link.classList.remove('active-nav-link')); // Quita la clase activa de todos
+            const activeLink = document.querySelector(`header nav ul li a[href="#${sectionId}"]`);
+            if (activeLink) {
+                activeLink.classList.add('active-nav-link'); // Añade la clase activa al enlace clicado
+            }
+            // Cierra el menú móvil si está abierto al seleccionar una sección
+            const mainNav = document.getElementById('main-nav');
+            const mobileMenu = document.getElementById('mobile-menu'); // Asegúrate de que este ID exista en tu HTML para el botón hamburguesa
+            if (mainNav && mobileMenu && mainNav.classList.contains('active')) {
+                mainNav.classList.remove('active');
+                mobileMenu.classList.remove('active');
+            }
+        }
+
+        // Asigna el evento de clic a cada enlace de navegación (manteniendo el preventDefault)
+        document.querySelectorAll('header nav ul li a').forEach(link => {
+            link.addEventListener('click', function(event) {
+                event.preventDefault(); // Previene el comportamiento de scroll por defecto del ancla
+                const sectionId = this.getAttribute('href').substring(1); // Obtiene el ID de la sección del atributo href
+                showSection(sectionId); // Llama a la función para mostrar la sección
+            });
+        });
+
+        // Configurar el comportamiento inicial al cargar la página
+        // Si la URL tiene un hash (ej. #sobre-nosotros), ir a esa sección; de lo contrario, ir a 'inicio'.
+        const initialSection = window.location.hash ? window.location.hash.substring(1) : 'inicio';
+        showSection(initialSection);
+
+        // Habilitar/deshabilitar el botón de búsqueda de colegios por espacio y departamento (existente)
+        document.getElementById('espacioCurricularSelect').addEventListener('change', toggleBuscarColegiosButton);
+        document.getElementById('departamentoSelect').addEventListener('change', toggleBuscarColegiosButton);
+
+        function toggleBuscarColegiosButton() {
+            const selectEspacio = document.getElementById('espacioCurricularSelect');
+            const selectDepartamento = document.getElementById('departamentoSelect');
+            const btnBuscarColegios = document.getElementById('btnBuscarColegios');
+
+            if (selectEspacio.value && selectDepartamento.value) {
+                btnBuscarColegios.disabled = false;
+            } else {
+                btnBuscarColegios.disabled = true;
+            }
+        }
+
+        // *** NUEVA FUNCIÓN renderTable (Soporta resaltado de fila y clickeable en columna específica) ***
+        // exactHighlightColumn: Si se proporciona, la fila solo se resaltará si el searchTerm coincide exactamente con el contenido de esta columna.
+        // clickableColumn: Si se proporciona, la celda de esta columna se hará clickeable para filtrar por el valor de esa celda.
+        function renderTable(containerId, headers, data, htmlColumns = [], searchTerm = '', exactHighlightColumn = null, clickableColumn = null) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+
+            container.innerHTML = '';
+            const normalizedSearchTerm = normalizeText(searchTerm);
+
+            if (data.length === 0) {
+                container.innerHTML = '<p class="no-results">No se encontraron resultados.</p>';
+                return;
+            }
+
+            const table = document.createElement('table');
+            table.classList.add('results-table');
+
+            const thead = document.createElement('thead');
+            const headerRow = document.createElement('tr');
+            headers.forEach(headerText => {
+                const th = document.createElement('th');
+                th.textContent = headerText;
+                headerRow.appendChild(th);
+            });
+            thead.appendChild(headerRow);
+            table.appendChild(thead);
+
+            const tbody = document.createElement('tbody');
+            data.forEach(item => {
+                const tr = document.createElement('tr');
+                let rowShouldBeHighlighted = false; // Bandera para controlar el resaltado de la fila
+
+                // Lógica para determinar si la fila debe ser resaltada
+                if (exactHighlightColumn && item[exactHighlightColumn] !== undefined) {
+                    // Si se especificó una columna para el resaltado exacto, verificar solo esa columna
+                    const columnContent = normalizeText(String(item[exactHighlightColumn]));
+                    if (columnContent === normalizedSearchTerm) {
+                        rowShouldBeHighlighted = true;
+                    }
+                } else if (normalizedSearchTerm) {
+                    // Si no se especificó una columna exacta, o la columna exacta no tiene valor,
+                    // el comportamiento anterior (resaltar si cualquier celda contiene el término)
+                    for (const headerKey of headers) {
+                        const cellContent = item[headerKey] !== undefined ? String(item[headerKey]) : '';
+                        if (normalizeText(cellContent).includes(normalizedSearchTerm)) {
+                            rowShouldBeHighlighted = true;
+                            break; // No necesitamos revisar más celdas en esta fila
+                        }
+                    }
+                }
+
+                headers.forEach(headerKey => {
+                    const td = document.createElement('td');
+                    const cellContent = item[headerKey] !== undefined ? String(item[headerKey]) : '';
+
+                    // Si la columna es una de las que permite HTML (para el resaltado de texto)
+                    if (htmlColumns.includes(headerKey)) {
+                        // NUEVO: Envuelve el contenido en un span cliqueable si es la columna designada
+                        if (clickableColumn === headerKey) {
+                            const clickableSpan = document.createElement('span');
+                            clickableSpan.classList.add('clickable-title');
+                            // Guarda el título original (no resaltado) para usarlo en la función de filtrado
+                            clickableSpan.dataset.fullTitle = item[headerKey].replace(/<\/?strong>/g, ''); // Elimina <strong> para guardar el texto puro
+                            clickableSpan.innerHTML = cellContent; // Usar innerHTML para el contenido resaltado
+                            clickableSpan.onclick = () => filterAndDisplayExactTitle(clickableSpan.dataset.fullTitle);
+                            td.appendChild(clickableSpan);
+                        } else {
+                            td.innerHTML = cellContent;
+                        }
+                    } else {
+                        td.textContent = cellContent;
+                    }
+                    td.setAttribute('data-col-name', headerKey); // Útil para CSS nth-child si el orden de columnas cambia
+                    tr.appendChild(td);
+                });
+
+                // Aplicar la clase de resaltado si la bandera está activa
+                if (rowShouldBeHighlighted) {
+                    tr.classList.add('highlighted-row');
+                }
+
+                tbody.appendChild(tr);
+            });
+            table.appendChild(tbody);
+
+            container.appendChild(table);
+        }
+
+        // --- REAJUSTES EN DOMContentLoaded para los nuevos buscadores ---
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            // ... (mantén tus cargas de datos existentes aquí)
+            const [compData, orientData, coleData, planData] = await Promise.all([
+                loadData(COMPETENCIAS_URL, 'competencias'),
+                loadData(ORIENTACIONES_URL, 'orientaciones'),
+                loadData(COLEGIOS_URL, 'colegios'),
+                loadData(PLAN_ESTUDIO_URL, 'planEstudio')
+            ]);
+            
+            competenciasData = compData;
+            orientacionesData = orientData;
+            colegiosData = coleData;
+            planEstudioData = planData;
+            
+            console.log('Datos cargados (final):', {
+                competenciasCount: competenciasData.length,
+                orientacionesCount: orientacionesData.length,
+                colegiosCount: colegiosData.length,
+                planEstudioCount: planEstudioData.length
+            });
+
+            // Poblar los selectores de departamento al cargar los datos
+            populateDepartamentosSelect(); // Para el buscador existente de espacio curricular y departamento
+            populateCategoriaDepartamentosSelect(); // Para el NUEVO buscador por categoría
+
+            // Conectar el botón de búsqueda por categoría
+            const btnBuscarColegiosPorCategoria = document.getElementById('btnBuscarColegiosPorCategoria');
+            if (btnBuscarColegiosPorCategoria) {
+                btnBuscarColegiosPorCategoria.addEventListener('click', buscarColegiosPorCategoria);
+                console.log('Evento de clic adjuntado al botón "Buscar por Categoría" correctamente.');
+            } else {
+                console.warn('No se encontró el botón con ID "btnBuscarColegiosPorCategoria".');
+            }
+
+            // Conectar la lógica de poblaciones para el nuevo buscador por categoría
+            const categoriaDepartamentoSelect = document.getElementById('categoriaDepartamentoSelect');
+            const categoriaLocalidadSelect = document.getElementById('categoriaLocalidadSelect');
+
+            if (categoriaDepartamentoSelect) {
+                // Populate al cargar la página (ya se llama arriba)
+                categoriaDepartamentoSelect.addEventListener('change', populateCategoriaLocalidadesSelect);
+                categoriaDepartamentoSelect.addEventListener('change', () => {
+                    // Limpiar resultados al cambiar departamento, si es necesario
+                    const resultsContainer = document.getElementById('colegiosPorCategoriaResults');
+                    resultsContainer.innerHTML = '<div class="results-table-container"><p class="no-results">Selecciona una categoría, departamento y/o localidad y haz clic en buscar.</p></div>';
+                });
+            }
+            if (categoriaLocalidadSelect) {
+                // Listener adicional para limpiar resultados si cambia la localidad
+                categoriaLocalidadSelect.addEventListener('change', () => {
+                    const resultsContainer = document.getElementById('colegiosPorCategoriaResults');
+                    resultsContainer.innerHTML = '<div class="results-table-container"><p class="no-results">Selecciona una categoría, departamento y/o localidad y haz clic en buscar.</p></div>';
+                });
+            }
+
+            // Conectar el botón de búsqueda de orientaciones por número de colegio
+            const btnBuscarOrientacionesPorColegio = document.getElementById('btnBuscarOrientacionesPorColegio');
+            if (btnBuscarOrientacionesPorColegio) {
+                btnBuscarOrientacionesPorColegio.addEventListener('click', buscarOrientacionesPorColegio);
+                console.log('Evento de clic adjuntado al botón "Buscar Orientaciones del Colegio" correctamente.');
+            } else {
+                console.warn('No se encontró el botón con ID "btnBuscarOrientacionesPorColegio".');
+            }
+
+            // (Mantén aquí el resto de tus conexiones de eventos DOMContentLoaded, como btnBuscarColegiosLocalidad, etc.)
+            // *** Adjuntar evento de clic al botón de buscar colegios por localidad/dpto. (el de la sección de búsqueda) ***
+            console.log('Intentando adjuntar evento de clic al botón "Buscar Colegios por Localidad/Dpto." (sección de búsqueda)...');
+            const btnBuscarColegiosLocalidad = document.getElementById('btnBuscarColegiosLocalidad');
+            if (btnBuscarColegiosLocalidad) {
+                console.log('Botón "Buscar Colegios por Localidad/Dpto." (sección de búsqueda) encontrado.');
+                btnBuscarColegiosLocalidad.addEventListener('click', buscarColegios);
+                console.log('Evento de clic adjuntado al botón "Buscar Colegios por Localidad/Dpto." (sección de búsqueda) correctamente.');
+            } else {
+                console.error('ERROR: No se encontró el botón con ID "btnBuscarColegiosLocalidad" en la sección de búsqueda.');
+            }
+
+            // Adjuntar evento de clic al botón de buscar orientaciones (el de la sección de búsqueda)
+            console.log('Intentando adjuntar evento de clic al botón "Buscar Orientación" (sección de búsqueda)...');
+            const btnBuscarOrientaciones = document.getElementById('btnBuscarOrientaciones');
+            if (btnBuscarOrientaciones) {
+                console.log('Botón "Buscar Orientación" (sección de búsqueda) encontrado.');
+                btnBuscarOrientaciones.addEventListener('click', buscarOrientaciones);
+                console.log('Evento de clic adjuntado al botón "Buscar Orientación" (sección de búsqueda) correctamente.');
+            } else {
+                console.error('ERROR: No se encontró el botón con ID "btnBuscarOrientaciones" en la sección de búsqueda.');
+            }
+
+            // Adjuntar evento de clic al botón de buscar incumbencias integrado
+            console.log('Intentando adjuntar evento de clic al botón "Buscar Título/Espacio"...');
+            const btnBuscarIncumbenciasIntegrado = document.getElementById('btnBuscarIncumbenciasIntegrado');
+            if (btnBuscarIncumbenciasIntegrado) {
+                console.log('Botón "Buscar Título/Espacio" encontrado.');
+                btnBuscarIncumbenciasIntegrado.addEventListener('click', buscarIncumbenciasIntegrado);
+                console.log('Evento de clic adjuntado al botón "Buscar Título/Espacio" correctamente.');
+            } else {
+                console.error('ERROR: No se encontró el botón con ID "btnBuscarIncumbenciasIntegrado".');
+            }
+
+            // Adjuntar evento de clic al botón de buscar colegios por espacio (del buscador integrado)
+            console.log('Intentando adjuntar evento de clic al botón "Buscar Colegios por Espacio"...');
+            const btnBuscarColegiosPorEspacio = document.getElementById('btnBuscarColegios');
+            if (btnBuscarColegiosPorEspacio) {
+                console.log('Botón "Buscar Colegios por Espacio" encontrado.');
+                btnBuscarColegiosPorEspacio.addEventListener('click', buscarColegiosAleatoriosPorEspacio);
+                console.log('Evento de clic adjuntado al botón "Buscar Colegios por Espacio" correctamente.');
+            } else {
+                console.error('ERROR: No se encontró el botón con ID "btnBuscarColegios".');
+            }
+
+            // Asegurar que la sección de inicio sea la primera en mostrarse
+            // Si la URL tiene un hash (ej. #sobre-nosotros), ir a esa sección; de lo contrario, ir a 'inicio'.
+            const initialSection = window.location.hash ? window.location.hash.substring(1) : 'inicio';
+            showSection(initialSection);
+        });
     </script>
 </body>
 </html>
