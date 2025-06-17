@@ -69,6 +69,53 @@
             margin-bottom: 15px;
             margin-top: 25px; /* Espacio superior para separar */
         }
+        /* Estilos para el bloque de tutorial */
+        .quick-tutorial {
+            background-color: #e6f7ff; /* Azul muy claro */
+            border-left: 5px solid #007bff; /* Borde azul vibrante */
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            font-size: 1.05em;
+            line-height: 1.6;
+        }
+
+        .quick-tutorial h4 {
+            color: #004085;
+            font-size: 1.5em;
+            margin-top: 0;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #c2d1e2;
+            padding-bottom: 10px;
+        }
+
+        .quick-tutorial ul {
+            list-style: none; /* Eliminar el estilo de lista predeterminado */
+            padding-left: 0;
+        }
+
+        .quick-tutorial ul li {
+            margin-bottom: 10px;
+            padding-left: 25px; /* Espacio para el ícono */
+            position: relative;
+            color: #444;
+        }
+
+        .quick-tutorial ul li strong {
+            color: #0056b3; /* Color más oscuro para el texto en negrita */
+        }
+
+        /* Icono de checkmark para la lista del tutorial */
+        .quick-tutorial ul li::before {
+            content: "\f058"; /* Unicode para el icono de checkmark de FontAwesome */
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: #28a745; /* Verde para el checkmark */
+        }
 
         /* Header (Encabezado) */
         header {
@@ -700,7 +747,20 @@
         <!-- SECCIÓN PORTAL DE SERVICIOS / HERRAMIENTAS DE CONSULTA -->
         <section id="herramientas-consulta" class="content-section">
             <h2>Herramientas de Consulta</h2>
-            <p>Utiliza nuestros buscadores para encontrar la información que necesitas sobre títulos, espacios curriculares y colegios. Si tienes dudas sobre cómo usar alguna herramienta, consulta nuestra futura <a href="#guia-rapida">Guía Rápida de Uso</a>.</p>
+            <p>Aquí encontrarás todas las herramientas de búsqueda para facilitarte el acceso a la información que necesitas. A continuación, te explicamos brevemente cada una:</p>
+
+            <div class="quick-tutorial">
+                <h4>Guía Rápida de Uso de Buscadores:</h4>
+                <ul>
+                    <li><strong>Buscador de Títulos y Espacios Curriculares:</strong> Ingresa tu título (o parte de él) para ver qué espacios curriculares puedes dictar. Haz clic en cualquier título de la tabla para ver solo sus incumbencias exactas.</li>
+                    <li><strong>Buscador de Colegios por Espacio Curricular y Ubicación:</strong> Una vez que hayas buscado un título, selecciona un espacio curricular y un departamento para encontrar colegios que lo dictan (se muestran 7 al azar).</li>
+                    <li><strong>Buscador por Orientación:</strong> Encuentra colegios secundarios según su orientación educativa (ej: Ciencias Naturales, Informática).</li>
+                    <li><strong>Búsqueda por Localidad/Departamento:</strong> Busca colegios secundarios ingresando una localidad o departamento.</li>
+                    <li><strong>Buscador por Categoría:</strong> Filtra colegios por su tipo: Secundario Común, EET o BSPA. Puedes combinar con filtros de departamento y localidad.</li>
+                    <li><strong>Buscar Orientaciones por N° de Colegio:</strong> Si conoces el número de una Unidad Educativa, ingresarlo aquí te mostrará las orientaciones que ofrece.</li>
+                </ul>
+                <p>¡Esperamos que estas herramientas te sean de gran utilidad!</p>
+            </div>
 
             <!-- Buscador para Docentes Ingresantes: Títulos y Espacios Curriculares -->
             <section class="search-group">
@@ -719,7 +779,7 @@
                                 <!-- La tabla se genera aquí dinámicamente por JS -->
                             </div>
                         </div>
-                        !-- NUEVO BOTÓN IMPRIMIR -->
+                        <!-- NUEVO BOTÓN IMPRIMIR -->
                         <button class="button mt-4" onclick="printTableResults('incumbenciasResultsIntegrado')">Imprimir Incumbencias</button>
                     </div>
                 </div>
@@ -1236,7 +1296,7 @@
             }
             // AÑADE ESTO AL FINAL DE TU DOMContentLoaded
             const initialSection = window.location.hash ? window.location.hash.substring(1) : 'inicio';
-            showSection(initialSection);
+            // showSection(initialSection); eliminada para no repetir
         });
 
         // Función para renderizar una tabla de resultados
@@ -1382,35 +1442,23 @@
 
         // *** NUEVA FUNCIÓN: Para el botón de acceso rápido "Buscar Colegios por Localidad/Dpto." ***
         // *** FUNCIÓN: Para el botón de acceso rápido "Buscar Colegios por Localidad/Dpto." ***
+                // *** FUNCIÓN: Para el botón de acceso rápido "Buscar Colegios por Localidad/Dpto." (Actualizada) ***
         function triggerLocalidadSearchAndScroll() {
             console.log('Botón de acceso rápido "Buscar Colegios por Localidad/Dpto." clickeado.');
 
             // Primero, aseguramos que la sección principal de herramientas sea visible
             showSection('herramientas-consulta');
 
-            const localidadInput = document.getElementById('localidadInput');
-
-            // Opcional: Si el campo está vacío, establece un valor predeterminado para la búsqueda rápida
-            if (!localidadInput.value.trim()) {
-                localidadInput.value = 'Salta'; // Puedes cambiar esto a un departamento o localidad común
-                console.log('Campo de localidad/departamento vacío, estableciendo valor predeterminado a "Salta".');
+            // Desplazarse al inicio de la sección de herramientas de consulta para ver el tutorial y los buscadores
+            // La sección 'herramientas-consulta' ahora tiene un tutorial al principio
+            const herramientasSection = document.getElementById('herramientas-consulta');
+            if (herramientasSection) {
+                // Se desplaza al top de la sección 'herramientas-consulta'
+                herramientasSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                console.log('Desplazándose a la sección de herramientas de consulta.');
+            } else {
+                console.warn('No se encontró la sección con ID "herramientas-consulta" para desplazarse.');
             }
-
-            buscarColegios(); // Ejecuta la función de búsqueda (esto cargará los resultados en la tabla)
-
-            // Esperamos un momento para que la sección sea visible y el DOM se actualice antes de hacer scroll
-            setTimeout(() => {
-                const colegiosSection = document.getElementById('colegios'); // Es el div con el ID "colegios"
-                if (colegiosSection) {
-                    // Calculamos la posición para desplazarnos (justo encima de la sección, con un pequeño offset)
-                    const offset = 120; // Ajusta este valor si necesitas más o menos espacio desde el top
-                    const elementPosition = colegiosSection.getBoundingClientRect().top + window.pageYOffset;
-                    window.scrollTo({ top: elementPosition - offset, behavior: 'smooth' });
-                    console.log('Desplazándose a la sección de colegios.');
-                } else {
-                    console.warn('No se encontró la sección con ID "colegios" para desplazarse.');
-                }
-            }, 100); // Pequeño retraso de 100ms para asegurar que el display esté listo
         }
 
 
