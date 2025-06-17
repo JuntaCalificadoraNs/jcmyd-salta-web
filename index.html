@@ -281,8 +281,9 @@
             }
             .results-table {
                 width: 100%; /* Asegura que la tabla ocupe el 100% de su contenedor */
-                min-width: 600px; /* Ajusta este valor si tus tablas son más anchas */
-                /* Otras propiedades de la tabla */
+               /* min-width: 600px; */ /* ELIMINADO: Esta regla causaba el scroll horizontal excesivo en móviles */
+                /* NUEVO: No forzamos un min-width aquí, permitiendo que se ajuste */
+                /* Si un contenido es demasiado largo, el overflow-x: auto del contenedor lo manejará */
             }
             /* FIN MODIFICACIÓN MOBILE */
         }
@@ -425,17 +426,22 @@
             border-radius: 8px;
             overflow: hidden; /* Para que los bordes redondeados se apliquen a la tabla */
         }
-        .results-table th, .results-table td {
+        .results-table th, 
+        .results-table td {
             border: 1px solid #dee2e6; /* Borde de tabla más definido */
-            padding: 12px;
+            padding: 8px 5px; /* REDUCIDO: Padding más compacto para las celdas en móvil */
+            font-size: 0.85em; /* REDUCIDO: Fuente ligeramente más pequeña */
             text-align: left;
+            white-space: normal; /* PERMITIR SALTO DE LÍNEA: Permite que el contenido se envuelva */
         }
+            
         .results-table th {
             background-color: #007bff;
             color: white;
             font-weight: 600;
             text-transform: uppercase; /* Encabezados en mayúsculas */
             font-size: 0.9em;
+            white-space: normal; /* PERMITIR SALTO DE LÍNEA: Permite que los encabezados se envuelvan si son largos */
         }
         .results-table tr:nth-child(even) {
             background-color: #f2f7fb; /* Color de fila par más claro */
@@ -592,9 +598,10 @@
         .results-table th:nth-child(3), /* Selecciona el 3er encabezado (CODIGO/Modulo) */
         .results-table td:nth-child(3) {  /* Selecciona la 3ra celda de cada fila (CODIGO/Modulo) */
             text-align: center; /* Centrar el contenido */
-            font-size: 1.2em;   /* Agrandar la fuente (1.2 veces el tamaño base de la tabla) */
+            font-size: 1em;   /* Agrandar la fuente (1.2 veces el tamaño base de la tabla) */
             font-weight: bold;  /* Poner en negrita el número */
-            width: 10%; /* Darle un ancho fijo para que no sea muy pequeña o grande */
+            width: auto; /* Permite que el ancho se ajuste automáticamente */
+            white-space: nowrap; /* Asegurar que el código no se rompa */
         }
 
         /* NUEVO ESTILO: Para hacer los títulos cliqueables */
@@ -682,6 +689,31 @@
         .button.mt-4 {
             margin-top: 1rem !important; /* Tailwind mt-4 equivalent */
         }
+                /* OPTIMIZACIÓN ESPECÍFICA PARA DISPOSITIVOS MÓVILES EN MODO HORIZONTAL (LANDSCAPE) */
+        @media (max-width: 768px) and (orientation: landscape) {
+            header {
+                padding: 10px 0; /* REDUCIDO: Menos padding vertical para el encabezado en modo horizontal */
+            }
+
+            header .logo img {
+                max-height: 30px; /* REDUCIDO: Logo más pequeño en modo horizontal */
+            }
+
+            header .header-content {
+                padding: 0 10px; /* REDUCIDO: Menos padding lateral en modo horizontal */
+            }
+
+            header nav ul li a {
+                font-size: 1.2em; /* REDUCIDO: Tamaño de fuente más pequeño para los enlaces de navegación */
+                padding: 5px 0; /* Menos padding para los ítems del menú móvil horizontal */
+            }
+
+            .container {
+                /* Ajustar el margen superior del contenedor principal para compensar el header más pequeño */
+                margin-top: 80px; /* Ajusta según sea necesario para que el contenido no quede debajo del header */
+            }
+        }
+
     </style>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-8M7TMMZ47B"></script>
