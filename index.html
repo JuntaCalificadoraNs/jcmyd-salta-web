@@ -595,14 +595,32 @@
         }
 
         /* Estilos para la columna CODIGO/Modulo */
-        .results-table th:nth-child(3), /* Selecciona el 3er encabezado (CODIGO/Modulo) */
-        .results-table td:nth-child(3) {  /* Selecciona la 3ra celda de cada fila (CODIGO/Modulo) */
-            text-align: center; /* Centrar el contenido */
-            font-size: 1em;   /* Agrandar la fuente (1.2 veces el tamaño base de la tabla) */
-            font-weight: bold;  /* Poner en negrita el número */
-            width: auto; /* Permite que el ancho se ajuste automáticamente */
-            white-space: nowrap; /* Asegurar que el código no se rompa */
-        }
+     /* OPTIMIZACIÓN ESPECÍFICA DE ENCABEZADOS DE TABLA (INCUMBENCIAS) EN MÓVILES */
+            /* Encabezados "ESPACIO CURRICULAR", "CÓDIGO/MÓDULO" y "ALCANCE/INCUMBENCIA" */
+            .results-table th:nth-child(2), /* ESPACIO CURRICULAR */
+            .results-table th:nth-child(3), /* CÓDIGO/<br>MÓDULO */
+            .results-table th:nth-child(4) { /* ALCANCE/<br>INCUMBENCIA */
+                text-align: center; /* Centrar todos estos encabezados */
+                font-size: 0.85em; /* Fuente ligeramente más grande para mejor lectura */
+                padding: 6px 3px; /* Padding más ajustado */
+                white-space: pre-line; /* Permite saltos de línea forzados por <br> y respeta espacios */
+            }
+
+            /* Contenido de celdas (td) "CÓDIGO/MÓDULO" */
+            .results-table td:nth-child(3) {
+                text-align: center; /* Centrar el contenido de la columna de código */
+                white-space: nowrap; /* Asegurar que el código numérico no se rompa */
+                font-size: 0.9em; /* Asegurar que el número se vea bien */
+                font-weight: bold; /* Mantener la negrita para el código */
+            }
+
+            /* Contenido de celdas (td) "ALCANCE/INCUMBENCIA" */
+            .results-table td:nth-child(4) {
+                text-align: left; /* Alineación izquierda para el texto del alcance */
+                white-space: normal; /* Permitir que el contenido del alcance se envuelva */
+                font-size: 0.8em; /* Ajustar el tamaño de fuente */
+            }
+
 
         /* NUEVO ESTILO: Para hacer los títulos cliqueables */
         .results-table td .clickable-title {
@@ -1341,10 +1359,11 @@
             // showSection(initialSection); eliminada para no repetir
         });
 
-        // Función para renderizar una tabla de resultados
+        // *** FUNCIÓN renderTable (AHORA SOPORTA HTML EN ENCABEZADOS Y MEJOR MANEJO DE RESALTADO) ***
+        // htmlHeaderColumns: Array de los textos de encabezado que deben interpretarse como HTML (e.g., ['CÓDIGO/<br>MÓDULO'])
         // exactHighlightColumn: Si se proporciona, la fila solo se resaltará si el searchTerm coincide exactamente con el contenido de esta columna.
         // clickableColumn: Si se proporciona, la celda de esta columna se hará clickeable para filtrar por el valor de esa celda.
-        function renderTable(containerId, headers, data, htmlColumns = [], searchTerm = '', exactHighlightColumn = null, clickableColumn = null) {
+        function renderTable(containerId, headers, data, htmlColumns = [], searchTerm = '', exactHighlightColumn = null, clickableColumn = null, htmlHeaderColumns = []) {
             const container = document.getElementById(containerId);
             if (!container) return;
 
@@ -1363,7 +1382,12 @@
             const headerRow = document.createElement('tr');
             headers.forEach(headerText => {
                 const th = document.createElement('th');
-                th.textContent = headerText;
+                // NUEVO: Comprobar si el encabezado debe renderizarse como HTML
+                if (htmlHeaderColumns.includes(headerText)) {
+                    th.innerHTML = headerText; // Usar innerHTML para interpretar <br>
+                } else {
+                    th.textContent = headerText; // Usar textContent por seguridad para texto plano
+                }
                 headerRow.appendChild(th);
             });
             thead.appendChild(headerRow);
@@ -1395,16 +1419,93 @@
 
                 headers.forEach(headerKey => {
                     const td = document.createElement('td');
-                    const cellContent = item[headerKey] !== undefined ? String(item[headerKey]) : '';
+                    // IMPORTANTE: Si los encabezados se han modificado (ej. 'CÓDIGO/<br>MÓDULO'),
+                    // 'headerKey' seguirá siendo la versión con HTML.
+                    // Necesitamos mapear esto a la clave de datos real del objeto 'item'.
+                    // Para tu caso, las claves de los datos (e.g., 'Nombre DEL ESPACIO CURRICULAR', 'CODIGO/Modulo')
+                    // DEBEN COINCIDIR con los headers en el `renderTable` para que `item[headerKey]` funcione.
+                    // Si los headers en `renderTable` incluyen `<br>`, y tus datos no tienen esa clave,
+                    // Necesitamos una lógica para mapear los headers a las claves de datos reales.
+
+                    // Para simplificar, asumiremos que los 'headers' en el arreglo que pasas
+                    // a renderTable son directamente las claves del objeto 'item',
+                    // y que el HTML de los encabezados es solo para visualización.
+                    // Si 'Nombre DEL ESPACIO CURRICULAR' cambia a 'ESPACIO CURRICULAR' en el header,
+                    // pero la data sigue usando 'Nombre DEL ESPACIO CURRICULAR', necesitaremos un mapeo.
+
+                    // REVISIÓN CRÍTICA:
+                    // En tu caso, las claves de los objetos `item` (ej. `item['Titulo']`, `item['Nombre DEL ESPACIO CURRICULAR']`)
+                    // *no cambian* aunque cambie el texto del encabezado.
+                    // Necesitamos mantener el 'headerKey' original para acceder a `item[headerKey]`
+                    // o usar un mapeo si los nombres de los headers en la llamada a `renderTable`
+                    // no son las mismas claves que en los objetos `item`.
+
+                    // ¡Aviso importante y crítica constructiva!
+                    // Si quieres cambiar el texto del encabezado COMO CLAVE para acceder a los datos,
+                    // necesitas un paso de transformación ANTES de llamar a renderTable, o
+                    // pasar un array de objetos con `[{ key: 'Nombre DEL ESPACIO CURRICULAR', display: 'ESPACIO CURRICULAR' }]`.
+                    // Sin embargo, para esta solicitud específica (cambiar solo la visualización del header),
+                    // la clave `headerKey` que se usa para `item[headerKey]` *debe seguir siendo la clave real de tus datos*.
+                    // Por ejemplo, si en tu hoja de Google Sheets la columna se llama "Nombre DEL ESPACIO CURRICULAR",
+                    // entonces `headerKey` DEBE ser "Nombre DEL ESPACIO CURRICULAR" para que `item[headerKey]` funcione.
+
+                    // Solución propuesta para este escenario:
+                    // Cuando definas los 'headers' en la llamada a `renderTable`,
+                    // sigue usando las claves EXACTAS de tus datos CSV,
+                    // y usa `htmlHeaderColumns` para especificar cuáles de esos textos de encabezado
+                    // deben renderizarse con HTML.
+
+                    // Ejemplo:
+                    // renderTable(..., ['Titulo', 'Nombre DEL ESPACIO CURRICULAR', 'CODIGO/Modulo', 'Alcance/INCUMBENCIA'], ..., ['CODIGO/Modulo', 'Alcance/INCUMBENCIA'])
+                    // Esto significa que 'Nombre DEL ESPACIO CURRICULAR' es el header y la clave de la data.
+                    // PERO, si queremos que se muestre como 'ESPACIO CURRICULAR', necesitamos una clave de mapeo.
+
+                    // ¡NUEVA PROPUESTA para la claridad!
+                    // Para que 'ESPACIO CURRICULAR' se muestre, y 'CODIGO/<br>MÓDULO' también,
+                    // el array `headers` en la llamada a `renderTable` debe contener los **nombres que quieres mostrar**.
+                    // Y necesitamos un mapeo de DISPLAY_NAME a DATA_KEY.
+
+                    // VOY A ASUMIR que tus claves de datos siguen siendo las originales:
+                    // 'Titulo', 'Nombre DEL ESPACIO CURRICULAR', 'CODIGO/Modulo', 'Alcance/INCUMBENCIA'.
+                    // Y que los nuevos 'headers' en la llamada a renderTable serán:
+                    // 'Titulo', 'ESPACIO CURRICULAR', 'CÓDIGO/<br>MÓDULO', 'ALCANCE/<br>INCUMBENCIA'.
+                    // Para que esto funcione, necesitamos un mapeo internamente en renderTable, o pasarlo.
+
+                    // La forma más robusta es pasar el mapeo a renderTable.
+                    // Pero para mantenerlo simple y alineado con la estructura actual,
+                    // vamos a crear un mapeo local y usar las claves originales para acceder a `item`.
+
+                    // MAPEO DE ENCABEZADOS DE VISUALIZACIÓN A CLAVES DE DATOS REALES
+                    const headerToDataKeyMap = {
+                        'Titulo': 'Titulo',
+                        'ESPACIO CURRICULAR': 'Nombre DEL ESPACIO CURRICULAR',
+                        'CÓDIGO/<br>MÓDULO': 'CODIGO/Modulo',
+                        'ALCANCE/<br>INCUMBENCIA': 'Alcance/INCUMBENCIA',
+                        // Asegúrate de que todos los encabezados que uses en `headers`
+                        // en la llamada a renderTable tengan su mapeo aquí.
+                        // Para colegios:
+                        'Nombre': 'Nombre',
+                        'Direccion': 'Direccion',
+                        'Localidad': 'Localidad',
+                        'Departamento': 'Departamento',
+                        'CodPostal': 'CodPostal',
+                        'UNID EDUCATIVA': 'UNID EDUCATIVA',
+                        'ORIENTACION': 'ORIENTACION',
+                        'AREA GEOGRAFICA- LOCALIDAD-DPTO': 'AREA GEOGRAFICA- LOCALIDAD-DPTO'
+                    };
+
+                    const dataKey = headerToDataKeyMap[headerKey] || headerKey; // Usa la clave mapeada o la clave original si no hay mapeo
+                    const cellContent = item[dataKey] !== undefined ? String(item[dataKey]) : '';
+
 
                     // Si la columna es una de las que permite HTML (para el resaltado de texto)
-                    if (htmlColumns.includes(headerKey)) {
-                        // NUEVO: Envuelve el contenido en un span cliqueable si es la columna designada
-                        if (clickableColumn === headerKey) {
+                    if (htmlColumns.includes(dataKey)) { // Usa dataKey aquí, porque es la clave real
+                        // Envuelve el contenido en un span cliqueable si es la columna designada
+                        if (clickableColumn === dataKey) { // Usa dataKey aquí
                             const clickableSpan = document.createElement('span');
                             clickableSpan.classList.add('clickable-title');
                             // Guarda el título original (no resaltado) para usarlo en la función de filtrado
-                            clickableSpan.dataset.fullTitle = item[headerKey].replace(/<\/?strong>/g, ''); // Elimina <strong> para guardar el texto puro
+                            clickableSpan.dataset.fullTitle = item[dataKey].replace(/<\/?strong>/g, ''); // Elimina <strong> para guardar el texto puro
                             clickableSpan.innerHTML = cellContent; // Usar innerHTML para el contenido resaltado
                             clickableSpan.onclick = () => filterAndDisplayExactTitle(clickableSpan.dataset.fullTitle);
                             td.appendChild(clickableSpan);
@@ -1427,8 +1528,13 @@
             });
             table.appendChild(tbody);
 
-            container.appendChild(table);
+            // Reemplazar el contenido del contenedor
+            const tableContainerDiv = document.createElement('div');
+            tableContainerDiv.classList.add('results-table-container');
+            tableContainerDiv.appendChild(table);
+            container.appendChild(tableContainerDiv);
         }
+
 
         // --- FUNCIONES DE BÚSQUEDA ESPECÍFICAS (Mantenidas para los buscadores independientes) ---
 
@@ -1556,7 +1662,18 @@
 
             // Limpiar resultados anteriores y resetear selects/botones
             // Ahora renderTable puede recibir null para searchTerm y exactHighlightColumn
-            renderTable('incumbenciasResultsIntegrado', ['Titulo', 'Nombre DEL ESPACIO CURRICULAR', 'CODIGO/Modulo', 'Alcance/INCUMBENCIA'], []);
+            renderTable(
+                'incumbenciasResultsIntegrado', 
+                // NUEVOS ENCABEZADOS DE COLUMNA PARA LA VISUALIZACIÓN
+                ['Titulo', 'ESPACIO CURRICULAR', 'CÓDIGO/<br>MÓDULO', 'ALCANCE/<br>INCUMBENCIA'], 
+                dataToRender, 
+                ['Titulo'], // Columnas que pueden contener HTML para el resaltado del texto de la celda
+                rawInput,   // Término de búsqueda para el resaltado de la fila (coincidencia en 'Titulo')
+                'Titulo',   // Columna para la coincidencia exacta de resaltado de fila
+                'Titulo',   // Columna que se hará clickeable
+                // NUEVO: Columnas de encabezado que contienen HTML (para <br>)
+                ['CÓDIGO/<br>MÓDULO', 'ALCANCE/<br>INCUMBENCIA']
+            );
             renderTable('colegiosPorEspacioResults', ['Nombre', 'Direccion', 'Localidad', 'Departamento'], []);
 
             selectEspacio.innerHTML = '<option value="">-- Selecciona un espacio curricular --</option>';
@@ -1721,13 +1838,16 @@
             // Para el resaltado de fila, usaremos selectedTitle como searchTerm y 'Titulo' como exactHighlightColumn
             // Para las celdas clickeables, seguimos permitiéndolo en la columna 'Titulo'
             renderTable(
-                'incumbenciasResultsIntegrado',
-                ['Titulo', 'Nombre DEL ESPACIO CURRICULAR', 'CODIGO/Modulo', 'Alcance/INCUMBENCIA'],
-                dataToRender,
-                ['Titulo'],
+                'incumbenciasResultsIntegrado', 
+                // NUEVOS ENCABEZADOS DE COLUMNA PARA LA VISUALIZACIÓN
+                ['Titulo', 'ESPACIO CURRICULAR', 'CÓDIGO/<br>MÓDULO', 'ALCANCE/<br>INCUMBENCIA'], 
+                dataToRender, 
+                ['Titulo'], 
                 selectedTitle, // searchTerm para que la fila exacta se resalte
                 'Titulo',      // exactHighlightColumn para asegurar el resaltado exacto de fila
-                'Titulo'       // clickableColumn para que siga siendo cliqueable
+                'Titulo',      // clickableColumn para que siga siendo cliqueable
+                // NUEVO: Columnas de encabezado que contienen HTML (para <br>)
+                ['CÓDIGO/<br>MÓDULO', 'ALCANCE/<br>INCUMBENCIA']
             );
 
             // Opcional: Re-poblar el select de espacio curricular solo con los espacios de este título exacto
