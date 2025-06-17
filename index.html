@@ -672,14 +672,11 @@
             <p>Bienvenido a la plataforma oficial de la Junta Calificadora de Méritos y Disciplina de Nivel Secundario de la Provincia de Salta. Aquí encontrarás herramientas esenciales y toda la información necesaria para tu carrera docente.</p>
             <p>Nuestro compromiso es brindarte un acceso fácil y transparente a normativas, incumbencias, convocatorias y datos de instituciones educativas.</p>
 
-            <div class="quick-access-buttons">
-                <a href="#" class="button" onclick="showSection('herramientas-consulta')">Buscar Incumbencias</a>
-                
-                <<!-- Botón para "Buscar Colegios por Localidad/Dpto." -->
-                <!-- MODIFICADO: Ahora llama directamente a triggerLocalidadSearchAndScroll() -->
-                <button type="button" class="button" onclick="triggerLocalidadSearchAndScroll()">Buscar Colegios por Localidad/Dpto.</button>
-                
-                <a href="#" class="button" onclick="showSection('tramites')">Trámites Docentes</a>
+        <div class="quick-access-buttons">
+                <!-- Un solo botón que dirige a la sección de herramientas de consulta -->
+                <a href="#herramientas-consulta" class="button" onclick="showSection('herramientas-consulta');">
+                    Explorar Todas las Herramientas de Consulta
+                </a>
             </div>
         </section>
 
