@@ -192,6 +192,55 @@
         .menu-toggle.active .bar:nth-child(3) {
             transform: translateY(-8px) rotate(-45deg);
         }
+                /* Estilos para el Comunicado Urgente */
+        .urgent-communique {
+            background-color: #fff3cd; /* Amarillo claro, color de advertencia */
+            border: 1px solid #ffeeba;
+            border-left: 5px solid #ffc107; /* Borde izquierdo más grueso y amarillo */
+            border-radius: 8px;
+            padding: 20px;
+            margin: 30px auto; /* Centrar y dar margen alrededor */
+            max-width: 800px; /* Ancho máximo para que no se extienda demasiado */
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        .urgent-communique h3 {
+            color: #856404; /* Color oscuro para el título, en línea con el amarillo */
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+            font-weight: 700;
+            border-bottom: 1px solid #ffda6a; /* Línea de separación bajo el título */
+            padding-bottom: 10px;
+            text-align: center; /* Asegurar que el título del comunicado esté centrado */
+        }
+
+        .urgent-communique p {
+            color: #66520e; /* Color de texto que combine */
+            margin-bottom: 10px;
+            text-align: justify; /* Justificar el texto para mejor lectura */
+        }
+
+        .urgent-communique strong {
+            color: #856404; /* Negrita con el color del título */
+        }
+
+        /* Ajustes para móviles si es necesario (dentro de @media max-width: 768px) */
+        @media (max-width: 768px) {
+            .urgent-communique {
+                margin: 20px auto;
+                padding: 15px;
+                font-size: 1em;
+            }
+            .urgent-communique h3 {
+                font-size: 1.5em;
+                margin-bottom: 10px;
+                padding-bottom: 8px;
+            }
+        }
 
         /* Responsive Design para móvil (< 768px) */
         @media (max-width: 768px) {
@@ -1046,9 +1095,18 @@
         </section>
 
         <!-- SECCIÓN DE NOTICIAS CON IFRAME -->
-        <section id="noticias" class="content-section" style="text-align: center;">
+                <section id="noticias" class="content-section" style="text-align: center;">
             <h2>Novedades y Noticias del Ministerio</h2>
             <p>Aquí puedes consultar las últimas noticias y comunicados oficiales del Ministerio de Educación, Cultura, Ciencia y Tecnología de Salta, incrustados directamente en nuestra página. Si el contenido no carga o tienes problemas para visualizarlo, puedes hacer clic en el enlace directo a continuación.</p>
+
+            <!-- INICIO: Comunicado Urgente de la Junta Calificadora (ACTUALIZADO) -->
+            <div class="urgent-communique">
+                <h3>Junta Calificadora de Méritos y Disciplina de Nivel Secundario y sus Modalidades informa:</h3>
+                <p><strong>Respecto al funcionamiento de la web Trayectoria Docente:</strong></p>
+                <p>El acceso a la página web correspondiente a las **Trayectorias Docentes**, desde donde se realizan gestiones que involucran al proceso de inscripción de cuadros, se encuentra momentáneamente fuera de servicio por cuestiones técnicas. Esta dificultad excede al organismo y sobre ella se está trabajando para su pronta reactivación.</p>
+                <p>Por otro lado, los accesos web oficiales del Ministerio de Educación (<a href="https://edusalta.gov.ar" target="_blank">edusalta.gov.ar</a>) y de la JCMD Nivel Secundario (<a href="https://jcmyd-salta-web.vercel.app" target="_blank">jcmyd-salta-web.vercel.app</a>) funcionan con normalidad.</p>
+            </div>
+            <!-- FIN: Comunicado Urgente de la Junta Calificadora -->
 
             <div class="news-iframe-container">
                 <iframe src="https://sga.edusalta.gov.ar/Frontend/Modulos/Noticias/Noticias.aspx" title="Noticias Ministerio de Educación Salta"></iframe>
