@@ -354,6 +354,11 @@
           background-color: rgba(255, 255, 255, 0.15);
           color: #a7d9ff;
         }
+        header nav ul li a i {
+          margin-right: 8px;
+          min-width: 18px;
+          text-align: center;
+        }
 
         /* Secciones de Contenido */
         .content-section {
@@ -781,6 +786,7 @@
     
       gtag('config', 'G-8M7TMMZ47B');
     </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 </head>
 <body>
@@ -797,15 +803,16 @@
                 <span class="bar"></span>
             </div>
              <nav id="main-nav" role="navigation" aria-label="Menú principal"> <!-- Añadimos un ID para referenciarlo en JS -->
-                <ul>
-                    <li><a href="#inicio">Inicio</a></li>
-                    <li><a href="#sobre-nosotros">Sobre Nosotros</a></li>
-                    <li><a href="#herramientas-consulta">Herramientas de Consulta</a></li>
-                    <li><a href="#normativas">Normativas</a></li>
-                    <li><a href="#tramites">Trámites y Consultas</a></li>
-                    <li><a href="#noticias">Noticias</a></li>
-                    <li><a href="#contacto">Contacto</a></li>
-                </ul>
+               <ul>
+                  <li><a href="#inicio"><i class="fas fa-home"></i> Inicio</a></li>
+                  <li><a href="#sobre-nosotros"><i class="fas fa-users"></i> Sobre Nosotros</a></li>
+                  <li><a href="#herramientas-consulta"><i class="fas fa-search"></i> Herramientas</a></li>
+                  <li><a href="#normativas"><i class="fas fa-gavel"></i> Normativas</a></li>
+                  <li><a href="#tramites"><i class="fas fa-file-signature"></i> Trámites</a></li>
+                  <li><a href="#noticias"><i class="fas fa-newspaper"></i> Noticias</a></li>
+                  <li><a href="#contacto"><i class="fas fa-envelope"></i> Contacto</a></li>
+               </ul>
+
             </nav>
             <!-- FIN MODIFICACIÓN MOBILE -->
         </div>
