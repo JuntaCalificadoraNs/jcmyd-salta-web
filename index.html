@@ -154,15 +154,17 @@
             max-width: 1200px;
             margin: 0 auto;
             position: relative;
-            gap: 40px; /* Espacio entre logo y navegación */
-            padding-left: 20px; /* Añade padding a la izquierda */
+            gap: 30px; /* Espacio entre logo y navegación */
+            padding-left: 15px; /* Añade padding a la izquierda */
+            padding-right: 15px; /* Añadido para balance */
         }
         
         .logo img {
-            max-height: 80px;
+            max-height: 70px;
             width: auto;
             flex-shrink: 0; /* Evita que el logo se reduzca */
             margin-right: auto; /* Empuja el menú hacia la derecha */
+            
         }
         
         
@@ -173,20 +175,22 @@
             padding: 0;
             display: flex;
             justify-content: flex-start; /* Alinear a la izquierda */
-            gap: 20px; /* Reducir espacio entre items */
+            gap: 15px; /* Reducir espacio entre items */
             flex-grow: 1; /* Permitir que ocupe espacio disponible */
+            flex-wrap: wrap; /* Permite que los items pasen a nueva línea si no caben */
         }
         
         nav ul li a {
             color: #ffffff;
             font-weight: 500;
-            font-size: 1.1em;
+            font-size: 1em;
             text-decoration: none;
             transition: var(--transicion-rapida);
-            padding: 12px 20px;
+            padding: 12px 15px;
             border-radius: var(--radio-borde);
             display: inline-flex;
             align-items: center;
+            white-space: nowrap; /* Evita que el texto se parta */
         }
         
         nav ul li a i {
@@ -566,6 +570,8 @@
             header .logo img {
                 max-height: 35px;
                 margin-right: 10px;
+                padding-left: 8px;
+                padding-right: 8px;
             }
             
             .menu-toggle {
@@ -609,6 +615,8 @@
                 width: 95%;
                 padding: 15px;
                 margin-top: 100px;
+                margin-left: auto;
+                margin-right: auto;
             }
             
             h1 {
@@ -780,6 +788,15 @@
                 min-width: calc(50% - 10px);
             }
         }
+        @media (min-width: 1600px) {
+            .header-content {
+            max-width: 1400px; /* Permite más espacio para el menú */
+        }
+    
+    nav ul {
+        gap: 20px; /* Recupera un poco más de espacio entre items */
+    }
+}
     </style>
     
     <!-- Google Analytics -->
