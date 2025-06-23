@@ -1484,104 +1484,94 @@
         // =============================================
         // BUSCADORES PRINCIPALES
         // =============================================
-        function buscarIncumbenciasIntegrado(event) {
-            const button = event.target;
-            const originalButtonText = button.innerHTML;
-            button.innerHTML = originalButtonText + '<span class="loading-spinner" aria-hidden="true"></span>';
-            button.disabled = true;
+// Función principal para la búsqueda integrada (Títulos y Espacios Curriculares)
+        function buscarIncumbenciasIntegrado() {
+            const searchTerm = document.getElementById('tituloInputIntegrado').value;
+            const resultsDiv = document.getElementById('incumbenciasResultsIntegrado');
+            const normalizedSearchTerm = normalizeText(searchTerm);
+            let filteredData = [];
 
-            const inputElement = document.getElementById('tituloInputIntegrado');
-            const rawInput = inputElement.value;
-            const normalizedInput = normalizeText(rawInput);
-
-            const selectEspacio = document.getElementById('espacioCurricularSelect');
-            const selectDepartamento = document.getElementById('departamentoSelect');
-            const btnBuscarColegios = document.getElementById('btnBuscarColegios');
-
-            // Resetear resultados anteriores
-            renderTable('incumbenciasResultsIntegrado', ['Titulo', 'Nombre DEL ESPACIO CURRICULAR', 'CODIGO/Modulo', 'Alcance/INCUMBENCIA'], []);
-            renderTable('colegiosPorEspacioResults', ['Nombre', 'Direccion', 'Localidad', 'Departamento'], []);
-
-            selectEspacio.innerHTML = '<option value="">-- Selecciona un espacio curricular --</option>';
-            selectEspacio.disabled = true;
-            btnBuscarColegios.disabled = true;
-            foundEspaciosCurriculares = [];
-
-            if (!normalizedInput) {
-                document.getElementById('incumbenciasResultsIntegrado').innerHTML = `
-                    <div class="no-results">
-                        <i class="fas fa-exclamation-circle"></i>
-                        <p>Por favor, ingresa un título para buscar incumbencias</p>
-                    </div>
-                `;
-                button.innerHTML = originalButtonText;
-                button.disabled = false;
+            if (searchTerm.length < 3 && searchTerm.length > 0) {
+                resultsDiv.innerHTML = `<p class="no-results">Ingrese al menos 3 caracteres para buscar.</p>`;
                 return;
             }
 
-            // Filtrar datos
-            const filteredData = competenciasData.filter(item => {
-                const titulo = normalizeText(item['Titulo'] || '');
-                const espacioCurricular = normalizeText(item['Nombre DEL ESPACIO CURRICULAR'] || '');
-                const codigoModulo = normalizeText(item['CODIGO/Modulo'] || '');
-                const alcanceIncumbencia = normalizeText(item['Alcance/INCUMBENCIA'] || '');
+            if (dataCompetencias.length === 0) {
+                resultsDiv.innerHTML = `<p class="no-results">Cargando datos de incumbencias...</p>`;
+                cargarDatosCompetencias(); // Intenta cargar si no están cargados
+                return;
+            }
 
-                return titulo.includes(normalizedInput) ||
-                       espacioCurricular.includes(normalizedInput) ||
-                       codigoModulo.includes(normalizedInput) ||
-                       alcanceIncumbencia.includes(normalizedInput);
-            });
-
-            // Preparar datos para renderizar
-            const dataToRender = filteredData.map(item => {
-                const newItem = { ...item };
-                newItem['Titulo'] = highlightMatch(item['Titulo'], rawInput);
-                return newItem;
-            });
-
-            // Renderizar tabla
-            renderTable(
-                'incumbenciasResultsIntegrado',
-                ['Titulo', 'Nombre DEL ESPACIO CURRICULAR', 'CODIGO/Modulo', 'Alcance/INCUMBENCIA'],
-                dataToRender,
-                ['Titulo'],
-                rawInput,
-                'Titulo',
-                'Titulo'
+            // PRIORIDAD 1: Buscar coincidencias directamente en la columna "Titulo"
+            let titleMatches = dataCompetencias.filter(row =>
+                normalizeText(row['Titulo']).includes(normalizedSearchTerm)
             );
 
-            // Llenar select con espacios curriculares encontrados
-            if (filteredData.length > 0) {
-                const uniqueEspacios = new Set();
-                filteredData.forEach(item => {
-                    if (item['Nombre DEL ESPACIO CURRICULAR']) {
-                        uniqueEspacios.add(item['Nombre DEL ESPACIO CURRICULAR'].trim());
-                    }
-                });
-
-                foundEspaciosCurriculares = Array.from(uniqueEspacios).sort();
-                selectEspacio.innerHTML = '<option value="">-- Selecciona un espacio curricular --</option>';
-                
-                foundEspaciosCurriculares.forEach(espacio => {
-                    const option = document.createElement('option');
-                    option.value = espacio;
-                    option.textContent = espacio;
-                    selectEspacio.appendChild(option);
-                });
-                
-                selectEspacio.disabled = false;
+            // Si hay coincidencias en el título, las mostramos.
+            // Si no hay coincidencias exactas en el título O el término es muy corto (menos de 3)
+            // entonces ampliamos la búsqueda a otras columnas.
+            if (titleMatches.length > 0 || searchTerm.length < 3) {
+                filteredData = titleMatches;
             } else {
-                document.getElementById('incumbenciasResultsIntegrado').innerHTML = `
-                    <div class="no-results">
-                        <i class="fas fa-search"></i>
-                        <p>No se encontraron espacios curriculares para "${rawInput}"</p>
-                    </div>
-                `;
+                // PRIORIDAD 2 (Fallback): Buscar en otras columnas si no hay coincidencia en título
+                filteredData = dataCompetencias.filter(row => {
+                    return Object.keys(row).some(key => {
+                        const cellContent = row[key];
+                        // Solo buscar en estas columnas para la segunda prioridad
+                        return (key === 'Nombre DEL ESPACIO CURRICULAR' || key === 'Alcance/INCUMBENCIA') &&
+                               normalizeText(cellContent).includes(normalizedSearchTerm);
+                    });
+                });
             }
-            
-            toggleBuscarColegiosButton();
-            button.innerHTML = originalButtonText;
-            button.disabled = false;
+
+            if (filteredData.length === 0) {
+                resultsDiv.innerHTML = `<p class="no-results">No se encontraron incumbencias para "${searchTerm}".</p>`;
+                return;
+            }
+
+            // Ordenar los resultados para que las coincidencias en 'Titulo' aparezcan primero,
+            // si la búsqueda fue general.
+            if (searchTerm.length >= 3) { // Solo ordenar si la búsqueda fue de 3+ caracteres
+                filteredData.sort((a, b) => {
+                    const aTitleMatch = normalizeText(a['Titulo']).includes(normalizedSearchTerm);
+                    const bTitleMatch = normalizeText(b['Titulo']).includes(normalizedSearchTerm);
+
+                    if (aTitleMatch && !bTitleMatch) return -1; // a tiene match en título, b no
+                    if (!aTitleMatch && bTitleMatch) return 1;  // b tiene match en título, a no
+
+                    // Si ambos o ninguno tienen match en título, ordenar por relevancia de búsqueda general
+                    const aGeneralMatch = Object.keys(a).some(key => normalizeText(a[key]).includes(normalizedSearchTerm));
+                    const bGeneralMatch = Object.keys(b).some(key => normalizeText(b[key]).includes(normalizedSearchTerm));
+
+                    if (aGeneralMatch && !bGeneralMatch) return -1;
+                    if (!aGeneralMatch && bGeneralMatch) return 1;
+
+                    // Finalmente, si no hay diferencia, mantener el orden original o por título alfabético
+                    return normalizeText(a['Titulo']).localeCompare(normalizeText(b['Titulo']));
+                });
+            }
+
+
+            // Renderizar la tabla de resultados
+            const tableHTML = generateTableHTML(filteredData, searchTerm, true);
+            resultsDiv.innerHTML = tableHTML;
+
+            // Añadir event listeners a los títulos clickeables
+            resultsDiv.querySelectorAll('.clickable-title').forEach(titleElement => {
+                titleElement.addEventListener('click', function() {
+                    const exactTitle = this.dataset.title;
+                    filtrarPorTituloExacto(exactTitle);
+                });
+            });
+
+            // Actualizar los selects de espacio curricular y departamento (siempre se actualizan aquí)
+            updateEspacioCurricularSelect(filteredData);
+            updateDepartamentoSelect(filteredData);
+
+            // Habilitar los botones de búsqueda secundaria
+            document.getElementById('espacioCurricularSelect').disabled = false;
+            document.getElementById('departamentoSelect').disabled = false;
+            document.getElementById('btnBuscarColegios').disabled = false;
         }
         
         function buscarColegiosAleatoriosPorEspacio(event) {
