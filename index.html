@@ -289,6 +289,19 @@
         .quick-access-buttons .button {
             min-width: 200px;
         }
+      .info-message {
+        background-color: #e7f4ff;
+        border-left: 4px solid #007bff;
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 4px;
+        font-size: 0.95em;
+    }
+    
+    .info-message i {
+        color: #007bff;
+        margin-right: 10px;
+    }
         
         /* Grupos de búsqueda */
         .search-group {
@@ -1489,24 +1502,24 @@
             const originalButtonText = button.innerHTML;
             button.innerHTML = originalButtonText + '<span class="loading-spinner" aria-hidden="true"></span>';
             button.disabled = true;
-
+        
             const inputElement = document.getElementById('tituloInputIntegrado');
-            const rawInput = inputElement.value;
+            const rawInput = inputElement.value.trim();
             const normalizedInput = normalizeText(rawInput);
-
+        
             const selectEspacio = document.getElementById('espacioCurricularSelect');
             const selectDepartamento = document.getElementById('departamentoSelect');
             const btnBuscarColegios = document.getElementById('btnBuscarColegios');
-
+        
             // Resetear resultados anteriores
             renderTable('incumbenciasResultsIntegrado', ['Titulo', 'Nombre DEL ESPACIO CURRICULAR', 'CODIGO/Modulo', 'Alcance/INCUMBENCIA'], []);
             renderTable('colegiosPorEspacioResults', ['Nombre', 'Direccion', 'Localidad', 'Departamento'], []);
-
+        
             selectEspacio.innerHTML = '<option value="">-- Selecciona un espacio curricular --</option>';
             selectEspacio.disabled = true;
             btnBuscarColegios.disabled = true;
             foundEspaciosCurriculares = [];
-
+        
             if (!normalizedInput) {
                 document.getElementById('incumbenciasResultsIntegrado').innerHTML = `
                     <div class="no-results">
@@ -1518,47 +1531,76 @@
                 button.disabled = false;
                 return;
             }
-
-            // Filtrar datos
+        
+            // Filtrado mejorado - Priorizar coincidencias exactas en Título
             const filteredData = competenciasData.filter(item => {
                 const titulo = normalizeText(item['Titulo'] || '');
                 const espacioCurricular = normalizeText(item['Nombre DEL ESPACIO CURRICULAR'] || '');
-                const codigoModulo = normalizeText(item['CODIGO/Modulo'] || '');
-                const alcanceIncumbencia = normalizeText(item['Alcance/INCUMBENCIA'] || '');
-
-                return titulo.includes(normalizedInput) ||
-                       espacioCurricular.includes(normalizedInput) ||
-                       codigoModulo.includes(normalizedInput) ||
-                       alcanceIncumbencia.includes(normalizedInput);
+                
+                // Primero buscar coincidencias exactas o parciales en Título
+                if (titulo.includes(normalizedInput)) {
+                    return true;
+                }
+                
+                // Solo si no hay suficientes resultados en Título, buscar en Espacio Curricular
+                return false;
             });
-
-            // Preparar datos para renderizar
-            const dataToRender = filteredData.map(item => {
-                const newItem = { ...item };
-                newItem['Titulo'] = highlightMatch(item['Titulo'], rawInput);
-                return newItem;
-            });
-
+        
+            // Si no hay resultados en Título, buscar en Espacios Curriculares
+            let dataToRender = [];
+            if (filteredData.length === 0) {
+                const filteredByEspacio = competenciasData.filter(item => {
+                    const espacioCurricular = normalizeText(item['Nombre DEL ESPACIO CURRICULAR'] || '');
+                    return espacioCurricular.includes(normalizedInput);
+                });
+                
+                if (filteredByEspacio.length > 0) {
+                    dataToRender = filteredByEspacio.map(item => {
+                        return {
+                            ...item,
+                            'Titulo': item['Titulo'],
+                            'Nombre DEL ESPACIO CURRICULAR': highlightMatch(item['Nombre DEL ESPACIO CURRICULAR'], rawInput)
+                        };
+                    });
+                    
+                    // Mostrar mensaje explicativo
+                    document.getElementById('incumbenciasResultsIntegrado').innerHTML = `
+                        <div class="info-message">
+                            <i class="fas fa-info-circle"></i>
+                            <p>No se encontraron títulos que coincidan con "${rawInput}". Mostrando espacios curriculares relacionados.</p>
+                        </div>
+                    `;
+                }
+            } else {
+                // Preparar datos para renderizar (solo títulos)
+                dataToRender = filteredData.map(item => {
+                    return {
+                        ...item,
+                        'Titulo': highlightMatch(item['Titulo'], rawInput)
+                    };
+                });
+            }
+        
             // Renderizar tabla
-            renderTable(
-                'incumbenciasResultsIntegrado',
-                ['Titulo', 'Nombre DEL ESPACIO CURRICULAR', 'CODIGO/Modulo', 'Alcance/INCUMBENCIA'],
-                dataToRender,
-                ['Titulo'],
-                rawInput,
-                'Titulo',
-                'Titulo'
-            );
-
-            // Llenar select con espacios curriculares encontrados
-            if (filteredData.length > 0) {
+            if (dataToRender.length > 0) {
+                renderTable(
+                    'incumbenciasResultsIntegrado',
+                    ['Titulo', 'Nombre DEL ESPACIO CURRICULAR', 'CODIGO/Modulo', 'Alcance/INCUMBENCIA'],
+                    dataToRender,
+                    ['Titulo'],
+                    rawInput,
+                    'Titulo',
+                    'Titulo'
+                );
+        
+                // Llenar select con espacios curriculares encontrados
                 const uniqueEspacios = new Set();
-                filteredData.forEach(item => {
+                dataToRender.forEach(item => {
                     if (item['Nombre DEL ESPACIO CURRICULAR']) {
                         uniqueEspacios.add(item['Nombre DEL ESPACIO CURRICULAR'].trim());
                     }
                 });
-
+        
                 foundEspaciosCurriculares = Array.from(uniqueEspacios).sort();
                 selectEspacio.innerHTML = '<option value="">-- Selecciona un espacio curricular --</option>';
                 
@@ -1574,7 +1616,8 @@
                 document.getElementById('incumbenciasResultsIntegrado').innerHTML = `
                     <div class="no-results">
                         <i class="fas fa-search"></i>
-                        <p>No se encontraron espacios curriculares para "${rawInput}"</p>
+                        <p>No se encontraron títulos ni espacios curriculares para "${rawInput}"</p>
+                        <small>Intenta con términos más específicos o revisa la ortografía</small>
                     </div>
                 `;
             }
