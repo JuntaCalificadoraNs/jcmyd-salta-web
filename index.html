@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Junta Calificadora de Méritos y Disciplina - Nivel Secundario</title>
     
     <!-- Preload de recursos -->
@@ -24,9 +24,24 @@
             --sombra-boton: 0 4px 8px rgba(0, 123, 255, 0.2);
             --transicion-rapida: all 0.3s ease;
             --radio-borde: 8px;
+            --min-tap-size: 48px; /* Tamaño mínimo para áreas táctiles */
+        }
+            /* Ajustes específicos para Samsung Internet */
+        .samsung-browser .button {
+            -webkit-tap-highlight-color: rgba(0,0,0,0.1);
         }
         
-        * {
+        .samsung-browser nav ul li a {
+            padding: 15px 20px; /* Áreas más grandes para toques */
+        }
+        
+        /* Mejoras para WebView */
+        :root.webview .container {
+            padding-bottom: constant(safe-area-inset-bottom); /* Para iPhone */
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+        
+        {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
@@ -204,7 +219,7 @@
         
         .menu-toggle .bar {
             width: 100%;
-            height: 3px;
+            height: 4px;
             background-color: white;
             border-radius: 5px;
             transition: var(--transicion-rapida);
@@ -229,6 +244,8 @@
         .button {
             background-color: var(--color-acento);
             color: white;
+            min-width: var(--min-tap-size);
+            min-height: var(--min-tap-size);
             padding: 12px 25px;
             border: none;
             border-radius: var(--radio-borde);
@@ -241,6 +258,7 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
+            touch-action: manipulation; /* Mejora la respuesta táctil */
         }
         
         .button:hover {
@@ -321,6 +339,10 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             border-radius: var(--radio-borde);
             overflow: hidden;
+            display: block;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            white-space: nowrap;
         }
         
         .results-table th, 
@@ -572,8 +594,8 @@
             }
             
             nav ul li a {
-                font-size: 1.5em;
-                padding: 12px 20px;
+                padding: 15px 25px;
+                font-size: 1.2em;
             }
             
             /* Contenido */
@@ -655,6 +677,8 @@
                 margin-top: 0 !important;
                 box-shadow: none !important;
                 border-radius: 0 !important;
+                display: table;
+                white-space: normal;
             }
             
             .results-table th, .results-table td {
@@ -691,6 +715,63 @@
             .results-table strong {
                 font-weight: bold !important;
                 color: #000 !important;
+            }
+        }
+        /* ===== MEJORAS PARA MÓVILES ===== */
+        @media (max-width: 480px) {
+            /* Ajustes para pantallas muy pequeñas */
+            :root {
+                --radio-borde: 6px;
+            }
+            
+            h1 {
+                font-size: 1.5em;
+                margin-bottom: 5px;
+            }
+            
+            h2 {
+                font-size: 1.1em;
+            }
+            
+            .container {
+                width: 98%;
+                padding: 10px;
+                margin-top: 80px;
+            }
+            
+            .quick-access-buttons .button {
+                width: 100%;
+                padding: 12px;
+            }
+            
+            /* Mejorar tablas en móviles */
+            .results-table th, 
+            .results-table td {
+                padding: 6px 3px;
+                font-size: 0.75em;
+            }
+            
+            /* Optimizar inputs */
+            .search-section input[type="text"],
+            .search-section select {
+                padding: 10px;
+                font-size: 0.9em;
+            }
+        }
+        
+        /* Optimización para tablets */
+        @media (min-width: 481px) and (max-width: 768px) {
+            .container {
+                width: 95%;
+            }
+            
+            .quick-access-buttons {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+            
+            .quick-access-buttons .button {
+                min-width: calc(50% - 10px);
             }
         }
     </style>
@@ -786,7 +867,8 @@
                 <p>Encuentra qué espacios curriculares puedes dictar con tu título. Las incumbencias responden al manual de competencias vigentes del Ministerio de Educación de Salta. **Puedes hacer clic en cualquier título de la tabla de resultados para filtrar y ver solo sus incumbencias exactas.**</p>
                 <div class="search-section">
                     <label for="tituloInputIntegrado">1. Ingresa tu Título (o parte de él):</label>
-                    <input type="text" id="tituloInputIntegrado" placeholder="Ej: Profesor de Historia">
+                    <input type="text" id="tituloInputIntegrado" placeholder="Ej: Profesor de Historia" 
+       autocapitalize="off" autocorrect="off" spellcheck="false">
                     <button onclick="buscarIncumbenciasIntegrado(event)" aria-label="Buscar espacios curriculares por título">Buscar Espacios Curriculares</button>
 
                     <div class="results-container">
@@ -838,7 +920,8 @@
                     <h4>Búsqueda por Orientación</h4>
                     <p>Encuentra colegios secundarios según su orientación educativa.</p>
                     <label for="orientacionInput">Buscar por Orientación:</label>
-                    <input type="text" id="orientacionInput" placeholder="Ej: Ciencias Naturales, Informática, Humanidades">
+                    <input type="text" id="orientacionInput" placeholder="Ej: Ciencias Naturales, Informática, Humanidades"
+       autocapitalize="off" autocorrect="off" spellcheck="false">
                     <button onclick="buscarOrientaciones(event)" aria-label="Buscar colegios por orientación educativa">Buscar Orientaciones</button>
 
                     <div class="results-container">
@@ -856,7 +939,8 @@
                     <h4>Búsqueda por Localidad/Departamento</h4>
                     <p>Encuentra colegios secundarios ingresando una localidad o departamento.</p>
                     <label for="localidadInput">Buscar por Localidad o Departamento:</label>
-                    <input type="text" id="localidadInput" placeholder="Ej: Salta Capital, San Ramón de la Nueva Orán">
+                   <input type="text" id="localidadInput" placeholder="Ej: Salta Capital, San Ramón de la Nueva Orán"
+       autocapitalize="words" autocorrect="off" spellcheck="false">
                     <button id="btnBuscarColegiosLocalidad" onclick="buscarColegios(event)" aria-label="Buscar colegios por localidad o departamento">Buscar Colegios</button>
 
                     <div class="results-container">
@@ -915,7 +999,8 @@
                 <p>Ingrese el número de la Unidad Educativa para ver sus orientaciones:</p>
                 <div class="search-section">
                     <label for="colegioNumeroInput">N° de Unidad Educativa:</label>
-                    <input type="text" id="colegioNumeroInput" placeholder="Ej: 5093, 3135">
+                    <input type="text" id="colegioNumeroInput" placeholder="Ej: 5093, 3135"
+       inputmode="numeric" pattern="[0-9]*" autocapitalize="off" autocorrect="off" spellcheck="false">
                 </div>
                 <div class="search-section">
                     <button class="button" id="btnBuscarOrientacionesPorColegio" onclick="buscarOrientacionesPorColegio(event)" aria-label="Buscar orientaciones por número de colegio">Buscar Orientaciones del Colegio</button>
@@ -2241,6 +2326,31 @@
         // INICIALIZACIÓN DE LA APLICACIÓN
         // =============================================
         document.addEventListener('DOMContentLoaded', init);
-    </script>
+      // Carga diferida de recursos no críticos
+        window.addEventListener('load', function() {
+            // Carga diferida de Font Awesome
+            const faLink = document.createElement('link');
+            faLink.rel = 'stylesheet';
+            faLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
+            document.head.appendChild(faLink);
+            
+            // Carga diferida de Google Fonts
+            const fontLink = document.createElement('link');
+            fontLink.rel = 'stylesheet';
+            fontLink.href = 'https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap';
+            document.head.appendChild(fontLink);
+            
+            // Carga diferida de iframes
+            document.querySelectorAll('iframe').forEach(iframe => {
+                iframe.setAttribute('loading', 'lazy');
+            });
+        });
+        
+        // Detección de navegadores problemáticos (Samsung Internet)
+        if(/SamsungBrowser/i.test(navigator.userAgent)) {
+            document.documentElement.classList.add('samsung-browser');
+            console.log('Aplicando ajustes para Samsung Internet');
+        }
+    </script>    
 </body>
 </html>
