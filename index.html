@@ -356,6 +356,7 @@
         }
         
         .results-table {
+            table-layout: fixed; /* Para control exacto del ancho */
             width: 100%;
             border-collapse: collapse;
             margin-top: 15px;
@@ -366,6 +367,30 @@
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
             white-space: nowrap;
+        }
+        .results-table th:nth-child(1),
+        .results-table td:nth-child(1) {
+            width: 30%; /* Ancho reducido para la columna de título */
+        }
+        
+        .results-table th:nth-child(2),
+        .results-table td:nth-child(2) {
+            width: 40%; /* Más espacio para el espacio curricular */
+        }
+        
+        .results-table th:nth-child(3),
+        .results-table td:nth-child(3),
+        .results-table th:nth-child(4),
+        .results-table td:nth-child(4) {
+            width: 15%; /* Columnas derechas más estrechas */
+            text-align: center;
+        }
+        
+        /* Estilo para títulos repetidos */
+        .repeated-title {
+            color: #666;
+            font-size: 0.9em;
+            font-style: italic;
         }
         
         .results-table th, 
@@ -590,7 +615,9 @@
             .menu-toggle {
                 display: flex;
             }
-            
+             .repeated-title {
+                display: none; /* Ocultar en móvil para ahorrar espacio */
+            }
             nav {
                 transform: translateX(-100%);
                 position: fixed;
@@ -1405,94 +1432,107 @@
             return highlightedHtml;
         }
         
-        function renderTable(containerId, headers, data, htmlColumns = [], searchTerm = '', exactHighlightColumn = null, clickableColumn = null) {
-            const container = document.getElementById(containerId);
-            if (!container) return;
-
-            container.innerHTML = '';
-            const normalizedSearchTerm = normalizeText(searchTerm);
-
-            if (data.length === 0) {
-                container.innerHTML = `
-                    <div class="no-results">
-                        <i class="fas fa-search"></i>
-                        <p>No se encontraron resultados para "${searchTerm}"</p>
-                        <small>Intenta con términos más generales o verifica la ortografía</small>
-                    </div>
-                `;
-                return;
-            }
-
-            const table = document.createElement('table');
-            table.classList.add('results-table');
-
-            // Crear encabezados
-            const thead = document.createElement('thead');
-            const headerRow = document.createElement('tr');
-            headers.forEach(headerText => {
-                const th = document.createElement('th');
-                th.textContent = headerText;
-                headerRow.appendChild(th);
-            });
-            thead.appendChild(headerRow);
-            table.appendChild(thead);
-
-            // Crear cuerpo de la tabla
-            const tbody = document.createElement('tbody');
-            data.forEach(item => {
-                const tr = document.createElement('tr');
-                let rowShouldBeHighlighted = false;
-
-                // Determinar si la fila debe resaltarse
-                if (exactHighlightColumn && item[exactHighlightColumn] !== undefined) {
-                    const columnContent = normalizeText(String(item[exactHighlightColumn]));
-                    if (columnContent === normalizedSearchTerm) {
+       function renderTable(containerId, headers, data, htmlColumns = [], searchTerm = '', exactHighlightColumn = null, clickableColumn = null) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+    
+        container.innerHTML = '';
+        const normalizedSearchTerm = normalizeText(searchTerm);
+    
+        if (data.length === 0) {
+            container.innerHTML = `
+                <div class="no-results">
+                    <i class="fas fa-search"></i>
+                    <p>No se encontraron resultados para "${searchTerm}"</p>
+                    <small>Intenta con términos más generales o verifica la ortografía</small>
+                </div>
+            `;
+            return;
+        }
+    
+        const table = document.createElement('table');
+        table.classList.add('results-table');
+    
+        // Crear encabezados
+        const thead = document.createElement('thead');
+        const headerRow = document.createElement('tr');
+        headers.forEach(headerText => {
+            const th = document.createElement('th');
+            th.textContent = headerText;
+            headerRow.appendChild(th);
+        });
+        thead.appendChild(headerRow);
+        table.appendChild(thead);
+    
+        // Crear cuerpo de la tabla
+        const tbody = document.createElement('tbody');
+        let lastTitle = ''; // Variable para trackear el título anterior
+        
+        data.forEach((item, index) => {
+            const tr = document.createElement('tr');
+            let rowShouldBeHighlighted = false;
+            const currentTitle = item['Titulo'] || '';
+    
+            // Determinar si la fila debe resaltarse
+            if (exactHighlightColumn && item[exactHighlightColumn] !== undefined) {
+                const columnContent = normalizeText(String(item[exactHighlightColumn]));
+                if (columnContent === normalizedSearchTerm) {
+                    rowShouldBeHighlighted = true;
+                }
+            } else if (normalizedSearchTerm) {
+                for (const headerKey of headers) {
+                    const cellContent = item[headerKey] !== undefined ? String(item[headerKey]) : '';
+                    if (normalizeText(cellContent).includes(normalizedSearchTerm)) {
                         rowShouldBeHighlighted = true;
-                    }
-                } else if (normalizedSearchTerm) {
-                    for (const headerKey of headers) {
-                        const cellContent = item[headerKey] !== undefined ? String(item[headerKey]) : '';
-                        if (normalizeText(cellContent).includes(normalizedSearchTerm)) {
-                            rowShouldBeHighlighted = true;
-                            break;
-                        }
+                        break;
                     }
                 }
-
-                // Crear celdas
-                headers.forEach(headerKey => {
-                    const td = document.createElement('td');
-                    const cellContent = item[headerKey] !== undefined ? String(item[headerKey]) : '';
-
-                    if (htmlColumns.includes(headerKey)) {
-                        if (clickableColumn === headerKey) {
-                            const clickableSpan = document.createElement('span');
-                            clickableSpan.classList.add('clickable-title');
-                            clickableSpan.dataset.fullTitle = item[headerKey].replace(/<\/?strong>/g, '');
-                            clickableSpan.innerHTML = cellContent;
-                            clickableSpan.onclick = () => filterAndDisplayExactTitle(clickableSpan.dataset.fullTitle);
-                            td.appendChild(clickableSpan);
-                        } else {
-                            td.innerHTML = cellContent;
-                        }
+            }
+    
+            // Crear celdas
+            headers.forEach(headerKey => {
+                const td = document.createElement('td');
+                let cellContent = item[headerKey] !== undefined ? String(item[headerKey]) : '';
+    
+                // Manejar título repetido
+                if (headerKey === 'Titulo' && index > 0 && currentTitle === lastTitle) {
+                    cellContent = '<span class="repeated-title">(Igual al anterior)</span>';
+                }
+    
+                if (htmlColumns.includes(headerKey)) {
+                    if (clickableColumn === headerKey) {
+                        const clickableSpan = document.createElement('span');
+                        clickableSpan.classList.add('clickable-title');
+                        clickableSpan.dataset.fullTitle = item[headerKey].replace(/<\/?strong>/g, '');
+                        clickableSpan.innerHTML = cellContent;
+                        clickableSpan.onclick = () => filterAndDisplayExactTitle(clickableSpan.dataset.fullTitle);
+                        td.appendChild(clickableSpan);
+                    } else {
+                        td.innerHTML = cellContent;
+                    }
+                } else {
+                    if (headerKey === 'Titulo' && index > 0 && currentTitle === lastTitle) {
+                        td.innerHTML = cellContent; // Permitir HTML para el span
                     } else {
                         td.textContent = cellContent;
                     }
-                    
-                    td.setAttribute('data-col-name', headerKey);
-                    tr.appendChild(td);
-                });
-
-                if (rowShouldBeHighlighted) {
-                    tr.classList.add('highlighted-row');
                 }
-
-                tbody.appendChild(tr);
+                
+                td.setAttribute('data-col-name', headerKey);
+                tr.appendChild(td);
             });
-            
-            table.appendChild(tbody);
-            container.appendChild(table);
-        }
+    
+            if (rowShouldBeHighlighted) {
+                tr.classList.add('highlighted-row');
+            }
+    
+            tbody.appendChild(tr);
+            lastTitle = currentTitle; // Actualizar el último título
+        });
+        
+        table.appendChild(tbody);
+        container.appendChild(table);
+    }
         
         // =============================================
         // BUSCADORES PRINCIPALES
