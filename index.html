@@ -148,18 +148,23 @@
         
         .header-content {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-start; /* Cambiado de space-between a flex-start */
             align-items: center;
             width: 90%;
             max-width: 1200px;
             margin: 0 auto;
             position: relative;
+            gap: 40px; /* Espacio entre logo y navegación */
+            padding-left: 20px; /* Añade padding a la izquierda */
         }
         
         .logo img {
             max-height: 80px;
             width: auto;
+            flex-shrink: 0; /* Evita que el logo se reduzca */
+            margin-right: auto; /* Empuja el menú hacia la derecha */
         }
+        
         
         /* Menú principal */
         nav ul {
@@ -167,8 +172,9 @@
             margin: 0;
             padding: 0;
             display: flex;
-            justify-content: center;
-            gap: 35px;
+            justify-content: flex-start; /* Alinear a la izquierda */
+            gap: 20px; /* Reducir espacio entre items */
+            flex-grow: 1; /* Permitir que ocupe espacio disponible */
         }
         
         nav ul li a {
