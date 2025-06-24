@@ -59,7 +59,7 @@
         .container {
             width: 90%;
             max-width: 1200px;
-            margin: 138px auto 0;
+            margin: 110px auto 0;
             background: var(--color-fondo-secundario);
             padding: 10px 30px 30px;
             box-shadow: var(--sombra-box);
@@ -315,12 +315,15 @@
         .celebration-banner {
             background: linear-gradient(135deg, var(--color-primario), var(--color-secundario));
             color: white;
-            padding: 15px;
-            margin-bottom: 25px;
+            padding: 10px 15px; /* Versión compacta unificada */
+            margin: 5px auto 10px auto; /* top | horizontal | bottom */
             border-radius: var(--radio-borde);
             position: relative;
             box-shadow: 0 4px 15px rgba(0, 64, 133, 0.2);
             animation: pulse 2s infinite alternate;
+            width: 90%;
+            max-width: 1200px;
+            z-index: 999;
         }
         
         .celebration-content {
@@ -847,6 +850,8 @@
             }
             .celebration-banner {
                 padding: 12px;
+                margin-top: 3px;
+                margin-bottom: 8px;
             }
             .celebration-content i {
                 font-size: 1.5em;
@@ -876,7 +881,7 @@
             .container {
                 width: 95%;
                 padding: 15px;
-                margin-top: 100px;
+                margin-top: 90px;
                 margin-left: auto;
                 margin-right: auto;
             }
