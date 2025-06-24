@@ -311,8 +311,8 @@
         padding-left: 15px;
         font-style: italic;
     }
-    
-  }    
+        
+     
  /* Lista de características mejorada (NUEVO) */
     .lead-text {
         font-size: 1.2em;
@@ -339,6 +339,27 @@
         position: absolute;
         left: 0;
         top: 10px;
+    }
+    .sub-feature-list {
+        list-style: none;
+        margin: 8px 0 0 15px;
+        padding: 0;
+    }
+    
+    .sub-feature-list li {
+        padding: 4px 0;
+        position: relative;
+        padding-left: 25px;
+        font-size: 0.95em;
+        color: var(--color-texto-claro);
+    }
+    
+    .sub-feature-list i {
+        color: var(--color-secundario);
+        position: absolute;
+        left: 0;
+        top: 6px;
+        font-size: 0.8em;
     }
         
         /* Grupos de búsqueda */
@@ -726,6 +747,14 @@
             .feature-list li {
                 font-size: 0.95em;
                 padding-left: 25px;
+            }
+            .sub-feature-list {
+                margin-left: 10px;
+            }
+            
+            .sub-feature-list li {
+                padding-left: 20px;
+                font-size: 0.85em;
             }
             /* Contenido */
             .container {
