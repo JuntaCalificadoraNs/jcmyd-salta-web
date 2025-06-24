@@ -2920,52 +2920,60 @@
             }
         });
         // Configuración del formulario
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const form = e.target;
-            const submitBtn = form.querySelector('button[type="submit"]');
-            const messageDiv = document.getElementById('formMessage');
+            document.getElementById('contactForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const form = e.target;
+                const submitBtn = form.querySelector('button[type="submit"]');
+                const messageDiv = document.getElementById('formMessage');
+                
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
+                
+                try {
+                    const formData = {
+                        nombre: form.nombre.value,
+                        email: form.email.value,
+                        celular: form.celular.value,
+                        consulta: form.consulta.value,
+                        tipo: form.tipo.value
+                    };
             
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
+                    // Opción 1: Usar directamente (puede fallar en algunos navegadores)
+                    const response = await fetch('https://script.google.com/macros/s/AKfycbz.../exec', {
+                        method: 'POST',
+                        mode: 'no-cors', // Solo para peticiones simples
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(formData)
+                    });
             
-            // Recoger datos
-            const formData = {
-                nombre: form.nombre.value,
-                email: form.email.value,
-                celular: form.celular.value,
-                consulta: form.consulta.value,
-                tipo: form.tipo.value,
-                fecha: new Date().toLocaleString()
-            };
+                    // Opción 2: Usar un proxy CORS (recomendado)
+                    // const response = await fetch('https://script.google.com/macros/s/AKfycbx3RnVy6FsLnsABheynsvbutBAtSgl2CHZgnhyeiI1lMVl5EUaZ7vdzV69aQfoSEi5Gig/exec', {
+                    //     method: 'POST',
+                    //     headers: {
+                    //         'Content-Type': 'application/json'
+                    //     },
+                    //     body: JSON.stringify(formData)
+                    // });
             
-            // Enviar a Google Apps Script
-            fetch('https://script.google.com/macros/s/AKfycbz1VmBlYqIklopC7drcbQR3-Jcgh1wK-GI1r4RpowI0Aiz4_RCu6thI8fLKfhCNDqxIAw/exec', {
-                method: 'POST',
-                body: JSON.stringify(formData),
-                headers: {
-                    'Content-Type': 'application/json'
+                    const data = await response.json();
+                    
+                    if (data.result === 'success') {
+                        form.reset();
+                        messageDiv.textContent = 'Consulta enviada correctamente';
+                        messageDiv.className = 'form-message success';
+                    } else {
+                        throw new Error(data.message || 'Error desconocido');
+                    }
+                } catch (error) {
+                    messageDiv.textContent = 'Error al enviar: ' + error.message;
+                    messageDiv.className = 'form-message error';
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Enviar Consulta';
                 }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.result === 'success') {
-                    form.reset();
-                    messageDiv.textContent = 'Consulta enviada correctamente. Nos pondremos en contacto pronto.';
-                    messageDiv.className = 'form-message success';
-                } else {
-                    throw new Error(data.error);
-                }
-            })
-            .catch(error => {
-                messageDiv.textContent = 'Error al enviar: ' + error.message;
-                messageDiv.className = 'form-message error';
-            })
-            .finally(() => {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Enviar Consulta';
             });
-        });
     </script>    
 </body>
 </html>
