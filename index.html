@@ -302,6 +302,17 @@
         color: #007bff;
         margin-right: 10px;
     }
+    .welcome-text {
+        font-size: 1.1em;
+        color: var(--color-texto);
+        margin-bottom: 20px;
+        line-height: 1.6;
+        border-left: 3px solid var(--color-acento);
+        padding-left: 15px;
+        font-style: italic;
+    }
+    
+  }    
  /* Lista de características mejorada (NUEVO) */
     .lead-text {
         font-size: 1.2em;
@@ -702,6 +713,11 @@
                 padding: 15px 25px;
                 font-size: 1.2em;
             }
+            .welcome-text {
+                font-size: 1em;
+                padding-left: 10px;
+                margin-bottom: 15px;
+            }
              /* Ajustes para la lista de características */
             .lead-text {
                 font-size: 1.1em;
@@ -939,24 +955,37 @@
     </header>
 
     <div class="container">
-        <section id="inicio" class="content-section">
+       <section id="inicio" class="content-section">
             <h1>Junta Calificadora de Méritos y Disciplina</h1>
             <h2>Nivel Secundario y sus Modalidades</h2>
             
-            <p class="lead-text">Herramientas clave para docentes:</p>
+            <p class="welcome-text">
+                Plataforma oficial de la Junta Calificadora de Méritos y Disciplina del Nivel Secundario. 
+                Herramientas digitales para tu desarrollo docente.
+            </p>
             
             <ul class="feature-list">
                 <li><i class="fas fa-check-circle"></i> Verifica qué materias puedes dictar con tu título</li>
                 <li><i class="fas fa-check-circle"></i> Encuentra colegios por ubicación o especialidad</li>
-                <li><i class="fas fa-check-circle"></i> Accede a información oficial para inscripciones</li>
+                <li><i class="fas fa-check-circle"></i> Accede a información para inscripciones, reinscripciones y trámites docentes:
+                    <ul class="sub-feature-list">
+                        <li><i class="fas fa-arrow-right"></i> Traslados y permutas</li>
+                        <li><i class="fas fa-arrow-right"></i> Cuadros de ascensos</li>
+                        <li><i class="fas fa-arrow-right"></i> Concursos abiertos</li>
+                        <li><i class="fas fa-arrow-right"></i> Regularización de antecedentes</li>
+                    </ul>
+                </li>
             </ul>
         
             <div class="quick-access-buttons">
                 <a href="#herramientas-consulta" class="button" onclick="showSection('herramientas-consulta');">
                     <i class="fas fa-search"></i> Comenzar Búsquedas
                 </a>
+                <a href="#tramites" class="button" onclick="showSection('tramites');">
+                    <i class="fas fa-file-alt"></i> Ver Trámites
+                </a>
             </div>
-        </section>
+       </section>
 
         <section id="sobre-nosotros" class="content-section">
             <h2>Sobre Nosotros: Junta Calificadora de Méritos y Disciplina</h2>
