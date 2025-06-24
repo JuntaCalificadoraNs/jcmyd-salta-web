@@ -289,79 +289,168 @@
         .quick-access-buttons .button {
             min-width: 200px;
         }
-      .info-message {
-        background-color: #e7f4ff;
-        border-left: 4px solid #007bff;
-        padding: 15px;
-        margin-bottom: 20px;
-        border-radius: 4px;
-        font-size: 0.95em;
-    }
-    
-    .info-message i {
-        color: #007bff;
-        margin-right: 10px;
-    }
-    .welcome-text {
-        font-size: 1.1em;
-        color: var(--color-texto);
-        margin-bottom: 20px;
-        line-height: 1.6;
-        border-left: 3px solid var(--color-acento);
-        padding-left: 15px;
-        font-style: italic;
-    }
+        .info-message {
+            background-color: #e7f4ff;
+            border-left: 4px solid #007bff;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            font-size: 0.95em;
+        }
         
-     
- /* Lista de características mejorada (NUEVO) */
-    .lead-text {
-        font-size: 1.2em;
-        font-weight: 600;
-        color: var(--color-primario);
-        margin: 20px 0 15px;
-    }
-    
-    .feature-list {
-        list-style: none;
-        margin: 0 0 25px 0;
-        padding: 0;
-    }
-    
-    .feature-list li {
-        padding: 8px 0;
-        position: relative;
-        padding-left: 30px;
-        line-height: 1.5;
-    }
-    
-    .feature-list i {
-        color: var(--color-acento);
-        position: absolute;
-        left: 0;
-        top: 10px;
-    }
-    .sub-feature-list {
-        list-style: none;
-        margin: 8px 0 0 15px;
-        padding: 0;
-    }
-    
-    .sub-feature-list li {
-        padding: 4px 0;
-        position: relative;
-        padding-left: 25px;
-        font-size: 0.95em;
-        color: var(--color-texto-claro);
-    }
-    
-    .sub-feature-list i {
-        color: var(--color-secundario);
-        position: absolute;
-        left: 0;
-        top: 6px;
-        font-size: 0.8em;
-    }
+        .info-message i {
+            color: #007bff;
+            margin-right: 10px;
+        }
+        .welcome-text {
+            font-size: 1.1em;
+            color: var(--color-texto);
+            margin-bottom: 20px;
+            line-height: 1.6;
+            border-left: 3px solid var(--color-acento);
+            padding-left: 15px;
+            font-style: italic;
+        }
+      /* Banner de celebración */
+        .celebration-banner {
+            background: linear-gradient(135deg, var(--color-primario), var(--color-secundario));
+            color: white;
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: var(--radio-borde);
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0, 64, 133, 0.2);
+            animation: pulse 2s infinite alternate;
+        }
         
+        .celebration-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 5px;
+        }
+        
+        .celebration-content i {
+            font-size: 2em;
+            margin-bottom: 5px;
+        }
+        
+        .celebration-content span {
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+        
+        .close-banner {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 1.5em;
+            cursor: pointer;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.02); }
+        }
+            
+     /* Lista de características mejorada (NUEVO) */
+        .lead-text {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: var(--color-primario);
+            margin: 20px 0 15px;
+        }
+        
+        .feature-list {
+            list-style: none;
+            margin: 0 0 25px 0;
+            padding: 0;
+        }
+        
+        .feature-list li {
+            padding: 8px 0;
+            position: relative;
+            padding-left: 30px;
+            line-height: 1.5;
+        }
+        
+        .feature-list i {
+            color: var(--color-acento);
+            position: absolute;
+            left: 0;
+            top: 10px;
+        }
+        .sub-feature-list {
+            list-style: none;
+            margin: 8px 0 0 15px;
+            padding: 0;
+        }
+        
+        .sub-feature-list li {
+            padding: 4px 0;
+            position: relative;
+            padding-left: 25px;
+            font-size: 0.95em;
+            color: var(--color-texto-claro);
+        }
+        
+        .sub-feature-list i {
+            color: var(--color-secundario);
+            position: absolute;
+            left: 0;
+            top: 6px;
+            font-size: 0.8em;
+        }
+   /* Sistema de pestañas */
+        .tabs-container {
+            margin-top: 15px;
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 15px;
+        }
+        
+        .tab-button {
+            padding: 10px 20px;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--color-texto-claro);
+            transition: all 0.3s ease;
+        }
+        
+        .tab-button.active {
+            color: var(--color-primario);
+            border-bottom-color: var(--color-acento);
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 15px 0;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .year-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .small-button {
+            padding: 8px 15px;
+            font-size: 0.9em;
+        }
         /* Grupos de búsqueda */
         .search-group {
             margin-bottom: 40px;
@@ -756,6 +845,33 @@
                 padding-left: 20px;
                 font-size: 0.85em;
             }
+            .celebration-banner {
+                padding: 12px;
+            }
+            .celebration-content i {
+                font-size: 1.5em;
+            }
+             .tabs {
+                flex-direction: column;
+            }
+            
+            .tab-button {
+                border-bottom: none;
+                border-left: 3px solid transparent;
+                text-align: left;
+            }
+            
+            .tab-button.active {
+                border-left-color: var(--color-acento);
+            }
+            
+            .year-buttons {
+                flex-direction: column;
+            }
+            
+            .small-button {
+                width: 100%;
+            }
             /* Contenido */
             .container {
                 width: 95%;
@@ -982,7 +1098,15 @@
             </nav>
         </div>
     </header>
-
+    <!-- Banner de celebración (NUEVO) -->
+    <div class="celebration-banner">
+        <div class="celebration-content">
+            <i class="fas fa-chart-line"></i>
+            <span>¡Más de 10,000 docentes nos han visitado!</span>
+            <small>Gracias por ser parte de esta comunidad educativa</small>
+            <button class="close-banner" aria-label="Cerrar banner">&times;</button>
+        </div>
+    </div>
     <div class="container">
        <section id="inicio" class="content-section">
             <h1>Junta Calificadora de Méritos y Disciplina</h1>
@@ -1270,14 +1394,49 @@
                     Ver Circular 01/25 (Guía de Inscripción)
                 </a>
             </p>
-
+        <div class="search-group">
             <h3>Acciones de capacitación con puntaje</h3>
-            <p>Aquí puedes consultar las capacitaciones que otorgarán puntaje, en el marco de la Resol 332/24. </p>
-            <p style="text-align: center; margin-top: 10px; margin-bottom: 20px;">
-                <a href="https://docs.google.com/spreadsheets/d/1kEh7E0H3UXsJAl4Elegd2lNvNrjdLNvE/edit?gid=838291378#gid=838291378" target="_blank" rel="noopener noreferrer" style="color: #007bff; text-decoration: underline; font-weight: bold;">
-                    Consultar Capacitaciones con Puntaje
-                </a>
-            </p>
+            <div class="tabs-container">
+                <div class="tabs">
+                    <button class="tab-button active" data-tab="resol332">Resolución 332/24</button>
+                    <button class="tab-button" data-tab="resol721">Resolución 721/08</button>
+                </div>
+                
+                <div class="tab-content active" id="resol332">
+                    <p>Capacitaciones vigentes según Resolución 332/24:</p>
+                    <a href="https://docs.google.com/spreadsheets/d/1kEh7E0H3UXsJAl4Elegd2lNvNrjdLNvE/edit?gid=838291378#gid=838291378" 
+                       target="_blank" 
+                       class="button" 
+                       rel="noopener noreferrer">
+                        <i class="fas fa-external-link-alt"></i> Consultar Capacitaciones 332/24
+                    </a>
+                </div>
+                
+                <div class="tab-content" id="resol721">
+                    <p>Capacitaciones históricas según Resolución 721/08:</p>
+                    <div class="year-buttons">
+                        <a href="https://drive.google.com/drive/u/0/folders/19TxqCiGTnGuvwa6GfPlgSpiHxlFVqXB-" 
+                           target="_blank" 
+                           class="button small-button" 
+                           rel="noopener noreferrer">
+                            <i class="fas fa-folder-open"></i> Año 2024
+                        </a>
+                        <a href="https://drive.google.com/drive/folders/1BKbjYjeDvcNZWyzjzxHE08WYnuJq15je" 
+                           target="_blank" 
+                           class="button small-button" 
+                           rel="noopener noreferrer">
+                            <i class="fas fa-folder-open"></i> Año 2023
+                        </a>
+                        <a href="https://drive.google.com/drive/folders/1YmjQcWZ2px4RsrL9wAo3X9wvmIOHuvyV" 
+                           target="_blank" 
+                           class="button small-button" 
+                           rel="noopener noreferrer">
+                            <i class="fas fa-folder-open"></i> Año 2022
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
             <h3>Preguntas Frecuentes (FAQ)</h3>
             <p>Encuentra respuestas a las preguntas más comunes sobre la Junta Calificadora, trámites, documentación y procedimientos.</p>
@@ -1312,7 +1471,7 @@
             <p><strong>Dirección:</strong> Pje Fernando Ramos N° 22. Salta - Capital.</p>
             <p><strong>Teléfonos:</strong> 387 5344660 / 387 5344662</p>
             <p><strong>Correo Electrónico:</strong> <a href="mailto:juntacalificadorasecundario23@gmail.com">juntacalificadorasecundario23@gmail.com</a></p>
-            <p><strong>Horario de Atención:</strong> [Días y horarios - Rellenar si aplica]</p>
+            <p><strong>Horario de Atención:</strong> Lunes a Viernes de 08:00 a 18:00 horas</p>
 
             <h3>Nuestra Ubicación</h3>
             <div class="map-container">
@@ -2599,6 +2758,33 @@
             document.documentElement.classList.add('samsung-browser');
             console.log('Aplicando ajustes para Samsung Internet');
         }
+                // Cerrar banner de celebración
+        document.querySelector('.close-banner')?.addEventListener('click', function() {
+            document.querySelector('.celebration-banner').style.display = 'none';
+            // Opcional: Guardar en localStorage para no mostrar nuevamente
+            localStorage.setItem('bannerCerrado', 'true');
+        });
+        
+        // Mostrar banner solo si no está marcado como cerrado
+        if (!localStorage.getItem('bannerCerrado')) {
+            document.querySelector('.celebration-banner').style.display = 'block';
+        }
+    // Sistema de pestañas
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.addEventListener('click', function() {
+                // Remover clase active de todos los botones y contenidos
+                document.querySelectorAll('.tab-button, .tab-content').forEach(el => {
+                    el.classList.remove('active');
+                });
+                
+                // Agregar active al botón clickeado
+                this.classList.add('active');
+                
+                // Mostrar el contenido correspondiente
+                const tabId = this.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });    
     </script>    
 </body>
 </html>
