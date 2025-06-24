@@ -358,6 +358,64 @@
             font-size: 1.5em;
             cursor: pointer;
         }
+        /* Estilos para el formulario */
+        .contact-form-container {
+            background: #f8f9fa;
+            border-radius: var(--radio-borde);
+            padding: 25px;
+            margin-bottom: 30px;
+            border: 1px solid #e0e7ed;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--color-texto);
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ced4da;
+            border-radius: var(--radio-borde);
+            font-family: 'Roboto', sans-serif;
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+        }
+        
+        .form-message {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: var(--radio-borde);
+            display: none;
+        }
+        
+        .form-message.success {
+            background: #d4edda;
+            color: #155724;
+            display: block;
+        }
+        
+        .form-message.error {
+            background: #f8d7da;
+            color: #721c24;
+            display: block;
+        }
+        
+        @media (max-width: 768px) {
+            .contact-form-container {
+                padding: 15px;
+            }
+        }
         
         @keyframes pulse {
             0% { transform: scale(1); }
@@ -1478,9 +1536,52 @@
             </p>
         </section>
 
-        <section id="contacto" class="content-section">
-            <h2>Contacto</h2>
-            <p>Para consultas, puedes contactarnos a través de los siguientes medios:</p>
+       <section id="contacto" class="content-section">
+        <h2>Contacto</h2>
+        
+        <!-- Formulario de contacto nuevo -->
+        <div class="contact-form-container">
+            <h3>Envíanos tu consulta</h3>
+            <form id="contactForm">
+                <div class="form-group">
+                    <label for="nombre">Nombre y Apellido*</label>
+                    <input type="text" id="nombre" name="nombre" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Correo Electrónico*</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="celular">Celular</label>
+                    <input type="tel" id="celular" name="celular">
+                </div>
+                
+                <div class="form-group">
+                    <label for="consulta">Consulta*</label>
+                    <textarea id="consulta" name="consulta" rows="5" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="tipo">Tipo de mensaje*</label>
+                    <select id="tipo" name="tipo" required>
+                        <option value="">Seleccionar...</option>
+                        <option value="consulta">Consulta</option>
+                        <option value="sugerencia">Sugerencia</option>
+                        <option value="felicitacion">Felicitación</option>
+                        <option value="reclamo">Reclamo</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="button">
+                    <i class="fas fa-paper-plane"></i> Enviar Consulta
+                </button>
+                
+                <div id="formMessage" class="form-message"></div>
+            </form>
+        </div>
+        <h3>Otros medios de contacto</h3>
             <p><strong>Dirección:</strong> Pje Fernando Ramos N° 22. Salta - Capital.</p>
             <p><strong>Teléfonos:</strong> 387 5344660 / 387 5344662</p>
             <p><strong>Correo Electrónico:</strong> <a href="mailto:juntacalificadorasecundario23@gmail.com">juntacalificadorasecundario23@gmail.com</a></p>
@@ -1494,8 +1595,7 @@
                 <a href="https://www.google.com/maps/place/Pje+Fernando+Ramos+22,+A4400+Salta" target="_blank" rel="noopener noreferrer" style="color: #007bff; text-decoration: underline;">Abrir en Google Maps</a>
             </p>
         </section>
-    </div>
-
+  
     <footer>
         <p>© JCMyD- N.S. 2025 | Derechos Reservados</p>
         <p>Webmaster: susje®</p> 
@@ -2818,6 +2918,53 @@
                     container.classList.remove('with-banner');
                 }
             }
+        });
+        // Configuración del formulario
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const form = e.target;
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const messageDiv = document.getElementById('formMessage');
+            
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
+            
+            // Recoger datos
+            const formData = {
+                nombre: form.nombre.value,
+                email: form.email.value,
+                celular: form.celular.value,
+                consulta: form.consulta.value,
+                tipo: form.tipo.value,
+                fecha: new Date().toLocaleString()
+            };
+            
+            // Enviar a Google Apps Script
+            fetch('https://script.google.com/macros/s/AKfycbz1VmBlYqIklopC7drcbQR3-Jcgh1wK-GI1r4RpowI0Aiz4_RCu6thI8fLKfhCNDqxIAw/exec', {
+                method: 'POST',
+                body: JSON.stringify(formData),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.result === 'success') {
+                    form.reset();
+                    messageDiv.textContent = 'Consulta enviada correctamente. Nos pondremos en contacto pronto.';
+                    messageDiv.className = 'form-message success';
+                } else {
+                    throw new Error(data.error);
+                }
+            })
+            .catch(error => {
+                messageDiv.textContent = 'Error al enviar: ' + error.message;
+                messageDiv.className = 'form-message error';
+            })
+            .finally(() => {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Enviar Consulta';
+            });
         });
     </script>    
 </body>
