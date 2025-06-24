@@ -302,6 +302,33 @@
         color: #007bff;
         margin-right: 10px;
     }
+ /* Lista de características mejorada (NUEVO) */
+    .lead-text {
+        font-size: 1.2em;
+        font-weight: 600;
+        color: var(--color-primario);
+        margin: 20px 0 15px;
+    }
+    
+    .feature-list {
+        list-style: none;
+        margin: 0 0 25px 0;
+        padding: 0;
+    }
+    
+    .feature-list li {
+        padding: 8px 0;
+        position: relative;
+        padding-left: 30px;
+        line-height: 1.5;
+    }
+    
+    .feature-list i {
+        color: var(--color-acento);
+        position: absolute;
+        left: 0;
+        top: 10px;
+    }
         
         /* Grupos de búsqueda */
         .search-group {
@@ -675,7 +702,15 @@
                 padding: 15px 25px;
                 font-size: 1.2em;
             }
+             /* Ajustes para la lista de características */
+            .lead-text {
+                font-size: 1.1em;
+            }
             
+            .feature-list li {
+                font-size: 0.95em;
+                padding-left: 25px;
+            }
             /* Contenido */
             .container {
                 width: 95%;
@@ -907,12 +942,18 @@
         <section id="inicio" class="content-section">
             <h1>Junta Calificadora de Méritos y Disciplina</h1>
             <h2>Nivel Secundario y sus Modalidades</h2>
-            <p>Bienvenido a la plataforma oficial de la Junta Calificadora de Méritos y Disciplina de Nivel Secundario de la Provincia de Salta. Aquí encontrarás herramientas esenciales para una correcta inscripción docente y toda la información necesaria para tu carrera.</p>
-            <p>Utiliza nuestros buscadores para verificar incumbencias de tu título, localizar colegios por tipo o ubicación, y acceder a la información necesaria para una correcta inscripción o reinscripción; elementos clave para asegurar tu participación en los procesos de la Junta.</p>
-       
+            
+            <p class="lead-text">Herramientas clave para docentes:</p>
+            
+            <ul class="feature-list">
+                <li><i class="fas fa-check-circle"></i> Verifica qué materias puedes dictar con tu título</li>
+                <li><i class="fas fa-check-circle"></i> Encuentra colegios por ubicación o especialidad</li>
+                <li><i class="fas fa-check-circle"></i> Accede a información oficial para inscripciones</li>
+            </ul>
+        
             <div class="quick-access-buttons">
                 <a href="#herramientas-consulta" class="button" onclick="showSection('herramientas-consulta');">
-                    Explorar Todas las Herramientas de Consulta
+                    <i class="fas fa-search"></i> Comenzar Búsquedas
                 </a>
             </div>
         </section>
