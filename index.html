@@ -54,54 +54,7 @@
             color: var(--color-texto);
             overflow-x: hidden;
         }
-
-        /* ============ ESTILOS DE BIENVENIDA INSTITUCIONAL ============ */
-        .institutional-welcome {
-            max-width: 900px;
-            margin: 0 auto 30px;
-            text-align: center;
-        }
         
-        .institutional-welcome .lead {
-            font-size: 1.3em;
-            color: var(--color-primario);
-            margin-bottom: 30px;
-            font-weight: 500;
-        }
-        
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
-            margin-bottom: 30px;
-        }
-        
-        .feature-item {
-            background: var(--color-fondo-secundario);
-            padding: 20px;
-            border-radius: var(--radio-borde);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-        }
-        
-        .feature-item i {
-            color: var(--color-acento);
-            font-size: 2em;
-            margin-bottom: 15px;
-            display: block;
-        }
-        
-        .feature-item h3 {
-            color: var(--color-primario);
-            margin-bottom: 10px;
-            font-size: 1.2em;
-        }
-        
-        .official-notice {
-            font-size: 0.9em;
-            color: var(--color-texto-claro);
-            font-style: italic;
-            margin-top: 30px;
-        }
         /* ============ ESTRUCTURA PRINCIPAL ============ */
         .container {
             width: 90%;
@@ -954,55 +907,14 @@
         <section id="inicio" class="content-section">
             <h1>Junta Calificadora de Méritos y Disciplina</h1>
             <h2>Nivel Secundario y sus Modalidades</h2>
-            
-            <div class="institutional-welcome">
-                <p class="lead">Plataforma oficial de la Provincia de Salta para la gestión docente</p>
-                
-                <div class="features-grid">
-                    <div class="feature-item">
-                        <i class="fas fa-check-circle"></i>
-                        <h3>Verificación de Incumbencias</h3>
-                        <p>Determine qué espacios curriculares puede dictar según su título habilitante</p>
-                    </div>
-                    
-                    <div class="feature-item">
-                        <i class="fas fa-search-location"></i>
-                        <h3>Búsqueda de Establecimientos</h3>
-                        <p>Localice instituciones educativas por ubicación, orientación o tipo</p>
-                    </div>
-                    
-                    <div class="feature-item">
-                        <i class="fas fa-file-alt"></i>
-                        <h3>Gestión de Trámites</h3>
-                        <p>Acceda a los requisitos actualizados para inscripción y reinscripción</p>
-                    </div>
-                </div>
-                
-                <p class="official-notice">Toda la información proporcionada tiene validez oficial según las normativas vigentes del Ministerio de Educación.</p>
+            <p>Bienvenido a la plataforma oficial de la Junta Calificadora de Méritos y Disciplina de Nivel Secundario de la Provincia de Salta. Aquí encontrarás herramientas esenciales para una correcta inscripción docente y toda la información necesaria para tu carrera.</p>
+            <p>Utiliza nuestros buscadores para verificar incumbencias de tu título, localizar colegios por tipo o ubicación, y acceder a la información necesaria para una correcta inscripción o reinscripción; elementos clave para asegurar tu participación en los procesos de la Junta.</p>
+       
+            <div class="quick-access-buttons">
+                <a href="#herramientas-consulta" class="button" onclick="showSection('herramientas-consulta');">
+                    Explorar Todas las Herramientas de Consulta
+                </a>
             </div>
-        
-            .cta-button {
-                background: linear-gradient(to right, var(--color-primario), var(--color-secundario));
-                font-size: 1.1em;
-                padding: 15px 30px;
-                box-shadow: 0 4px 15px rgba(0, 91, 187, 0.3);
-            }
-            
-            .cta-button:hover {
-                transform: translateY(-3px);
-                box-shadow: 0 6px 20px rgba(0, 91, 187, 0.4);
-            }
-            
-            @media (max-width: 768px) {
-                .features-grid {
-                    grid-template-columns: 1fr;
-                }
-                
-                .cta-button {
-                    width: 100%;
-                    text-align: center;
-                }
-            }
         </section>
 
         <section id="sobre-nosotros" class="content-section">
