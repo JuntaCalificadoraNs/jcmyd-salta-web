@@ -887,70 +887,6 @@
             .small-button {
                 width: 100%;
             }
-            /* Estilos para el formulario */
-            .contact-form-container {
-                max-width: 800px;
-                margin: 30px auto;
-                padding: 25px;
-                background: #f9f9f9;
-                border-radius: var(--radio-borde);
-                box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            }
-            
-            .contact-form {
-                grid-template-columns: 1fr;
-            }
-                        
-            .form-group {
-                margin-bottom: 15px;
-            }
-            
-            .form-group label {
-                display: block;
-                margin-bottom: 5px;
-                font-weight: 600;
-                color: var(--color-primario);
-            }
-            
-            .form-group input,
-            .form-group select,
-            .form-group textarea {
-                width: 100%;
-                padding: 10px;
-                border: 1px solid #ddd;
-                border-radius: 4px;
-                font-family: 'Roboto', sans-serif;
-            }
-            
-            .form-group textarea {
-                resize: vertical;
-                min-height: 120px;
-            }
-            
-            .form-group:last-child,
-            .form-group.full-width {
-                grid-column: span 1;
-            }
-            
-            .form-feedback {
-                grid-column: span 2;
-                padding: 10px;
-                margin-top: 10px;
-                border-radius: 4px;
-                display: none;
-            }
-            
-            .form-feedback.success {
-                background: #d4edda;
-                color: #155724;
-                display: block;
-            }
-            
-            .form-feedback.error {
-                background: #f8d7da;
-                color: #721c24;
-                display: block;
-            }
             /* Contenido */
             .container {
                 margin: 15px auto 20px;
@@ -1550,61 +1486,12 @@
 
         <section id="contacto" class="content-section">
             <h2>Contacto</h2>
-            
-            <div class="contact-form-container">
-                <form id="contactForm" class="contact-form">
-                    <div class="form-group">
-                        <label for="nombre">Nombre*</label>
-                        <input type="text" id="nombre" name="nombre" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="apellido">Apellido*</label>
-                        <input type="text" id="apellido" name="apellido" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="email">Email*</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="telefono">Teléfono/Celular</label>
-                        <input type="tel" id="telefono" name="telefono">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="tipo">Tipo de mensaje*</label>
-                        <select id="tipo" name="tipo" required>
-                            <option value="">Seleccione...</option>
-                            <option value="consulta">Consulta</option>
-                            <option value="sugerencia">Sugerencia</option>
-                            <option value="duda">Duda técnica</option>
-                            <option value="felicitacion">Felicitación</option>
-                            <option value="agradecimiento">Agradecimiento</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="mensaje">Mensaje*</label>
-                        <textarea id="mensaje" name="mensaje" rows="5" required></textarea>
-                    </div>
-                    
-                    <button type="submit" class="button">
-                        <i class="fas fa-paper-plane"></i> Enviar Mensaje
-                    </button>
-                    
-                    <div id="formFeedback" class="form-feedback"></div>
-                </form>
-            </div>
-            <div class="contact-info">
-                <p>Tambíen puedes contactarnos a través de los siguientes medios:</p>
-                <p><strong>Dirección:</strong> Pje Fernando Ramos N° 22. Salta - Capital.</p>
-                <p><strong>Teléfonos:</strong> 387 5344660 / 387 5344662</p>
-                <p><strong>Correo Electrónico:</strong> <a href="mailto:juntacalificadorasecundario23@gmail.com">juntacalificadorasecundario23@gmail.com</a></p>
-                <p><strong>Horario de Atención:</strong> Lunes a Viernes de 08:00 a 18:00 horas</p>
-            </div>
-            
+            <p>Para consultas, puedes contactarnos a través de los siguientes medios:</p>
+            <p><strong>Dirección:</strong> Pje Fernando Ramos N° 22. Salta - Capital.</p>
+            <p><strong>Teléfonos:</strong> 387 5344660 / 387 5344662</p>
+            <p><strong>Correo Electrónico:</strong> <a href="mailto:juntacalificadorasecundario23@gmail.com">juntacalificadorasecundario23@gmail.com</a></p>
+            <p><strong>Horario de Atención:</strong> Lunes a Viernes de 08:00 a 18:00 horas</p>
+
             <h3>Nuestra Ubicación</h3>
             <div class="map-container">
                 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3621.579482598387!2d-65.4093959885822!3d-24.62916857997972!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x941bc3a18a99499d%3A0x7df6b0d9e8c4e43b!2sPje%20Fernando%20Ramos%2022%2C%20A4400%20Salta!5e0!3m2!1ses-419!2sar!4v1700000000000!5m2!1ses-419!2sar" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
@@ -2937,58 +2824,6 @@
                     container.classList.remove('with-banner');
                 }
             }
-        });
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const form = e.target;
-            const feedback = document.getElementById('formFeedback');
-            const submitBtn = form.querySelector('button[type="submit"]');
-            const originalBtnText = submitBtn.innerHTML;
-            
-            // Mostrar carga
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
-            submitBtn.disabled = true;
-            
-            // Obtener datos
-            const formData = {
-                nombre: form.nombre.value,
-                apellido: form.apellido.value,
-                email: form.email.value,
-                telefono: form.telefono.value,
-                tipo: form.tipo.value,
-                mensaje: form.mensaje.value
-            };
-            
-            // Configurar petición
-            const scriptUrl = 'https://script.google.com/macros/s/AKfycbwPpUV4V4ISnbEZ0dFPZA8TZREmLFyy-SDqSSSJFLH733A4A5v1ixi2eg9tvc7D3aA_/exec'; // Reemplaza con tu URL
-            
-            fetch(scriptUrl, {
-                method: 'POST',
-                body: JSON.stringify(formData),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    feedback.textContent = '✓ Mensaje enviado. Nos pondremos en contacto pronto.';
-                    feedback.classList.add('success');
-                    form.reset();
-                } else {
-                    throw new Error(data.message);
-                }
-            })
-            .catch(error => {
-                feedback.textContent = `Error: ${error.message}`;
-                feedback.classList.add('error');
-            })
-            .finally(() => {
-                submitBtn.innerHTML = originalBtnText;
-                submitBtn.disabled = false;
-                setTimeout(() => feedback.classList.remove('success', 'error'), 5000);
-            });
         });
     </script>    
 </body>
