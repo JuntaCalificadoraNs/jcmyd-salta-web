@@ -170,35 +170,8 @@
             margin-right: auto; /* Empuja el menú hacia la derecha */
             
         }
-        /* ============ BUSCADOR AVANZADO ============ */
-        #buscador-avanzado {
-            border: 2px solid var(--color-acento);
-            background-color: rgba(0, 123, 255, 0.05);
-        }
         
-        .espacios-lista {
-            max-height: 300px;
-            overflow-y: auto;
-            margin: 10px 0;
-            padding: 10px;
-            background: white;
-            border-radius: var(--radio-borde);
-            border: 1px solid #eee;
-        }
         
-        .espacio-item {
-            padding: 8px;
-            border-bottom: 1px solid #f0f0f0;
-        }
-        
-        .espacio-item:last-child {
-            border-bottom: none;
-        }
-        
-        .espacio-item input[type="checkbox"] {
-            margin-right: 10px;
-        }
-                
         /* Menú principal */
         nav ul {
             list-style: none;
@@ -896,9 +869,7 @@
              .tabs {
                 flex-direction: column;
             }
-             .espacios-lista {
-                max-height: 200px;
-            }        
+            
             .tab-button {
                 border-bottom: none;
                 border-left: 3px solid transparent;
@@ -1101,40 +1072,12 @@
         @media (min-width: 1600px) {
             .header-content {
             max-width: 1400px; /* Permite más espacio para el menú */
-            }    
+        }
     
     nav ul {
         gap: 20px; /* Recupera un poco más de espacio entre items */
-        }
     }
-        /* ============ BUSCADOR AVANZADO ============ */
-        #buscador-avanzado {
-            border: 2px solid var(--color-acento);
-            background-color: rgba(0, 123, 255, 0.05);
-        }
-        
-        .espacios-lista {
-            max-height: 300px;
-            overflow-y: auto;
-            margin: 10px 0;
-            padding: 10px;
-            background: white;
-            border-radius: var(--radio-borde);
-            border: 1px solid #eee;
-        }
-        
-        .espacio-item {
-            padding: 8px;
-            border-bottom: 1px solid #f0f0f0;
-        }
-        
-        .espacio-item:last-child {
-            border-bottom: none;
-        }
-        
-        .espacio-item input[type="checkbox"] {
-            margin-right: 10px;
-        }
+}
     </style>
     
     <!-- Google Analytics -->
@@ -1401,32 +1344,6 @@
                         </div>
                     </div>
                     <button class="button" onclick="printTableResults('orientacionesPorColegioResults')">Imprimir Orientaciones del Colegio</button>
-                </div>
-            </section>
-
-            <!-- Buscador Avanzado (NUEVO) -->
-            <section class="search-group" id="buscador-avanzado">
-                <h3><i class="fas fa-search-plus"></i> Buscador Completo por Título y Colegio</h3>
-                
-                <div class="search-section">
-                    <label for="titulo-avanzado">1. Ingrese su título:</label>
-                    <input type="text" id="titulo-avanzado" placeholder="Ej: Profesor de Matemática">
-                    <button onclick="buscarCodigosPorTituloYColegio()">Buscar Códigos</button>
-                </div>
-                
-                <div class="search-section" id="seccion-espacios-avanzado" style="display:none;">
-                    <label>2. Espacios curriculares disponibles:</label>
-                    <div id="lista-espacios-avanzado" class="espacios-lista"></div>
-                </div>
-                
-                <div class="search-section" id="seccion-colegio-avanzado" style="display:none;">
-                    <label for="colegio-avanzado">3. Ingrese el nombre del colegio:</label>
-                    <input type="text" id="colegio-avanzado" placeholder="Ej: Colegio Nacional N°1">
-                    <button onclick="filtrarPorColegio()">Buscar Códigos</button>
-                    
-                    <div class="results-container">
-                        <div id="resultados-avanzados"></div>
-                    </div>
                 </div>
             </section>
         </section>
@@ -2908,51 +2825,6 @@
                 }
             }
         });
-
-        function buscarCodigosPorTituloYColegio() {
-            // 1. Obtener título ingresado
-            const titulo = normalizeText(document.getElementById('titulo-avanzado').value);
-            
-            // 2. Filtrar espacios por título (usando competenciasData)
-            const espaciosTitulo = competenciasData
-                .filter(item => normalizeText(item['Titulo']).includes(titulo))
-                .map(item => ({
-                    espacio: item['Nombre DEL ESPACIO CURRICULAR'],
-                    codigo: item['CODIGO/Modulo']
-                }));
-            
-            // 3. Obtener colegio ingresado
-            const colegio = normalizeText(document.getElementById('colegio-avanzado').value);
-            
-            // 4. Buscar UE del colegio (usando colegiosData)
-            const ueColegio = colegiosData.find(c => 
-                normalizeText(c['Nombre']).includes(colegio)
-            )?.NumeroUE;
-            
-            if (!ueColegio) {
-                alert("Colegio no encontrado");
-                return;
-            }
-            
-            // 5. Filtrar códigos en planEstudioData
-            const resultados = planEstudioData
-                .filter(item => item['UE'] === ueColegio)
-                .filter(item => espaciosTitulo.some(e => 
-                    normalizeText(e.espacio) === normalizeText(item['ESPACIO CURRICULAR'])
-                ))
-                .map(item => ({
-                    colegio: colegiosData.find(c => c.NumeroUE === item['UE'])?.Nombre,
-                    espacio: item['ESPACIO CURRICULAR'],
-                    codigo: item['CODIGO']
-                }));
-            
-            // 6. Mostrar resultados
-            renderTable(
-                'resultados-avanzados',
-                ['Colegio', 'Espacio', 'Código'],
-                resultados
-            );
-        }
     </script>    
 </body>
 </html>
