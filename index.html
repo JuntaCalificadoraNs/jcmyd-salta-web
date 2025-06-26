@@ -503,32 +503,6 @@
             border-radius: var(--radio-borde);
             font-size: 1em;
         }
-        /* Estilos para el nuevo buscador */
-        .espacios-list {
-            list-style: none;
-            padding: 0;
-            margin: 10px 0 20px;
-        }
-        
-        .espacios-list li {
-            padding: 5px 0;
-            border-bottom: 1px dashed #eee;
-            display: flex;
-            align-items: center;
-        }
-        
-        .espacios-list i {
-            margin-right: 10px;
-            color: var(--color-acento);
-            font-size: 0.9em;
-        }
-        
-        /* Ajustes para selects en el nuevo buscador */
-        #colegioSelectCodigos {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-        }
         
         /* Resultados */
         .results-container {
@@ -644,103 +618,6 @@
             color: #777;
             padding: 20px;
             font-style: italic;
-        }
-        /* Estilos para la lista de títulos clickeables */
-        .clickable-titles-list {
-            list-style: none;
-            padding: 0;
-            margin: 10px 0;
-        }
-        
-        .clickable-titles-list li {
-            padding: 10px;
-            margin: 5px 0;
-            background-color: #f8f9fa;
-            border-radius: var(--radio-borde);
-            cursor: pointer;
-            transition: all 0.2s;
-            border-left: 3px solid var(--color-acento);
-        }
-        
-        .clickable-titles-list li:hover {
-            background-color: #e9ecef;
-            transform: translateX(3px);
-        }
-        
-        .clickable-titles-list i {
-            margin-right: 10px;
-            color: var(--color-primario);
-        }
-        /* Estilos para el nuevo buscador */
-        .clickable-titles-list {
-            list-style: none;
-            padding: 0;
-            margin: 15px 0;
-        }
-        
-        .clickable-titles-list li {
-            padding: 12px 15px;
-            margin: 8px 0;
-            background-color: #f8f9fa;
-            border-radius: var(--radio-borde);
-            cursor: pointer;
-            transition: all 0.2s;
-            border-left: 3px solid var(--color-acento);
-        }
-        
-        .clickable-titles-list li:hover {
-            background-color: #e9ecef;
-            transform: translateX(5px);
-        }
-        
-        .clickable-titles-list i {
-            margin-right: 10px;
-            color: var(--color-primario);
-        }
-        
-        .mini-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 15px 0;
-        }
-        
-        .mini-table th, .mini-table td {
-            padding: 8px 12px;
-            border: 1px solid #dee2e6;
-            text-align: left;
-        }
-        
-        .mini-table th {
-            background-color: var(--color-fondo);
-        }
-        
-        .code-cell {
-            font-family: monospace;
-            font-weight: bold;
-            color: var(--color-primario);
-        }
-        
-        @media (max-width: 768px) {
-            .clickable-titles-list li {
-                padding: 10px 12px;
-            }
-            
-            .mini-table {
-                font-size: 0.9em;
-            }
-        }
-        /* Contenedor flexible para selects y botones */
-        .flex-container {
-            display: flex;
-            align-items: flex-end;
-            gap: 10px;
-        }
-        
-        /* Botón de aleatorios */
-        .button-small {
-            padding: 8px 12px;
-            font-size: 0.9em;
-            height: fit-content;
         }
         
         /* Componentes especiales */
@@ -1196,10 +1073,11 @@
             .header-content {
             max-width: 1400px; /* Permite más espacio para el menú */
         }
-            nav ul {
-                gap: 20px; /* Recupera un poco más de espacio entre items */
-            }
-        }
+    
+    nav ul {
+        gap: 20px; /* Recupera un poco más de espacio entre items */
+    }
+}
     </style>
     
     <!-- Google Analytics -->
@@ -1466,43 +1344,6 @@
                         </div>
                     </div>
                     <button class="button" onclick="printTableResults('orientacionesPorColegioResults')">Imprimir Orientaciones del Colegio</button>
-                </div>
-            </section>
-            <!-- Nuevo buscador - Después del último search-group existente -->
-           <section class="search-group">
-                <h3>Buscador de Códigos por Colegio y Título</h3>
-                <div class="search-section">
-                    <label for="tituloInputCodigos">1. Ingrese su título (o parte):</label>
-                    <input type="text" id="tituloInputCodigos" placeholder="Ej: Química">
-                    <button onclick="buscarTitulosParaCodigos(event)">Buscar Títulos</button>
-            
-                    <div id="titulosParaCodigosResults" style="margin-top:15px">
-                        <p class="no-results"><i class="fas fa-info-circle"></i> Ingrese un título para comenzar</p>
-                    </div>
-            
-                    <div id="espaciosParaCodigosContainer" style="display:none; margin-top:20px">
-                        <div id="espaciosParaCodigosResults"></div>
-                        
-                        <div style="margin-top:20px">
-                            <label for="colegioSelectCodigos">2. Seleccione un colegio:</label>
-                            <select id="colegioSelectCodigos" style="width:100%">
-                                <option value="">-- Seleccione colegio --</option>
-                                <!-- Se llena dinámicamente -->
-                            </select>
-                            <button onclick="buscarColegiosParaCodigos()" 
-                                    style="margin-top:10px" 
-                                    class="button">
-                                <i class="fas fa-search"></i> Buscar Códigos
-                            </button>
-                        </div>
-                    </div>
-            
-                    <div id="codigosPorColegioResults" style="margin-top:20px;display:none">
-                        <h4>Resultados:</h4>
-                        <div class="results-table-container">
-                            <p class="no-results"><i class="fas fa-school"></i> Seleccione un colegio</p>
-                        </div>
-                    </div>
                 </div>
             </section>
         </section>
@@ -2984,170 +2825,6 @@
                 }
             }
         });
-     // Variables globales para este buscador
-        let titulosFiltradosParaCodigos = [];
-        let espaciosParaTituloSeleccionado = [];
-        
-        // [1] Función para buscar títulos (PASO 1)
-        function buscarTitulosParaCodigos(event) {
-            const button = event.target;
-            const originalText = button.innerHTML;
-            button.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Buscando...';
-            button.disabled = true;
-        
-            const query = document.getElementById('tituloInputCodigos').value.trim();
-            
-            // Resetear resultados anteriores
-            document.getElementById('espaciosParaCodigosContainer').style.display = 'none';
-            document.getElementById('codigosPorColegioResults').style.display = 'none';
-            titulosFiltradosParaCodigos = [];
-        
-            if (!query) {
-                showErrorNotification('Ingrese un término de búsqueda');
-                button.innerHTML = originalText;
-                button.disabled = false;
-                return;
-            }
-        
-            // Filtrar títulos únicos que coincidan
-            titulosFiltradosParaCodigos = [...new Set(
-                competenciasData.filter(item => 
-                    normalizeText(item['Titulo'] || '').includes(normalizeText(query))
-                ).map(item => item['Titulo'])
-            )];
-        
-            if (titulosFiltradosParaCodigos.length === 0) {
-                document.getElementById('titulosParaCodigosResults').innerHTML = `
-                    <div class="no-results">
-                        <i class="fas fa-search"></i>
-                        <p>No se encontraron títulos para "${query}"</p>
-                    </div>
-                `;
-                button.innerHTML = originalText;
-                button.disabled = false;
-                return;
-            }
-        
-            // Mostrar títulos encontrados
-            renderTitulosEncontrados();
-            button.innerHTML = originalText;
-            button.disabled = false;
-        }
-        
-        // [2] Mostrar títulos en lista clickeable
-        function renderTitulosEncontrados() {
-            let html = `<h4>Títulos encontrados:</h4><ul class="clickable-titles-list">`;
-            
-            titulosFiltradosParaCodigos.forEach(titulo => {
-                html += `
-                    <li onclick="seleccionarTituloParaCodigos('${escapeHtml(titulo)}')">
-                        <i class="fas fa-graduation-cap"></i> ${titulo}
-                    </li>`;
-            });
-            
-            html += `</ul>`;
-            document.getElementById('titulosParaCodigosResults').innerHTML = html;
-        }
-        
-        // [3] Función auxiliar para escapar HTML
-        function escapeHtml(text) {
-            return text.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-        }
-        
-        // [4] Cuando seleccionan un título (PASO 2)
-        function seleccionarTituloParaCodigos(tituloSeleccionado) {
-            // Filtrar espacios y códigos para este título
-            const resultados = competenciasData.filter(item => item['Titulo'] === tituloSeleccionado);
-            
-            espaciosParaTituloSeleccionado = resultados.map(item => ({
-                nombre: item['Nombre DEL ESPACIO CURRICULAR'],
-                codigo: item['CODIGO/Modulo']
-            }));
-        
-            // Mostrar espacios con sus códigos
-            renderEspaciosConCodigos();
-            document.getElementById('espaciosParaCodigosContainer').style.display = 'block';
-            
-            // Scroll a la sección
-            document.getElementById('espaciosParaCodigosContainer').scrollIntoView({ 
-                behavior: 'smooth', 
-                block: 'start' 
-            });
-        }
-        
-        // [5] Mostrar espacios con códigos
-        function renderEspaciosConCodigos() {
-            let html = `<h4>Espacios y códigos:</h4><table class="mini-table">
-                <thead><tr><th>Espacio Curricular</th><th>Código/Modulo</th></tr></thead>
-                <tbody>`;
-            
-            espaciosParaTituloSeleccionado.forEach(espacio => {
-                html += `<tr>
-                    <td>${espacio.nombre}</td>
-                    <td class="code-cell">${espacio.codigo}</td>
-                </tr>`;
-            });
-            
-            html += `</tbody></table>`;
-            document.getElementById('espaciosParaCodigosResults').innerHTML = html;
-        }
-        
-        // [6] Buscar colegios que tengan estos espacios (PASO 3)
-        function buscarColegiosParaCodigos() {
-            const selectColegio = document.getElementById('colegioSelectCodigos');
-            const colegioSeleccionado = selectColegio.value;
-            
-            if (!colegioSeleccionado) {
-                showErrorNotification('Seleccione un colegio');
-                return;
-            }
-        
-            // Encontrar UE del colegio seleccionado
-            const colegio = colegiosData.find(c => c['Nombre'] === colegioSeleccionado);
-            if (!colegio) {
-                renderNoResults('No se encontró el colegio seleccionado');
-                return;
-            }
-        
-            // Buscar códigos en planEstudioData
-            const codigosEnColegio = planEstudioData.filter(item => 
-                item['UE'] === colegio['NumeroUE'] && 
-                espaciosParaTituloSeleccionado.some(e => e.nombre === item['ESPACIO CURRICULAR'])
-            );
-        
-            if (codigosEnColegio.length === 0) {
-                renderNoResults('Este colegio no tiene los espacios de su título');
-                return;
-            }
-        
-            // Mostrar resultados
-            renderResultadosCodigos(codigosEnColegio);
-        }
-        
-        // [7] Mostrar resultados finales
-        function renderResultadosCodigos(codigos) {
-            const headers = ['Espacio Curricular', 'Código', 'Modalidad'];
-            const data = codigos.map(item => ({
-                'Espacio Curricular': item['ESPACIO CURRICULAR'],
-                'Código': item['CODIGO'],
-                'Modalidad': item['MODALIDAD'] || 'Regular'
-            }));
-        
-            renderTable('codigosPorColegioResults .results-table-container', headers, data);
-            document.getElementById('codigosPorColegioResults').style.display = 'block';
-        }
-        
-        // [8] Función auxiliar para mostrar errores
-        function renderNoResults(message) {
-            const container = document.getElementById('codigosPorColegioResults');
-            container.innerHTML = `
-                <div class="no-results">
-                    <i class="fas fa-exclamation-circle"></i>
-                    <p>${message}</p>
-                </div>
-            `;
-            container.style.display = 'block';
-        }
     </script>    
 </body>
 </html>
