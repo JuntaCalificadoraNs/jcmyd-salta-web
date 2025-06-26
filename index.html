@@ -2799,16 +2799,27 @@
             console.log('Aplicando ajustes para Samsung Internet');
         }
                 // Cerrar banner de celebración
-        document.querySelector('.close-banner')?.addEventListener('click', function() {
-            document.querySelector('.celebration-banner').style.display = 'none';
-            // Opcional: Guardar en localStorage para no mostrar nuevamente
-            localStorage.setItem('bannerCerrado', 'true');
+        // Cerrar banner de notificación
+        document.addEventListener('DOMContentLoaded', function() {
+            const closeButton = document.querySelector('.system-notification-banner .close-banner');
+            const notificationBanner = document.querySelector('.system-notification-banner');
+            const container = document.querySelector('.container');
+            
+            if (notificationBanner) {
+                // Mostrar banner solo si no está marcado como cerrado
+                if (!localStorage.getItem('notificationBannerClosed')) {
+                    notificationBanner.style.display = 'block';
+                    container.classList.add('with-banner');
+                }
+                
+                // Evento para cerrar el banner
+                closeButton?.addEventListener('click', function() {
+                    notificationBanner.style.display = 'none';
+                    container.classList.remove('with-banner');
+                    localStorage.setItem('notificationBannerClosed', 'true');
+                });
+            }
         });
-        
-        // Mostrar banner solo si no está marcado como cerrado
-        if (!localStorage.getItem('bannerCerrado')) {
-            document.querySelector('.celebration-banner').style.display = 'block';
-        }
     // Sistema de pestañas
         document.querySelectorAll('.tab-button').forEach(button => {
             button.addEventListener('click', function() {
