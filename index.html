@@ -774,6 +774,16 @@
             margin-bottom: 15px;
             display: block;
         }
+
+        /* Mejora para selects con ENTER */
+        select {
+            transition: all 0.3s ease;
+        }
+        
+        select:focus {
+            border-color: var(--color-acento);
+            box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+        }
         
         /* ============ RESPONSIVE DESIGN ============ */
         @media (max-width: 768px) {
@@ -2824,6 +2834,57 @@
                     container.classList.remove('with-banner');
                 }
             }
+        });
+        // Función para manejar la tecla ENTER en cualquier campo de búsqueda
+        function setupEnterKeySearch() {
+            // Selector para todos los inputs de búsqueda
+            const searchInputs = document.querySelectorAll(`
+                #tituloInputIntegrado,
+                #orientacionInput,
+                #localidadInput,
+                #colegioNumeroInput,
+                #categoriaColegioSelect,
+                #categoriaDepartamentoSelect,
+                #categoriaLocalidadSelect,
+                #espacioCurricularSelect,
+                #departamentoSelect
+            `);
+            
+            searchInputs.forEach(input => {
+                input.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        
+                        // Encontrar el botón de búsqueda asociado
+                        let searchButton;
+                        
+                        // Casos especiales por sección
+                        if (this.id === 'tituloInputIntegrado') {
+                            searchButton = document.querySelector('button[onclick*="buscarIncumbenciasIntegrado"]');
+                        } else if (this.id === 'orientacionInput') {
+                            searchButton = document.querySelector('button[onclick*="buscarOrientaciones"]');
+                        } else if (this.id === 'localidadInput') {
+                            searchButton = document.querySelector('button[onclick*="buscarColegios"]');
+                        } else if (this.id === 'colegioNumeroInput') {
+                            searchButton = document.querySelector('button[onclick*="buscarOrientacionesPorColegio"]');
+                        } else if (this.id.startsWith('categoria')) {
+                            searchButton = document.querySelector('button[onclick*="buscarColegiosPorCategoria"]');
+                        } else if (this.id === 'espacioCurricularSelect' || this.id === 'departamentoSelect') {
+                            searchButton = document.querySelector('button[onclick*="buscarColegiosAleatoriosPorEspacio"]');
+                        }
+                        
+                        // Si encontramos el botón, clickearlo
+                        if (searchButton) {
+                            searchButton.click();
+                        }
+                    }
+                });
+            });
+        }
+        
+        // Inicializar al cargar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            setupEnterKeySearch();
         });
     </script>    
 </body>
