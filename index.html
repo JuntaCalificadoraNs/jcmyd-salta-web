@@ -503,6 +503,32 @@
             border-radius: var(--radio-borde);
             font-size: 1em;
         }
+        /* Estilos para el nuevo buscador */
+        .espacios-list {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0 20px;
+        }
+        
+        .espacios-list li {
+            padding: 5px 0;
+            border-bottom: 1px dashed #eee;
+            display: flex;
+            align-items: center;
+        }
+        
+        .espacios-list i {
+            margin-right: 10px;
+            color: var(--color-acento);
+            font-size: 0.9em;
+        }
+        
+        /* Ajustes para selects en el nuevo buscador */
+        #colegioSelectCodigos {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
         
         /* Resultados */
         .results-container {
@@ -1073,11 +1099,10 @@
             .header-content {
             max-width: 1400px; /* Permite más espacio para el menú */
         }
-    
-    nav ul {
-        gap: 20px; /* Recupera un poco más de espacio entre items */
-    }
-}
+            nav ul {
+                gap: 20px; /* Recupera un poco más de espacio entre items */
+            }
+        }
     </style>
     
     <!-- Google Analytics -->
@@ -1344,6 +1369,31 @@
                         </div>
                     </div>
                     <button class="button" onclick="printTableResults('orientacionesPorColegioResults')">Imprimir Orientaciones del Colegio</button>
+                </div>
+            </section>
+            <!-- Nuevo buscador - Después del último search-group existente -->
+            <section class="search-group">
+                <h3>Buscador de Códigos por Colegio y Título</h3>
+                <div class="search-section">
+                    <label for="tituloInputCodigos">1. Ingresa tu título:</label>
+                    <input type="text" id="tituloInputCodigos" placeholder="Ej: Profesor de Matemática">
+                    <button onclick="buscarEspaciosParaCodigos(event)">Buscar Espacios</button>
+            
+                    <div id="espaciosParaCodigosResults" style="margin-top:15px">
+                        <p class="no-results"><i class="fas fa-info-circle"></i> Primero busque los espacios que habilita su título</p>
+                    </div>
+            
+                    <label for="colegioSelectCodigos" style="margin-top:15px;display:none">2. Seleccione un colegio:</label>
+                    <select id="colegioSelectCodigos" style="display:none">
+                        <option value="">-- Seleccione colegio --</option>
+                    </select>
+            
+                    <div id="codigosPorColegioResults" style="margin-top:20px;display:none">
+                        <h4>Resultados:</h4>
+                        <div class="results-table-container">
+                            <p class="no-results"><i class="fas fa-school"></i> Seleccione un colegio para ver los códigos</p>
+                        </div>
+                    </div>
                 </div>
             </section>
         </section>
@@ -2825,6 +2875,132 @@
                 }
             }
         });
+        // Variables globales para este buscador
+        let espaciosDisponiblesParaCodigos = [];
+        
+        // Función para buscar espacios por título (paso 1)
+        function buscarEspaciosParaCodigos(event) {
+            const button = event.target;
+            button.disabled = true;
+            button.innerHTML = 'Buscando... <i class="fas fa-spinner fa-pulse"></i>';
+        
+            const titulo = document.getElementById('tituloInputCodigos').value.trim();
+            const normalizedTitulo = normalizeText(titulo);
+        
+            // Resetear resultados anteriores
+            document.getElementById('colegioSelectCodigos').style.display = 'none';
+            document.getElementById('codigosPorColegioResults').style.display = 'none';
+            espaciosDisponiblesParaCodigos = [];
+        
+            if (!titulo) {
+                showErrorNotification('Ingrese un título para buscar');
+                button.disabled = false;
+                button.innerHTML = 'Buscar Espacios';
+                return;
+            }
+        
+            // Filtrar espacios por título
+            const espaciosFiltrados = competenciasData.filter(item => 
+                normalizeText(item['Titulo'] || '').includes(normalizedTitulo)
+            );
+        
+            if (espaciosFiltrados.length === 0) {
+                document.getElementById('espaciosParaCodigosResults').innerHTML = `
+                    <div class="no-results">
+                        <i class="fas fa-search"></i>
+                        <p>No se encontraron espacios para "${titulo}"</p>
+                    </div>
+                `;
+                button.disabled = false;
+                button.innerHTML = 'Buscar Espacios';
+                return;
+            }
+        
+            // Mostrar espacios encontrados
+            const espaciosUnicos = [...new Set(espaciosFiltrados.map(item => item['Nombre DEL ESPACIO CURRICULAR']))];
+            espaciosDisponiblesParaCodigos = espaciosUnicos;
+        
+            let html = `<h4>Espacios que puede dictar:</h4><ul class="espacios-list">`;
+            espaciosUnicos.forEach(espacio => {
+                html += `<li><i class="fas fa-check"></i> ${espacio}</li>`;
+            });
+            html += `</ul>`;
+        
+            document.getElementById('espaciosParaCodigosResults').innerHTML = html;
+            document.querySelector('label[for="colegioSelectCodigos"]').style.display = 'block';
+            document.getElementById('colegioSelectCodigos').style.display = 'block';
+            
+            // Cargar colegios en el select
+            cargarColegiosParaCodigos();
+            button.disabled = false;
+            button.innerHTML = 'Buscar Espacios';
+        }
+        
+        // Cargar colegios en el select
+        function cargarColegiosParaCodigos() {
+            const select = document.getElementById('colegioSelectCodigos');
+            select.innerHTML = '<option value="">-- Seleccione colegio --</option>';
+        
+            const colegiosUnicos = [...new Set(colegiosData.map(item => item['Nombre']))].sort();
+            
+            colegiosUnicos.forEach(colegio => {
+                const option = document.createElement('option');
+                option.value = colegio;
+                option.textContent = colegio;
+                select.appendChild(option);
+            });
+        
+            // Event listener para cuando seleccionen colegio
+            select.addEventListener('change', function() {
+                if (this.value) {
+                    buscarCodigosPorColegio(this.value);
+                }
+            });
+        }
+        
+        // Buscar códigos por colegio (paso 2)
+        function buscarCodigosPorColegio(nombreColegio) {
+            const resultsContainer = document.getElementById('codigosPorColegioResults');
+            resultsContainer.style.display = 'block';
+        
+            // Encontrar el colegio seleccionado
+            const colegio = colegiosData.find(c => c['Nombre'] === nombreColegio);
+            if (!colegio) {
+                resultsContainer.innerHTML = `
+                    <div class="no-results">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <p>No se encontró información para este colegio</p>
+                    </div>
+                `;
+                return;
+            }
+        
+            // Buscar códigos en planEstudioData
+            const codigos = planEstudioData.filter(item => 
+                item['UE'] === colegio['NumeroUE'] && 
+                espaciosDisponiblesParaCodigos.includes(item['ESPACIO CURRICULAR'])
+            );
+        
+            if (codigos.length === 0) {
+                resultsContainer.innerHTML = `
+                    <div class="no-results">
+                        <i class="fas fa-info-circle"></i>
+                        <p>Este colegio no tiene los espacios curriculares de su título</p>
+                    </div>
+                `;
+                return;
+            }
+        
+            // Mostrar resultados en tabla
+            const headers = ['Espacio Curricular', 'Código', 'Modalidad'];
+            const data = codigos.map(item => ({
+                'Espacio Curricular': item['ESPACIO CURRICULAR'],
+                'Código': item['CODIGO'],
+                'Modalidad': item['MODALIDAD'] || 'Regular'
+            }));
+        
+            renderTable('codigosPorColegioResults .results-table-container', headers, data);
+        }
     </script>    
 </body>
 </html>
