@@ -656,18 +656,101 @@
             color: #28a745;
         }
         
-        .urgent-communique {
-            background-color: #fff3cd;
-            border: 1px solid #ffeeba;
-            border-left: 5px solid #ffc107;
-            border-radius: var(--radio-borde);
-            padding: 20px;
-            margin: 30px auto;
-            max-width: 800px;
+        /* Banner de prórroga */
+        .urgent-notification-banner {
+            background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
+            border: 1px solid #c8e6c9;
+            border-left: 5px solid #2e7d32;
+            color: #1b5e20;
+            padding: 12px 20px;
+            margin: 0 auto 15px;
+            width: 90%;
+            max-width: 1200px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            position: relative;
+            box-shadow: 0 2px 8px rgba(46, 125, 50, 0.1);
+            z-index: 999;
+        }
+        
+        .urgent-notification-banner i {
+            color: #2e7d32;
+            font-size: 1.8em;
+            min-width: 40px;
             text-align: center;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            font-size: 1.1em;
-            line-height: 1.6;
+        }
+        
+        .urgent-notification-banner strong {
+            font-weight: 700;
+            margin-right: 5px;
+        }
+        
+        .urgent-notification-banner .button {
+            margin-left: auto;
+            background-color: #2e7d32;
+            padding: 8px 15px;
+            font-size: 0.9em;
+            white-space: nowrap;
+        }
+        
+        .urgent-notification-banner .close-banner {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            background: transparent;
+            border: none;
+            color: #1b5e20;
+            font-size: 1.3em;
+            cursor: pointer;
+            opacity: 0.7;
+        }
+        /* Estilos para comunicado oficial */
+        .official-communique {
+            background-color: white;
+            border-radius: var(--radio-borde);
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            border-top: 3px solid var(--color-primario);
+        }
+        
+        .communique-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            font-size: 0.9em;
+            color: var(--color-texto-claro);
+        }
+        
+        .communique-content h4 {
+            color: var(--color-primario);
+            margin: 20px 0 10px;
+        }
+        
+        .communique-content ul {
+            padding-left: 20px;
+        }
+        
+        .communique-content ul li {
+            margin-bottom: 8px;
+        }
+        
+        address {
+            font-style: normal;
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        
+        .communique-recommendations {
+            background: #fff8e1;
+            padding: 15px;
+            border-radius: 4px;
+            border-left: 4px solid #ffc107;
+            margin-top: 20px;
         }
         
         /* Iframes */
@@ -800,7 +883,27 @@
                 padding-left: 8px;
                 padding-right: 8px;
             }
+
+            .urgent-notification-banner {
+                flex-wrap: wrap;
+                padding: 10px 15px 25px;
+                gap: 8px;
+             }
+    
+          .urgent-notification-banner .button {
+                margin-left: 0;
+                margin-top: 5px;
+            }
             
+          .official-communique {
+                padding: 15px;
+            }
+            
+            .communique-header {
+                flex-direction: column;
+                gap: 5px;
+            }
+                  
             .menu-toggle {
                 display: flex;
             }
@@ -1136,18 +1239,23 @@
             </nav>
         </div>
     </header>
-    <!-- Banner de celebración (NUEVO) -->
-       <div class="system-notification-banner">
-        <div class="notification-content">
-            <i class="fas fa-check-circle"></i>
+    </header>
+
+        <!-- Banner de prórroga -->
+        <div class="urgent-notification-banner" id="extensionBanner">
+            <i class="fas fa-calendar-exclamation"></i>
             <div>
-                <strong>IMPORTANTE: INSCRIPCIÓN VIRTUAL HABILITADA</strong>
-                <span>Ya está nuevamente en funcionamiento el Sistema de Trayectoria Docente</span>
+                <strong>PRÓRROGA OFICIAL:</strong> 
+                <span>Inscripción presencial hasta el 07/07 y virtual hasta el 11/07</span>
             </div>
+            <a href="#noticias" class="button small-button" onclick="showSection('noticias')">
+                <i class="fas fa-newspaper"></i> Ver Detalles
+            </a>
             <button class="close-banner" aria-label="Cerrar notificación">&times;</button>
         </div>
-    </div>
-    <div class="container">
+        
+        <div class="container">
+            
        <section id="inicio" class="content-section">
             <h1>Junta Calificadora de Méritos y Disciplina</h1>
             <h2>Nivel Secundario y sus Modalidades</h2>
@@ -1483,16 +1591,39 @@
         </section>
 
         <section id="noticias" class="content-section" style="text-align: center;">
-            <h2>Novedades y Noticias del Ministerio</h2>
-            <p>Aquí puedes consultar las últimas noticias y comunicados oficiales del Ministerio de Educación, Cultura, Ciencia y Tecnología de Salta, incrustados directamente en nuestra página. Si el contenido no carga o tienes problemas para visualizarlo, puedes hacer clic en el enlace directo a continuación.</p>
-
-            <!-- Comunicado Urgente -->
-            <div class="urgent-communique">
-                <h3>Junta Calificadora de Méritos y Disciplina de Nivel Secundario y sus Modalidades informa:</h3>
-                <p><strong>Respecto al funcionamiento de la web Trayectoria Docente:</strong></p>
-                <p>El acceso a la página web correspondiente a las <strong>Trayectorias Docentes</strong>, desde donde se realizan gestiones que involucran al proceso de inscripción de cuadros, se encuentra momentáneamente fuera de servicio por cuestiones técnicas. Esta dificultad excede al organismo y sobre ella se está trabajando para su pronta reactivación.</p>
-                <p>Por otro lado, los accesos web oficiales del Ministerio de Educación (<a href="https://edusalta.gov.ar" target="_blank" rel="noopener noreferrer">edusalta.gov.ar</a>) y de la JCMD Nivel Secundario (<a href="https://jcmyd-salta-web.vercel.app" target="_blank" rel="noopener noreferrer">jcmyd-salta-web.vercel.app</a>) funcionan con normalidad.</p>
+            <!-- Comunicado de prórroga -->
+        <div class="official-communique">
+            <h3>COMUNICADO OFICIAL: PRÓRROGA DEL PERÍODO DE INSCRIPCIONES</h3>
+            <div class="communique-header">
+                <span class="communique-date">26 de junio de 2025</span>
+                <span class="communique-author">Junta Calificadora de Méritos y Disciplina</span>
             </div>
+            
+            <div class="communique-content">
+                <p>Se informa a los aspirantes para cubrir interinatos y suplencias en horas cátedras y cargos, Período Lectivo 2026:</p>
+                
+                <h4>Prórroga del Período de Inscripciones</h4>
+                <ul>
+                    <li><strong>Inscripción Presencial:</strong> hasta el 07 de julio de 2025</li>
+                    <li><strong>Inscripción Virtual:</strong> hasta el 11 de julio de 2025 (días hábiles de 08:00 a 19:00 hs)</li>
+                </ul>
+                
+                <h4>Recepción de Documentación</h4>
+                <p>Los directivos deberán remitir la documentación hasta el 11 de julio de 2025 (incluidos envíos postales) a:</p>
+                <address>
+                    Pje. Fernando Ramos N° 22, Salta Capital<br>
+                    Horario: 08:00 a 16:00 hs
+                </address>
+                
+                <div class="communique-recommendations">
+                    <h4>Recomendaciones:</h4>
+                    <ul>
+                        <li>Cumplir estrictamente con los plazos establecidos</li>
+                        <li>Verificar que la documentación esté completa, legible y foliada</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 
             <div class="news-iframe-container">
                 <iframe src="https://sga.edusalta.gov.ar/Frontend/Modulos/Noticias/Noticias.aspx" title="Noticias Ministerio de Educación Salta" loading="lazy"></iframe>
@@ -2856,6 +2987,16 @@
                     container.classList.remove('with-banner');
                 }
             }
+            // Cerrar banner de prórroga
+        document.querySelector('.urgent-notification-banner .close-banner')?.addEventListener('click', function() {
+            this.closest('.urgent-notification-banner').style.display = 'none';
+            localStorage.setItem('extensionBannerClosed', 'true');
+        });
+        
+        // Ocultar si ya fue cerrado
+        if (localStorage.getItem('extensionBannerClosed')) {
+            document.querySelector('.urgent-notification-banner').style.display = 'none';
+        }
         });
         // Función para manejar la tecla ENTER en cualquier campo de búsqueda
         function setupEnterKeySearch() {
