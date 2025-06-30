@@ -366,6 +366,56 @@
             top: 50%;
             transform: translateY(-50%);
         }
+        /* Noticias Dinámicas */
+        .news-item {
+            background-color: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: left;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .news-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .news-item h4 {
+            color: #2c3e50;
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 1.4em;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 8px;
+        }
+        
+        .news-item .news-date {
+            display: block;
+            font-size: 0.9em;
+            color: #777;
+            margin-bottom: 10px;
+        }
+        
+        .news-item p {
+            color: #555;
+            margin-bottom: 15px;
+        }
+        
+        .news-item .read-more {
+            display: inline-block;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+        
+        .news-item .read-more:hover {
+            color: #2980b9;
+            text-decoration: underline;
+        }
         
         @keyframes pulse {
             0% { transform: scale(1); box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
@@ -1591,6 +1641,10 @@
         </section>
 
         <section id="noticias" class="content-section" style="text-align: center;">
+            <div id="dynamic-news-feed" style="margin-bottom: 30px;">
+                <h3>Últimas Noticias</h3>
+                <p class="no-results" id="loading-news-message">Cargando noticias...</p>
+            </div>
             <!-- Comunicado de prórroga -->
         <div class="official-communique">
             <h3>COMUNICADO OFICIAL: PRÓRROGA DEL PERÍODO DE INSCRIPCIONES</h3>
@@ -3049,6 +3103,107 @@
         document.addEventListener('DOMContentLoaded', function() {
             setupEnterKeySearch();
         });
+        // --- Noticias Dinámicas desde Google Sheet ---
+        const GOOGLE_SHEET_NEWS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTgPwmVUURlmyG5QkvUI2O44EnW45zjngwFKd51qe6O6gg-VXeT9C98_uXgZd3f6owUox4ImBJpUadc/pub?gid=0&single=true&output=csv'; // ¡REEMPLAZA CON TU URL!
+        const dynamicNewsFeed = document.getElementById('dynamic-news-feed');
+        const loadingNewsMessage = document.getElementById('loading-news-message');
+        
+        async function fetchAndDisplayNews() {
+            if (!dynamicNewsFeed || !loadingNewsMessage) {
+                console.error('Elementos HTML para noticias dinámicas no encontrados.');
+                return;
+            }
+        
+            try {
+                loadingNewsMessage.textContent = 'Cargando noticias...';
+                dynamicNewsFeed.innerHTML = '<h3>Últimas Noticias</h3><p class="no-results" id="loading-news-message">Cargando noticias...</p>'; // Reset and show loading
+        
+                const response = await fetch(GOOGLE_SHEET_NEWS_URL);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const csvText = await response.text();
+        
+                const newsData = parseCSV(csvText);
+        
+                if (newsData.length === 0) {
+                    dynamicNewsFeed.innerHTML = '<h3>Últimas Noticias</h3><p class="no-results">No hay noticias disponibles en este momento.</p>';
+                    return;
+                }
+        
+                // Clear loading message
+                loadingNewsMessage.remove();
+        
+                // Loop through newsData and create HTML elements
+                newsData.forEach(newsItem => {
+                    const newsDiv = document.createElement('div');
+                    newsDiv.classList.add('news-item');
+        
+                    const title = document.createElement('h4');
+                    title.textContent = newsItem.Titulo;
+                    newsDiv.appendChild(title);
+        
+                    const date = document.createElement('span');
+                    date.classList.add('news-date');
+                    // Format date if needed, basic example:
+                    try {
+                        const d = new Date(newsItem.Fecha);
+                        date.textContent = d.toLocaleDateString('es-AR', { year: 'numeric', month: 'long', day: 'numeric' });
+                    } catch (e) {
+                        date.textContent = newsItem.Fecha; // Fallback if date parsing fails
+                    }
+                    newsDiv.appendChild(date);
+        
+                    const content = document.createElement('p');
+                    content.textContent = newsItem.Contenido;
+                    newsDiv.appendChild(content);
+        
+                    if (newsItem.Link && newsItem.Link.trim() !== '') {
+                        const link = document.createElement('a');
+                        link.href = newsItem.Link;
+                        link.textContent = newsItem.LinkTexto || 'Leer más';
+                        link.classList.add('read-more');
+                        link.target = '_blank'; // Open in new tab
+                        link.rel = 'noopener noreferrer'; // Security best practice
+                        newsDiv.appendChild(link);
+                    }
+        
+                    dynamicNewsFeed.appendChild(newsDiv);
+                });
+        
+            } catch (error) {
+                console.error('Error al cargar las noticias:', error);
+                dynamicNewsFeed.innerHTML = '<h3>Últimas Noticias</h3><p class="no-results">Error al cargar las noticias. Por favor, intente más tarde.</p>';
+            }
+        }
+        
+        // Helper function to parse CSV text
+        function parseCSV(csvText) {
+            const lines = csvText.split('\n').filter(line => line.trim() !== ''); // Filter empty lines
+            if (lines.length < 2) return []; // No header and no data
+        
+            const headers = lines[0].split(',').map(header => header.trim());
+            const data = [];
+        
+            for (let i = 1; i < lines.length; i++) {
+                const values = lines[i].split(',');
+                if (values.length !== headers.length) {
+                    console.warn('Skipping malformed row:', lines[i]);
+                    continue; // Skip rows that don't match header count
+                }
+                const row = {};
+                headers.forEach((header, index) => {
+                    row[header] = values[index].trim();
+                });
+                data.push(row);
+            }
+            return data;
+        }
+        
+        // Call the function when the page loads
+        document.addEventListener('DOMContentLoaded', fetchAndDisplayNews);
+        
+        // --- Fin Noticias Dinámicas ---
     </script>    
 </body>
 </html>
