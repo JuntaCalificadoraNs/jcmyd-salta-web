@@ -1777,26 +1777,42 @@
         
                         const date = document.createElement('span');
                         date.classList.add('news-date');
-                         // --- INICIO DE LA CORRECCIÓN DE LA FECHA ---
+                        
+    // --- INICIO DE LA CORRECCIÓN Y DEPURACIÓN DE LA FECHA ---
                         // Asumiendo formato DD/MM/YYYY desde Google Sheets
-                        const dateParts = (newsItem.Fecha || '').split('/');
+                        const rawDateString = newsItem.Fecha ? String(newsItem.Fecha).trim() : ''; // Asegurarse que es string y limpiar espacios
+                        const dateParts = rawDateString.split('/');
                         let displayDate = 'Fecha desconocida';
+            
+                        console.log('DEBUG: Cadena de fecha original:', rawDateString); // Mensaje de depuración
+                        console.log('DEBUG: Partes de la fecha después de split:', dateParts); // Mensaje de depuración
             
                         if (dateParts.length === 3) {
                             const day = parseInt(dateParts[0], 10);
                             const month = parseInt(dateParts[1], 10) - 1; // Meses son 0-indexados en JavaScript (0-11)
                             const year = parseInt(dateParts[2], 10);
             
-                            // Crear la fecha en la zona horaria local para evitar el desfase de un día
-                            const d = new Date(year, month, day);
+                            console.log(`DEBUG: Valores parseados: Día=${day}, Mes=${month + 1}, Año=${year}`); // Mensaje de depuración
             
-                            // Verificar si la fecha es válida antes de formatear
-                            if (!isNaN(d.getTime())) {
-                                displayDate = d.toLocaleDateString('es-AR', { year: 'numeric', month: 'long', day: 'numeric' });
+                            // Verificar si los valores parseados son números válidos
+                            if (!isNaN(day) && !isNaN(month) && !isNaN(year)) {
+                                // Crear la fecha en la zona horaria local para evitar el desfase de un día
+                                const d = new Date(year, month, day);
+            
+                                // Verificar si la fecha es válida antes de formatear
+                                if (!isNaN(d.getTime())) {
+                                    displayDate = d.toLocaleDateString('es-AR', { year: 'numeric', month: 'long', day: 'numeric' });
+                                } else {
+                                    console.warn('WARNING: Objeto Date inválido creado para:', rawDateString); // Advertencia
+                                }
+                            } else {
+                                console.warn('WARNING: Fallo al parsear partes de la fecha a números para:', rawDateString); // Advertencia
                             }
+                        } else {
+                            console.warn('WARNING: La cadena de fecha no tiene 3 partes (DD/MM/YYYY) o está vacía para:', rawDateString); // Advertencia
                         }
                         date.textContent = displayDate;
-                        // --- FIN DE LA CORRECCIÓN DE LA FECHA ---
+                        // --- FIN DE LA CORRECCIÓN Y DEPURACIÓN DE LA FECHA ---
                         newsDiv.appendChild(date);
         
                         const content = document.createElement('p');
