@@ -1901,7 +1901,32 @@
                         newsDiv.appendChild(content);
             
                         // Si hay un enlace general, crearlo
-                        if (newsItem.Link && newsItem.Link.trim() !== '') {
+                       if (newsItem.Titulo === 'Traslado de Docentes 2025') {
+                            const links = [
+                                {
+                                    url: 'https://drive.google.com/uc?export=download&id=1WtrVXUwKrrixgzEO9oVCla5XbGEc0OpZ',
+                                    text: 'Descargar Formulario ST 04'
+                                },
+                                {
+                                    url: 'https://drive.google.com/uc?export=download&id=1U02ord_9mwyJPkrqHe_8FIJz0YIhyaft',
+                                    text: 'Descargar Circular 02/2025'
+                                },
+                                {
+                                    url: 'https://drive.google.com/uc?export=download&id=1f8AJGb6KL-wK8c6FerYGna3KCbu0JrVD',
+                                    text: 'Descargar Anexo I'
+                                }
+                            ];
+                            links.forEach(linkData => {
+                                const link = document.createElement('a');
+                                link.href = linkData.url;
+                                link.textContent = linkData.text;
+                                link.classList.add('read-more');
+                                link.target = '_blank';
+                                link.rel = 'noopener noreferrer';
+                                newsDiv.appendChild(link);
+                                newsDiv.appendChild(document.createElement('br')); // Agrega un salto de línea entre enlaces
+                            });
+                        } else if (newsItem.Link && newsItem.Link.trim() !== '') {
                             const link = document.createElement('a');
                             link.href = newsItem.Link;
                             link.textContent = newsItem.LinkTexto && newsItem.LinkTexto.trim() !== '' ? newsItem.LinkTexto : 'Leer más';
