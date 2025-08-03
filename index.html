@@ -8,6 +8,7 @@
     <!-- Preload de recursos -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" as="style">
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     
     <!-- Estilos -->
     <style>
@@ -93,7 +94,34 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
-    
+        .news-item .news-content {
+            margin-bottom: 15px;
+        }
+        
+        .news-item .news-content p {
+            margin: 0 0 10px 0;
+            line-height: 1.8;
+        }
+        
+        .news-item .news-list {
+            list-style: disc;
+            padding-left: 20px;
+            margin: 10px 0;
+        }
+        
+        .news-item .news-list li {
+            margin-bottom: 8px;
+        }
+        
+        .news-item .inline-link {
+            color: var(--color-acento, #007bff); /* Cambia #007bff por tu color de acento */
+            text-decoration: underline;
+            font-weight: 500;
+        }
+        
+        .news-item .inline-link:hover {
+            color: var(--color-secundario, #0056b3); /* Cambia #0056b3 por tu color secundario */
+        }
         .news-item:hover {
             transform: translateY(-3px);
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
@@ -1749,103 +1777,132 @@
             const dynamicNewsFeed = document.getElementById('dynamic-news-feed');
             const loadingNewsMessage = document.getElementById('loading-news-message');
         
+            function processNewsContent(content) {
+                if (!content) return '<p>Sin contenido.</p>';
+            
+                // Dividir el contenido por saltos de línea
+                const lines = content.split('\n').map(line => line.trim()).filter(line => line !== '');
+                let html = '';
+                let inList = false;
+            
+                lines.forEach(line => {
+                    // Detectar elementos de lista (comienzan con "·" o "-")
+                    if (line.startsWith('·') || line.startsWith('-')) {
+                        const listItem = line.replace(/^[·-]\s*/, ''); // Eliminar el marcador de lista
+                        if (!inList) {
+                            html += '<ul class="news-list">';
+                            inList = true;
+                        }
+                        // Detectar enlaces en la línea (por ejemplo, "(DESCARGAR)")
+                        const processedLine = processLinksInLine(listItem);
+                        html += `<li>${processedLine}</li>`;
+                    } else {
+                        // Cerrar lista si estaba abierta
+                        if (inList) {
+                            html += '</ul>';
+                            inList = false;
+                        }
+                        // Detectar enlaces en la línea
+                        const processedLine = processLinksInLine(line);
+                        html += `<p>${processedLine}</p>`;
+                    }
+                });
+            
+                // Cerrar lista si quedó abierta
+                if (inList) {
+                    html += '</ul>';
+                }
+            
+                return html;
+            }
+            
+            function processLinksInLine(line) {
+                // Detectar enlaces con formato "(DESCARGAR)"
+                const linkRegex = /\((DESCARGAR)\)/gi;
+                return line.replace(linkRegex, (match, linkText) => {
+                    // Usa un enlace placeholder; reemplázalo con la URL real si está disponible
+                    return `<a href="#" class="inline-link" target="_blank" rel="noopener noreferrer">${linkText}</a>`;
+                });
+            }
             async function fetchAndDisplayNews() {
+                const dynamicNewsFeed = document.getElementById('dynamic-news-feed');
+                const loadingNewsMessage = document.getElementById('loading-news-message');
                 if (!dynamicNewsFeed || !loadingNewsMessage) {
                     console.error('Elementos HTML para noticias dinámicas (dynamic-news-feed o loading-news-message) no encontrados.');
                     return;
                 }
-        
+            
                 try {
                     // Reiniciar el contenido y mostrar mensaje de carga
                     dynamicNewsFeed.innerHTML = '<h3>Últimas Noticias</h3><p class="no-results" id="loading-news-message">Cargando noticias...</p>';
                     const currentLoadingMessage = document.getElementById('loading-news-message');
-        
+            
                     const response = await fetch(GOOGLE_SHEET_NEWS_URL);
                     if (!response.ok) {
                         throw new Error(`Error HTTP! Estado: ${response.status}`);
                     }
                     const csvText = await response.text();
-        
-                    const newsData = parseCSV(csvText); // Usamos la función parseCSV robusta
-        
+                    const newsData = parseCSV(csvText);
+            
                     if (newsData.length === 0) {
                         dynamicNewsFeed.innerHTML = '<h3>Últimas Noticias</h3><p class="no-results">No hay noticias disponibles en este momento.</p>';
                         return;
                     }
-        
-                    // Eliminar el mensaje de carga una vez que los datos están listos
+            
+                    // Eliminar el mensaje de carga
                     if (currentLoadingMessage) {
                         currentLoadingMessage.remove();
                     }
-        
+            
                     // Iterar sobre los datos de las noticias y crear elementos HTML
                     newsData.forEach(newsItem => {
                         const newsDiv = document.createElement('div');
                         newsDiv.classList.add('news-item');
-        
+            
                         const title = document.createElement('h4');
-                        title.textContent = newsItem.Titulo || 'Sin título'; // Fallback por si falta el título
+                        title.textContent = newsItem.Titulo || 'Sin título';
                         newsDiv.appendChild(title);
-        
+            
                         const date = document.createElement('span');
                         date.classList.add('news-date');
-                        
-    // --- INICIO DE LA CORRECCIÓN Y DEPURACIÓN DE LA FECHA ---
-                        // Asumiendo formato DD/MM/YYYY desde Google Sheets
-                        const rawDateString = newsItem.Fecha ? String(newsItem.Fecha).trim() : ''; // Asegurarse que es string y limpiar espacios
+                        const rawDateString = newsItem.Fecha ? String(newsItem.Fecha).trim() : '';
                         const dateParts = rawDateString.split('/');
                         let displayDate = 'Fecha desconocida';
             
-                        console.log('DEBUG: Cadena de fecha original:', rawDateString); // Mensaje de depuración
-                        console.log('DEBUG: Partes de la fecha después de split:', dateParts); // Mensaje de depuración
-            
                         if (dateParts.length === 3) {
                             const day = parseInt(dateParts[0], 10);
-                            const month = parseInt(dateParts[1], 10) - 1; // Meses son 0-indexados en JavaScript (0-11)
+                            const month = parseInt(dateParts[1], 10) - 1;
                             const year = parseInt(dateParts[2], 10);
-            
-                            console.log(`DEBUG: Valores parseados: Día=${day}, Mes=${month + 1}, Año=${year}`); // Mensaje de depuración
-            
-                            // Verificar si los valores parseados son números válidos
                             if (!isNaN(day) && !isNaN(month) && !isNaN(year)) {
-                                // Crear la fecha en la zona horaria local para evitar el desfase de un día
                                 const d = new Date(year, month, day);
-            
-                                // Verificar si la fecha es válida antes de formatear
                                 if (!isNaN(d.getTime())) {
                                     displayDate = d.toLocaleDateString('es-AR', { year: 'numeric', month: 'long', day: 'numeric' });
-                                } else {
-                                    console.warn('WARNING: Objeto Date inválido creado para:', rawDateString); // Advertencia
                                 }
-                            } else {
-                                console.warn('WARNING: Fallo al parsear partes de la fecha a números para:', rawDateString); // Advertencia
                             }
-                        } else {
-                            console.warn('WARNING: La cadena de fecha no tiene 3 partes (DD/MM/YYYY) o está vacía para:', rawDateString); // Advertencia
                         }
                         date.textContent = displayDate;
-                        // --- FIN DE LA CORRECCIÓN Y DEPURACIÓN DE LA FECHA ---
                         newsDiv.appendChild(date);
-        
-                        const content = document.createElement('p');
-                        content.textContent = newsItem.Contenido || 'Sin contenido.'; // Fallback por si falta el contenido
+            
+                        // Procesar el contenido para manejar párrafos, listas y enlaces
+                        const content = document.createElement('div');
+                        content.classList.add('news-content');
+                        content.innerHTML = processNewsContent(newsItem.Contenido);
                         newsDiv.appendChild(content);
-        
-                        // Si hay un enlace, crearlo
+            
+                        // Si hay un enlace general, crearlo
                         if (newsItem.Link && newsItem.Link.trim() !== '') {
                             const link = document.createElement('a');
                             link.href = newsItem.Link;
-                            // Usar 'Leer más' si LinkTexto no está definido o está vacío
                             link.textContent = newsItem.LinkTexto && newsItem.LinkTexto.trim() !== '' ? newsItem.LinkTexto : 'Leer más';
                             link.classList.add('read-more');
-                            link.target = '_blank'; // Abrir en nueva pestaña
-                            link.rel = 'noopener noreferrer'; // Práctica de seguridad
+                            link.target = '_blank';
+                            link.rel = 'noopener noreferrer';
                             newsDiv.appendChild(link);
                         }
-        
+            
                         dynamicNewsFeed.appendChild(newsDiv);
                     });
-        
+            
                 } catch (error) {
                     console.error('Error al cargar las noticias:', error);
                     dynamicNewsFeed.innerHTML = '<h3>Últimas Noticias</h3><p class="no-results">Error al cargar las noticias. Por favor, intente más tarde.</p>';
@@ -1853,46 +1910,15 @@
             }
         
             // --- Función parseCSV robusta (¡DEBE SER LA ÚNICA EN TU CÓDIGO!) ---
-            function parseCSV(csvText) {
-                const lines = csvText.split('\n').filter(line => line.trim() !== ''); // Filtrar líneas vacías
-                if (lines.length < 2) {
-                    console.warn('Los datos CSV no tienen encabezado o no tienen filas de datos.');
-                    return [];
-                }
-        
-                // Expresión regular para dividir líneas CSV, manejando campos entrecomillados.
-                // Divide por una coma que NO está dentro de comillas dobles.
-                const CSV_SPLIT_REGEX = /,(?=(?:(?:[^"]*"){2})*[^"]*$)/;
-        
-                // Parsear encabezados, eliminando espacios en blanco y cualquier comilla circundante
-                const headers = lines[0].split(CSV_SPLIT_REGEX).map(header => header.trim().replace(/^"|"$/g, ''));
-                const data = [];
-        
-                for (let i = 1; i < lines.length; i++) {
-                    // Usar la expresión regular para dividir la línea en valores
-                    const values = lines[i].split(CSV_SPLIT_REGEX).map(value => {
-                        // Eliminar espacios en blanco iniciales/finales y comillas externas de cada valor
-                        let trimmedValue = value.trim();
-                        if (trimmedValue.startsWith('"') && trimmedValue.endsWith('"')) {
-                            return trimmedValue.substring(1, trimmedValue.length - 1);
-                        }
-                        return trimmedValue;
-                    });
-        
-                    // Verificar si el número de valores coincide con el número de encabezados
-                    if (values.length !== headers.length) {
-                        console.warn('Saltando fila mal formada (desajuste en el conteo de columnas):', lines[i]);
-                        continue;
-                    }
-        
-                    // Crear un objeto para la fila actual
-                    const row = {};
-                    headers.forEach((header, index) => {
-                        row[header] = values[index];
-                    });
-                    data.push(row);
-                }
-                return data;
+           function parseCSV(csvText) {
+                const parsed = Papa.parse(csvText, {
+                    header: true,
+                    skipEmptyLines: true,
+                    quoteChar: '"',
+                    escapeChar: '"',
+                    transform: value => value.trim()
+                });
+                return parsed.data;
             }
             // --- Fin de la función parseCSV robusta ---
         
