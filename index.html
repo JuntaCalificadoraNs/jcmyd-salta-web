@@ -1827,6 +1827,7 @@
             }
             
             function processLinksInLine(line) {
+                console.log('Procesando línea:', line); // Agrega esto
                 const links = [
                     {
                         text: 'Declaración Jurada de Empleos Públicos. (DESCARGAR)',
@@ -1864,6 +1865,7 @@
                     }
                     const csvText = await response.text();
                     const newsData = parseCSV(csvText);
+                    console.log('Datos parseados:', newsData); // Agrega esto para depurar
             
                     if (newsData.length === 0) {
                         dynamicNewsFeed.innerHTML = '<h3>Últimas Noticias</h3><p class="no-results">No hay noticias disponibles en este momento.</p>';
