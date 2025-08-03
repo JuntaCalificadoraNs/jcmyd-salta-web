@@ -1927,7 +1927,7 @@
             async function fetchAndDisplayNews() {
                 try {
                     // Reemplaza con la URL de tu Google Sheet exportado como CSV
-                    const response = await fetch('URL_DEL_CSV_DE_GOOGLE_SHEETS');
+                    const response = await fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTgPwmVUURlmyG5QkvUI2O44EnW45zjngwFKd51qe6O6gg-VXeT9C98_uXgZd3f6owUox4ImBJpUadc/pub?gid=0&single=true&output=csv');
                     const csvText = await response.text();
                     const newsData = parseCSV(csvText);
             
