@@ -1817,12 +1817,23 @@
             }
             
             function processLinksInLine(line) {
-                // Detectar enlaces con formato "(DESCARGAR)"
-                const linkRegex = /\((DESCARGAR)\)/gi;
-                return line.replace(linkRegex, (match, linkText) => {
-                    // Usa un enlace placeholder; reemplázalo con la URL real si está disponible
-                    return `<a href="#" class="inline-link" target="_blank" rel="noopener noreferrer">${linkText}</a>`;
+                const links = [
+                    {
+                        text: 'Declaración Jurada de Empleos Públicos. (DESCARGAR)',
+                        url: 'https://drive.google.com/uc?export=download&id=1mYh9yAY1CwfSnvRQZfrwobk13ldydJqi'
+                    },
+                    {
+                        text: 'Formulario ST 04. (DESCARGAR)',
+                        url: 'https://drive.google.com/uc?export=download&id=1WtrVXUwKrrixgzEO9oVCla5XbGEc0OpZ'
+                    }
+                ];
+            
+                let processedLine = line;
+                links.forEach(link => {
+                    const regex = new RegExp(link.text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g');
+                    processedLine = processedLine.replace(regex, `<a href="${link.url}" class="inline-link" target="_blank" rel="noopener noreferrer">${link.text.replace('(DESCARGAR)', 'DESCARGAR')}</a>`);
                 });
+                return processedLine;
             }
             async function fetchAndDisplayNews() {
                 const dynamicNewsFeed = document.getElementById('dynamic-news-feed');
