@@ -55,15 +55,6 @@
                 margin: 1rem 0;
             }
         }
-        .chart-container {
-            position: relative;
-            width: 100%;
-            max-width: 400px;
-            margin-left: auto;
-            margin-right: auto;
-            height: 300px;
-            max-height: 350px;
-        }
     </style>
 </head>
 <body class="text-gray-800">
@@ -142,12 +133,34 @@
         
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <section id="documentation" class="card">
-                <h2 class="text-2xl font-bold text-[#004e92] mb-6">Checklist de Documentación</h2>
-                <p class="text-gray-700 mb-6">Asegúrate de reunir toda la documentación requerida para presentar en la dirección de tu Unidad Educativa de origen. La correcta presentación agiliza el trámite.</p>
-                <div class="chart-container">
-                    <canvas id="documentationChart"></canvas>
+                <h2 class="text-2xl font-bold text-[#004e92] mb-4">Checklist de Documentación</h2>
+                <p class="text-gray-700 mb-6">Asegúrate de reunir toda la documentación para presentar en tu Unidad Educativa. Una correcta presentación agiliza el trámite.</p>
+                <div class="space-y-4">
+                    <div class="flex items-start p-3 bg-sky-50 rounded-lg">
+                        <span class="text-sky-500 font-bold text-xl mr-4">1.</span>
+                        <p class="text-sky-800">Nota de Pedido elevada a la Dirección.</p>
+                    </div>
+                    <div class="flex items-start p-3 bg-sky-50 rounded-lg">
+                        <span class="text-sky-500 font-bold text-xl mr-4">2.</span>
+                        <p class="text-sky-800">Fotocopia del DNI.</p>
+                    </div>
+                    <div class="flex items-start p-3 bg-sky-50 rounded-lg">
+                        <span class="text-sky-500 font-bold text-xl mr-4">3.</span>
+                        <p class="text-sky-800">Fotocopia de Título/s.</p>
+                    </div>
+                    <div class="flex items-start p-3 bg-sky-50 rounded-lg">
+                        <span class="text-sky-500 font-bold text-xl mr-4">4.</span>
+                        <p class="text-sky-800">Declaración Jurada de Empleos Públicos.</p>
+                    </div>
+                    <div class="flex items-start p-3 bg-sky-50 rounded-lg">
+                        <span class="text-sky-500 font-bold text-xl mr-4">5.</span>
+                        <p class="text-sky-800">Formulario SPP 13 completo.</p>
+                    </div>
+                    <div class="flex items-start p-3 bg-sky-50 rounded-lg">
+                        <span class="text-sky-500 font-bold text-xl mr-4">6.</span>
+                        <p class="text-sky-800">Documentación que avale el motivo de la solicitud.</p>
+                    </div>
                 </div>
-                <p class="text-center text-gray-600 mt-4 text-sm">El gráfico muestra los 6 documentos esenciales para iniciar el trámite de permuta.</p>
             </section>
 
             <section id="timeline-links" class="card">
@@ -182,89 +195,7 @@
     </div>
 
     <script>
-        function wrapText(text, maxLength) {
-            if (text.length <= maxLength) {
-                return text;
-            }
-            const words = text.split(' ');
-            const lines = [];
-            let currentLine = '';
-            for (const word of words) {
-                if ((currentLine + word).length > maxLength) {
-                    lines.push(currentLine.trim());
-                    currentLine = '';
-                }
-                currentLine += word + ' ';
-            }
-            lines.push(currentLine.trim());
-            return lines;
-        }
-
-        const ctx = document.getElementById('documentationChart').getContext('2d');
-        const documentationData = {
-            labels: [
-                wrapText('1. Nota de Pedido a Dirección', 16),
-                wrapText('2. Fotocopia del DNI', 16),
-                wrapText('3. Fotocopia de Título/s', 16),
-                wrapText('4. Declaración Jurada de Empleos Públicos', 16),
-                wrapText('5. Formulario SPP 13 Completo', 16),
-                wrapText('6. Documentación que avale el motivo', 16)
-            ],
-            datasets: [{
-                label: 'Documentación Requerida',
-                data: [1, 1, 1, 1, 1, 1],
-                backgroundColor: [
-                    '#0ea5e9',
-                    '#0284c7',
-                    '#0369a1',
-                    '#075985',
-                    '#0c4a6e',
-                    '#38bdf8'
-                ],
-                borderColor: '#ffffff',
-                borderWidth: 2
-            }]
-        };
-
-        new Chart(ctx, {
-            type: 'doughnut',
-            data: documentationData,
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: {
-                            font: {
-                                size: 12
-                            },
-                            boxWidth: 20
-                        }
-                    },
-                    title: {
-                        display: false
-                    },
-                    tooltip: {
-                        callbacks: {
-                            title: function(tooltipItems) {
-                                const item = tooltipItems[0];
-                                let label = item.chart.data.labels[item.dataIndex];
-                                if (Array.isArray(label)) {
-                                  return label.join(' ');
-                                } else {
-                                  return label;
-                                }
-                            },
-                            label: function(context) {
-                                return ' Documento Esencial';
-                            }
-                        }
-                    }
-                },
-                cutout: '50%'
-            }
-        });
+        // El código del gráfico de Chart.js ha sido eliminado ya que no se utiliza.
     </script>
 </body>
 </html>
