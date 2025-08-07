@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infografía: Guía de Permutas Docentes - Salta</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .flowchart-step {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+        .flowchart-step .content {
+            background-color: #e0f2fe;
+            border: 2px solid #0ea5e9;
+            color: #0c4a6e;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            width: 100%;
+            min-height: 100px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .flowchart-arrow {
+            font-size: 2.5rem;
+            color: #0ea5e9;
+            margin: 0 1rem;
+        }
+        @media (max-width: 767px) {
+            .flowchart-arrow {
+                transform: rotate(90deg);
+                margin: 1rem 0;
+            }
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 350px;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <div class="container mx-auto p-4 sm:p-6 md:p-8 max-w-6xl">
+
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-[#004e92]">Guía Visual de Permutas Docentes</h1>
+            <p class="text-lg text-gray-600 mt-2">Nivel Secundario y sus Modalidades - Provincia de Salta</p>
+        </header>
+
+        <section id="introduction" class="card text-center">
+            <h2 class="text-2xl font-bold text-[#004e92] mb-4">¿Qué es una Permuta?</h2>
+            <p class="text-gray-700 max-w-3xl mx-auto">
+                Una permuta es un movimiento administrativo que permite a dos docentes titulares intercambiar de mutuo acuerdo sus horas cátedra o cargos. Este proceso, regido por la Ley Nro. 6830/95, es gestionado por la Junta Calificadora de Méritos y Disciplina para facilitar la movilidad docente.
+            </p>
+        </section>
+
+        <section id="requirements" class="card">
+            <h2 class="text-2xl font-bold text-[#004e92] text-center mb-8">Requisitos Fundamentales</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <div class="p-6 bg-sky-50 rounded-lg border-2 border-sky-200">
+                    <div class="text-5xl mb-3">✅</div>
+                    <h3 class="text-xl font-bold text-sky-800">Ser Titular</h3>
+                    <p class="text-sky-700 mt-1">El requisito indispensable es que ambos docentes sean titulares en las horas o cargo que desean intercambiar.</p>
+                </div>
+                <div class="p-6 bg-sky-50 rounded-lg border-2 border-sky-200">
+                    <div class="text-5xl mb-3">🗓️</div>
+                    <h3 class="text-xl font-bold text-sky-800">2 Años de Antigüedad</h3>
+                    <p class="text-sky-700 mt-1">Deben haber transcurrido como mínimo dos años desde la fecha del instrumento de titularización.</p>
+                </div>
+                <div class="p-6 bg-sky-50 rounded-lg border-2 border-sky-200">
+                    <div class="text-5xl mb-3">👨‍🏫</div>
+                    <h3 class="text-xl font-bold text-sky-800">Servicio Activo</h3>
+                    <p class="text-sky-700 mt-1">Los docentes deben estar en servicio activo, es decir, frente a curso o cumpliendo las funciones del cargo a permutar.</p>
+                </div>
+            </div>
+             <div class="mt-8 bg-amber-100 border-l-4 border-amber-500 text-amber-700 p-4 rounded-md" role="alert">
+                <p class="font-bold">Importante:</p>
+                <p>No pueden solicitar permuta los agentes con cambio de funciones, afectaciones o en uso del artículo 69.</p>
+            </div>
+        </section>
+
+        <section id="process-flow" class="card">
+            <h2 class="text-2xl font-bold text-[#004e92] text-center mb-8">El Proceso de Permuta Paso a Paso</h2>
+            <div class="flex flex-col md:flex-row justify-center items-center">
+                <div class="flowchart-step w-full md:w-1/4">
+                    <div class="content">
+                        <span class="font-bold text-lg">Paso 1</span>
+                        <p>Búsqueda y Acuerdo entre docentes.</p>
+                    </div>
+                </div>
+                <div class="flowchart-arrow">→</div>
+                <div class="flowchart-step w-full md:w-1/4">
+                    <div class="content">
+                        <span class="font-bold text-lg">Paso 2</span>
+                        <p>Presentar la documentación en la U.E. de origen.</p>
+                    </div>
+                </div>
+                <div class="flowchart-arrow">→</div>
+                <div class="flowchart-step w-full md:w-1/4">
+                    <div class="content">
+                        <span class="font-bold text-lg">Paso 3</span>
+                        <p>La Junta emite el dictamen y se realiza la toma de posesión.</p>
+                    </div>
+                </div>
+                <div class="flowchart-arrow">→</div>
+                <div class="flowchart-step w-full md:w-1/4">
+                    <div class="content">
+                        <span class="font-bold text-lg">Paso 4</span>
+                        <p>Enviar copia certificada del acta a la Junta.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <section id="documentation" class="card">
+                <h2 class="text-2xl font-bold text-[#004e92] mb-6">Checklist de Documentación</h2>
+                <p class="text-gray-700 mb-6">Asegúrate de reunir toda la documentación requerida para presentar en la dirección de tu Unidad Educativa de origen. La correcta presentación agiliza el trámite.</p>
+                <div class="chart-container">
+                    <canvas id="documentationChart"></canvas>
+                </div>
+                <p class="text-center text-gray-600 mt-4 text-sm">El gráfico muestra los 6 documentos esenciales para iniciar el trámite de permuta.</p>
+            </section>
+
+            <section id="timeline-links" class="card">
+                <h2 class="text-2xl font-bold text-[#004e92] mb-6">Plazos y Recursos Clave</h2>
+                <div class="space-y-6">
+                    <div class="p-4 bg-green-100 border-l-4 border-green-500 rounded-md">
+                        <h3 class="font-bold text-green-800">¿Cuándo solicitar?</h3>
+                        <p class="text-green-700">La solicitud puede realizarse en cualquier época del año.</p>
+                    </div>
+                    <div class="p-4 bg-red-100 border-l-4 border-red-500 rounded-md">
+                        <h3 class="font-bold text-red-800">Excepción Importante</h3>
+                        <p class="text-red-700">No se pueden iniciar trámites durante los dos últimos meses del calendario (Noviembre y Diciembre).</p>
+                    </div>
+                    <div class="p-4 bg-blue-100 border-l-4 border-blue-500 rounded-md">
+                        <h3 class="font-bold text-blue-800">¿No encuentras un colega?</h3>
+                        <p class="text-blue-700 mb-2">Inscríbete en la base de datos pública para que otros docentes puedan contactarte.</p>
+                        <a href="https://sga.edusalta.gov.ar" target="_blank" class="font-semibold text-blue-600 hover:text-blue-800 transition-colors">Consultar Padrón de Permutas →</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <footer class="text-center mt-12 pt-8 border-t border-gray-300">
+            <p class="font-bold text-[#004e92]">Junta Calificadora de Méritos y Disciplina - Nivel Secundario</p>
+            <p class="text-sm text-gray-600">Fernando Ramos 22, Salta, Capital | Tel: 387-5344660 / 387-5344662 / 4318921</p>
+            <p class="text-xs text-gray-500 mt-2">Esta es una guía visual basada en la Circular Nro. 02/2025. Para mayor información, consulte los canales correspondientes.</p>
+        </footer>
+
+    </div>
+
+    <script>
+        function wrapText(text, maxLength) {
+            if (text.length <= maxLength) {
+                return text;
+            }
+            const words = text.split(' ');
+            const lines = [];
+            let currentLine = '';
+            for (const word of words) {
+                if ((currentLine + word).length > maxLength) {
+                    lines.push(currentLine.trim());
+                    currentLine = '';
+                }
+                currentLine += word + ' ';
+            }
+            lines.push(currentLine.trim());
+            return lines;
+        }
+
+        const ctx = document.getElementById('documentationChart').getContext('2d');
+        const documentationData = {
+            labels: [
+                wrapText('1. Nota de Pedido a Dirección', 16),
+                wrapText('2. Fotocopia del DNI', 16),
+                wrapText('3. Fotocopia de Título/s', 16),
+                wrapText('4. Declaración Jurada de Empleos Públicos', 16),
+                wrapText('5. Formulario SPP 13 Completo', 16),
+                wrapText('6. Documentación que avale el motivo', 16)
+            ],
+            datasets: [{
+                label: 'Documentación Requerida',
+                data: [1, 1, 1, 1, 1, 1],
+                backgroundColor: [
+                    '#0ea5e9',
+                    '#0284c7',
+                    '#0369a1',
+                    '#075985',
+                    '#0c4a6e',
+                    '#38bdf8'
+                ],
+                borderColor: '#ffffff',
+                borderWidth: 2
+            }]
+        };
+
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: documentationData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            font: {
+                                size: 12
+                            },
+                            boxWidth: 20
+                        }
+                    },
+                    title: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            title: function(tooltipItems) {
+                                const item = tooltipItems[0];
+                                let label = item.chart.data.labels[item.dataIndex];
+                                if (Array.isArray(label)) {
+                                  return label.join(' ');
+                                } else {
+                                  return label;
+                                }
+                            },
+                            label: function(context) {
+                                return ' Documento Esencial';
+                            }
+                        }
+                    }
+                },
+                cutout: '50%'
+            }
+        });
+    </script>
+</body>
+</html>
