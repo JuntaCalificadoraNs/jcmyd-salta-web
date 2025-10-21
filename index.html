@@ -420,7 +420,18 @@
             border-radius: 4px;
             font-size: 0.95em;
         }
+        /*--- ESTILO ESPECÍFICO PARA BOTÓN DE ALERTA DE TACHA (INICIO 2026) ---*/
+        .quick-access-button-tacha {
+            background-color: #ff8c00; /* Naranja/Ámbar llamativo */
+            border: 2px solid #ff4500; /* Borde rojo-naranja */
+            box-shadow: 0 4px 10px rgba(255, 140, 0, 0.5); /* Sombra naranja */
+        }
         
+        .quick-access-button-tacha:hover {
+            background-color: #ff6a00; /* Naranja más oscuro al pasar el ratón */
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(255, 140, 0, 0.7);
+        }
         .info-message i {
             color: #007bff;
             margin-right: 10px;
@@ -1350,11 +1361,10 @@
                 <a href="#tramites" class="button" onclick="showSection('tramites');">
                     <i class="fas fa-file-alt"></i> Ver Trámites
                 </a>
-                <a href="#tacha-provisoria" onclick="showSection('tramites')" class="quick-link bg-red-600 hover:bg-red-700 text-white transition duration-200">
-                    <i class="fas fa-clipboard-list"></i>
-                    <span>Periodo de Tacha 2026</span>
-                    <small>Documentación y Cuadros Provisorios</small>
-                </a>
+               <!-- Botón de ACCESO RÁPIDO Y ALERTAS DE TACHA -->
+                <button class="button quick-access-button-tacha" onclick="showSection('tramites')">
+                    <i class="fas fa-calendar-alt mr-2"></i> Período de Tacha 2026
+                </button>
             </div>
        </section>
 
