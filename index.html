@@ -13,19 +13,26 @@
     <!-- Estilos -->
     <style>
         /* --- Estilos para el Banner de Alerta Crítica (Tacha) --- */
-        .alert-banner {
-        position: sticky; /* Permite que el banner se quede fijo al desplazar si es necesario */
-        top: 60px; /* Ajustar debajo del header (que tiene altura de 60px) */
+       .alert-banner {
+        position: fixed; /* CAMBIO CLAVE: Cambiamos de sticky a fixed para que se mantenga */
+        top: 0; /* Lo colocamos en la parte superior */
         width: 100%;
         background-color: #f59e0b; /* Naranja de alerta */
         color: #1f2937; /* Texto oscuro */
         padding: 0.75rem 1rem;
-        z-index: 999; /* Alto z-index para estar sobre el contenido */
+        z-index: 1001; /* CRUCIAL: Mayor que el header (z-index: 1000) para superponerse */
         text-align: center;
         box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
         font-weight: 700;
-        font-size: 0.95rem; /* Ajuste para móviles */
-        }
+        font-size: 0.95rem;
+        line-height: 1.4;
+        transition: top 0.3s ease; /* Transición para un scroll suave si es necesario */
+    }
+    
+    /* NUEVO CSS: Añadimos padding al BODY para empujar el contenido hacia abajo */
+    body {
+        padding-top: 60px; /* Asumiendo que el header mide aproximadamente 60px de alto */
+    }
         
         .alert-banner a {
         color: #1e3a8a; /* Azul institucional para el link */
@@ -1282,7 +1289,7 @@
         <div class="alert-banner" id="tacha-alert-banner">
             <i class="fas fa-exclamation-triangle mr-2"></i>
             ¡ATENCIÓN! PERÍODO DE TACHA 2026: 20 al 31 de Octubre.
-            <a href="#tacha-provisoria" onclick="showSection('tramites')">VER DOCUMENTACIÓN Y CUADROS PROVISORIOS AQUÍ <i class="fas fa-arrow-right ml-1"></i></a>
+            <a href="#" onclick="showSection('tramites'); return false;">VER DOCUMENTACIÓN Y CUADROS PROVISORIOS AQUÍ <i class="fas fa-arrow-right ml-1"></i></a>
         </div>
     <header>
         <div class="header-content">
@@ -1789,16 +1796,16 @@
         function showSection(sectionId) {
             const allSections = document.querySelectorAll('.content-section');
             allSections.forEach(section => {
+                section.classList.remove('active');
                 section.style.display = 'none';
             });
 
             const targetSection = document.getElementById(sectionId);
             if (targetSection) {
                 targetSection.style.display = 'block';
-                // Desplazamiento suave
-                setTimeout(() => {
-                    targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }, 100);
+                targetSection.classList.add('active');
+                // Usar scrollIntoView si el target no está en el viewport
+                targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' }); 
             }
 
             const navLinks = document.querySelectorAll('header nav ul li a');
