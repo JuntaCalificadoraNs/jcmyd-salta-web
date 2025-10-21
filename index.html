@@ -1962,116 +1962,101 @@
                 });
                 return processedLine;
             }
-            async function fetchAndDisplayNews() {
-                const dynamicNewsFeed = document.getElementById('dynamic-news-feed');
-                const loadingNewsMessage = document.getElementById('loading-news-message');
-                if (!dynamicNewsFeed || !loadingNewsMessage) {
-                    console.error('Elementos HTML para noticias dinámicas (dynamic-news-feed o loading-news-message) no encontrados.');
+        // MODIFICACIÓN DE LA FUNCIÓN PRINCIPAL DE NOTICIAS
+        async function fetchAndDisplayNews() {
+            // Reemplaza con tu URL real de publicación CSV
+            const GOOGLE_SHEET_NEWS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTgPwmVUURlmyG5QkvUI2O44EnW45zjngwFKd51qe6o6gg-VXeT9C98_uXgZd3f6owUox4ImBJpUadc/pub?gid=0&single=true&output=csv';
+
+            const dynamicNewsFeed = document.getElementById('dynamic-news-feed');
+
+            if (!dynamicNewsFeed) {
+                console.error('Elemento HTML #dynamic-news-feed no encontrado.');
+                return;
+            }
+
+            try {
+                // Mostrar estado de carga
+                dynamicNewsFeed.innerHTML = '<h3>Últimas Noticias</h3><p class="no-results loading-message"><i class="fas fa-spinner fa-spin mr-2"></i> Cargando noticias...</p>';
+
+                const response = await fetch(GOOGLE_SHEET_NEWS_URL);
+                if (!response.ok) {
+                    throw new Error(`Error HTTP! Estado: ${response.status}`);
+                }
+                const csvText = await response.text();
+                
+                // Usamos la función parseCSV robusta para obtener los datos
+                // Nota: Asumimos que la función parseCSV robusta está definida en otro lugar del script
+                const newsData = parseCSV(csvText); 
+                
+                // Limpiar el contenido del feed antes de añadir noticias
+                dynamicNewsFeed.innerHTML = '<h3>Últimas Noticias</h3>';
+
+                if (newsData.length === 0) {
+                    dynamicNewsFeed.innerHTML += '<p class="no-results">No hay noticias disponibles en este momento.</p>';
                     return;
                 }
-            
-                try {
-                    // Reiniciar el contenido y mostrar mensaje de carga
-                    dynamicNewsFeed.innerHTML = '<h3>Últimas Noticias</h3><p class="no-results" id="loading-news-message">Cargando noticias...</p>';
-                    const currentLoadingMessage = document.getElementById('loading-news-message');
-            
-                    const response = await fetch(GOOGLE_SHEET_NEWS_URL);
-                    if (!response.ok) {
-                        throw new Error(`Error HTTP! Estado: ${response.status}`);
-                    }
-                    const csvText = await response.text();
-                    const newsData = parseCSV(csvText);
-                    console.log('Datos parseados:', newsData); // Agrega esto para depurar
-            
-                    if (newsData.length === 0) {
-                        dynamicNewsFeed.innerHTML = '<h3>Últimas Noticias</h3><p class="no-results">No hay noticias disponibles en este momento.</p>';
-                        return;
-                    }
-            
-                    // Eliminar el mensaje de carga
-                    if (currentLoadingMessage) {
-                        currentLoadingMessage.remove();
-                    }
-            
-                    // Iterar sobre los datos de las noticias y crear elementos HTML
-                    newsData.forEach(newsItem => {
-                        const newsDiv = document.createElement('div');
-                        newsDiv.classList.add('news-item');
-            
-                        const title = document.createElement('h4');
-                        title.textContent = newsItem.Titulo || 'Sin título';
-                        newsDiv.appendChild(title);
-            
-                        const date = document.createElement('span');
-                        date.classList.add('news-date');
-                        const rawDateString = newsItem.Fecha ? String(newsItem.Fecha).trim() : '';
-                        const dateParts = rawDateString.split('/');
-                        let displayDate = 'Fecha desconocida';
-            
-                        if (dateParts.length === 3) {
-                            const day = parseInt(dateParts[0], 10);
-                            const month = parseInt(dateParts[1], 10) - 1;
-                            const year = parseInt(dateParts[2], 10);
-                            if (!isNaN(day) && !isNaN(month) && !isNaN(year)) {
-                                const d = new Date(year, month, day);
-                                if (!isNaN(d.getTime())) {
-                                    displayDate = d.toLocaleDateString('es-AR', { year: 'numeric', month: 'long', day: 'numeric' });
-                                }
+                
+                // Itera sobre los datos y renderiza
+                newsData.forEach(newsItem => {
+                    const newsDiv = document.createElement('div');
+                    newsDiv.classList.add('news-item');
+
+                    const title = document.createElement('h4');
+                    title.textContent = newsItem.Titulo || 'Sin título';
+                    newsDiv.appendChild(title);
+
+                    const date = document.createElement('span');
+                    date.classList.add('news-date');
+                    
+                    // --- MANEJO ROBUSTO DE FECHA (ASUMIENDO DD/MM/YYYY) ---
+                    const rawDateString = newsItem.Fecha ? String(newsItem.Fecha).trim() : '';
+                    const dateParts = rawDateString.split('/');
+                    let displayDate = 'Fecha desconocida';
+
+                    if (dateParts.length === 3) {
+                        const day = parseInt(dateParts[0], 10);
+                        const month = parseInt(dateParts[1], 10) - 1; // 0-indexed
+                        const year = parseInt(dateParts[2], 10);
+                        
+                        if (!isNaN(day) && !isNaN(month) && !isNaN(year)) {
+                            const d = new Date(year, month, day);
+                            if (!isNaN(d.getTime())) {
+                                displayDate = d.toLocaleDateString('es-AR', { year: 'numeric', month: 'long', day: 'numeric' });
                             }
                         }
-                        date.textContent = displayDate;
-                        newsDiv.appendChild(date);
-            
-                        // Procesar el contenido para manejar párrafos, listas y enlaces
-                        const content = document.createElement('div');
-                        content.classList.add('news-content');
-                        content.innerHTML = processNewsContent(newsItem.Contenido);
-                        newsDiv.appendChild(content);
-            
-                        // Si hay un enlace general, crearlo
-                       if (newsItem.Titulo === 'Traslado de Docentes 2025') {
-                            const links = [
-                                {
-                                    url: 'https://drive.google.com/uc?export=download&id=1WtrVXUwKrrixgzEO9oVCla5XbGEc0OpZ',
-                                    text: 'Descargar Formulario ST 04'
-                                },
-                                {
-                                    url: 'https://drive.google.com/uc?export=download&id=1U02ord_9mwyJPkrqHe_8FIJz0YIhyaft',
-                                    text: 'Descargar Circular 02/2025'
-                                },
-                                {
-                                    url: 'https://drive.google.com/uc?export=download&id=1f8AJGb6KL-wK8c6FerYGna3KCbu0JrVD',
-                                    text: 'Descargar Anexo I'
-                                }
-                            ];
-                            links.forEach(linkData => {
-                                const link = document.createElement('a');
-                                link.href = linkData.url;
-                                link.textContent = linkData.text;
-                                link.classList.add('read-more');
-                                link.target = '_blank';
-                                link.rel = 'noopener noreferrer';
-                                newsDiv.appendChild(link);
-                                newsDiv.appendChild(document.createElement('br')); // Agrega un salto de línea entre enlaces
-                            });
-                        } else if (newsItem.Link && newsItem.Link.trim() !== '') {
-                            const link = document.createElement('a');
-                            link.href = newsItem.Link;
-                            link.textContent = newsItem.LinkTexto && newsItem.LinkTexto.trim() !== '' ? newsItem.LinkTexto : 'Leer más';
-                            link.classList.add('read-more');
-                            link.target = '_blank';
-                            link.rel = 'noopener noreferrer';
-                            newsDiv.appendChild(link);
-                        }
-            
-                        dynamicNewsFeed.appendChild(newsDiv);
-                    });
-            
-                } catch (error) {
-                    console.error('Error al cargar las noticias:', error);
-                    dynamicNewsFeed.innerHTML = '<h3>Últimas Noticias</h3><p class="no-results">Error al cargar las noticias. Por favor, intente más tarde.</p>';
-                }
+                    }
+                    date.textContent = displayDate;
+                    // --- FIN MANEJO DE FECHA ---
+                    
+                    newsDiv.appendChild(date);
+                    
+                    // CONVIERTE EL CONTENIDO Y LAS URLS A ENLACES CLIQUEABLES
+                    const contentContainer = document.createElement('div');
+                    contentContainer.innerHTML = urlToLink(newsItem.Contenido || 'Sin contenido.');
+                    newsDiv.appendChild(contentContainer);
+
+                    // Si hay un enlace específico (columna Link), se muestra
+                    if (newsItem.Link && newsItem.Link.trim() !== '') {
+                        const link = document.createElement('a');
+                        link.href = newsItem.Link;
+                        link.textContent = newsItem.LinkTexto && newsItem.LinkTexto.trim() !== '' ? newsItem.LinkTexto : 'Ver Enlace';
+                        link.classList.add('read-more');
+                        link.target = '_blank';
+                        link.rel = 'noopener noreferrer';
+                        newsDiv.appendChild(link);
+                    }
+
+                    dynamicNewsFeed.appendChild(newsDiv);
+                });
+
+            } catch (error) {
+                console.error('Error al cargar las noticias:', error);
+                dynamicNewsFeed.innerHTML = '<h3>Últimas Noticias</h3><p class="no-results">Error al cargar las noticias. Verifique la URL y la publicación CSV.</p>';
             }
+        }
+
+        // Llamar a la función de carga de noticias después de la carga inicial del DOM
+        document.addEventListener('DOMContentLoaded', fetchAndDisplayNews);
         
             // --- Función parseCSV robusta (¡DEBE SER LA ÚNICA EN TU CÓDIGO!) ---
            function parseCSV(csvText) {
@@ -2099,6 +2084,23 @@
         function normalizeText(text) {
             if (typeof text !== 'string') return '';
             return text.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase();
+        }
+     // Función auxiliar para convertir URLs simples en texto a enlaces cliqueables (<a>)
+        function urlToLink(text) {
+            if (!text) return '';
+            // Regex que busca URLs que empiezan con http/https/www
+            const urlRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])|(\bwww\.[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+            
+            // Reemplaza cada URL encontrada con una etiqueta <a>
+            return text.replace(urlRegex, function(url) {
+                // Asegura que el protocolo esté presente
+                let fullUrl = url;
+                if (!fullUrl.startsWith('http')) {
+                    fullUrl = 'http://' + fullUrl;
+                }
+                // Crea el enlace
+                return '<a href="' + fullUrl + '" target="_blank" rel="noopener noreferrer">' + url + '</a>';
+            });
         }
         
         function highlightMatch(text, query) {
