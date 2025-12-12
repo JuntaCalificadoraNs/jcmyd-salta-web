@@ -8,42 +8,9 @@
     <!-- Preload de recursos -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" as="style">
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     
     <!-- Estilos -->
     <style>
-        /* --- Estilos para el Banner de Alerta Crítica (Tacha) --- */
-       .alert-banner {
-        position: fixed; /* CAMBIO CLAVE: Cambiamos de sticky a fixed para que se mantenga */
-        top: 0; /* Lo colocamos en la parte superior */
-        width: 100%;
-        background-color: #ffff00; /* amarillo de alerta */
-        color: #1f2937; /* Texto oscuro */
-        padding: 0.75rem 1rem;
-        z-index: 1001; /* CRUCIAL: Mayor que el header (z-index: 1000) para superponerse */
-        text-align: center;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
-        font-weight: 700;
-        font-size: 0.95rem;
-        line-height: 1.4;
-        transition: top 0.3s ease; /* Transición para un scroll suave si es necesario */
-    }
-    
-    /* NUEVO CSS: Añadimos padding al BODY para empujar el contenido hacia abajo */
-    body {
-        padding-top: 60px; /* Asumiendo que el header mide aproximadamente 60px de alto */
-    }
-        
-        .alert-banner a {
-        color: #000f17; /* Azul institucional para el link */
-        text-decoration: underline;
-        margin-left: 0.5rem;
-        font-weight: 700;
-        }
-        
-        .alert-banner a:hover {
-        color: #000f17;
-        }
         /* ============ VARIABLES Y RESET ============ */
         :root {
             --color-primario: #004085;
@@ -126,34 +93,7 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
-        .news-item .news-content {
-            margin-bottom: 15px;
-        }
-        
-        .news-item .news-content p {
-            margin: 0 0 10px 0;
-            line-height: 1.8;
-        }
-        
-        .news-item .news-list {
-            list-style: disc;
-            padding-left: 20px;
-            margin: 10px 0;
-        }
-        
-        .news-item .news-list li {
-            margin-bottom: 8px;
-        }
-        
-        .news-item .inline-link {
-            color: var(--color-acento, #007bff); /* Cambia #007bff por tu color de acento */
-            text-decoration: underline;
-            font-weight: 500;
-        }
-        
-        .news-item .inline-link:hover {
-            color: var(--color-secundario, #0056b3); /* Cambia #0056b3 por tu color secundario */
-        }
+    
         .news-item:hover {
             transform: translateY(-3px);
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
@@ -190,16 +130,6 @@
     
         .news-item .read-more:hover {
             color: #2980b9;
-            text-decoration: underline;
-        }
-        .read-more {
-            display: inline-block;
-            margin-right: 10px;
-            color: var(--color-acento, #007bff);
-            text-decoration: none;
-            font-weight: bold;
-        }
-        .read-more:hover {
             text-decoration: underline;
         }
         /* ============ TIPOGRAFÍA ============ */
@@ -420,18 +350,7 @@
             border-radius: 4px;
             font-size: 0.95em;
         }
-        /*--- ESTILO ESPECÍFICO PARA BOTÓN DE ALERTA DE TACHA (INICIO 2026) ---*/
-        .quick-access-button-tacha {
-            background-color: #ff8c00; /* Naranja/Ámbar llamativo */
-            border: 2px solid #ff4500; /* Borde rojo-naranja */
-            box-shadow: 0 4px 10px rgba(255, 140, 0, 0.5); /* Sombra naranja */
-        }
         
-        .quick-access-button-tacha:hover {
-            background-color: #ff6a00; /* Naranja más oscuro al pasar el ratón */
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(255, 140, 0, 0.7);
-        }
         .info-message i {
             color: #007bff;
             margin-right: 10px;
@@ -1292,16 +1211,10 @@
     </script>
     
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body>
-    <!-- BANNER DE ALERTA CRÍTICA: PERIODO DE TACHA -->
-        <div class="alert-banner" id="tacha-alert-banner">
-            <i class="fas fa-exclamation-triangle mr-2"></i>
-            ¡ATENCIÓN! PRÓRROGA PERÍODO DE TACHA 2026: 03 y 04 de Noviembre- SOLO MODALIDAD VIRTUAL.
-            <a href="#" onclick="showSection('tramites'); return false;">VER DOC. Y CUADROS PROVISORIOS AQUÍ <i class="fas fa-arrow-right ml-1"></i></a>
-        </div>
     <header>
         <div class="header-content">
             <div class="logo">
@@ -1361,10 +1274,6 @@
                 <a href="#tramites" class="button" onclick="showSection('tramites');">
                     <i class="fas fa-file-alt"></i> Ver Trámites
                 </a>
-               <!-- Botón de ACCESO RÁPIDO Y ALERTAS DE TACHA -->
-                <button class="button quick-access-button-tacha" onclick="showSection('tramites')">
-                    <i class="fas fa-calendar-alt mr-2"></i> Período de Tacha 2026
-                </button>
             </div>
        </section>
 
@@ -1561,7 +1470,6 @@
             <h2>Normativas y Documentos Oficiales</h2>
             <p>Accede a la legislación vigente y documentos de interés relacionados con la función docente y la Junta Calificadora de Méritos y Disciplina. Es crucial verificar la última versión de cada normativa en fuentes oficiales.</p>
             <ul>
-                <li><a href="https://drive.google.com/file/d/1SLEZ-qWbe2iSumm685_ivbH9gtF5tRBs/view?pli=1">-CIRCULAR DE INSCRIPCION 01/25</a></li>
                 <li><a href="http://www.bnm.me.gov.ar/giga1/documentos/EL006396.pdf" target="_blank" rel="noopener noreferrer">Ley N° 7546 - Ley Provincial de Educación</a></li>
                 <li><a href="https://boletinoficialsalta.gob.ar/Texto_Actualizado.php?c=YXdlcnR5dGFibGE9THw2ODMwJmNhYmU9PGg2PiBQdWJsaWNhZG8gZW4gZWwgQm9sZXTDg8KtbiBPZmljaWFsIE7DgsKwMCwgaWwgZCDDgsKtYSAgZGUgZGUgPC9oNj48QlI+cXdlcnR5" target="_blank" rel="noopener noreferrer">Ley N° 6830/95 - Ley de Educación</a></li>
                 <li><a href="https://boletinoficialsalta.gob.ar/instrumento.php?cXdlcnR5dGFibGE9UnwxODUxLzA4cXdlcnR5" target="_blank" rel="noopener noreferrer">Resolución N° 1851/08. RÉGIMEN DE VALORACIÓN DE ANTECEDENTES PARA LA CARRERA DOCENTE</a></li>
@@ -1575,48 +1483,6 @@
             <h2>Trámites y Consultas Frecuentes</h2>
             <p>Encuentra información útil sobre los trámites más comunes y resuelve tus dudas.</p>
 
-                    <!-- SUBSECCIÓN PERÍODO DE TACHA 2026 -->
-            <div id="tacha-provisoria" class="search-group" style="background-color: #fff8e1; border-color: #ffc107; border-left: 5px solid #ffc107;">
-                <h3 style="color: #d97706; border-bottom-color: #ffc107; padding-bottom: 10px;">
-                    <i class="fas fa-exclamation-triangle mr-2"></i> PERÍODO DE TACHA 2026: 20 al 31 de Octubre
-                </h3>
-                <p class="text-gray-700">Estimado/a docente, durante este período usted podrá consultar su puntaje provisorio y presentar su formulario de tacha con la documentación de respaldo si detecta algún error u omisión en su valoración.</p>
-                
-                <h4 style="color: #2c3e50; font-weight: 600; margin-top: 25px; margin-bottom: 15px;">Guía y Documentación Esencial:</h4>
-
-                <!-- CIRCULAR (JERARQUÍA MÁXIMA) -->
-                <a href="https://drive.google.com/file/d/1uekqFivOyhjc2s7Utk4VVOGlGzAqJt4Q/view?usp=drive_link" target="_blank" rel="noopener noreferrer" 
-                   style="display: block; width: 100%; text-align: center; margin: 15px 0 25px; 
-                          padding: 15px; background-color: #ffc107; color: #2c3e50; font-size: 1.2em; 
-                          font-weight: bold; border-radius: 5px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-                    <i class="fas fa-scroll mr-2"></i> LEER CIRCULAR N° 03/2025 - GUÍA DE TACHA
-                </a>
-                
-                <!-- DOCUMENTOS DE CONSULTA -->
-                <p class="text-lg font-semibold text-gray-800 mb-3" style="color: #3498db;">Cuadros Provisorios (Consulta Obligatoria):</p>
-                <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;">
-                    <a href="https://drive.google.com/file/d/1IoEyrtCHgmPAj3qPv6umvq4Q0meMtYgU/view?usp=drive_link" target="_blank" rel="noopener noreferrer" 
-                       style="display: flex; align-items: center; padding: 8px; background-color: #f0f0f0; border-radius: 4px; text-decoration: none; color: #444;">
-                        <i class="fas fa-table mr-2" style="min-width: 20px; text-align: center;"></i> Cuadro DOCENTES - Provisorio 2026
-                    </a>
-                    <a href="https://drive.google.com/file/d/1iH6YBELhEP9MakNQVMTG2QbGZkXbOTmo/view?usp=drive_link" target="_blank" rel="noopener noreferrer" 
-                       style="display: flex; align-items: center; padding: 8px; background-color: #f0f0f0; border-radius: 4px; text-decoration: none; color: #444;">
-                        <i class="fas fa-user-tie mr-2" style="min-width: 20px; text-align: center;"></i> Cuadro DIRECTIVOS - Provisorio 2026
-                    </a>
-                </div>
-
-                <!-- FORMULARIO DE DESCARGA -->
-                <p class="text-lg font-semibold text-gray-800 mb-3" style="color: #3498db;">Formulario Oficial:</p>
-                <a href="https://drive.google.com/file/d/182TXNn0W2P64nLuMO3N8DOJ0QRvoj_Nh/view?usp=drive_link" target="_blank" rel="noopener noreferrer" 
-                   style="display: flex; align-items: center; padding: 8px; background-color: #f0f0f0; border-radius: 4px; text-decoration: none; color: #d63300; font-weight: bold;">
-                    <i class="fas fa-file-pdf mr-2" style="min-width: 20px; text-align: center;"></i> DESCARGAR FORMULARIO DE TACHA 2026
-                </a>
-
-                <p class="mt-4 text-sm text-yellow-700 font-semibold" style="margin-top: 15px; font-size: 0.9em; color: #856404; font-style: italic;">**Asegúrese de consultar su puntaje provisorio antes de generar el formulario de tacha.**</p>
-            </div>
-            <!-- FIN SUBSECCIÓN PERÍODO DE TACHA 2026 -->
-
-           <p>El resto de los trámites y consultas frecuentes se detallan a continuación:</p>
             <h3>Incumbencias Docentes</h3>
             <p>Consulta las incumbencias de tu título para conocer los espacios curriculares que puedes dictar. Utiliza nuestro <a href="#" onclick="event.preventDefault(); showSection('herramientas-consulta');" class="link-to-buscador">buscador de títulos y espacios curriculares</a> ubicado en la sección de Herramientas de Consulta.</p>
 
@@ -1670,29 +1536,6 @@
                 </div>
             </div>
         </div>
-         <h3>Traslados y Permutas</h3>
-            <p>Consulta la información sobre traslados y permutas para docentes titulares en el Nivel Secundario y sus Modalidades.</p>
-            <h4>Permutas</h4>
-            <p>Las permutas permiten a docentes titulares intercambiar horas cátedra o cargos de mutuo acuerdo, según la Ley N° 6830/95. Revisa nuestra guía visual para conocer los requisitos, el proceso y la documentación necesaria.</p>
-            <p style="text-align: center; margin-top: 10px; margin-bottom: 10px;">
-                <a href="permutas.html" target="_blank" rel="noopener noreferrer" style="color: #007bff; text-decoration: underline; font-weight: bold;">
-                    Ver Guía Visual de Permutas
-                </a>
-            </p>
-            <p>Inscríbete en el padrón público de permutas para conectar con otros docentes interesados:</p>
-            <p style="text-align: center; margin-top: 10px; margin-bottom: 10px;">
-                <a href="https://forms.gle/GTpCDnPDjMa9Fb1Q9" target="_blank" rel="noopener noreferrer" style="color: #007bff; text-decoration: underline; font-weight: bold;">
-                    Inscribirse en el Padrón de Permutas
-                </a>
-            </p>
-            <p>Consulta el padrón público de docentes interesados en permutas:</p>
-            <p style="text-align: center; margin-top: 10px; margin-bottom: 20px;">
-                <a href="https://docs.google.com/spreadsheets/d/1lhD54fCI8Ii8CFnJfUWiy6U_M_SGZLlU34En-vKOLfg/edit?usp=sharing" target="_blank" rel="noopener noreferrer" style="color: #007bff; text-decoration: underline; font-weight: bold;">
-                    Ver Padrón Público de Permutas
-                </a>
-            </p>
-            <h4>Traslados</h4>
-            <p>Información sobre traslados docentes coming soon.</p>
 
             <h3>Preguntas Frecuentes (FAQ)</h3>
             <p>Encuentra respuestas a las preguntas más comunes sobre la Junta Calificadora, trámites, documentación y procedimientos.</p>
@@ -1715,31 +1558,32 @@
             </p>
         </section>
 
-       <section id="contacto" class="content-section">
-        <h2>Contacto</h2>
-        <p>Para consultas, puedes contactarnos a través de los siguientes medios:</p>
-        <p><strong>Dirección:</strong> Pje Fernando Ramos N° 22. Salta - Capital.</p>
-        <p><strong>Teléfonos:</strong> 387 5344660 / 387 5344662</p>
-        <p><strong>Correo Electrónico:</strong> <a href="mailto:juntacalificadorasecundario23@gmail.com">juntacalificadorasecundario23@gmail.com</a></p>
-        <p><strong>Horario de Atención:</strong> Lunes a Viernes de 08:00 a 18:00 horas</p>
-        <div class="form-container" style="margin-top: 30px; margin-bottom: 30px; text-align: center; max-width: 600px; margin-left: auto; margin-right: auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-            <h3>Envíanos un Mensaje</h3>
-            <p>Completa nuestro formulario de consulta para que podamos responderte rápidamente. Tus datos se guardarán de forma segura en nuestra base de consultas.</p>
-            <p style="text-align: center; margin-top: 20px;">
-                <a href="https://forms.gle/Z4YixYegTptt8Hc66" target="_blank" rel="noopener noreferrer" class="button">
-                    <i class="fas fa-envelope"></i> Abrir Formulario de Consulta
-                </a>
+        <section id="contacto" class="content-section">
+            <h2>Contacto</h2>
+            <p>Para consultas, puedes contactarnos a través de los siguientes medios:</p>
+            <p><strong>Dirección:</strong> Pje Fernando Ramos N° 22. Salta - Capital.</p>
+            <p><strong>Teléfonos:</strong> 387 5344660 / 387 5344662</p>
+            <p><strong>Correo Electrónico:</strong> <a href="mailto:juntacalificadorasecundario23@gmail.com">juntacalificadorasecundario23@gmail.com</a></p>
+            <p><strong>Horario de Atención:</strong> Lunes a Viernes de 08:00 a 18:00 horas</p>
+            <!-- Formulario de Contacto con Tally -->
+            <div class="form-container" style="margin-top: 30px; margin-bottom: 30px; text-align: center; max-width: 600px; margin-left: auto; margin-right: auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <h3>Envíanos un Mensaje</h3>
+                <!-- Código de incrustación de Tally -->
+                <iframe data-tally-src="https://tally.so/embed/w4VA9k?alignLeft=1&transparentBackground=1&dynamicHeight=1" loading="lazy" width="100%" height="200" frameborder="0" marginheight="0" marginwidth="0" title="CONTACTO"></iframe>
+                <script>
+                    var d=document,w="https://tally.so/widgets/embed.js",v=function(){"undefined"!=typeof Tally?Tally.loadEmbeds():d.querySelectorAll("iframe[data-tally-src]:not([src])").forEach((function(e){e.src=e.dataset.tallySrc}))};
+                    if("undefined"!=typeof Tally)v();
+                    else if(d.querySelector('script[src="'+w+'"]')==null){var s=d.createElement("script");s.src=w,s.onload=v,s.onerror=v,d.body.appendChild(s);}
+                </script>
+            </div>
+            <h3>Nuestra Ubicación</h3>
+            <div class="map-container">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3621.579482598387!2d-65.4093959885822!3d-24.62916857997972!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x941bc3a18a99499d%3A0x7df6b0d9e8c4e43b!2sPje%20Fernando%20Ramos%2022%2C%20A4400%20Salta!5e0!3m2!1ses-419!2sar!4v1700000000000!5m2!1ses-419!2sar" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+            <p style="text-align: center; margin-top: 15px;">
+                <a href="https://www.google.com/maps/place/Pje+Fernando+Ramos+22,+A4400+Salta" target="_blank" rel="noopener noreferrer" style="color: #007bff; text-decoration: underline;">Abrir en Google Maps</a>
             </p>
-            <p style="font-size: 0.9em; color: #666; margin-top: 15px;">(Se abrirá en una nueva pestaña)</p>
-        </div>
-        <h3>Nuestra Ubicación</h3>
-        <div class="map-container">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3621.579482598387!2d-65.4093959885822!3d-24.62916857997972!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x941bc3a18a99499d%3A0x7df6b0d9e8c4e43b!2sPje%20Fernando%20Ramos%2022%2C%20A4400%20Salta!5e0!3m2!1ses-419!2sar!4v1700000000000!5m2!1ses-419!2sar" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-        </div>
-        <p style="text-align: center; margin-top: 15px;">
-            <a href="https://www.google.com/maps/place/Pje+Fernando+Ramos+22,+A4400+Salta" target="_blank" rel="noopener noreferrer" style="color: #007bff; text-decoration: underline;">Abrir en Google Maps</a>
-        </p>
-    </section>
+        </section>
     </div>
 
     <footer>
@@ -1815,16 +1659,16 @@
         function showSection(sectionId) {
             const allSections = document.querySelectorAll('.content-section');
             allSections.forEach(section => {
-                section.classList.remove('active');
                 section.style.display = 'none';
             });
 
             const targetSection = document.getElementById(sectionId);
             if (targetSection) {
                 targetSection.style.display = 'block';
-                targetSection.classList.add('active');
-                // Usar scrollIntoView si el target no está en el viewport
-                targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' }); 
+                // Desplazamiento suave
+                setTimeout(() => {
+                    targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 100);
             }
 
             const navLinks = document.querySelectorAll('header nav ul li a');
@@ -1903,179 +1747,150 @@
             const dynamicNewsFeed = document.getElementById('dynamic-news-feed');
             const loadingNewsMessage = document.getElementById('loading-news-message');
         
-            function processNewsContent(content) {
-                if (!content) return '<p>Sin contenido.</p>';
-            
-                // Dividir el contenido por saltos de línea
-                const lines = content.split('\n').map(line => line.trim()).filter(line => line !== '');
-                let html = '';
-                let inList = false;
-            
-                lines.forEach(line => {
-                    // Detectar elementos de lista (comienzan con "·" o "-")
-                    if (line.startsWith('·') || line.startsWith('-')) {
-                        const listItem = line.replace(/^[·-]\s*/, ''); // Eliminar el marcador de lista
-                        if (!inList) {
-                            html += '<ul class="news-list">';
-                            inList = true;
-                        }
-                        // Detectar enlaces en la línea (por ejemplo, "(DESCARGAR)")
-                        const processedLine = processLinksInLine(listItem);
-                        html += `<li>${processedLine}</li>`;
-                    } else {
-                        // Cerrar lista si estaba abierta
-                        if (inList) {
-                            html += '</ul>';
-                            inList = false;
-                        }
-                        // Detectar enlaces en la línea
-                        const processedLine = processLinksInLine(line);
-                        html += `<p>${processedLine}</p>`;
-                    }
-                });
-            
-                // Cerrar lista si quedó abierta
-                if (inList) {
-                    html += '</ul>';
-                }
-            
-                return html;
-            }
-            
-            function processLinksInLine(line) {
-                console.log('Procesando línea:', line); // Agrega esto
-                const links = [
-                    {
-                        text: 'Declaración Jurada de Empleos Públicos. (DESCARGAR)',
-                        url: 'https://drive.google.com/uc?export=download&id=1mYh9yAY1CwfSnvRQZfrwobk13ldydJqi'
-                    },
-                    {
-                        text: 'Formulario ST 04. (DESCARGAR)',
-                        url: 'https://drive.google.com/uc?export=download&id=1WtrVXUwKrrixgzEO9oVCla5XbGEc0OpZ'
-                    },
-                     {
-                        text: 'Circular 02/2025 Completa. (DESCARGAR)',
-                        url: 'https://drive.google.com/uc?export=download&id=1U02ord_9mwyJPkrqHe_8FIJz0YIhyaft'
-                    },
-                    {
-                        text: 'Anexo I - Circular 02/2025. (DESCARGAR)',
-                        url: 'https://drive.google.com/uc?export=download&id=1f8AJGb6KL-wK8c6FerYGna3KCbu0JrVD'
-                    }
-                ];
-                                
-                let processedLine = line;
-                links.forEach(link => {
-                    const regex = new RegExp(link.text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g');
-                    processedLine = processedLine.replace(regex, `<a href="${link.url}" class="inline-link" target="_blank" rel="noopener noreferrer">${link.text.replace('(DESCARGAR)', 'DESCARGAR')}</a>`);
-                });
-                return processedLine;
-            }
-        // MODIFICACIÓN DE LA FUNCIÓN PRINCIPAL DE NOTICIAS
-        async function fetchAndDisplayNews() {
-            // Reemplaza con tu URL real de publicación CSV
-            const GOOGLE_SHEET_NEWS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTgPwmVUURlmyG5QkvUI2O44EnW45zjngwFKd51qe6O6gg-VXeT9C98_uXgZd3f6owUox4ImBJpUadc/pub?gid=0&single=true&output=csv';
-
-            const dynamicNewsFeed = document.getElementById('dynamic-news-feed');
-
-            if (!dynamicNewsFeed) {
-                console.error('Elemento HTML #dynamic-news-feed no encontrado.');
-                return;
-            }
-
-            try {
-                // Mostrar estado de carga
-                dynamicNewsFeed.innerHTML = '<h3>Últimas Noticias</h3><p class="no-results loading-message"><i class="fas fa-spinner fa-spin mr-2"></i> Cargando noticias...</p>';
-
-                const response = await fetch(GOOGLE_SHEET_NEWS_URL);
-                if (!response.ok) {
-                    throw new Error(`Error HTTP! Estado: ${response.status}`);
-                }
-                const csvText = await response.text();
-                
-                // Usamos la función parseCSV robusta para obtener los datos
-                // Nota: Asumimos que la función parseCSV robusta está definida en otro lugar del script
-                const newsData = parseCSV(csvText); 
-                
-                // Limpiar el contenido del feed antes de añadir noticias
-                dynamicNewsFeed.innerHTML = '<h3>Últimas Noticias</h3>';
-
-                if (newsData.length === 0) {
-                    dynamicNewsFeed.innerHTML += '<p class="no-results">No hay noticias disponibles en este momento.</p>';
+            async function fetchAndDisplayNews() {
+                if (!dynamicNewsFeed || !loadingNewsMessage) {
+                    console.error('Elementos HTML para noticias dinámicas (dynamic-news-feed o loading-news-message) no encontrados.');
                     return;
                 }
-                
-                // Itera sobre los datos y renderiza
-                newsData.forEach(newsItem => {
-                    const newsDiv = document.createElement('div');
-                    newsDiv.classList.add('news-item');
-
-                    const title = document.createElement('h4');
-                    title.textContent = newsItem.Titulo || 'Sin título';
-                    newsDiv.appendChild(title);
-
-                    const date = document.createElement('span');
-                    date.classList.add('news-date');
-                    
-                    // --- MANEJO ROBUSTO DE FECHA (ASUMIENDO DD/MM/YYYY) ---
-                    const rawDateString = newsItem.Fecha ? String(newsItem.Fecha).trim() : '';
-                    const dateParts = rawDateString.split('/');
-                    let displayDate = 'Fecha desconocida';
-
-                    if (dateParts.length === 3) {
-                        const day = parseInt(dateParts[0], 10);
-                        const month = parseInt(dateParts[1], 10) - 1; // 0-indexed
-                        const year = parseInt(dateParts[2], 10);
+        
+                try {
+                    // Reiniciar el contenido y mostrar mensaje de carga
+                    dynamicNewsFeed.innerHTML = '<h3>Últimas Noticias</h3><p class="no-results" id="loading-news-message">Cargando noticias...</p>';
+                    const currentLoadingMessage = document.getElementById('loading-news-message');
+        
+                    const response = await fetch(GOOGLE_SHEET_NEWS_URL);
+                    if (!response.ok) {
+                        throw new Error(`Error HTTP! Estado: ${response.status}`);
+                    }
+                    const csvText = await response.text();
+        
+                    const newsData = parseCSV(csvText); // Usamos la función parseCSV robusta
+        
+                    if (newsData.length === 0) {
+                        dynamicNewsFeed.innerHTML = '<h3>Últimas Noticias</h3><p class="no-results">No hay noticias disponibles en este momento.</p>';
+                        return;
+                    }
+        
+                    // Eliminar el mensaje de carga una vez que los datos están listos
+                    if (currentLoadingMessage) {
+                        currentLoadingMessage.remove();
+                    }
+        
+                    // Iterar sobre los datos de las noticias y crear elementos HTML
+                    newsData.forEach(newsItem => {
+                        const newsDiv = document.createElement('div');
+                        newsDiv.classList.add('news-item');
+        
+                        const title = document.createElement('h4');
+                        title.textContent = newsItem.Titulo || 'Sin título'; // Fallback por si falta el título
+                        newsDiv.appendChild(title);
+        
+                        const date = document.createElement('span');
+                        date.classList.add('news-date');
                         
-                        if (!isNaN(day) && !isNaN(month) && !isNaN(year)) {
-                            const d = new Date(year, month, day);
-                            if (!isNaN(d.getTime())) {
-                                displayDate = d.toLocaleDateString('es-AR', { year: 'numeric', month: 'long', day: 'numeric' });
+    // --- INICIO DE LA CORRECCIÓN Y DEPURACIÓN DE LA FECHA ---
+                        // Asumiendo formato DD/MM/YYYY desde Google Sheets
+                        const rawDateString = newsItem.Fecha ? String(newsItem.Fecha).trim() : ''; // Asegurarse que es string y limpiar espacios
+                        const dateParts = rawDateString.split('/');
+                        let displayDate = 'Fecha desconocida';
+            
+                        console.log('DEBUG: Cadena de fecha original:', rawDateString); // Mensaje de depuración
+                        console.log('DEBUG: Partes de la fecha después de split:', dateParts); // Mensaje de depuración
+            
+                        if (dateParts.length === 3) {
+                            const day = parseInt(dateParts[0], 10);
+                            const month = parseInt(dateParts[1], 10) - 1; // Meses son 0-indexados en JavaScript (0-11)
+                            const year = parseInt(dateParts[2], 10);
+            
+                            console.log(`DEBUG: Valores parseados: Día=${day}, Mes=${month + 1}, Año=${year}`); // Mensaje de depuración
+            
+                            // Verificar si los valores parseados son números válidos
+                            if (!isNaN(day) && !isNaN(month) && !isNaN(year)) {
+                                // Crear la fecha en la zona horaria local para evitar el desfase de un día
+                                const d = new Date(year, month, day);
+            
+                                // Verificar si la fecha es válida antes de formatear
+                                if (!isNaN(d.getTime())) {
+                                    displayDate = d.toLocaleDateString('es-AR', { year: 'numeric', month: 'long', day: 'numeric' });
+                                } else {
+                                    console.warn('WARNING: Objeto Date inválido creado para:', rawDateString); // Advertencia
+                                }
+                            } else {
+                                console.warn('WARNING: Fallo al parsear partes de la fecha a números para:', rawDateString); // Advertencia
                             }
+                        } else {
+                            console.warn('WARNING: La cadena de fecha no tiene 3 partes (DD/MM/YYYY) o está vacía para:', rawDateString); // Advertencia
                         }
-                    }
-                    date.textContent = displayDate;
-                    // --- FIN MANEJO DE FECHA ---
-                    
-                    newsDiv.appendChild(date);
-                    
-                    // CONVIERTE EL CONTENIDO Y LAS URLS A ENLACES CLIQUEABLES
-                    const contentContainer = document.createElement('div');
-                    contentContainer.innerHTML = urlToLink(newsItem.Contenido || 'Sin contenido.');
-                    newsDiv.appendChild(contentContainer);
-
-                    // Si hay un enlace específico (columna Link), se muestra
-                    if (newsItem.Link && newsItem.Link.trim() !== '') {
-                        const link = document.createElement('a');
-                        link.href = newsItem.Link;
-                        link.textContent = newsItem.LinkTexto && newsItem.LinkTexto.trim() !== '' ? newsItem.LinkTexto : 'Ver Enlace';
-                        link.classList.add('read-more');
-                        link.target = '_blank';
-                        link.rel = 'noopener noreferrer';
-                        newsDiv.appendChild(link);
-                    }
-
-                    dynamicNewsFeed.appendChild(newsDiv);
-                });
-
-            } catch (error) {
-                console.error('Error al cargar las noticias:', error);
-                dynamicNewsFeed.innerHTML = '<h3>Últimas Noticias</h3><p class="no-results">Error al cargar las noticias. Verifique la URL y la publicación CSV.</p>';
+                        date.textContent = displayDate;
+                        // --- FIN DE LA CORRECCIÓN Y DEPURACIÓN DE LA FECHA ---
+                        newsDiv.appendChild(date);
+        
+                        const content = document.createElement('p');
+                        content.textContent = newsItem.Contenido || 'Sin contenido.'; // Fallback por si falta el contenido
+                        newsDiv.appendChild(content);
+        
+                        // Si hay un enlace, crearlo
+                        if (newsItem.Link && newsItem.Link.trim() !== '') {
+                            const link = document.createElement('a');
+                            link.href = newsItem.Link;
+                            // Usar 'Leer más' si LinkTexto no está definido o está vacío
+                            link.textContent = newsItem.LinkTexto && newsItem.LinkTexto.trim() !== '' ? newsItem.LinkTexto : 'Leer más';
+                            link.classList.add('read-more');
+                            link.target = '_blank'; // Abrir en nueva pestaña
+                            link.rel = 'noopener noreferrer'; // Práctica de seguridad
+                            newsDiv.appendChild(link);
+                        }
+        
+                        dynamicNewsFeed.appendChild(newsDiv);
+                    });
+        
+                } catch (error) {
+                    console.error('Error al cargar las noticias:', error);
+                    dynamicNewsFeed.innerHTML = '<h3>Últimas Noticias</h3><p class="no-results">Error al cargar las noticias. Por favor, intente más tarde.</p>';
+                }
             }
-        }
-
-        // Llamar a la función de carga de noticias después de la carga inicial del DOM
-        document.addEventListener('DOMContentLoaded', fetchAndDisplayNews);
         
             // --- Función parseCSV robusta (¡DEBE SER LA ÚNICA EN TU CÓDIGO!) ---
-           function parseCSV(csvText) {
-                const parsed = Papa.parse(csvText, {
-                    header: true,
-                    skipEmptyLines: true,
-                    quoteChar: '"',
-                    escapeChar: '"',
-                    transform: value => value.trim()
-                });
-                return parsed.data;
+            function parseCSV(csvText) {
+                const lines = csvText.split('\n').filter(line => line.trim() !== ''); // Filtrar líneas vacías
+                if (lines.length < 2) {
+                    console.warn('Los datos CSV no tienen encabezado o no tienen filas de datos.');
+                    return [];
+                }
+        
+                // Expresión regular para dividir líneas CSV, manejando campos entrecomillados.
+                // Divide por una coma que NO está dentro de comillas dobles.
+                const CSV_SPLIT_REGEX = /,(?=(?:(?:[^"]*"){2})*[^"]*$)/;
+        
+                // Parsear encabezados, eliminando espacios en blanco y cualquier comilla circundante
+                const headers = lines[0].split(CSV_SPLIT_REGEX).map(header => header.trim().replace(/^"|"$/g, ''));
+                const data = [];
+        
+                for (let i = 1; i < lines.length; i++) {
+                    // Usar la expresión regular para dividir la línea en valores
+                    const values = lines[i].split(CSV_SPLIT_REGEX).map(value => {
+                        // Eliminar espacios en blanco iniciales/finales y comillas externas de cada valor
+                        let trimmedValue = value.trim();
+                        if (trimmedValue.startsWith('"') && trimmedValue.endsWith('"')) {
+                            return trimmedValue.substring(1, trimmedValue.length - 1);
+                        }
+                        return trimmedValue;
+                    });
+        
+                    // Verificar si el número de valores coincide con el número de encabezados
+                    if (values.length !== headers.length) {
+                        console.warn('Saltando fila mal formada (desajuste en el conteo de columnas):', lines[i]);
+                        continue;
+                    }
+        
+                    // Crear un objeto para la fila actual
+                    const row = {};
+                    headers.forEach((header, index) => {
+                        row[header] = values[index];
+                    });
+                    data.push(row);
+                }
+                return data;
             }
             // --- Fin de la función parseCSV robusta ---
         
@@ -2092,23 +1907,6 @@
         function normalizeText(text) {
             if (typeof text !== 'string') return '';
             return text.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase();
-        }
-     // Función auxiliar para convertir URLs simples en texto a enlaces cliqueables (<a>)
-        function urlToLink(text) {
-            if (!text) return '';
-            // Regex que busca URLs que empiezan con http/https/www
-            const urlRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])|(\bwww\.[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
-            
-            // Reemplaza cada URL encontrada con una etiqueta <a>
-            return text.replace(urlRegex, function(url) {
-                // Asegura que el protocolo esté presente
-                let fullUrl = url;
-                if (!fullUrl.startsWith('http')) {
-                    fullUrl = 'http://' + fullUrl;
-                }
-                // Crea el enlace
-                return '<a href="' + fullUrl + '" target="_blank" rel="noopener noreferrer">' + url + '</a>';
-            });
         }
         
         function highlightMatch(text, query) {
@@ -2363,20 +2161,12 @@
                 
                 foundEspaciosCurriculares.forEach(espacio => {
                     const option = document.createElement('option');
-                    // SOLUCIÓN: Limpiar etiquetas HTML antes de guardar en el select
-                    const cleanEspacio = espacio.replace(/<\/?[^>]+(>|$)/g, "");
-                    option.value = cleanEspacio;
-                    option.textContent = cleanEspacio;
+                    option.value = espacio;
+                    option.textContent = espacio;
                     selectEspacio.appendChild(option);
                 });
                 
                 selectEspacio.disabled = false;
-                // Habilitar también el botón si hay departamentos cargados
-            const selectDepartamento = document.getElementById('departamentoSelect');
-            const btnBuscarColegios = document.getElementById('btnBuscarColegios');
-            if (!selectDepartamento.disabled) {
-                toggleBuscarColegiosButton();
-            }
             } else {
                 document.getElementById('incumbenciasResultsIntegrado').innerHTML = `
                     <div class="no-results">
@@ -2400,9 +2190,6 @@
 
             const selectedEspacio = document.getElementById('espacioCurricularSelect').value;
             const selectedDepartamento = document.getElementById('departamentoSelect').value;
-            console.log('DEBUG - Buscando colegios por:');
-            console.log('  Espacio:', selectedEspacio);
-            console.log('  Departamento:', selectedDepartamento);
             
             renderTable('colegiosPorEspacioResults', ['Nombre', 'Direccion', 'Localidad', 'Departamento'], []);
 
@@ -2465,12 +2252,7 @@
             const colegiosConEspacioYDepartamento = planEstudioData.filter(item => {
                 const espacio = normalizeText(item['ESPACIO CURRICULAR'] || '');
                 const ue = item['UE'] ? String(item['UE']).trim() : '';
-                
-                // SOLUCIÓN: Limpiar HTML y usar comparación parcial como los otros buscadores
-                const cleanedSelectedEspacio = selectedEspacio.replace(/<\/?[^>]+(>|$)/g, "");
-                
-                // Usar .includes() en lugar de === (igual que los otros buscadores)
-                return espacio.includes(normalizeText(cleanedSelectedEspacio)) && uesEnDepartamento.includes(ue);
+                return espacio === normalizeText(selectedEspacio) && uesEnDepartamento.includes(ue);
             });
 
             if (colegiosConEspacioYDepartamento.length === 0) {
