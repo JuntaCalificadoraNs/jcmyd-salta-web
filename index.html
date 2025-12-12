@@ -2436,21 +2436,62 @@
             }
 
             // 1. Obtener UEs en el departamento seleccionado
-            const uesEnDepartamento = colegiosData.filter(c =>
-                c['Departamento'] && normalizeText(c['Departamento']) === normalizeText(selectedDepartamento) && c['NumeroUE']
-            ).map(c => String(c['NumeroUE']).trim());
-
-            if (uesEnDepartamento.length === 0) {
-                document.getElementById('colegiosPorEspacioResults').innerHTML = `
-                    <div class="no-results">
-                        <i class="fas fa-search"></i>
-                        <p>No se encontraron colegios en "${selectedDepartamento}"</p>
-                    </div>
-                `;
-                button.innerHTML = originalButtonText;
-                button.disabled = false;
-                return;
+               // --- Inicio parche: detección tolerante de claves para UE y Departamento ---
+        function detectKey(obj, candidates) {
+            if (!obj || typeof obj !== 'object') return null;
+            const keys = Object.keys(obj);
+            for (const cand of candidates) {
+                const candNorm = normalizeText(cand);
+                for (const k of keys) {
+                    if (!k) continue;
+                    const kn = normalizeText(k);
+                    // coincidencia exacta o parcial en la clave (más tolerante)
+                    if (kn === candNorm || kn.includes(candNorm) || candNorm.includes(kn)) {
+                        return k;
+                    }
+                }
             }
+            return null;
+        }
+        
+        // detectar claves dinámicamente (usar el primer registro si existe)
+        const sampleColegio = Array.isArray(colegiosData) && colegiosData.length ? colegiosData[0] : null;
+        const samplePlan = Array.isArray(planEstudioData) && planEstudioData.length ? planEstudioData[0] : null;
+        
+        // posibles nombres que usan las hojas para número de UE / UE
+        const posiblesNumeroUE = ['NumeroUE', 'Numero UE', 'NUMERO', 'NUMERO UE', 'NUM', 'NRO', 'Nº', 'N°', 'UE', 'UNIDAD EDUCATIVA', 'UNID EDUCATIVA', 'Numero de UE'];
+        const posiblesPlanUE = ['UE', 'UE ', 'UE.', 'UE Nº', 'UE NRO', 'UE_NUM', 'UE_NUMERO'];
+        
+        // posibles nombres para departamento (por si varía)
+        const posiblesDepartamento = ['Departamento', 'DEPARTAMENTO', 'departamento', 'Dpto', 'Dpto.', 'DPTO', 'Area Geografica', 'LOCALIDAD-DPTO', 'AREA GEOGRAFICA- LOCALIDAD-DPTO'];
+        
+        const colegioUEKey = detectKey(sampleColegio, posiblesNumeroUE) || 'NumeroUE';
+        const planUEKey = detectKey(samplePlan, posiblesPlanUE) || 'UE';
+        const departamentoKey = detectKey(sampleColegio, posiblesDepartamento) || 'Departamento';
+        
+        // Log para depuración (ver en consola)
+        console.info('buscarColegiosAleatoriosPorEspacio: claves detectadas -> colegioUEKey:', colegioUEKey, ', planUEKey:', planUEKey, ', departamentoKey:', departamentoKey);
+        
+        // 1. Obtener UEs en el departamento seleccionado (usando claves detectadas)
+        const uesEnDepartamento = colegiosData
+            .filter(c => {
+                const deptRaw = c[departamentoKey] || c['Departamento'] || c['DEPARTAMENTO'] || '';
+                if (!deptRaw) return false;
+                if (normalizeText(deptRaw) !== normalizeText(selectedDepartamento)) return false;
+        
+                // obtener número UE con tolerancia a la clave
+                const ueRaw = c[colegioUEKey] || c['NumeroUE'] || c['UE'] || c['Nro'] || c['Nº'] || c['N°'] || '';
+                return ueRaw && String(ueRaw).trim().length > 0;
+            })
+            .map(c => {
+                const ueRaw = c[colegioUEKey] || c['NumeroUE'] || c['UE'] || c['Nro'] || c['Nº'] || c['N°'] || '';
+                return String(ueRaw).trim();
+            });
+        
+        // Log para depuración
+        console.info('buscarColegiosAleatoriosPorEspacio: UEs encontradas en departamento', selectedDepartamento, '=>', uesEnDepartamento.length, uesEnDepartamento.slice(0,10));
+         // --- Fin parche ---
+
 
             // 2. Filtrar por espacio curricular y departamento
             const colegiosConEspacioYDepartamento = planEstudioData.filter(item => {
