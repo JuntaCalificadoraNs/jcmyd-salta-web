@@ -2363,12 +2363,20 @@
                 
                 foundEspaciosCurriculares.forEach(espacio => {
                     const option = document.createElement('option');
-                    option.value = espacio;
-                    option.textContent = espacio;
+                    // SOLUCIÓN: Limpiar etiquetas HTML antes de guardar en el select
+                    const cleanEspacio = espacio.replace(/<\/?[^>]+(>|$)/g, "");
+                    option.value = cleanEspacio;
+                    option.textContent = cleanEspacio;
                     selectEspacio.appendChild(option);
                 });
                 
                 selectEspacio.disabled = false;
+                // Habilitar también el botón si hay departamentos cargados
+            const selectDepartamento = document.getElementById('departamentoSelect');
+            const btnBuscarColegios = document.getElementById('btnBuscarColegios');
+            if (!selectDepartamento.disabled) {
+                toggleBuscarColegiosButton();
+            }
             } else {
                 document.getElementById('incumbenciasResultsIntegrado').innerHTML = `
                     <div class="no-results">
@@ -2392,6 +2400,9 @@
 
             const selectedEspacio = document.getElementById('espacioCurricularSelect').value;
             const selectedDepartamento = document.getElementById('departamentoSelect').value;
+            console.log('DEBUG - Buscando colegios por:');
+            console.log('  Espacio:', selectedEspacio);
+            console.log('  Departamento:', selectedDepartamento);
             
             renderTable('colegiosPorEspacioResults', ['Nombre', 'Direccion', 'Localidad', 'Departamento'], []);
 
@@ -2454,7 +2465,12 @@
             const colegiosConEspacioYDepartamento = planEstudioData.filter(item => {
                 const espacio = normalizeText(item['ESPACIO CURRICULAR'] || '');
                 const ue = item['UE'] ? String(item['UE']).trim() : '';
-                return espacio === normalizeText(selectedEspacio) && uesEnDepartamento.includes(ue);
+                
+                // SOLUCIÓN: Limpiar HTML y usar comparación parcial como los otros buscadores
+                const cleanedSelectedEspacio = selectedEspacio.replace(/<\/?[^>]+(>|$)/g, "");
+                
+                // Usar .includes() en lugar de === (igual que los otros buscadores)
+                return espacio.includes(normalizeText(cleanedSelectedEspacio)) && uesEnDepartamento.includes(ue);
             });
 
             if (colegiosConEspacioYDepartamento.length === 0) {
