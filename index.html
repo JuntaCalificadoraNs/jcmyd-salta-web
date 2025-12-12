@@ -1868,8 +1868,6 @@
                 
                 populateDepartamentosSelect();
                 populateCategoriaDepartamentosSelect();
-                populateEspacioCurricularSelect();
-
             } catch (error) {
                 console.error('Error cargando datos:', error);
                 showErrorNotification('Error al cargar datos. Por favor recarga la página.');
@@ -2436,62 +2434,21 @@
             }
 
             // 1. Obtener UEs en el departamento seleccionado
-               // --- Inicio parche: detección tolerante de claves para UE y Departamento ---
-        function detectKey(obj, candidates) {
-            if (!obj || typeof obj !== 'object') return null;
-            const keys = Object.keys(obj);
-            for (const cand of candidates) {
-                const candNorm = normalizeText(cand);
-                for (const k of keys) {
-                    if (!k) continue;
-                    const kn = normalizeText(k);
-                    // coincidencia exacta o parcial en la clave (más tolerante)
-                    if (kn === candNorm || kn.includes(candNorm) || candNorm.includes(kn)) {
-                        return k;
-                    }
-                }
-            }
-            return null;
-        }
-        
-        // detectar claves dinámicamente (usar el primer registro si existe)
-        const sampleColegio = Array.isArray(colegiosData) && colegiosData.length ? colegiosData[0] : null;
-        const samplePlan = Array.isArray(planEstudioData) && planEstudioData.length ? planEstudioData[0] : null;
-        
-        // posibles nombres que usan las hojas para número de UE / UE
-        const posiblesNumeroUE = ['NumeroUE', 'Numero UE', 'NUMERO', 'NUMERO UE', 'NUM', 'NRO', 'Nº', 'N°', 'UE', 'UNIDAD EDUCATIVA', 'UNID EDUCATIVA', 'Numero de UE'];
-        const posiblesPlanUE = ['UE', 'UE ', 'UE.', 'UE Nº', 'UE NRO', 'UE_NUM', 'UE_NUMERO'];
-        
-        // posibles nombres para departamento (por si varía)
-        const posiblesDepartamento = ['Departamento', 'DEPARTAMENTO', 'departamento', 'Dpto', 'Dpto.', 'DPTO', 'Area Geografica', 'LOCALIDAD-DPTO', 'AREA GEOGRAFICA- LOCALIDAD-DPTO'];
-        
-        const colegioUEKey = detectKey(sampleColegio, posiblesNumeroUE) || 'NumeroUE';
-        const planUEKey = detectKey(samplePlan, posiblesPlanUE) || 'UE';
-        const departamentoKey = detectKey(sampleColegio, posiblesDepartamento) || 'Departamento';
-        
-        // Log para depuración (ver en consola)
-        console.info('buscarColegiosAleatoriosPorEspacio: claves detectadas -> colegioUEKey:', colegioUEKey, ', planUEKey:', planUEKey, ', departamentoKey:', departamentoKey);
-        
-        // 1. Obtener UEs en el departamento seleccionado (usando claves detectadas)
-        const uesEnDepartamento = colegiosData
-            .filter(c => {
-                const deptRaw = c[departamentoKey] || c['Departamento'] || c['DEPARTAMENTO'] || '';
-                if (!deptRaw) return false;
-                if (normalizeText(deptRaw) !== normalizeText(selectedDepartamento)) return false;
-        
-                // obtener número UE con tolerancia a la clave
-                const ueRaw = c[colegioUEKey] || c['NumeroUE'] || c['UE'] || c['Nro'] || c['Nº'] || c['N°'] || '';
-                return ueRaw && String(ueRaw).trim().length > 0;
-            })
-            .map(c => {
-                const ueRaw = c[colegioUEKey] || c['NumeroUE'] || c['UE'] || c['Nro'] || c['Nº'] || c['N°'] || '';
-                return String(ueRaw).trim();
-            });
-        
-        // Log para depuración
-        console.info('buscarColegiosAleatoriosPorEspacio: UEs encontradas en departamento', selectedDepartamento, '=>', uesEnDepartamento.length, uesEnDepartamento.slice(0,10));
-         // --- Fin parche ---
+            const uesEnDepartamento = colegiosData.filter(c =>
+                c['Departamento'] && normalizeText(c['Departamento']) === normalizeText(selectedDepartamento) && c['NumeroUE']
+            ).map(c => String(c['NumeroUE']).trim());
 
+            if (uesEnDepartamento.length === 0) {
+                document.getElementById('colegiosPorEspacioResults').innerHTML = `
+                    <div class="no-results">
+                        <i class="fas fa-search"></i>
+                        <p>No se encontraron colegios en "${selectedDepartamento}"</p>
+                    </div>
+                `;
+                button.innerHTML = originalButtonText;
+                button.disabled = false;
+                return;
+            }
 
             // 2. Filtrar por espacio curricular y departamento
             const colegiosConEspacioYDepartamento = planEstudioData.filter(item => {
@@ -3037,61 +2994,6 @@
 
             localidadSelect.disabled = false;
         }
-        // --- Nuevo: poblar select de Espacios Curriculares (para el buscador por Espacio + Departamento)
-        function populateEspacioCurricularSelect() {
-            const select = document.getElementById('espacioCurricularSelect');
-            if (!select) {
-                console.warn('populateEspacioCurricularSelect: #espacioCurricularSelect no encontrado en DOM.');
-                return;
-            }
-        
-            select.innerHTML = '<option value="">-- Selecciona un espacio curricular --</option>';
-        
-            // Intentamos obtener los espacios desde planEstudioData (fuente preferida)
-            if (Array.isArray(planEstudioData) && planEstudioData.length > 0) {
-                const espaciosSet = new Set();
-                planEstudioData.forEach(row => {
-                    const raw = row['ESPACIO CURRICULAR'] || row['Espacio Curricular'] || row['Nombre DEL ESPACIO CURRICULAR'] || '';
-                    if (raw && String(raw).trim()) {
-                        // si viene con comas, se separan para asegurar coberturas
-                        String(raw).split(',').map(x => x.trim()).filter(Boolean).forEach(x => espaciosSet.add(x));
-                    }
-                });
-        
-                const espaciosArray = Array.from(espaciosSet).sort((a,b) => a.localeCompare(b));
-                espaciosArray.forEach(e => {
-                    const opt = document.createElement('option');
-                    opt.value = e;
-                    opt.textContent = e;
-                    select.appendChild(opt);
-                });
-            } else if (Array.isArray(competenciasData) && competenciasData.length > 0) {
-                // Fallback: usar competenciasData (columna 'Nombre DEL ESPACIO CURRICULAR')
-                const espaciosSet = new Set();
-                competenciasData.forEach(row => {
-                    const raw = row['Nombre DEL ESPACIO CURRICULAR'] || row['ESPACIO CURRICULAR'] || '';
-                    if (raw && String(raw).trim()) {
-                        String(raw).split(',').map(x => x.trim()).filter(Boolean).forEach(x => espaciosSet.add(x));
-                    }
-                });
-                const espaciosArray = Array.from(espaciosSet).sort((a,b) => a.localeCompare(b));
-                espaciosArray.forEach(e => {
-                    const opt = document.createElement('option');
-                    opt.value = e;
-                    opt.textContent = e;
-                    select.appendChild(opt);
-                });
-            } else {
-                // No hay datos todavía — dejar deshabilitado (se habilitará cuando el usuario busque por título)
-                select.disabled = true;
-                console.info('populateEspacioCurricularSelect: No se detectaron datos en planEstudioData ni competenciasData.');
-                return;
-            }
-        
-            // Habilitar el select y asegurar que toggle funcione
-            select.disabled = false;
-        }
-
         
         function toggleBuscarColegiosButton() {
             const selectEspacio = document.getElementById('espacioCurricularSelect');
