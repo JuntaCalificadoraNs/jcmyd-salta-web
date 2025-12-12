@@ -1868,6 +1868,8 @@
                 
                 populateDepartamentosSelect();
                 populateCategoriaDepartamentosSelect();
+                populateEspacioCurricularSelect();
+
             } catch (error) {
                 console.error('Error cargando datos:', error);
                 showErrorNotification('Error al cargar datos. Por favor recarga la página.');
@@ -2994,6 +2996,61 @@
 
             localidadSelect.disabled = false;
         }
+        // --- Nuevo: poblar select de Espacios Curriculares (para el buscador por Espacio + Departamento)
+        function populateEspacioCurricularSelect() {
+            const select = document.getElementById('espacioCurricularSelect');
+            if (!select) {
+                console.warn('populateEspacioCurricularSelect: #espacioCurricularSelect no encontrado en DOM.');
+                return;
+            }
+        
+            select.innerHTML = '<option value="">-- Selecciona un espacio curricular --</option>';
+        
+            // Intentamos obtener los espacios desde planEstudioData (fuente preferida)
+            if (Array.isArray(planEstudioData) && planEstudioData.length > 0) {
+                const espaciosSet = new Set();
+                planEstudioData.forEach(row => {
+                    const raw = row['ESPACIO CURRICULAR'] || row['Espacio Curricular'] || row['Nombre DEL ESPACIO CURRICULAR'] || '';
+                    if (raw && String(raw).trim()) {
+                        // si viene con comas, se separan para asegurar coberturas
+                        String(raw).split(',').map(x => x.trim()).filter(Boolean).forEach(x => espaciosSet.add(x));
+                    }
+                });
+        
+                const espaciosArray = Array.from(espaciosSet).sort((a,b) => a.localeCompare(b));
+                espaciosArray.forEach(e => {
+                    const opt = document.createElement('option');
+                    opt.value = e;
+                    opt.textContent = e;
+                    select.appendChild(opt);
+                });
+            } else if (Array.isArray(competenciasData) && competenciasData.length > 0) {
+                // Fallback: usar competenciasData (columna 'Nombre DEL ESPACIO CURRICULAR')
+                const espaciosSet = new Set();
+                competenciasData.forEach(row => {
+                    const raw = row['Nombre DEL ESPACIO CURRICULAR'] || row['ESPACIO CURRICULAR'] || '';
+                    if (raw && String(raw).trim()) {
+                        String(raw).split(',').map(x => x.trim()).filter(Boolean).forEach(x => espaciosSet.add(x));
+                    }
+                });
+                const espaciosArray = Array.from(espaciosSet).sort((a,b) => a.localeCompare(b));
+                espaciosArray.forEach(e => {
+                    const opt = document.createElement('option');
+                    opt.value = e;
+                    opt.textContent = e;
+                    select.appendChild(opt);
+                });
+            } else {
+                // No hay datos todavía — dejar deshabilitado (se habilitará cuando el usuario busque por título)
+                select.disabled = true;
+                console.info('populateEspacioCurricularSelect: No se detectaron datos en planEstudioData ni competenciasData.');
+                return;
+            }
+        
+            // Habilitar el select y asegurar que toggle funcione
+            select.disabled = false;
+        }
+
         
         function toggleBuscarColegiosButton() {
             const selectEspacio = document.getElementById('espacioCurricularSelect');
