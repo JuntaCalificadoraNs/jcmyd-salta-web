@@ -1777,26 +1777,18 @@
         
                         const date = document.createElement('span');
                         date.classList.add('news-date');
-                         // --- INICIO DE LA CORRECCIÓN DE LA FECHA ---
-                        // Asumiendo formato DD/MM/YYYY desde Google Sheets
-                        const dateParts = (newsItem.Fecha || '').split('/');
-                        let displayDate = 'Fecha desconocida';
-            
-                        if (dateParts.length === 3) {
-                            const day = parseInt(dateParts[0], 10);
-                            const month = parseInt(dateParts[1], 10) - 1; // Meses son 0-indexados en JavaScript (0-11)
-                            const year = parseInt(dateParts[2], 10);
-            
-                            // Crear la fecha en la zona horaria local para evitar el desfase de un día
-                            const d = new Date(year, month, day);
-            
-                            // Verificar si la fecha es válida antes de formatear
+                        // Intentar formatear la fecha, si no es posible, mostrarla tal cual
+                        try {
+                            const d = new Date(newsItem.Fecha);
+                            // Comprobar si la fecha es válida antes de formatear
                             if (!isNaN(d.getTime())) {
-                                displayDate = d.toLocaleDateString('es-AR', { year: 'numeric', month: 'long', day: 'numeric' });
+                                date.textContent = d.toLocaleDateString('es-AR', { year: 'numeric', month: 'long', day: 'numeric' });
+                            } else {
+                                date.textContent = newsItem.Fecha || 'Fecha desconocida';
                             }
+                        } catch (e) {
+                            date.textContent = newsItem.Fecha || 'Fecha desconocida'; // Fallback si hay un error de parseo
                         }
-                        date.textContent = displayDate;
-                        // --- FIN DE LA CORRECCIÓN DE LA FECHA ---
                         newsDiv.appendChild(date);
         
                         const content = document.createElement('p');
