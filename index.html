@@ -82,7 +82,56 @@
             padding-top: 0;
             margin-top: 0;
         }
-        
+        /* Noticias Dinámicas */
+        .news-item {
+            background-color: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: left;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+    
+        .news-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+    
+        .news-item h4 {
+            color: #2c3e50;
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 1.4em;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 8px;
+        }
+    
+        .news-item .news-date {
+            display: block;
+            font-size: 0.9em;
+            color: #777;
+            margin-bottom: 10px;
+        }
+    
+        .news-item p {
+            color: #555;
+            margin-bottom: 15px;
+        }
+    
+        .news-item .read-more {
+            display: inline-block;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+    
+        .news-item .read-more:hover {
+            color: #2980b9;
+            text-decoration: underline;
+        }
         /* ============ TIPOGRAFÍA ============ */
         h1, h2, h3, h4 {
             color: var(--color-primario);
@@ -655,57 +704,7 @@
             top: 0;
             color: #28a745;
         }
-        
-        /* Banner de prórroga */
-        .urgent-notification-banner {
-            background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
-            border: 1px solid #c8e6c9;
-            border-left: 5px solid #2e7d32;
-            color: #1b5e20;
-            padding: 12px 20px;
-            margin: 0 auto 15px;
-            width: 90%;
-            max-width: 1200px;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            position: relative;
-            box-shadow: 0 2px 8px rgba(46, 125, 50, 0.1);
-            z-index: 999;
-        }
-        
-        .urgent-notification-banner i {
-            color: #2e7d32;
-            font-size: 1.8em;
-            min-width: 40px;
-            text-align: center;
-        }
-        
-        .urgent-notification-banner strong {
-            font-weight: 700;
-            margin-right: 5px;
-        }
-        
-        .urgent-notification-banner .button {
-            margin-left: auto;
-            background-color: #2e7d32;
-            padding: 8px 15px;
-            font-size: 0.9em;
-            white-space: nowrap;
-        }
-        
-        .urgent-notification-banner .close-banner {
-            position: absolute;
-            right: 10px;
-            top: 10px;
-            background: transparent;
-            border: none;
-            color: #1b5e20;
-            font-size: 1.3em;
-            cursor: pointer;
-            opacity: 0.7;
-        }
+                    
         /* Estilos para comunicado oficial */
         .official-communique {
             background-color: white;
@@ -1242,17 +1241,7 @@
     </header>
 
         <!-- Banner de prórroga -->
-        <div class="urgent-notification-banner" id="extensionBanner">
-            <i class="fas fa-calendar-exclamation"></i>
-            <div>
-                <strong>PRÓRROGA OFICIAL:</strong> 
-                <span>Inscripción presencial hasta el 07/07 y virtual hasta el 11/07</span>
-            </div>
-            <a href="#noticias" class="button small-button" onclick="showSection('noticias')">
-                <i class="fas fa-newspaper"></i> Ver Detalles
-            </a>
-            <button class="close-banner" aria-label="Cerrar notificación">&times;</button>
-        </div>
+       
         
         <div class="container">
             
@@ -1494,44 +1483,6 @@
             <h2>Trámites y Consultas Frecuentes</h2>
             <p>Encuentra información útil sobre los trámites más comunes y resuelve tus dudas.</p>
 
-            <!-- Convocatoria de Inscripción -->
-            <div class="search-group" style="background-color: #eaf6fd; border-color: #a7d9ff;">
-                <h3 style="color: #004085; border-bottom-color: #a7d9ff;">CONVOCATORIA PARA INSCRIPCIÓN Y REINSCRIPCIÓN DE INTERESADOS A CUBRIR INTERINATOS Y SUPLENCIAS - PERÍODO 2026</h3>
-                <p style="font-size: 1.1em; font-weight: bold; color: #333;">Salta, 06 de junio de 2025</p>
-                <p style="font-size: 1.1em; font-weight: bold; color: #333;">C I R C U L A R Nº 01/2025</p>
-
-                <h4>1.- LLAMADO A INSCRIPCIÓN:</h4>
-                <p>Junta Calificadora de Méritos y Disciplina del Nivel Secundario y sus modalidades llama a inscripción de interesados a cubrir interinatos y suplencias – Período 2026 - en los establecimientos dependientes de la Dirección Gral. de Educación Secundaria, Dirección Gral. de Educación Técnico y Formación Profesional, Dirección Gral. de Educación de Jóvenes y Adultos y la Subsecretaría de Políticas Socioeducativas en horas cátedra y cargos.</p>
-                <p>No se registrará inscripción en los Cursos de Capacitación Laboral (C.C.L.), Cursos de Capacitación Laboral Técnico (C.C.L.T.), Cursos de Adiestramiento Laboral (C.A.L.), Cursos de Formación Profesional (C.F.P.) y Maestro de Enseñanza Práctica dependientes de la Dirección General de Educación Técnico y Formación Profesional, los que se designan por concurso; tampoco para el Polo de Reingreso, Colegios mediados por TIC; Colegios Virtuales, Domiciliarias y/u Hospitalarias dependientes de la Dirección Gral. de Educación Secundaria.</p>
-                <p>Deberán tenerse en cuenta los códigos de los espacios curriculares y/o cargos, los que se adjuntan en Anexo II, para consignarlos correctamente en la ficha de inscripción, a fin de evitar omisiones o errores.</p>
-                <p>En virtud de la implementación del sistema integral virtual, este organismo informa la existencia de dos modalidades de inscripción:</p>
-
-                <h5>A – PRESENCIAL</h5>
-                <p>Tanto la apertura de legajo como la reinscripción se realizarán en Unidades Educativas, dependiente de cualquiera de las Direcciones del Nivel mencionadas y reconocidas por el Ministerio de Educación. Junta Calificadora no realizará inscripciones individuales y /o personales en la sede del Organismo.</p>
-
-                <h5>B – VIRTUAL</h5>
-                <p>Las Inscripciones se realizarán mediante el sistema integral virtual "Gestión de Trayectoria Docente". Esta modalidad de inscripción y reinscripción cuenta con sus videos instructivos. Este organismo se reserva la facultad de solicitar documentación respaldatoria. </p>
-                <p style="text-align: center; margin-top: 15px;">
-                    <a href="https://sga.edusalta.gov.ar:5900/gestiontrayectoriadocente" target="_blank" rel="noopener noreferrer" style="color: #007bff; text-decoration: underline; font-weight: bold;">Acceder al Sistema de Gestión de Trayectoria Docente</a>
-                </p>
-
-                <h4>2.- CALENDARIO DE ACTIVIDADES:</h4>
-                <p><strong>Período de Inscripción:</strong></p>
-                <ul style="list-style: none; padding-left: 0;">
-                    <li><strong>DESDE:</strong> 09/06/2025</li>
-                    <li><strong>HASTA:</strong> 27/06/2025</li>
-                </ul>
-                <p>Los establecimientos receptores deberán elevar a la Junta Calificadora de Méritos y Disciplina del Nivel Secundario y sus Modalidades, sito en Pasaje Fernando Ramos N° 22, la nómina de aspirantes inscriptos, solicitudes de reinscripción y toda documentación aportada por los aspirantes HASTA EL VIERNES 11 de julio DE 2025 INDEFECTIBLEMENTE.</p>
-
-                <h4 style="margin-top: 30px;">Documentos para Descargar:</h4>
-                <ul>
-                    <li><a href="https://drive.google.com/file/d/1SLEZ-qWbe2iSumm685_ivbH9gtF5tRBs/view?usp=sharing" target="_blank" rel="noopener noreferrer">DESCARGAR CIRCULAR 01/25 NIVEL SECUNDARIO</a></li>
-                    <li><a href="https://drive.google.com/file/d/1f-RekcsUaWLmW9A-AjmXR360lobakrDU/view?usp=sharing" target="_blank" rel="noopener noreferrer">DESCARGAR FORMULARIO C</a></li>
-                    <li><a href="https://drive.google.com/file/d/1U_hZPXBgxdJSRZibmVLWYtfgaTS-6rPM/view?usp=sharing" target="_blank" rel="noopener noreferrer">DESCARGAR ANEXO II - CODIGOS DE ESPACIOS CURRICULARES</a></li>
-                    <li><a href="https://drive.google.com/file/d/13GMz4VQ8RPCoD53vOTVt1WIz20uy8Qjv/view?usp=sharing" target="_blank" rel="noopener noreferrer">DESCARGAR ANEXO III - LISTADO DE DOCENTES</a></li>
-                </ul>
-            </div>
-
             <h3>Incumbencias Docentes</h3>
             <p>Consulta las incumbencias de tu título para conocer los espacios curriculares que puedes dictar. Utiliza nuestro <a href="#" onclick="event.preventDefault(); showSection('herramientas-consulta');" class="link-to-buscador">buscador de títulos y espacios curriculares</a> ubicado en la sección de Herramientas de Consulta.</p>
 
@@ -1591,40 +1542,11 @@
         </section>
 
         <section id="noticias" class="content-section" style="text-align: center;">
-            <!-- Comunicado de prórroga -->
-        <div class="official-communique">
-            <h3>COMUNICADO OFICIAL: PRÓRROGA DEL PERÍODO DE INSCRIPCIONES</h3>
-            <div class="communique-header">
-                <span class="communique-date">26 de junio de 2025</span>
-                <span class="communique-author">Junta Calificadora de Méritos y Disciplina del Nivel Secundario y sus Modalidades</span>
+            <div id="dynamic-news-feed" style="margin-bottom: 30px;">
+                    <h3>Últimas Noticias</h3>
+                    <p class="no-results" id="loading-news-message">Cargando noticias...</p>
             </div>
             
-            <div class="communique-content">
-                <p>Se informa a los aspirantes para cubrir interinatos y suplencias en horas cátedras y cargos, Período Lectivo 2026:</p>
-                
-                <h4>Prórroga del Período de Inscripciones</h4>
-                <ul>
-                    <li><strong>Inscripción Presencial:</strong> hasta el 07 de julio de 2025</li>
-                    <li><strong>Inscripción Virtual:</strong> hasta el 11 de julio de 2025 (días hábiles de 08:00 a 19:00 hs)</li>
-                </ul>
-                
-                <h4>Recepción de Documentación</h4>
-                <p>Los directivos deberán remitir la documentación hasta el 11 de julio de 2025 (incluidos envíos postales) a:</p>
-                <address>
-                    Pje. Fernando Ramos N° 22, Salta Capital<br>
-                    Horario: 08:00 a 16:00 hs
-                </address>
-                
-                <div class="communique-recommendations">
-                    <h4>Recomendaciones:</h4>
-                    <ul>
-                        <li>Cumplir estrictamente con los plazos establecidos</li>
-                        <li>Verificar que la documentación esté completa, legible y foliada</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
             <div class="news-iframe-container">
                 <iframe src="https://sga.edusalta.gov.ar/Frontend/Modulos/Noticias/Noticias.aspx" title="Noticias Ministerio de Educación Salta" loading="lazy"></iframe>
             </div>
@@ -1809,54 +1731,149 @@
             }
         }
 
-        function parseCSV(csvString, type) {
-            const lines = csvString.split('\n');
-            if (lines.length < 2) {
-                console.warn(`CSV de ${type} tiene menos de 2 líneas (encabezado + datos). Retornando array vacío.`);
-                return [];
-            }
-
-            const headers = lines[0].split(',').map(header => header.trim());
-            const data = [];
-
-            for (let i = 1; i < lines.length; i++) {
-                const currentLine = lines[i].trim();
-                if (currentLine === '') continue;
-
-                const values = [];
-                let inQuote = false;
-                let currentValue = '';
-                
-                for (let k = 0; k < currentLine.length; k++) {
-                    const char = currentLine[k];
-                    if (char === '"') {
-                        inQuote = !inQuote;
-                    } else if (char === ',' && !inQuote) {
-                        values.push(currentValue.trim());
-                        currentValue = '';
-                    } else {
-                        currentValue += char;
+            // --- Noticias Dinámicas desde Google Sheet ---
+            // ¡REEMPLAZA ESTA URL CON LA URL DE PUBLICACIÓN CSV DE TU GOOGLE SHEET!
+            const GOOGLE_SHEET_NEWS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTgPwmVUURlmyG5QkvUI2O44EnW45zjngwFKd51qe6O6gg-VXeT9C98_uXgZd3f6owUox4ImBJpUadc/pub?gid=0&single=true&output=csv';
+            const dynamicNewsFeed = document.getElementById('dynamic-news-feed');
+            const loadingNewsMessage = document.getElementById('loading-news-message');
+        
+            async function fetchAndDisplayNews() {
+                if (!dynamicNewsFeed || !loadingNewsMessage) {
+                    console.error('Elementos HTML para noticias dinámicas (dynamic-news-feed o loading-news-message) no encontrados.');
+                    return;
+                }
+        
+                try {
+                    // Reiniciar el contenido y mostrar mensaje de carga
+                    dynamicNewsFeed.innerHTML = '<h3>Últimas Noticias</h3><p class="no-results" id="loading-news-message">Cargando noticias...</p>';
+                    const currentLoadingMessage = document.getElementById('loading-news-message');
+        
+                    const response = await fetch(GOOGLE_SHEET_NEWS_URL);
+                    if (!response.ok) {
+                        throw new Error(`Error HTTP! Estado: ${response.status}`);
                     }
-                }
-                values.push(currentValue.trim());
-
-                const row = {};
-                for (let j = 0; j < headers.length; j++) {
-                    if (headers[j]) {
-                        row[headers[j]] = values[j] ? values[j].replace(/^"|"$/g, '').trim() : '';
+                    const csvText = await response.text();
+        
+                    const newsData = parseCSV(csvText); // Usamos la función parseCSV robusta
+        
+                    if (newsData.length === 0) {
+                        dynamicNewsFeed.innerHTML = '<h3>Últimas Noticias</h3><p class="no-results">No hay noticias disponibles en este momento.</p>';
+                        return;
                     }
-                }
-
-                if (type === 'colegios' && row['Nombre']) {
-                    const match = row['Nombre'].match(/Nº\s*(\d+)/);
-                    row['NumeroUE'] = match && match[1] ? match[1] : '';
-                }
-                data.push(row);
-            }
+        
+                    // Eliminar el mensaje de carga una vez que los datos están listos
+                    if (currentLoadingMessage) {
+                        currentLoadingMessage.remove();
+                    }
+        
+                    // Iterar sobre los datos de las noticias y crear elementos HTML
+                    newsData.forEach(newsItem => {
+                        const newsDiv = document.createElement('div');
+                        newsDiv.classList.add('news-item');
+        
+                        const title = document.createElement('h4');
+                        title.textContent = newsItem.Titulo || 'Sin título'; // Fallback por si falta el título
+                        newsDiv.appendChild(title);
+        
+                        const date = document.createElement('span');
+                        date.classList.add('news-date');
+                         // --- INICIO DE LA CORRECCIÓN DE LA FECHA ---
+                        // Asumiendo formato DD/MM/YYYY desde Google Sheets
+                        const dateParts = (newsItem.Fecha || '').split('/');
+                        let displayDate = 'Fecha desconocida';
             
-            console.log(`Datos de ${type} parseados. Filas: ${data.length}. Ej. primera fila:`, data[0]);
-            return data;
-        }
+                        if (dateParts.length === 3) {
+                            const day = parseInt(dateParts[0], 10);
+                            const month = parseInt(dateParts[1], 10) - 1; // Meses son 0-indexados en JavaScript (0-11)
+                            const year = parseInt(dateParts[2], 10);
+            
+                            // Crear la fecha en la zona horaria local para evitar el desfase de un día
+                            const d = new Date(year, month, day);
+            
+                            // Verificar si la fecha es válida antes de formatear
+                            if (!isNaN(d.getTime())) {
+                                displayDate = d.toLocaleDateString('es-AR', { year: 'numeric', month: 'long', day: 'numeric' });
+                            }
+                        }
+                        date.textContent = displayDate;
+                        // --- FIN DE LA CORRECCIÓN DE LA FECHA ---
+                        newsDiv.appendChild(date);
+        
+                        const content = document.createElement('p');
+                        content.textContent = newsItem.Contenido || 'Sin contenido.'; // Fallback por si falta el contenido
+                        newsDiv.appendChild(content);
+        
+                        // Si hay un enlace, crearlo
+                        if (newsItem.Link && newsItem.Link.trim() !== '') {
+                            const link = document.createElement('a');
+                            link.href = newsItem.Link;
+                            // Usar 'Leer más' si LinkTexto no está definido o está vacío
+                            link.textContent = newsItem.LinkTexto && newsItem.LinkTexto.trim() !== '' ? newsItem.LinkTexto : 'Leer más';
+                            link.classList.add('read-more');
+                            link.target = '_blank'; // Abrir en nueva pestaña
+                            link.rel = 'noopener noreferrer'; // Práctica de seguridad
+                            newsDiv.appendChild(link);
+                        }
+        
+                        dynamicNewsFeed.appendChild(newsDiv);
+                    });
+        
+                } catch (error) {
+                    console.error('Error al cargar las noticias:', error);
+                    dynamicNewsFeed.innerHTML = '<h3>Últimas Noticias</h3><p class="no-results">Error al cargar las noticias. Por favor, intente más tarde.</p>';
+                }
+            }
+        
+            // --- Función parseCSV robusta (¡DEBE SER LA ÚNICA EN TU CÓDIGO!) ---
+            function parseCSV(csvText) {
+                const lines = csvText.split('\n').filter(line => line.trim() !== ''); // Filtrar líneas vacías
+                if (lines.length < 2) {
+                    console.warn('Los datos CSV no tienen encabezado o no tienen filas de datos.');
+                    return [];
+                }
+        
+                // Expresión regular para dividir líneas CSV, manejando campos entrecomillados.
+                // Divide por una coma que NO está dentro de comillas dobles.
+                const CSV_SPLIT_REGEX = /,(?=(?:(?:[^"]*"){2})*[^"]*$)/;
+        
+                // Parsear encabezados, eliminando espacios en blanco y cualquier comilla circundante
+                const headers = lines[0].split(CSV_SPLIT_REGEX).map(header => header.trim().replace(/^"|"$/g, ''));
+                const data = [];
+        
+                for (let i = 1; i < lines.length; i++) {
+                    // Usar la expresión regular para dividir la línea en valores
+                    const values = lines[i].split(CSV_SPLIT_REGEX).map(value => {
+                        // Eliminar espacios en blanco iniciales/finales y comillas externas de cada valor
+                        let trimmedValue = value.trim();
+                        if (trimmedValue.startsWith('"') && trimmedValue.endsWith('"')) {
+                            return trimmedValue.substring(1, trimmedValue.length - 1);
+                        }
+                        return trimmedValue;
+                    });
+        
+                    // Verificar si el número de valores coincide con el número de encabezados
+                    if (values.length !== headers.length) {
+                        console.warn('Saltando fila mal formada (desajuste en el conteo de columnas):', lines[i]);
+                        continue;
+                    }
+        
+                    // Crear un objeto para la fila actual
+                    const row = {};
+                    headers.forEach((header, index) => {
+                        row[header] = values[index];
+                    });
+                    data.push(row);
+                }
+                return data;
+            }
+            // --- Fin de la función parseCSV robusta ---
+        
+        
+            // Llama a la función de carga de noticias cuando la página se haya cargado completamente
+            document.addEventListener('DOMContentLoaded', fetchAndDisplayNews);
+        
+            // --- Fin Noticias Dinámicas ---
+            
         
         // =============================================
         // FUNCIONES DE BÚSQUEDA
