@@ -2066,18 +2066,65 @@
         // Llamar a la función de carga de noticias después de la carga inicial del DOM
         document.addEventListener('DOMContentLoaded', fetchAndDisplayNews);
         
-            // --- Función parseCSV robusta (¡DEBE SER LA ÚNICA EN TU CÓDIGO!) ---
-           function parseCSV(csvText) {
-                const parsed = Papa.parse(csvText, {
-                    header: true,
-                    skipEmptyLines: true,
-                    quoteChar: '"',
-                    escapeChar: '"',
-                    transform: value => value.trim()
-                });
-                return parsed.data;
+           / --- Función parseCSV robusta (NATIVA - SIN LIBRERÍAS) ---
+        // Esta versión maneja correctamente comas dentro de comillas (ej: direcciones)
+        function parseCSV(csvText) {
+            const lines = csvText.split('\n').filter(line => line.trim() !== ''); // Filtrar líneas vacías
+            if (lines.length < 2) {
+                console.warn('Los datos CSV no tienen encabezado o no tienen filas de datos.');
+                return [];
             }
-            // --- Fin de la función parseCSV robusta ---
+
+            // Expresión regular para dividir líneas CSV, manejando campos entrecomillados.
+            // Divide por una coma que NO está dentro de comillas dobles.
+            const CSV_SPLIT_REGEX = /,(?=(?:(?:[^"]*"){2})*[^"]*$)/;
+
+            // Parsear encabezados, eliminando espacios en blanco y cualquier comilla circundante
+            const headers = lines[0].split(CSV_SPLIT_REGEX).map(header => header.trim().replace(/^"|"$/g, ''));
+            const data = [];
+
+            for (let i = 1; i < lines.length; i++) {
+                const currentLine = lines[i].trim();
+                if (currentLine === '') continue; // Saltar líneas vacías
+
+                // Usar la expresión regular para dividir la línea en valores
+                const values = currentLine.split(CSV_SPLIT_REGEX).map(value => {
+                    // Eliminar espacios en blanco iniciales/finales y comillas externas de cada valor
+                    let trimmedValue = value.trim();
+                    if (trimmedValue.startsWith('"') && trimmedValue.endsWith('"')) {
+                        // Remover las comillas dobles de inicio y fin, y manejar dobles comillas escapadas ("")
+                        return trimmedValue.substring(1, trimmedValue.length - 1).replace(/""/g, '"');
+                    }
+                    return trimmedValue;
+                });
+
+                // Verificar si el número de valores coincide con el número de encabezados (aproximado)
+                if (values.length >= headers.length) {
+                    const row = {};
+                    headers.forEach((header, index) => {
+                        // Asignar valor o cadena vacía si no existe
+                        row[header] = values[index] !== undefined ? values[index] : '';
+                    });
+
+                    // Lógica específica para extraer Número de UE en la hoja de Colegios
+                    // (Detecta si es carga de colegios por la existencia de la columna 'Nombre')
+                    if (row['Nombre']) {
+                        const match = row['Nombre'].match(/Nº\s*(\d+)|N°\s*(\d+)/);
+                        if (match) {
+                            row['NumeroUE'] = match[1] || match[2];
+                        } else {
+                            row['NumeroUE'] = '';
+                        }
+                    }
+                    
+                    data.push(row);
+                } else {
+                    console.warn('Saltando fila mal formada (desajuste en el conteo de columnas):', lines[i]);
+                }
+            }
+            return data;
+        }
+        // --- Fin de la función parseCSV robusta ---
         
         
             // Llama a la función de carga de noticias cuando la página se haya cargado completamente
