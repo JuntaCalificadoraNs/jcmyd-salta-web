@@ -2066,48 +2066,39 @@
         // Llamar a la función de carga de noticias después de la carga inicial del DOM
         document.addEventListener('DOMContentLoaded', fetchAndDisplayNews);
         
-           / --- Función parseCSV robusta (NATIVA - SIN LIBRERÍAS) ---
-        // Esta versión maneja correctamente comas dentro de comillas (ej: direcciones)
+        // --- Función parseCSV simple y robusta (NATIVA - SIN LIBRERÍAS) ---
+        // Esta versión divide simplemente por comas, lo cual es más seguro si tus datos no tienen comas dentro de los campos
         function parseCSV(csvText) {
             const lines = csvText.split('\n').filter(line => line.trim() !== ''); // Filtrar líneas vacías
             if (lines.length < 2) {
                 console.warn('Los datos CSV no tienen encabezado o no tienen filas de datos.');
                 return [];
             }
-
-            // Expresión regular para dividir líneas CSV, manejando campos entrecomillados.
-            // Divide por una coma que NO está dentro de comillas dobles.
-            const CSV_SPLIT_REGEX = /,(?=(?:(?:[^"]*"){2})*[^"]*$)/;
-
-            // Parsear encabezados, eliminando espacios en blanco y cualquier comilla circundante
-            const headers = lines[0].split(CSV_SPLIT_REGEX).map(header => header.trim().replace(/^"|"$/g, ''));
+        
+            const headers = lines[0].split(',').map(header => header.trim());
             const data = [];
-
+        
             for (let i = 1; i < lines.length; i++) {
                 const currentLine = lines[i].trim();
-                if (currentLine === '') continue; // Saltar líneas vacías
-
-                // Usar la expresión regular para dividir la línea en valores
-                const values = currentLine.split(CSV_SPLIT_REGEX).map(value => {
-                    // Eliminar espacios en blanco iniciales/finales y comillas externas de cada valor
-                    let trimmedValue = value.trim();
-                    if (trimmedValue.startsWith('"') && trimmedValue.endsWith('"')) {
-                        // Remover las comillas dobles de inicio y fin, y manejar dobles comillas escapadas ("")
-                        return trimmedValue.substring(1, trimmedValue.length - 1).replace(/""/g, '"');
-                    }
-                    return trimmedValue;
-                });
-
+                if (currentLine === '') continue;
+        
+                // División simple por comas
+                const values = currentLine.split(',');
+        
                 // Verificar si el número de valores coincide con el número de encabezados (aproximado)
                 if (values.length >= headers.length) {
                     const row = {};
                     headers.forEach((header, index) => {
-                        // Asignar valor o cadena vacía si no existe
-                        row[header] = values[index] !== undefined ? values[index] : '';
+                        // Asignar valor o cadena vacía si no existe, limpiando comillas si las hubiera por error
+                        let val = values[index] !== undefined ? values[index].trim() : '';
+                        // Limpieza básica de comillas al inicio y final si existen
+                        if (val.startsWith('"') && val.endsWith('"')) {
+                            val = val.substring(1, val.length - 1);
+                        }
+                        row[header] = val;
                     });
-
+        
                     // Lógica específica para extraer Número de UE en la hoja de Colegios
-                    // (Detecta si es carga de colegios por la existencia de la columna 'Nombre')
                     if (row['Nombre']) {
                         const match = row['Nombre'].match(/Nº\s*(\d+)|N°\s*(\d+)/);
                         if (match) {
