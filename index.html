@@ -1250,92 +1250,88 @@
         gap: 20px; /* Recupera un poco más de espacio entre items */
     }
 }
-    /* Badge Navideño - Posición lateral derecha del header */
-    .navidad-badge {
-        position: absolute;
-        right: 15px;
-        top: 50%;
-        transform: translateY(-50%);
-        background: linear-gradient(135deg, #dc3545, #28a745); /* Rojo a verde navideño */
-        color: white;
-        padding: 15px 20px;
-        border-radius: 20px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        z-index: 1001;
-        font-size: 0.9em;
-        font-weight: 500;
-        max-width: 250px;
-        text-align: center;
-        transition: all 0.3s ease;
-        border: 2px solid white;
-    }
-    .navidad-badge:hover {
-        transform: translateY(-50%) scale(1.05);
-        box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-    }
-    .navidad-img {
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        object-fit: cover;
-    }
-    .navidad-text {
-        line-height: 1.3;
-    }
-    .navidad-text small {
-        font-size: 0.8em;
-        opacity: 0.9;
-        display: block;
-        margin-top: 2px;
-    }
-    .navidad-close {
-        position: absolute;
-        top: 5px;
-        right: 5px;
-        background: none;
-        border: none;
-        color: white;
-        font-size: 1.2em;
-        cursor: pointer;
-        padding: 0;
-        width: 20px;
-        height: 20px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50%;
-        transition: background 0.3s ease;
-    }
-    .navidad-close:hover {
-        background: rgba(255,255,255,0.2);
-    }
-    
-    /* Ocultar badge si ya se cerró (usando localStorage) */
-    .navidad-badge.hidden {
-        display: none;
-    }
-    
-    /* Responsivo: En móvil, mover arriba del header */
-    @media (max-width: 768px) {
+    /* /* Badge Navideño - Versión Mejorada con Imagen Más Grande */
         .navidad-badge {
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            left: 10px;
-            transform: none;
-            max-width: none;
-            z-index: 1002;
-            border-radius: 15px;
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(220, 53, 69, 0.95); /* Fondo rojo semi-transparente para festivo */
+            color: white;
+            padding: 20px 25px; /* Más espacio alrededor */
+            border-radius: 25px; /* Bordes más redondeados */
+            box-shadow: 0 6px 20px rgba(0,0,0,0.25); /* Sombra más pronunciada */
+            display: flex;
+            align-items: center;
+            gap: 12px; /* Espacio entre imagen y botón */
+            z-index: 1001;
             font-size: 1em;
+            font-weight: 500;
+            max-width: 320px; /* Más ancho para el texto superpuesto en la imagen */
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255,255,255,0.8); /* Borde blanco sutil */
+        }
+        .navidad-badge:hover {
+            transform: translateY(-50%) scale(1.05);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+        .navidad-img {
+            width: 50px; /* Aumentado para mejor visibilidad */
+            height: 50px;
+            border-radius: 10px; /* Menos redondo para imagen rectangular */
+            object-fit: cover; /* Mantiene proporción sin distorsión */
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2); /* Sombra en la imagen para profundidad */
         }
         .navidad-close {
-            top: 10px;
-            right: 10px;
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.3em;
+            cursor: pointer;
+            padding: 0;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background 0.3s ease;
         }
-    }
+        .navidad-close:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        /* Ocultar badge si ya se cerró */
+        .navidad-badge.hidden {
+            display: none;
+        }
+        
+        /* Responsivo: En móvil, centrar arriba del header */
+        @media (max-width: 768px) {
+            .navidad-badge {
+                position: fixed;
+                top: 10px;
+                right: 10px;
+                left: 10px;
+                transform: none;
+                max-width: none;
+                border-radius: 20px;
+                padding: 25px; /* Más padding en móvil */
+                font-size: 1.1em;
+            }
+            .navidad-img {
+                width: 60px; /* Un poco más grande en móvil */
+                height: 60px;
+            }
+            .navidad-close {
+                top: 12px;
+                right: 12px;
+            }
+        }
         
     </style>
     
@@ -1379,7 +1375,6 @@
             <!-- Elemento Navideño - Agregar aquí -->
             <div class="navidad-badge">
                 <img src="https://i.ibb.co/bgY2pC4W/01e12b0a-be9c-462f-9971-2a50d224441d.jpg" alt="Imagen Navideña" class="navidad-img">
-                <span class="navidad-text">Felices Fiestas<br><small>les desea Junta Calificadora de Nivel Secundario y sus modalidades</small></span>
                 <button class="navidad-close" aria-label="Cerrar mensaje navideño">&times;</button>
             </div>
         </div>
