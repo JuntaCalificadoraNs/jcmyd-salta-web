@@ -12,38 +12,8 @@
     
     <!-- Estilos -->
     <style>
-        /* --- Estilos para el Banner de Alerta Crítica (Tacha) --- */
-       .alert-banner {
-        position: fixed; /* CAMBIO CLAVE: Cambiamos de sticky a fixed para que se mantenga */
-        top: 0; /* Lo colocamos en la parte superior */
-        width: 100%;
-        background-color: #ffff00; /* amarillo de alerta */
-        color: #1f2937; /* Texto oscuro */
-        padding: 0.75rem 1rem;
-        z-index: 1001; /* CRUCIAL: Mayor que el header (z-index: 1000) para superponerse */
-        text-align: center;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
-        font-weight: 700;
-        font-size: 0.95rem;
-        line-height: 1.4;
-        transition: top 0.3s ease; /* Transición para un scroll suave si es necesario */
-    }
-    
-    /* NUEVO CSS: Añadimos padding al BODY para empujar el contenido hacia abajo */
-    body {
-        padding-top: 60px; /* Asumiendo que el header mide aproximadamente 60px de alto */
-    }
-        
-        .alert-banner a {
-        color: #000f17; /* Azul institucional para el link */
-        text-decoration: underline;
-        margin-left: 0.5rem;
-        font-weight: 700;
-        }
-        
-        .alert-banner a:hover {
-        color: #000f17;
-        }
+       
+   
         /* ============ VARIABLES Y RESET ============ */
         :root {
             --color-primario: #004085;
@@ -112,7 +82,7 @@
         
         #inicio {
             display: block;
-            padding-top: 0;
+            //*padding-top: 0;*//
             margin-top: 0;
         }
         /* Noticias Dinámicas */
@@ -421,17 +391,17 @@
             font-size: 0.95em;
         }
         /*--- ESTILO ESPECÍFICO PARA BOTÓN DE ALERTA DE TACHA (INICIO 2026) ---*/
-        .quick-access-button-tacha {
+       /* .quick-access-button-tacha {
             background-color: #ff8c00; /* Naranja/Ámbar llamativo */
-            border: 2px solid #ff4500; /* Borde rojo-naranja */
-            box-shadow: 0 4px 10px rgba(255, 140, 0, 0.5); /* Sombra naranja */
+         /* border: 2px solid #ff4500; /* Borde rojo-naranja */
+         /* box-shadow: 0 4px 10px rgba(255, 140, 0, 0.5); /* Sombra naranja */
         }
         
-        .quick-access-button-tacha:hover {
+        /*.quick-access-button-tacha:hover {
             background-color: #ff6a00; /* Naranja más oscuro al pasar el ratón */
-            transform: translateY(-2px);
+          /*  transform: translateY(-2px);
             box-shadow: 0 6px 12px rgba(255, 140, 0, 0.7);
-        }
+        }*//
         .info-message i {
             color: #007bff;
             margin-right: 10px;
@@ -1297,11 +1267,7 @@
 
 <body>
     <!-- BANNER DE ALERTA CRÍTICA: PERIODO DE TACHA -->
-        <div class="alert-banner" id="tacha-alert-banner">
-            <i class="fas fa-exclamation-triangle mr-2"></i>
-            ¡ATENCIÓN! PRÓRROGA PERÍODO DE TACHA 2026: 03 y 04 de Noviembre- SOLO MODALIDAD VIRTUAL.
-            <a href="#" onclick="showSection('tramites'); return false;">VER DOC. Y CUADROS PROVISORIOS AQUÍ <i class="fas fa-arrow-right ml-1"></i></a>
-        </div>
+        
     <header>
         <div class="header-content">
             <div class="logo">
@@ -1361,10 +1327,7 @@
                 <a href="#tramites" class="button" onclick="showSection('tramites');">
                     <i class="fas fa-file-alt"></i> Ver Trámites
                 </a>
-               <!-- Botón de ACCESO RÁPIDO Y ALERTAS DE TACHA -->
-                <button class="button quick-access-button-tacha" onclick="showSection('tramites')">
-                    <i class="fas fa-calendar-alt mr-2"></i> Período de Tacha 2026
-                </button>
+
             </div>
        </section>
 
@@ -1575,48 +1538,7 @@
             <h2>Trámites y Consultas Frecuentes</h2>
             <p>Encuentra información útil sobre los trámites más comunes y resuelve tus dudas.</p>
 
-                    <!-- SUBSECCIÓN PERÍODO DE TACHA 2026 -->
-            <div id="tacha-provisoria" class="search-group" style="background-color: #fff8e1; border-color: #ffc107; border-left: 5px solid #ffc107;">
-                <h3 style="color: #d97706; border-bottom-color: #ffc107; padding-bottom: 10px;">
-                    <i class="fas fa-exclamation-triangle mr-2"></i> PERÍODO DE TACHA 2026: 20 al 31 de Octubre
-                </h3>
-                <p class="text-gray-700">Estimado/a docente, durante este período usted podrá consultar su puntaje provisorio y presentar su formulario de tacha con la documentación de respaldo si detecta algún error u omisión en su valoración.</p>
-                
-                <h4 style="color: #2c3e50; font-weight: 600; margin-top: 25px; margin-bottom: 15px;">Guía y Documentación Esencial:</h4>
-
-                <!-- CIRCULAR (JERARQUÍA MÁXIMA) -->
-                <a href="https://drive.google.com/file/d/1uekqFivOyhjc2s7Utk4VVOGlGzAqJt4Q/view?usp=drive_link" target="_blank" rel="noopener noreferrer" 
-                   style="display: block; width: 100%; text-align: center; margin: 15px 0 25px; 
-                          padding: 15px; background-color: #ffc107; color: #2c3e50; font-size: 1.2em; 
-                          font-weight: bold; border-radius: 5px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-                    <i class="fas fa-scroll mr-2"></i> LEER CIRCULAR N° 03/2025 - GUÍA DE TACHA
-                </a>
-                
-                <!-- DOCUMENTOS DE CONSULTA -->
-                <p class="text-lg font-semibold text-gray-800 mb-3" style="color: #3498db;">Cuadros Provisorios (Consulta Obligatoria):</p>
-                <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;">
-                    <a href="https://drive.google.com/file/d/1IoEyrtCHgmPAj3qPv6umvq4Q0meMtYgU/view?usp=drive_link" target="_blank" rel="noopener noreferrer" 
-                       style="display: flex; align-items: center; padding: 8px; background-color: #f0f0f0; border-radius: 4px; text-decoration: none; color: #444;">
-                        <i class="fas fa-table mr-2" style="min-width: 20px; text-align: center;"></i> Cuadro DOCENTES - Provisorio 2026
-                    </a>
-                    <a href="https://drive.google.com/file/d/1iH6YBELhEP9MakNQVMTG2QbGZkXbOTmo/view?usp=drive_link" target="_blank" rel="noopener noreferrer" 
-                       style="display: flex; align-items: center; padding: 8px; background-color: #f0f0f0; border-radius: 4px; text-decoration: none; color: #444;">
-                        <i class="fas fa-user-tie mr-2" style="min-width: 20px; text-align: center;"></i> Cuadro DIRECTIVOS - Provisorio 2026
-                    </a>
-                </div>
-
-                <!-- FORMULARIO DE DESCARGA -->
-                <p class="text-lg font-semibold text-gray-800 mb-3" style="color: #3498db;">Formulario Oficial:</p>
-                <a href="https://drive.google.com/file/d/182TXNn0W2P64nLuMO3N8DOJ0QRvoj_Nh/view?usp=drive_link" target="_blank" rel="noopener noreferrer" 
-                   style="display: flex; align-items: center; padding: 8px; background-color: #f0f0f0; border-radius: 4px; text-decoration: none; color: #d63300; font-weight: bold;">
-                    <i class="fas fa-file-pdf mr-2" style="min-width: 20px; text-align: center;"></i> DESCARGAR FORMULARIO DE TACHA 2026
-                </a>
-
-                <p class="mt-4 text-sm text-yellow-700 font-semibold" style="margin-top: 15px; font-size: 0.9em; color: #856404; font-style: italic;">**Asegúrese de consultar su puntaje provisorio antes de generar el formulario de tacha.**</p>
-            </div>
-            <!-- FIN SUBSECCIÓN PERÍODO DE TACHA 2026 -->
-
-           <p>El resto de los trámites y consultas frecuentes se detallan a continuación:</p>
+            <p>El resto de los trámites y consultas frecuentes se detallan a continuación:</p>
             <h3>Incumbencias Docentes</h3>
             <p>Consulta las incumbencias de tu título para conocer los espacios curriculares que puedes dictar. Utiliza nuestro <a href="#" onclick="event.preventDefault(); showSection('herramientas-consulta');" class="link-to-buscador">buscador de títulos y espacios curriculares</a> ubicado en la sección de Herramientas de Consulta.</p>
 
