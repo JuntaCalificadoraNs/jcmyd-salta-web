@@ -1298,7 +1298,7 @@
     /* Layout imagen + texto navideño */
     .navidad-contenido {
       display: flex;
-      align-items: center;
+      align-items: flex-start; /* 🔑 CLAVE */
       justify-content: center;
       gap: 30px;
       margin-top: 20px;
@@ -1307,6 +1307,7 @@
     .navidad-texto {
       max-width: 420px;
       text-align: left;
+      padding-top: 10px; /* sube visualmente el texto */
     }
     
     /* Fuente más cargada y cursiva suave */
