@@ -1295,6 +1295,39 @@
         transform: translateY(0);
       }
     }
+    /* Layout imagen + texto navideño */
+    .navidad-contenido {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 20px;
+    }
+    
+    .navidad-texto {
+      max-width: 420px;
+      text-align: left;
+    }
+    
+    /* Fuente más cargada y cursiva suave */
+    .navidad-frase {
+      font-family: "Georgia", "Times New Roman", serif;
+      font-style: italic;
+      font-size: 1.15em;
+      color: #2f2f2f;
+    }
+    
+    /* Responsive: en celular vuelve a columna */
+    @media (max-width: 768px) {
+      .navidad-contenido {
+        flex-direction: column;
+        text-align: center;
+      }
+    
+      .navidad-texto {
+        text-align: center;
+      }
+    }
 
     </style>
     
@@ -1360,17 +1393,17 @@
                   class="navidad-imagen"
                 >
         
-                <h1 class="navidad-titulo">🎄 Felices Fiestas 🎄</h1>
-        
-                <p class="navidad-frase">
-                    Que esta Navidad renueve la esperanza, fortalezca los sueños  
-                    y nos encuentre unidos en nuevos desafíos.
-                </p>
-        
-                <p class="navidad-frase">
-                    Gracias por el compromiso y el trabajo de todo el año.  
-                    ¡Vamos por un 2026 lleno de oportunidades! ✨
-                </p>
+                <div class="navidad-texto">
+                    <p class="navidad-frase">
+                        Que esta Navidad renueve la esperanza, fortalezca los sueños  
+                        y nos encuentre unidos en nuevos desafíos.
+                    </p>
+            
+                    <p class="navidad-frase">
+                        Gracias por el compromiso y el trabajo de todo el año.  
+                        ¡Vamos por un 2026 lleno de oportunidades! ✨
+                    </p>
+                </div>
             </div>
             <!-- ===== FIN BLOQUE NAVIDEÑO ===== -->
             <ul class="feature-list">
