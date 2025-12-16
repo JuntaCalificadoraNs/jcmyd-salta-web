@@ -1250,6 +1250,52 @@
         gap: 20px; /* Recupera un poco más de espacio entre items */
     }
 }
+        /* ====== BLOQUE NAVIDEÑO INICIO ====== */
+
+    .navidad-container {
+      text-align: center;
+      padding: 40px 15px;
+      background: linear-gradient(180deg, #fffaf3, #ffe8cc);
+      border-radius: 14px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    
+    .navidad-imagen {
+      max-width: 260px;
+      width: 100%;
+      height: auto;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      animation: navidadFade 1.5s ease-out;
+    }
+    
+    .navidad-titulo {
+      font-size: 2.3em;
+      color: #b30000;
+      margin-bottom: 16px;
+    }
+    
+    .navidad-frase {
+      font-size: 1.15em;
+      color: #333;
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
+    
+    /* Animación suave */
+    @keyframes navidadFade {
+      from {
+        opacity: 0;
+        transform: translateY(-12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
     </style>
     
     <!-- Google Analytics -->
@@ -1306,7 +1352,27 @@
                 Plataforma oficial de la Junta Calificadora de Méritos y Disciplina del Nivel Secundario y sus Modalidades. 
                 Herramientas digitales para tu desarrollo docente.
             </p>
-            
+                <!-- ===== BLOQUE NAVIDEÑO (NUEVO) ===== -->
+            <div class="navidad-container">
+                <img 
+                  src="https://i.ibb.co/Mypcvmyj/para-sidebar.jpg"
+                  alt="Felices Fiestas"
+                  class="navidad-imagen"
+                >
+        
+                <h1 class="navidad-titulo">🎄 Felices Fiestas 🎄</h1>
+        
+                <p class="navidad-frase">
+                    Que esta Navidad renueve la esperanza, fortalezca los sueños  
+                    y nos encuentre unidos en nuevos desafíos.
+                </p>
+        
+                <p class="navidad-frase">
+                    Gracias por el compromiso y el trabajo de todo el año.  
+                    ¡Vamos por un 2026 lleno de oportunidades! ✨
+                </p>
+            </div>
+            <!-- ===== FIN BLOQUE NAVIDEÑO ===== -->
             <ul class="feature-list">
                 <li><i class="fas fa-check-circle"></i> Verifica qué materias puedes dictar con tu título</li>
                 <li><i class="fas fa-check-circle"></i> Encuentra colegios por ubicación o especialidad</li>
