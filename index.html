@@ -1302,12 +1302,14 @@
       justify-content: center;
       gap: 30px;
       margin-top: 20px;
+      text-align: left; /* 🔑 anula el text-align del contenedor padre */
     }
     
     .navidad-texto {
       max-width: 420px;
       text-align: left;
-      padding-top: 10px; /* sube visualmente el texto */
+      padding-top: 0;      /* 🔑 importante */
+      margin-top: 0;       /* 🔑 importante */
     }
     
     /* Fuente más cargada y cursiva suave */
@@ -1317,6 +1319,12 @@
       font-size: 1.15em;
       color: #2f2f2f;
     }
+    .navidad-imagen {
+      display: block;
+      margin: 0;           /* 🔑 evita centrados automáticos */
+      align-self: flex-start;
+    }
+
     
     /* Responsive: en celular vuelve a columna */
     @media (max-width: 768px) {
