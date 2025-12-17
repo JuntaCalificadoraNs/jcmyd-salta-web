@@ -1298,8 +1298,8 @@
     /* Layout imagen + texto navideño */
     .navidad-contenido {
       display: flex;
-      align-items: flex-start; /* 🔑 CLAVE */
-      justify-content: flex-start;
+      align-items: center; /* 🔑 CLAVE */
+      justify-content: center;
       gap: 30px;
       margin-top: 20px;
       text-align: left; /* 🔑 anula el text-align del contenedor padre */
@@ -1310,6 +1310,8 @@
       text-align: left;
       padding-top: 0;      /* 🔑 importante */
       margin-top: 0;       /* 🔑 importante */
+      padding-left: 25px;          /* NUEVO */
+      border-left: 3px solid #d9a441; /* NUEVO */
     }
     
     /* Fuente más cargada y cursiva suave */
