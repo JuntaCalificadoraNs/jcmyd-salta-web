@@ -1263,12 +1263,12 @@
     }
     
     .navidad-imagen {
-      max-width: 260px;
-      width: 100%;
+      width: 260px;          /* 🔑 ancho fijo para permitir texto al lado */
       height: auto;
-      margin-bottom: 20px;
       border-radius: 10px;
       animation: navidadFade 1.5s ease-out;
+      flex-shrink: 0;        /* 🔑 evita que se achique */
+      align-self: flex-start;
     }
     
     .navidad-titulo {
@@ -1299,7 +1299,7 @@
     .navidad-contenido {
       display: flex;
       align-items: flex-start; /* 🔑 CLAVE */
-      justify-content: center;
+      justify-content: flex-start;
       gap: 30px;
       margin-top: 20px;
       text-align: left; /* 🔑 anula el text-align del contenedor padre */
