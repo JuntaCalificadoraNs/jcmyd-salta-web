@@ -1250,6 +1250,24 @@
         gap: 20px; /* Recupera un poco más de espacio entre items */
     }
 }
+        /* Estilo específico para el botón del Manual de Títulos (Color Institucional Salta) */
+        .btn-manual {
+            background-color: #a93226 !important; /* Rojo bordó */
+            border: 1px solid #7b241c !important;
+            color: white !important;
+        }
+        
+        .btn-manual:hover {
+            background-color: #922b21 !important;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+        
+        /* Estilo para destacar el link en el menú superior */
+        .nav-manual-link {
+            color: #ffcccc !important; /* Color rosado suave para que resalte en el fondo azul */
+            font-weight: bold !important;
+        }
     </style>
     
     <!-- Google Analytics -->
@@ -1283,6 +1301,13 @@
                     <li><a href="#inicio"><i class="fas fa-home"></i> Inicio</a></li>
                     <li><a href="#sobre-nosotros"><i class="fas fa-users"></i> Sobre Nosotros</a></li>
                     <li><a href="#herramientas-consulta"><i class="fas fa-search"></i> Herramientas</a></li>
+                    <li>
+                        <a href="https://edusalta.gov.ar/index.php/docentes/jcmyd-nivel-secundario-y-modalidades/manual-de-competencia-de-titulos" 
+                           target="_blank" 
+                           class="nav-manual-link">
+                           <i class="fas fa-book mr-1"></i> Manual de Títulos
+                        </a>
+                    </li>
                     <li><a href="#normativas"><i class="fas fa-gavel"></i> Normativas</a></li>
                     <li><a href="#tramites"><i class="fas fa-file-signature"></i> Trámites</a></li>
                     <li><a href="#noticias"><i class="fas fa-newspaper"></i> Noticias</a></li>
@@ -1326,6 +1351,12 @@
                 </a>
                 <a href="#tramites" class="button" onclick="showSection('tramites');">
                     <i class="fas fa-file-alt"></i> Ver Trámites
+                </a>
+                <!-- Nuevo Botón de Acceso al Manual Externo -->
+                <a href="https://edusalta.gov.ar/index.php/docentes/jcmyd-nivel-secundario-y-modalidades/manual-de-competencia-de-titulos" 
+                   target="_blank" 
+                   class="button btn-manual">
+                    <i class="fas fa-external-link-alt mr-2"></i> Manual de Títulos (Oficial)
                 </a>
 
             </div>
