@@ -1305,8 +1305,8 @@
         .card-folder h4 {
             margin: 10px 0;
             font-size: 1.2rem;
-            border-bottom: none; /* Quitamos borde de h4 si lo tuviera */
             color: #2c3e50;
+            border-bottom: none;
             padding-bottom: 0;
         }
         
@@ -1316,7 +1316,7 @@
             margin-bottom: 15px;
         }
         
-        /* Colores institucionales específicos */
+        /* Colores institucionales */
         .folder-regular { border-top: 6px solid #3b82f6; }
         .folder-regular i { color: #3b82f6; }
         
@@ -1343,8 +1343,8 @@
             font-size: 0.9em;
             color: #475569;
             border-left: 4px solid #94a3b8;
+            margin-top: 15px;
         }
-
 
         
     </style>
@@ -1649,39 +1649,48 @@
             <h2>Trámites y Consultas Frecuentes</h2>
             <p>Encuentra información útil sobre los trámites más comunes y resuelve tus dudas.</p>
             <!-- ACCESO DIRECTO A CARPETAS DE CUADROS 2026 -->
-            <div class="search-group" style="background-color: #f8fafc; border-left: 8px solid #2c3e50; padding: 25px; border-radius: 8px;">
-                <h3 style="color: #1e293b; border-bottom: 2px solid #cbd5e1; text-align: center; margin-bottom: 20px; padding-bottom: 10px;">
-                    <i class="fas fa-folder-open mr-2"></i> Cuadros de Valoración Definitivos 2026
-                </h3>
-                <p style="text-align: center; color: #475569;">
-                    Acceda a las carpetas completas en Google Drive para consultar los cuadros de puntuación de todas las Unidades Educativas:
-                </p>
-            
-                <div class="folder-access-container">
-                    <!-- BOTÓN CARPETA REGULARES -->
-                    <a href="[https://drive.google.com/drive/folders/1E7D-oklya8AS3jY2CK6XOnS9phDp3LCw?usp=drive_link](https://drive.google.com/drive/folders/1E7D-oklya8AS3jY2CK6XOnS9phDp3LCw?usp=drive_link)" 
-                       target="_blank" rel="noopener noreferrer" class="card-folder folder-regular">
-                        <i class="fas fa-users"></i>
-                        <h4>Cuadros Regulares 2026</h4>
-                        <p>Listado completo de Unidades Educativas de Nivel Secundario.</p>
-                        <div class="btn-folder-link bg-blue-drive">Abrir Carpeta Regulares</div>
-                    </a>
-            
-                    <!-- BOTÓN CARPETA DIRECTIVOS -->
-                    <a href="[https://drive.google.com/drive/folders/1x8ga7UodXHcUBNDlksXrrYG6LZCiNehN?usp=drive_link](https://drive.google.com/drive/folders/1x8ga7UodXHcUBNDlksXrrYG6LZCiNehN?usp=drive_link)" 
-                       target="_blank" rel="noopener noreferrer" class="card-folder folder-directivo">
-                        <i class="fas fa-user-tie"></i>
-                        <h4>Cuadros Directivos 2026</h4>
-                        <p>Acceso a cuadros de cargos jerárquicos y directivos.</p>
-                        <div class="btn-folder-link bg-red-drive">Abrir Carpeta Directivos</div>
-                    </a>
-                </div>
-                
-                <div class="note-box-folders">
-                    <i class="fas fa-info-circle"></i> <strong>Información:</strong> Dentro de cada carpeta, los archivos PDF están identificados y ordenados por el número de cada Unidad Educativa.
-                </div>
-            </div>
-            <!-- FIN ACCESO A CARPETAS -->
+        
+        <!-- Reemplaza el bloque anterior en la sección 'Trámites' por este código -->
+        
+        <div class="search-group" style="background-color: #f8fafc; border-left: 8px solid #2c3e50; padding: 25px; border-radius: 8px;">
+        <h3 style="color: #1e293b; border-bottom: 2px solid #cbd5e1; text-align: center; margin-bottom: 20px; padding-bottom: 10px;">
+        <i class="fas fa-folder-open mr-2"></i> Cuadros de Valoración Definitivos 2026
+        </h3>
+        <p style="text-align: center; color: #475569;">
+        Acceda a las carpetas completas en Google Drive para consultar los cuadros de puntuación:
+        </p>
+        
+        <div class="folder-access-container">
+            <!-- BOTÓN CARPETA REGULARES -->
+            <!-- El onclick con window.open y return false evita el error 404 de Vercel -->
+            <a href="https://drive.google.com/drive/folders/1E7D-oklya8AS3jY2CK6XOnS9phDp3LCw?usp=drive_link" 
+               target="_blank" 
+               onclick="window.open(this.href, '_blank'); return false;"
+               class="card-folder folder-regular">
+                <i class="fas fa-users"></i>
+                <h4>Cuadros Regulares 2026</h4>
+                <p>Listado de Unidades Educativas de Nivel Secundario.</p>
+                <div class="btn-folder-link bg-blue-drive">Abrir Carpeta Regulares</div>
+            </a>
+        
+            <!-- BOTÓN CARPETA DIRECTIVOS -->
+            <a href="https://drive.google.com/drive/folders/1x8ga7UodXHcUBNDlksXrrYG6LZCiNehN?usp=drive_link" 
+               target="_blank" 
+               onclick="window.open(this.href, '_blank'); return false;"
+               class="card-folder folder-directivo">
+                <i class="fas fa-user-tie"></i>
+                <h4>Cuadros Directivos 2026</h4>
+                <p>Cargos jerárquicos y directivos.</p>
+                <div class="btn-folder-link bg-red-drive">Abrir Carpeta Directivos</div>
+            </a>
+        </div>
+        
+        <div class="note-box-folders">
+            <i class="fas fa-info-circle"></i> <strong>Nota:</strong> Al hacer clic, se abrirá una nueva pestaña con los archivos PDF de Google Drive.
+        </div>
+        
+        
+        </div>
             <p>El resto de los trámites y consultas frecuentes se detallan a continuación:</p>
             <h3>Incumbencias Docentes</h3>
             <p>Consulta las incumbencias de tu título para conocer los espacios curriculares que puedes dictar. Utiliza nuestro <a href="#" onclick="event.preventDefault(); showSection('herramientas-consulta');" class="link-to-buscador">buscador de títulos y espacios curriculares</a> ubicado en la sección de Herramientas de Consulta.</p>
