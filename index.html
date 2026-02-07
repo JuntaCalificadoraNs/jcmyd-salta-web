@@ -1268,6 +1268,85 @@
             color: #ffcccc !important; /* Color rosado suave para que resalte en el fondo azul */
             font-weight: bold !important;
         }
+        /* --- Estilos para Acceso Directo a Carpetas Drive --- */
+        .folder-access-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .card-folder {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid #e2e8f0;
+            text-decoration: none !important;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        
+        .card-folder:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .card-folder i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        
+        .card-folder h4 {
+            margin: 10px 0;
+            font-size: 1.2rem;
+            border-bottom: none; /* Quitamos borde de h4 si lo tuviera */
+            color: #2c3e50;
+            padding-bottom: 0;
+        }
+        
+        .card-folder p {
+            font-size: 0.9rem;
+            color: #64748b;
+            margin-bottom: 15px;
+        }
+        
+        /* Colores institucionales específicos */
+        .folder-regular { border-top: 6px solid #3b82f6; }
+        .folder-regular i { color: #3b82f6; }
+        
+        .folder-directivo { border-top: 6px solid #b91c1c; }
+        .folder-directivo i { color: #b91c1c; }
+        
+        .btn-folder-link {
+            padding: 10px 20px;
+            border-radius: 6px;
+            color: white !important;
+            font-weight: bold;
+            font-size: 0.9rem;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .bg-blue-drive { background-color: #3b82f6; }
+        .bg-red-drive { background-color: #b91c1c; }
+        
+        .note-box-folders {
+            background-color: #f1f5f9;
+            padding: 15px;
+            border-radius: 6px;
+            font-size: 0.9em;
+            color: #475569;
+            border-left: 4px solid #94a3b8;
+        }
+
+
+        
     </style>
     
     <!-- Google Analytics -->
@@ -1569,7 +1648,40 @@
         <section id="tramites" class="content-section">
             <h2>Trámites y Consultas Frecuentes</h2>
             <p>Encuentra información útil sobre los trámites más comunes y resuelve tus dudas.</p>
-
+            <!-- ACCESO DIRECTO A CARPETAS DE CUADROS 2026 -->
+            <div class="search-group" style="background-color: #f8fafc; border-left: 8px solid #2c3e50; padding: 25px; border-radius: 8px;">
+                <h3 style="color: #1e293b; border-bottom: 2px solid #cbd5e1; text-align: center; margin-bottom: 20px; padding-bottom: 10px;">
+                    <i class="fas fa-folder-open mr-2"></i> Cuadros de Valoración Definitivos 2026
+                </h3>
+                <p style="text-align: center; color: #475569;">
+                    Acceda a las carpetas completas en Google Drive para consultar los cuadros de puntuación de todas las Unidades Educativas:
+                </p>
+            
+                <div class="folder-access-container">
+                    <!-- BOTÓN CARPETA REGULARES -->
+                    <a href="[https://drive.google.com/drive/folders/1E7D-oklya8AS3jY2CK6XOnS9phDp3LCw?usp=drive_link](https://drive.google.com/drive/folders/1E7D-oklya8AS3jY2CK6XOnS9phDp3LCw?usp=drive_link)" 
+                       target="_blank" rel="noopener noreferrer" class="card-folder folder-regular">
+                        <i class="fas fa-users"></i>
+                        <h4>Cuadros Regulares 2026</h4>
+                        <p>Listado completo de Unidades Educativas de Nivel Secundario.</p>
+                        <div class="btn-folder-link bg-blue-drive">Abrir Carpeta Regulares</div>
+                    </a>
+            
+                    <!-- BOTÓN CARPETA DIRECTIVOS -->
+                    <a href="[https://drive.google.com/drive/folders/1x8ga7UodXHcUBNDlksXrrYG6LZCiNehN?usp=drive_link](https://drive.google.com/drive/folders/1x8ga7UodXHcUBNDlksXrrYG6LZCiNehN?usp=drive_link)" 
+                       target="_blank" rel="noopener noreferrer" class="card-folder folder-directivo">
+                        <i class="fas fa-user-tie"></i>
+                        <h4>Cuadros Directivos 2026</h4>
+                        <p>Acceso a cuadros de cargos jerárquicos y directivos.</p>
+                        <div class="btn-folder-link bg-red-drive">Abrir Carpeta Directivos</div>
+                    </a>
+                </div>
+                
+                <div class="note-box-folders">
+                    <i class="fas fa-info-circle"></i> <strong>Información:</strong> Dentro de cada carpeta, los archivos PDF están identificados y ordenados por el número de cada Unidad Educativa.
+                </div>
+            </div>
+            <!-- FIN ACCESO A CARPETAS -->
             <p>El resto de los trámites y consultas frecuentes se detallan a continuación:</p>
             <h3>Incumbencias Docentes</h3>
             <p>Consulta las incumbencias de tu título para conocer los espacios curriculares que puedes dictar. Utiliza nuestro <a href="#" onclick="event.preventDefault(); showSection('herramientas-consulta');" class="link-to-buscador">buscador de títulos y espacios curriculares</a> ubicado en la sección de Herramientas de Consulta.</p>
