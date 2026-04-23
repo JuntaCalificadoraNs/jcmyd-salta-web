@@ -2537,84 +2537,165 @@
             table.appendChild(tbody);
             container.appendChild(table);
         }
-                /**
-         * Renderiza resultados como TARJETAS (Cards) - Diseño Moderno
+              /**
+         * Renderiza resultados como CARDS - Adaptado a tu estructura de datos
+         * @param {string} containerId - ID del contenedor
+         * @param {Array} headers - Array de nombres de columnas (ej: ['Titulo', 'Nombre DEL ESPACIO...'])
          * @param {Array} data - Array de objetos con los resultados
-         * @param {string} containerId - ID del contenedor donde insertar
-         * @param {string} type - Tipo de búsqueda: 'incumbencias' | 'colegios' | 'orientaciones'
+         * @param {Array} htmlColumns - Columnas que contienen HTML (default: [])
+         * @param {string} searchTerm - Término de búsqueda para highlight (default: '')
+         * @param {string} exactHighlightColumn - Columna para highlight exacto (default: null)
+         * @param {string} clickableColumn - Columna con títulos clickeables (default: null)
          */
-        function renderResultsAsCards(data, containerId, type = 'default') {
+        function renderResultsAsCards(containerId, headers, data, htmlColumns = [], searchTerm = '', exactHighlightColumn = null, clickableColumn = null) {
             const container = document.getElementById(containerId);
             if (!container) return;
-            
+        
             container.innerHTML = '';
-            
+            const normalizedSearchTerm = normalizeText(searchTerm);
+        
+            // Mensaje de "sin resultados"
             if (!data || data.length === 0) {
                 container.innerHTML = `
                     <div class="no-results">
-                        <i>🔍</i>
-                        <p>No se encontraron resultados con los criterios seleccionados.</p>
-                        <small>Intenta ajustar tu búsqueda o limpiar los filtros.</small>
+                        <i class="fas fa-search"></i>
+                        <p>No se encontraron resultados para "${searchTerm}"</p>
+                        <small>Intenta con términos más generales o verifica la ortografía</small>
                     </div>`;
                 return;
             }
-            
+        
+            // Contenedor grid para las cards
             const grid = document.createElement('div');
             grid.className = 'results-grid';
-            
+        
+            let lastTitle = '';
+        
             data.forEach((item, index) => {
                 const card = document.createElement('div');
                 card.className = 'result-card';
-                
-                // Highlight si es el primer resultado o cumple condición
-                if (index === 0) card.classList.add('highlighted-row');
-                
-                // Contenido dinámico según tipo de búsqueda
-                let content = '';
-                
-                if (type === 'incumbencias') {
-                    content = `
-                        <h4>${item.titulo || item.title || 'Sin título'}</h4>
-                        ${item.espacio ? `<p><strong>Espacio:</strong> ${item.espacio}</p>` : ''}
-                        ${item.incumbencia ? `<p><strong>Incumbencia:</strong> ${item.incumbencia}</p>` : ''}
-                        ${item.ciclo ? `<p><strong>Ciclo:</strong> ${item.ciclo}</p>` : ''}
-                    `;
-                } 
-                else if (type === 'colegios') {
-                    content = `
-                        <h4>${item.nombre || item.name || 'Colegio'}</h4>
-                        ${item.localidad ? `<p><strong>Localidad:</strong> ${item.localidad}</p>` : ''}
-                        ${item.direccion ? `<p><strong>Dirección:</strong> ${item.direccion}</p>` : ''}
-                        ${item.cue ? `<p><strong>CUE:</strong> ${item.cue}</p>` : ''}
-                        ${item.departamento ? `<p><strong>Depto:</strong> ${item.departamento}</p>` : ''}
-                    `;
+        
+                // === Lógica de highlight (IDÉNTICA a tu renderTable) ===
+                let rowShouldBeHighlighted = false;
+                const currentTitle = item['Titulo'] || '';
+        
+                if (exactHighlightColumn && item[exactHighlightColumn] !== undefined) {
+                    const columnContent = normalizeText(String(item[exactHighlightColumn]));
+                    if (columnContent === normalizedSearchTerm) {
+                        rowShouldBeHighlighted = true;
+                    }
+                } else if (normalizedSearchTerm) {
+                    for (const headerKey of headers) {
+                        const cellContent = item[headerKey] !== undefined ? String(item[headerKey]) : '';
+                        if (normalizeText(cellContent).includes(normalizedSearchTerm)) {
+                            rowShouldBeHighlighted = true;
+                            break;
+                        }
+                    }
                 }
-                else if (type === 'orientaciones') {
-                    content = `
-                        <h4>${item.orientacion || item.orientation || 'Orientación'}</h4>
-                        ${item.colegio ? `<p><strong>Colegio:</strong> ${item.colegio}</p>` : ''}
-                        ${item.cue ? `<p><strong>CUE:</strong> ${item.cue}</p>` : ''}
-                    `;
+        
+                if (rowShouldBeHighlighted) {
+                    card.classList.add('highlighted-row');
                 }
-                else {
-                    // Fallback genérico
-                    content = `<p>${Object.values(item).slice(0, 3).join(' • ')}</p>`;
-                }
+        
+                // === Construir contenido de la card ===
+                let cardHTML = '';
                 
-                // Botón de imprimir
-                const actions = `
+                headers.forEach(headerKey => {
+                    let cellContent = item[headerKey] !== undefined ? String(item[headerKey]) : '';
+                    
+                    // Manejar título repetido (misma lógica que tu tabla)
+                    if (headerKey === 'Titulo') {
+                        if (index > 0 && currentTitle === lastTitle) {
+                            // En cards, mostramos comillas vacías en móvil y texto en desktop
+                            cellContent = window.innerWidth > 768 
+                                ? '<span class="repeated-title">(Igual al título seleccionado)</span>' 
+                                : '<span class="repeated-title">""</span>';
+                        }
+                        // Solo renderizar el título como encabezado de la card (primera vez o si cambió)
+                        if (index === 0 || currentTitle !== lastTitle) {
+                            cardHTML += `<h4>${cellContent}</h4>`;
+                        }
+                    } 
+                    // Columnas con HTML o clickable
+                    else if (htmlColumns.includes(headerKey)) {
+                        if (clickableColumn === headerKey) {
+                            // Para clickable: creamos span interactivo
+                            cardHTML += `<p><strong>${headerKey}:</strong> 
+                                <span class="clickable-title" 
+                                      data-full-title="${item[headerKey].replace(/<\/?strong>/g, '')}" 
+                                      onclick="filterAndDisplayExactTitle(this.dataset.fullTitle)">${cellContent}</span>
+                            </p>`;
+                        } else {
+                            cardHTML += `<p><strong>${headerKey}:</strong> ${cellContent}</p>`;
+                        }
+                    } 
+                    // Columnas normales de texto
+                    else {
+                        // No repetir el título si ya se mostró como h4
+                        if (headerKey !== 'Titulo' || index === 0 || currentTitle !== lastTitle) {
+                            // Clases para columnas estrechas (estilo visual)
+                            const narrowClass = (headerKey === 'CODIGO/Modulo' || headerKey === 'Alcance/INCUMBENCIA') 
+                                ? ' narrow-column' 
+                                : '';
+                            cardHTML += `<p class="${narrowClass.trim()}"><strong>${headerKey}:</strong> ${cellContent}</p>`;
+                        }
+                    }
+                });
+        
+                // === Botón de imprimir ===
+                // Escapamos comillas para inyectar JSON en onclick
+                const itemEscaped = JSON.stringify(item).replace(/"/g, '&quot;');
+                const printBtn = `
                     <div class="card-actions">
-                        <button class="btn-print" onclick="imprimirResultado(${JSON.stringify(item).replace(/"/g, '&quot;')})">
+                        <button class="btn-print" onclick="imprimirFila('${itemEscaped}')">
                             🖨️ Imprimir
                         </button>
-                    </div>
-                `;
-                
-                card.innerHTML = content + actions;
+                    </div>`;
+        
+                card.innerHTML = cardHTML + printBtn;
                 grid.appendChild(card);
+                
+                lastTitle = currentTitle;
             });
-            
+        
             container.appendChild(grid);
+        }
+        
+        /**
+         * Helper para imprimir una fila específica desde una card
+         */
+        function imprimirFila(datosJSON) {
+            // Parsear si viene como string
+            const datos = typeof datosJSON === 'string' ? JSON.parse(datosJSON) : datosJSON;
+            
+            const ventana = window.open('', '_blank');
+            let contenido = `<h2 style="color:#002b5b;margin-bottom:1rem">Resultado</h2>
+                             <table style="border-collapse:collapse;width:100%;font-size:10pt">`;
+            
+            for (const [key, value] of Object.entries(datos)) {
+                if (value && String(value).trim() !== '') {
+                    contenido += `<tr>
+                        <td style="border:1px solid #ccc;padding:6px 8px;background:#f8fafc;font-weight:600;width:40%">${key}</td>
+                        <td style="border:1px solid #ccc;padding:6px 8px">${value}</td>
+                    </tr>`;
+                }
+            }
+            contenido += '</table><br/><script>window.onload=function(){window.print();}<\/script>';
+            
+            ventana.document.write(`
+                <html>
+                <head>
+                    <title>Imprimir Resultado</title>
+                    <style>
+                        body { font-family: 'Segoe UI', sans-serif; padding: 20px; color: #1e2937; }
+                        @media print { button { display: none; } }
+                    </style>
+                </head>
+                <body>${contenido}</body>
+                </html>
+            `);
+            ventana.document.close();
         }
         
         /**
