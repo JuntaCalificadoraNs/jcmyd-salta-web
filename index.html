@@ -2147,131 +2147,230 @@
         }
 
 // --- Noticias Dinámicas desde Google Sheet ---
-const GOOGLE_SHEET_NEWS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTgPwmVUURlmyG5QkvUI2O44EnW45zjngwFKd51qe6O6gg-VXeT9C98_uXgZd3f6owUox4ImBJpUadc/pub?gid=0&single=true&output=csv';
-const dynamicNewsFeed = document.getElementById('dynamic-news-feed');
-const loadingNewsMessage = document.getElementById('loading-news-message');
-
-
-// ✅ Función para dar formato visual al texto (puntos, saltos)
-function darFormatoTexto(texto) {
-    if (!texto) return 'Sin contenido.';
-
-    // 1. Reemplazar saltos de línea reales por etiquetas <br>
-    let textoFormateado = texto.replace(/\n/g, '<br>');
-
-    // 2. Convertir los puntos "·" o guiones en listas con sangría
-    textoFormateado = textoFormateado.replace(/(^|<br>)[·-]\s*(.*?)(?=<br>|$)/g, '<br><div style="margin-left: 15px; margin-bottom: 4px;">• $2</div>');
-
-    return textoFormateado;
-}
-
-
-// ✅ FUNCIÓN PRINCIPAL (Versión simplificada y 100% funcional)
-async function fetchAndDisplayNews() {
-    if (!dynamicNewsFeed) {
-        console.error('No se encontró el contenedor de noticias');
-        return;
-    }
-
-    try {
-        // Mensaje de carga
-        dynamicNewsFeed.innerHTML = '<h3>Últimas Noticias</h3><p><i class="fas fa-spinner fa-spin"></i> Cargando...</p>';
-
-        // Obtener datos
-        const respuesta = await fetch(GOOGLE_SHEET_NEWS_URL);
-        if (!respuesta.ok) throw new Error('Error al buscar datos');
+            // ¡REEMPLAZA ESTA URL CON LA URL DE PUBLICACIÓN CSV DE TU GOOGLE SHEET!
+            const GOOGLE_SHEET_NEWS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTgPwmVUURlmyG5QkvUI2O44EnW45zjngwFKd51qe6O6gg-VXeT9C98_uXgZd3f6owUox4ImBJpUadc/pub?gid=0&single=true&output=csv';
+            const dynamicNewsFeed = document.getElementById('dynamic-news-feed');
+            const loadingNewsMessage = document.getElementById('loading-news-message');
         
-        const textoCSV = await respuesta.text();
+            function processNewsContent(content) {
+                if (!content) return '<p>Sin contenido.</p>';
+            
+                // Dividir el contenido por saltos de línea
+                const lines = content.split('\n').map(line => line.trim()).filter(line => line !== '');
+                let html = '';
+                let inList = false;
+            
+                lines.forEach(line => {
+                    // Detectar elementos de lista (comienzan con "·" o "-")
+                    if (line.startsWith('·') || line.startsWith('-')) {
+                        const listItem = line.replace(/^[·-]\s*/, ''); // Eliminar el marcador de lista
+                        if (!inList) {
+                            html += '<ul class="news-list">';
+                            inList = true;
+                        }
+                        // Detectar enlaces en la línea (por ejemplo, "(DESCARGAR)")
+                        const processedLine = processLinksInLine(listItem);
+                        html += `<li>${processedLine}</li>`;
+                    } else {
+                        // Cerrar lista si estaba abierta
+                        if (inList) {
+                            html += '</ul>';
+                            inList = false;
+                        }
+                        // Detectar enlaces en la línea
+                        const processedLine = processLinksInLine(line);
+                        html += `<p>${processedLine}</p>`;
+                    }
+                });
+            
+                // Cerrar lista si quedó abierta
+                if (inList) {
+                    html += '</ul>';
+                }
+            
+                return html;
+            }
+            
+            function processLinksInLine(line) {
+                console.log('Procesando línea:', line); // Agrega esto
+                const links = [
+                    {
+                        text: 'Declaración Jurada de Empleos Públicos. (DESCARGAR)',
+                        url: 'https://drive.google.com/uc?export=download&id=1mYh9yAY1CwfSnvRQZfrwobk13ldydJqi'
+                    },
+                    {
+                        text: 'Formulario ST 04. (DESCARGAR)',
+                        url: 'https://drive.google.com/uc?export=download&id=1WtrVXUwKrrixgzEO9oVCla5XbGEc0OpZ'
+                    },
+                     {
+                        text: 'Circular 02/2025 Completa. (DESCARGAR)',
+                        url: 'https://drive.google.com/uc?export=download&id=1U02ord_9mwyJPkrqHe_8FIJz0YIhyaft'
+                    },
+                    {
+                        text: 'Anexo I - Circular 02/2025. (DESCARGAR)',
+                        url: 'https://drive.google.com/uc?export=download&id=1f8AJGb6KL-wK8c6FerYGna3KCbu0JrVD'
+                    }
+                ];
+                                
+                let processedLine = line;
+                links.forEach(link => {
+                    const regex = new RegExp(link.text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g');
+                    processedLine = processedLine.replace(regex, `<a href="${link.url}" class="inline-link" target="_blank" rel="noopener noreferrer">${link.text.replace('(DESCARGAR)', 'DESCARGAR')}</a>`);
+                });
+                return processedLine;
+            }
+        // MODIFICACIÓN DE LA FUNCIÓN PRINCIPAL DE NOTICIAS
+        async function fetchAndDisplayNews() {
+            // Reemplaza con tu URL real de publicación CSV
+            const GOOGLE_SHEET_NEWS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTgPwmVUURlmyG5QkvUI2O44EnW45zjngwFKd51qe6O6gg-VXeT9C98_uXgZd3f6owUox4ImBJpUadc/pub?gid=0&single=true&output=csv';
 
-        // 🔑 SOLUCIÓN CLAVE: LEEMOS Y SEPARAMOS A MANO, EVITANDO ERRORES
-        // Dividimos por filas (cada salto de línea es una fila)
-        const filas = textoCSV.split('\n').filter(fila => fila.trim() !== '');
+            const dynamicNewsFeed = document.getElementById('dynamic-news-feed');
 
-        if (filas.length < 2) {
-            dynamicNewsFeed.innerHTML = '<h3>Últimas Noticias</h3><p>No hay noticias disponibles.</p>';
-            return;
-        }
-
-        // Limpiar contenedor
-        dynamicNewsFeed.innerHTML = '<h3>Últimas Noticias</h3>';
-
-
-        // RECORREMOS CADA FILA DE DATOS (empezamos desde 1, saltamos encabezados)
-        for (let i = 1; i < filas.length; i++) {
-            let filaActual = filas[i];
-
-            // 🛠️ TRUCO MAGICO: Reemplazamos temporalmente las comas que están DENTRO del texto
-            // para que la separación solo ocurra en las comas que dividen las columnas
-            let filaSegura = filaActual.replace(/"(.*?)"/g, function(match, contenido) {
-                return '"' + contenido.replace(/,/g, '###COMA###') + '"';
-            });
-
-            // AHORA SÍ: Separamos por comas (ahora solo corta en los lugares correctos)
-            let columnas = filaSegura.split(',');
-
-            // Recuperamos las comas originales dentro del texto
-            columnas = columnas.map(col => col.replace(/###COMA###/g, ',').trim().replace(/^"|"$/g, ''));
-
-
-            // ASIGNAMOS VALORES (respetando tu orden: Titulo, Fecha, Contenido, Link, LinkTexto)
-            const datos = {
-                titulo: columnas[0] || 'Sin título',
-                fecha: columnas[1] || '',
-                contenido: columnas[2] || '', // <-- AQUÍ VA TODO ENTERO
-                link: columnas[3] || '',
-                linkTexto: columnas[4] || ''
-            };
-
-
-            // ✅ ARMAMOS EL HTML DE LA NOTICIA
-            const noticiaHTML = document.createElement('div');
-            noticiaHTML.className = 'news-item';
-            noticiaHTML.style.border = '1px solid #ddd';
-            noticiaHTML.style.padding = '15px';
-            noticiaHTML.style.margin = '15px 0';
-            noticiaHTML.style.borderRadius = '5px';
-            noticiaHTML.style.background = '#fff';
-
-            // Formatear fecha
-            let fechaMostrar = 'Fecha desconocida';
-            if (datos.fecha.includes('/')) {
-                const [dia, mes, anio] = datos.fecha.split('/');
-                const meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
-                fechaMostrar = `${dia} de ${meses[parseInt(mes)-1] || mes} de ${anio}`;
+            if (!dynamicNewsFeed) {
+                console.error('Elemento HTML #dynamic-news-feed no encontrado.');
+                return;
             }
 
-            // ESTRUCTURA FINAL
-            noticiaHTML.innerHTML = `
-                <h4 style="margin: 0 0 5px 0; font-size: 16px; font-weight: bold; color: #1a365d;">
-                    ${datos.titulo}
-                </h4>
-                <span style="font-size: 12px; color: #666; display: block; margin-bottom: 10px;">
-                    ${fechaMostrar}
-                </span>
-                <div style="font-size: 14px; line-height: 1.6; color: #333; margin-bottom: 10px; white-space: pre-line;">
-                    ${darFormatoTexto(datos.contenido)}
-                </div>
-                ${datos.link ? 
-                    `<a href="${datos.link}" target="_blank" style="color: #0066cc; font-weight: 500; text-decoration: underline; font-size: 14px;">
-                        ${datos.linkTexto || 'Ver / Descargar'}
-                    </a>` 
-                : ''}
-            `;
+            try {
+                // Mostrar estado de carga
+                dynamicNewsFeed.innerHTML = '<h3>Últimas Noticias</h3><p class="no-results loading-message"><i class="fas fa-spinner fa-spin mr-2"></i> Cargando noticias...</p>';
 
-            // Agregamos al contenedor
-            dynamicNewsFeed.appendChild(noticiaHTML);
+                const response = await fetch(GOOGLE_SHEET_NEWS_URL);
+                if (!response.ok) {
+                    throw new Error(`Error HTTP! Estado: ${response.status}`);
+                }
+                const csvText = await response.text();
+                
+                // Usamos la función parseCSV robusta para obtener los datos
+                // Nota: Asumimos que la función parseCSV robusta está definida en otro lugar del script
+                const newsData = parseCSV(csvText); 
+                
+                // Limpiar el contenido del feed antes de añadir noticias
+                dynamicNewsFeed.innerHTML = '<h3>Últimas Noticias</h3>';
+
+                if (newsData.length === 0) {
+                    dynamicNewsFeed.innerHTML += '<p class="no-results">No hay noticias disponibles en este momento.</p>';
+                    return;
+                }
+                
+                // Itera sobre los datos y renderiza
+                newsData.forEach(newsItem => {
+                    const newsDiv = document.createElement('div');
+                    newsDiv.classList.add('news-item');
+
+                    const title = document.createElement('h4');
+                    title.textContent = newsItem.Titulo || 'Sin título';
+                    newsDiv.appendChild(title);
+
+                    const date = document.createElement('span');
+                    date.classList.add('news-date');
+                    
+                    // --- MANEJO ROBUSTO DE FECHA (ASUMIENDO DD/MM/YYYY) ---
+                    const rawDateString = newsItem.Fecha ? String(newsItem.Fecha).trim() : '';
+                    const dateParts = rawDateString.split('/');
+                    let displayDate = 'Fecha desconocida';
+
+                    if (dateParts.length === 3) {
+                        const day = parseInt(dateParts[0], 10);
+                        const month = parseInt(dateParts[1], 10) - 1; // 0-indexed
+                        const year = parseInt(dateParts[2], 10);
+                        
+                        if (!isNaN(day) && !isNaN(month) && !isNaN(year)) {
+                            const d = new Date(year, month, day);
+                            if (!isNaN(d.getTime())) {
+                                displayDate = d.toLocaleDateString('es-AR', { year: 'numeric', month: 'long', day: 'numeric' });
+                            }
+                        }
+                    }
+                    date.textContent = displayDate;
+                    // --- FIN MANEJO DE FECHA ---
+                    
+                    newsDiv.appendChild(date);
+                    
+                    // CONVIERTE EL CONTENIDO Y LAS URLS A ENLACES CLIQUEABLES
+                    const contentContainer = document.createElement('div');
+                    contentContainer.innerHTML = urlToLink(newsItem.Contenido || 'Sin contenido.');
+                    newsDiv.appendChild(contentContainer);
+
+                    // Si hay un enlace específico (columna Link), se muestra
+                    if (newsItem.Link && newsItem.Link.trim() !== '') {
+                        const link = document.createElement('a');
+                        link.href = newsItem.Link;
+                        link.textContent = newsItem.LinkTexto && newsItem.LinkTexto.trim() !== '' ? newsItem.LinkTexto : 'Ver Enlace';
+                        link.classList.add('read-more');
+                        link.target = '_blank';
+                        link.rel = 'noopener noreferrer';
+                        newsDiv.appendChild(link);
+                    }
+
+                    dynamicNewsFeed.appendChild(newsDiv);
+                });
+
+            } catch (error) {
+                console.error('Error al cargar las noticias:', error);
+                dynamicNewsFeed.innerHTML = '<h3>Últimas Noticias</h3><p class="no-results">Error al cargar las noticias. Verifique la URL y la publicación CSV.</p>';
+            }
         }
 
-    } catch (error) {
-        console.error('Error:', error);
-        dynamicNewsFeed.innerHTML = '<h3>Últimas Noticias</h3><p style="color:red;">No se pudieron cargar las noticias.</p>';
-    }
-}
-
-// Ejecutar al cargar
-document.addEventListener('DOMContentLoaded', fetchAndDisplayNews);
-
-// --- Fin Noticias Dinámicas ---
+        // Llamar a la función de carga de noticias después de la carga inicial del DOM
+        document.addEventListener('DOMContentLoaded', fetchAndDisplayNews);
+        
+        // --- Función parseCSV simple y robusta (NATIVA - SIN LIBRERÍAS) ---
+        // Esta versión divide simplemente por comas, lo cual es más seguro si tus datos no tienen comas dentro de los campos
+        function parseCSV(csvText) {
+            const lines = csvText.split('\n').filter(line => line.trim() !== ''); // Filtrar líneas vacías
+            if (lines.length < 2) {
+                console.warn('Los datos CSV no tienen encabezado o no tienen filas de datos.');
+                return [];
+            }
+        
+            const headers = lines[0].split(',').map(header => header.trim());
+            const data = [];
+        
+            for (let i = 1; i < lines.length; i++) {
+                const currentLine = lines[i].trim();
+                if (currentLine === '') continue;
+        
+                // División simple por comas
+                const values = currentLine.split(',');
+        
+                // Verificar si el número de valores coincide con el número de encabezados (aproximado)
+                if (values.length >= headers.length) {
+                    const row = {};
+                    headers.forEach((header, index) => {
+                        // Asignar valor o cadena vacía si no existe, limpiando comillas si las hubiera por error
+                        let val = values[index] !== undefined ? values[index].trim() : '';
+                        // Limpieza básica de comillas al inicio y final si existen
+                        if (val.startsWith('"') && val.endsWith('"')) {
+                            val = val.substring(1, val.length - 1);
+                        }
+                        row[header] = val;
+                    });
+        
+                    // Lógica específica para extraer Número de UE en la hoja de Colegios
+                    if (row['Nombre']) {
+                        const match = row['Nombre'].match(/Nº\s*(\d+)|N°\s*(\d+)/);
+                        if (match) {
+                            row['NumeroUE'] = match[1] || match[2];
+                        } else {
+                            row['NumeroUE'] = '';
+                        }
+                    }
+                    
+                    data.push(row);
+                } else {
+                    console.warn('Saltando fila mal formada (desajuste en el conteo de columnas):', lines[i]);
+                }
+            }
+            return data;
+        }
+        // --- Fin de la función parseCSV robusta ---
+        
+        
+            // Llama a la función de carga de noticias cuando la página se haya cargado completamente
+            document.addEventListener('DOMContentLoaded', fetchAndDisplayNews);
+        
+            // --- Fin Noticias Dinámicas ---
         
         // =============================================
         // FUNCIONES DE BÚSQUEDA
