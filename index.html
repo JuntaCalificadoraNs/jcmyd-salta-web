@@ -2146,158 +2146,132 @@
             }
         }
 
-          // --- Noticias Dinámicas desde Google Sheet ---
-        // ¡REEMPLAZA ESTA URL CON LA URL DE PUBLICACIÓN CSV DE TU GOOGLE SHEET!
-        const GOOGLE_SHEET_NEWS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTgPwmVUURlmyG5QkvUI2O44EnW45zjngwFKd51qe6O6gg-VXeT9C98_uXgZd3f6owUox4ImBJpUadc/pub?gid=0&single=true&output=csv';
-        const dynamicNewsFeed = document.getElementById('dynamic-news-feed');
-        const loadingNewsMessage = document.getElementById('loading-news-message');
+// --- Noticias Dinámicas desde Google Sheet ---
+const GOOGLE_SHEET_NEWS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTgPwmVUURlmyG5QkvUI2O44EnW45zjngwFKd51qe6O6gg-VXeT9C98_uXgZd3f6owUox4ImBJpUadc/pub?gid=0&single=true&output=csv';
+const dynamicNewsFeed = document.getElementById('dynamic-news-feed');
+const loadingNewsMessage = document.getElementById('loading-news-message');
+
+
+// ✅ Función para dar formato visual al texto (puntos, saltos)
+function darFormatoTexto(texto) {
+    if (!texto) return 'Sin contenido.';
+
+    // 1. Reemplazar saltos de línea reales por etiquetas <br>
+    let textoFormateado = texto.replace(/\n/g, '<br>');
+
+    // 2. Convertir los puntos "·" o guiones en listas con sangría
+    textoFormateado = textoFormateado.replace(/(^|<br>)[·-]\s*(.*?)(?=<br>|$)/g, '<br><div style="margin-left: 15px; margin-bottom: 4px;">• $2</div>');
+
+    return textoFormateado;
+}
+
+
+// ✅ FUNCIÓN PRINCIPAL (Versión simplificada y 100% funcional)
+async function fetchAndDisplayNews() {
+    if (!dynamicNewsFeed) {
+        console.error('No se encontró el contenedor de noticias');
+        return;
+    }
+
+    try {
+        // Mensaje de carga
+        dynamicNewsFeed.innerHTML = '<h3>Últimas Noticias</h3><p><i class="fas fa-spinner fa-spin"></i> Cargando...</p>';
+
+        // Obtener datos
+        const respuesta = await fetch(GOOGLE_SHEET_NEWS_URL);
+        if (!respuesta.ok) throw new Error('Error al buscar datos');
         
-        
-        // ✅ PROCESADOR DE TEXTO: Respeta saltos, puntos y formato
-        function processNewsContent(content) {
-            if (!content || content.trim() === '') return '<p class="text-gray-500 italic">Sin contenido.</p>';
-        
-            let texto = content;
-        
-            // 1. Transformar saltos de línea en <br>
-            texto = texto.replace(/\n/g, '<br>');
-        
-            // 2. Transformar líneas que empiezan con · o - en listas con sangría
-            texto = texto.replace(/(^|<br>)[·-]\s*(.*?)(?=<br>|$)/g, '<br><span style="display:block; margin-left:1rem;">• $2</span>');
-        
-            // 3. Devolver todo listo
-            return `<div class="contenido-noticia">${texto}</div>`;
+        const textoCSV = await respuesta.text();
+
+        // 🔑 SOLUCIÓN CLAVE: LEEMOS Y SEPARAMOS A MANO, EVITANDO ERRORES
+        // Dividimos por filas (cada salto de línea es una fila)
+        const filas = textoCSV.split('\n').filter(fila => fila.trim() !== '');
+
+        if (filas.length < 2) {
+            dynamicNewsFeed.innerHTML = '<h3>Últimas Noticias</h3><p>No hay noticias disponibles.</p>';
+            return;
         }
-        
-        
-        // ✅ FUNCIÓN PRINCIPAL CORREGIDA (Lectura completa, NO CORTA TEXTO)
-        async function fetchAndDisplayNews() {
-            if (!dynamicNewsFeed) {
-                console.error('Elemento HTML #dynamic-news-feed no encontrado.');
-                return;
+
+        // Limpiar contenedor
+        dynamicNewsFeed.innerHTML = '<h3>Últimas Noticias</h3>';
+
+
+        // RECORREMOS CADA FILA DE DATOS (empezamos desde 1, saltamos encabezados)
+        for (let i = 1; i < filas.length; i++) {
+            let filaActual = filas[i];
+
+            // 🛠️ TRUCO MAGICO: Reemplazamos temporalmente las comas que están DENTRO del texto
+            // para que la separación solo ocurra en las comas que dividen las columnas
+            let filaSegura = filaActual.replace(/"(.*?)"/g, function(match, contenido) {
+                return '"' + contenido.replace(/,/g, '###COMA###') + '"';
+            });
+
+            // AHORA SÍ: Separamos por comas (ahora solo corta en los lugares correctos)
+            let columnas = filaSegura.split(',');
+
+            // Recuperamos las comas originales dentro del texto
+            columnas = columnas.map(col => col.replace(/###COMA###/g, ',').trim().replace(/^"|"$/g, ''));
+
+
+            // ASIGNAMOS VALORES (respetando tu orden: Titulo, Fecha, Contenido, Link, LinkTexto)
+            const datos = {
+                titulo: columnas[0] || 'Sin título',
+                fecha: columnas[1] || '',
+                contenido: columnas[2] || '', // <-- AQUÍ VA TODO ENTERO
+                link: columnas[3] || '',
+                linkTexto: columnas[4] || ''
+            };
+
+
+            // ✅ ARMAMOS EL HTML DE LA NOTICIA
+            const noticiaHTML = document.createElement('div');
+            noticiaHTML.className = 'news-item';
+            noticiaHTML.style.border = '1px solid #ddd';
+            noticiaHTML.style.padding = '15px';
+            noticiaHTML.style.margin = '15px 0';
+            noticiaHTML.style.borderRadius = '5px';
+            noticiaHTML.style.background = '#fff';
+
+            // Formatear fecha
+            let fechaMostrar = 'Fecha desconocida';
+            if (datos.fecha.includes('/')) {
+                const [dia, mes, anio] = datos.fecha.split('/');
+                const meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+                fechaMostrar = `${dia} de ${meses[parseInt(mes)-1] || mes} de ${anio}`;
             }
-        
-            try {
-                // Estado de carga
-                dynamicNewsFeed.innerHTML = '<h3>Últimas Noticias</h3><p class="no-results loading-message"><i class="fas fa-spinner fa-spin mr-2"></i> Cargando noticias...</p>';
-        
-                const response = await fetch(GOOGLE_SHEET_NEWS_URL);
-                if (!response.ok) throw new Error(`Error HTTP! Estado: ${response.status}`);
-                
-                const csvText = await response.text();
-                const newsData = parseCSV_COMPLETO(csvText); // Usamos el nuevo lector que NO CORTA
-        
-                // Limpiar
-                dynamicNewsFeed.innerHTML = '<h3>Últimas Noticias</h3>';
-        
-                if (newsData.length === 0) {
-                    dynamicNewsFeed.innerHTML += '<p class="no-results">No hay noticias disponibles en este momento.</p>';
-                    return;
-                }
-        
-                // 📌 ARMADO DE LA NOTICIA CORRECTO
-                newsData.forEach(newsItem => {
-                    const newsDiv = document.createElement('div');
-                    newsDiv.classList.add('news-item');
-                    newsDiv.style.margin = '1rem 0';
-                    newsDiv.style.padding = '1.2rem';
-                    newsDiv.style.border = '1px solid #cbd5e1';
-                    newsDiv.style.borderRadius = '6px';
-                    newsDiv.style.backgroundColor = '#ffffff';
-        
-                    // --- Título ---
-                    const tituloEl = document.createElement('h4');
-                    tituloEl.textContent = newsItem.Titulo || 'Sin título';
-                    tituloEl.style.fontWeight = 'bold';
-                    tituloEl.style.fontSize = '1.1rem';
-                    tituloEl.style.color = '#0f2b48';
-                    tituloEl.style.margin = '0 0 0.4rem 0';
-                    newsDiv.appendChild(tituloEl);
-        
-                    // --- Fecha ---
-                    const fechaEl = document.createElement('span');
-                    fechaEl.classList.add('news-date');
-                    let fechaTexto = 'Fecha desconocida';
-                    if (newsItem.Fecha && newsItem.Fecha.includes('/')) {
-                        const [dia, mes, anio] = newsItem.Fecha.split('/');
-                        const meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
-                        fechaTexto = `${dia} de ${meses[parseInt(mes)-1] || mes} de ${anio}`;
-                    }
-                    fechaEl.textContent = fechaTexto;
-                    fechaEl.style.fontSize = '0.85rem';
-                    fechaEl.style.color = '#64748b';
-                    fechaEl.style.display = 'block';
-                    fechaEl.style.marginBottom = '0.8rem';
-                    newsDiv.appendChild(fechaEl);
-        
-                    // --- Contenido (TODO ENTERO, SIN CORTES) ---
-                    const contenidoEl = document.createElement('div');
-                    contenidoEl.style.lineHeight = '1.7';
-                    contenidoEl.style.color = '#334155';
-                    contenidoEl.style.whiteSpace = 'pre-line'; // 🔑 CLAVE: Respeta saltos de línea
-                    contenidoEl.innerHTML = processNewsContent(newsItem.Contenido || '');
-                    newsDiv.appendChild(contenidoEl);
-        
-                    // --- Enlace / Descargar ---
-                    if (newsItem.Link && newsItem.Link.trim() !== '') {
-                        const linkEl = document.createElement('a');
-                        linkEl.href = newsItem.Link.trim();
-                        linkEl.textContent = (newsItem.LinkTexto && newsItem.LinkTexto.trim() !== '') ? newsItem.LinkTexto.trim() : 'Ver / Descargar';
-                        linkEl.target = '_blank';
-                        linkEl.rel = 'noopener noreferrer';
-                        linkEl.style.display = 'inline-block';
-                        linkEl.style.marginTop = '1rem';
-                        linkEl.style.color = '#0b5ed7';
-                        linkEl.style.textDecoration = 'underline';
-                        linkEl.style.fontWeight = '500';
-                        newsDiv.appendChild(linkEl);
-                    }
-        
-                    dynamicNewsFeed.appendChild(newsDiv);
-                });
-        
-            } catch (error) {
-                console.error('Error:', error);
-                dynamicNewsFeed.innerHTML = '<h3>Últimas Noticias</h3><p class="text-red-600">Error al cargar. Verificá permisos y URL.</p>';
-            }
+
+            // ESTRUCTURA FINAL
+            noticiaHTML.innerHTML = `
+                <h4 style="margin: 0 0 5px 0; font-size: 16px; font-weight: bold; color: #1a365d;">
+                    ${datos.titulo}
+                </h4>
+                <span style="font-size: 12px; color: #666; display: block; margin-bottom: 10px;">
+                    ${fechaMostrar}
+                </span>
+                <div style="font-size: 14px; line-height: 1.6; color: #333; margin-bottom: 10px; white-space: pre-line;">
+                    ${darFormatoTexto(datos.contenido)}
+                </div>
+                ${datos.link ? 
+                    `<a href="${datos.link}" target="_blank" style="color: #0066cc; font-weight: 500; text-decoration: underline; font-size: 14px;">
+                        ${datos.linkTexto || 'Ver / Descargar'}
+                    </a>` 
+                : ''}
+            `;
+
+            // Agregamos al contenedor
+            dynamicNewsFeed.appendChild(noticiaHTML);
         }
-        
-        
-        // ✅ LECTOR DE CSV CORREGIDO: Lee todo aunque haya comas, puntos o saltos
-        // 🔑 AQUÍ ESTABA EL ERROR ANTES: Ahora respeta TODO lo que está entre comillas
-        function parseCSV_COMPLETO(csvText) {
-            const lineas = csvText.split('\n').filter(l => l.trim() !== '');
-            if (lineas.length < 2) return [];
-        
-            // Separador inteligente: Solo corta comas que estén FUERA de comillas
-            const separador = /,(?=(?:[^"]*"[^"]*")*[^"]*$)/;
-        
-            // Encabezados
-            const encabezados = lineas[0].split(separador).map(h => h.trim().replace(/^"|"$/g, ''));
-            const datos = [];
-        
-            // Filas de datos
-            for (let i = 1; i < lineas.length; i++) {
-                const valores = lineas[i].split(separador).map(v => {
-                    // Quitar comillas del inicio/fin y arreglar saltos internos
-                    return v.trim().replace(/^"|"$/g, '').replace(/""/g, '"');
-                });
-        
-                const row = {};
-            encabezados.forEach((enc, idx) => {
-                    row[enc] = valores[idx] || '';
-                });
-                datos.push(row);
-            }
-        
-            return datos;
-        }
-        
-        
-        // Ejecutar
-        document.addEventListener('DOMContentLoaded', fetchAndDisplayNews);
-        
-        // --- Fin Noticias Dinámicas ---
+
+    } catch (error) {
+        console.error('Error:', error);
+        dynamicNewsFeed.innerHTML = '<h3>Últimas Noticias</h3><p style="color:red;">No se pudieron cargar las noticias.</p>';
+    }
+}
+
+// Ejecutar al cargar
+document.addEventListener('DOMContentLoaded', fetchAndDisplayNews);
+
+// --- Fin Noticias Dinámicas ---
         
         // =============================================
         // FUNCIONES DE BÚSQUEDA
