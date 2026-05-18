@@ -1689,6 +1689,161 @@
         <div class="container">
             
        <section id="inicio" class="content-section">
+           <!-- =================================================================== -->
+        <!-- BLOQUE DE EFEMÉRIDES AUTOMÁTICO (DÍA DE LA ESCARAPELA)              -->
+        <!-- Pégalo en tu index.html dentro de <section id="inicio">             -->
+        <!-- justo al principio de la sección, arriba del texto de bienvenida.   -->
+        <!-- =================================================================== -->
+        <div id="efemerides-escarapela-container" style="display: none; margin-bottom: 30px;">
+            <style>
+                .escarapela-card {
+                    background: linear-gradient(135deg, #f8fafc 0%, #e0f2fe 100%);
+                    border: 2px solid #74acdf;
+                    border-radius: 16px;
+                    padding: 25px;
+                    box-shadow: 0 10px 25px rgba(116, 172, 223, 0.25);
+                    display: flex;
+                    align-items: center;
+                    gap: 25px;
+                    position: relative;
+                    overflow: hidden;
+                    border-left: 8px solid #74acdf;
+                    animation: softPulse 3s infinite ease-in-out;
+                }
+        
+                .escarapela-vector {
+                    flex-shrink: 0;
+                    width: 90px;
+                    height: 90px;
+                    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.15));
+                    animation: spinEscarapela 20s linear infinite;
+                }
+        
+                .escarapela-content {
+                    flex-grow: 1;
+                }
+        
+                .escarapela-content h3 {
+                    color: #0c4a6e !important;
+                    font-size: 1.4rem !important;
+                    margin: 0 0 5px 0 !important;
+                    font-weight: 800 !important;
+                    border-bottom: none !important;
+                    padding-bottom: 0 !important;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                }
+        
+                .escarapela-content p {
+                    color: #334155 !important;
+                    font-size: 1rem !important;
+                    line-height: 1.5 !important;
+                    margin: 0 !important;
+                }
+        
+                .escarapela-close-btn {
+                    position: absolute;
+                    top: 10px;
+                    right: 15px;
+                    background: none;
+                    border: none;
+                    color: #74acdf;
+                    font-size: 1.5rem;
+                    cursor: pointer;
+                    transition: color 0.2s;
+                    font-weight: bold;
+                }
+        
+                .escarapela-close-btn:hover {
+                    color: #0c4a6e;
+                }
+        
+                @keyframes softPulse {
+                    0% { transform: scale(1); }
+                    50% { transform: scale(1.01); box-shadow: 0 12px 30px rgba(116, 172, 223, 0.35); }
+                    100% { transform: scale(1); }
+                }
+        
+                @keyframes spinEscarapela {
+                    from { transform: rotate(0deg); }
+                    to { transform: rotate(360deg); }
+                }
+        
+                @media (max-width: 600px) {
+                    .escarapela-card {
+                        flex-direction: column;
+                        text-align: center;
+                        padding: 20px;
+                    }
+                    .escarapela-vector {
+                        width: 80px;
+                        height: 80px;
+                    }
+                }
+            </style>
+        
+            <div class="escarapela-card">
+                <button class="escarapela-close-btn" onclick="document.getElementById('efemerides-escarapela-container').style.display='none'">&times;</button>
+                
+                <!-- Escarapela dibujada perfectamente con vectores (SVG) -->
+                <div class="escarapela-vector">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Capa Celeste Exterior -->
+                        <circle cx="50" cy="50" r="46" fill="#74acdf" />
+                        <path d="M 50 4 A 46 46 0 0 1 54 4" stroke="#ffffff" stroke-width="2" fill="none" />
+                        <!-- Bordado de la escarapela -->
+                        <circle cx="50" cy="50" r="45" fill="none" stroke="#6096c4" stroke-width="1.5" stroke-dasharray="3,3" />
+                        
+                        <!-- Capa Blanca -->
+                        <circle cx="50" cy="50" r="31" fill="#ffffff" />
+                        <circle cx="50" cy="50" r="30" fill="none" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="2,2" />
+                        
+                        <!-- Capa Celeste Interior -->
+                        <circle cx="50" cy="50" r="18" fill="#74acdf" />
+                        <circle cx="50" cy="50" r="17" fill="none" stroke="#6096c4" stroke-width="1" stroke-dasharray="2,2" />
+                        
+                        <!-- Sol de Mayo en el centro -->
+                        <circle cx="50" cy="50" r="6" fill="#f59e0b" />
+                        <!-- Rayos del Sol -->
+                        <g stroke="#f59e0b" stroke-width="1.5" stroke-linecap="round">
+                            <line x1="50" y1="44" x2="50" y2="40" />
+                            <line x1="50" y1="56" x2="50" y2="60" />
+                            <line x1="44" y1="50" x2="40" y2="50" />
+                            <line x1="56" y1="50" x2="60" y2="50" />
+                            <line x1="46" y1="46" x2="43" y2="43" />
+                            <line x1="54" y1="54" x2="57" y2="57" />
+                            <line x1="54" y1="46" x2="57" y2="43" />
+                            <line x1="46" y1="54" x2="43" y2="57" />
+                        </g>
+                    </svg>
+                </div>
+        
+                <div class="escarapela-content">
+                    <h3>18 de Mayo</h3>
+                    <p style="font-weight: bold; color: #0c4a6e !important; margin-bottom: 5px !important;">
+                        Día Nacional de la Escarapela Argentina
+                    </p>
+                    <p>
+                        La Junta Calificadora de Méritos y Disciplina saluda a toda la comunidad docente en este día, vistiendo con orgullo los colores de nuestra patria que nos unen e identifican.
+                    </p>
+                </div>
+            </div>
+        
+            <!-- Script de control de fecha automático -->
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    const hoy = new Date();
+                    const dia = hoy.getDate();
+                    const mes = hoy.getMonth(); // Enero es 0, Mayo es 4
+        
+                    // Se muestra SÓLO el 18 de Mayo (mes === 4)
+                    if (dia === 18 && mes === 4) {
+                        document.getElementById('efemerides-escarapela-container').style.display = 'block';
+                    }
+                });
+            </script>
+        </div>
+        <!-- =================================================================== -->
             <h1>Junta Calificadora de Méritos y Disciplina</h1>
             <h2>Nivel Secundario y sus Modalidades</h2>
             <p class="welcome-text">
