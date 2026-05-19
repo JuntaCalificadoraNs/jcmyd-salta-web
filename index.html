@@ -2509,242 +2509,283 @@
             }
         }
 
-        // ====================================================================
-        // --- SISTEMA DE NOTICIAS DINÁMICAS DESDE GOOGLE SHEETS (CORREGIDO) ---
-        // ====================================================================
-        // 📌 ¡AQUÍ ESTÁ LA LÍNEA QUE FALTABA REINTEGRAR!
-        const GOOGLE_SHEET_NEWS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTgPwmVUURlmyG5QkvUI2O44EnW45zjngwFKd51qe6O6gg-VXeT9C98_uXgZd3f6owUox4ImBJpUadc/pub?gid=0&single=true&output=csv';
-        // 1. FUNCIÓN EXCLUSIVA PARA EL MOTOR DE NOTICIAS
-        function parseCSVNoticias(csvText) {
-            const result = [];
-            let row = [];
-            let field = '';
-            let inQuotes = false;
-        
-            const text = csvText.replace(/\r\n/g, '\n');
-        
-            for (let i = 0; i < text.length; i++) {
-                const char = text[i];
-                const nextChar = text[i + 1];
-        
-                if (inQuotes) {
-                    if (char === '"') {
-                        if (nextChar === '"') {
-                            field += '"';
-                            i++;
-                        } else {
-                            inQuotes = false;
-                        }
-                    } else {
-                        field += char;
-                    }
+    // ====================================================================
+// --- SISTEMA DE NOTICIAS DINÁMICAS DESDE GOOGLE SHEETS (CORREGIDO) ---
+// ====================================================================
+
+// URL de publicación en la Web como CSV de tu Google Sheet de Noticias
+const GOOGLE_SHEET_NEWS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTgPwmVUURlmyG5QkvUI2O44EnW45zjngwFKd51qe6O6gg-VXeT9C98_uXgZd3f6owUox4ImBJpUadc/pub?gid=0&single=true&output=csv';
+
+// 1. FUNCIÓN EXCLUSIVA PARA EL MOTOR DE NOTICIAS (Evita colisiones con buscadores)
+function parseCSVNoticias(csvText) {
+    const result = [];
+    let row = [];
+    let field = '';
+    let inQuotes = false;
+
+    // Normalizar finales de línea para evitar fallos entre sistemas operativos
+    const text = csvText.replace(/\r\n/g, '\n');
+
+    for (let i = 0; i < text.length; i++) {
+        const char = text[i];
+        const nextChar = text[i + 1];
+
+        if (inQuotes) {
+            if (char === '"') {
+                if (nextChar === '"') {
+                    field += '"';
+                    i++;
                 } else {
-                    if (char === '"') {
-                        inQuotes = true;
-                    } else if (char === ',') {
-                        row.push(field.trim());
-                        field = '';
-                    } else if (char === '\n') {
-                        row.push(field.trim());
-                        result.push(row);
-                        row = [];
-                        field = '';
-                    } else {
-                        field += char;
-                    }
+                    inQuotes = false;
                 }
+            } else {
+                field += char;
             }
-            
-            if (field || row.length > 0) {
+        } else {
+            if (char === '"') {
+                inQuotes = true;
+            } else if (char === ',') {
+                row.push(field.trim());
+                field = '';
+            } else if (char === '\n') {
                 row.push(field.trim());
                 result.push(row);
+                row = [];
+                field = '';
+            } else {
+                field += char;
             }
+        }
+    }
+    
+    if (field || row.length > 0) {
+        row.push(field.trim());
+        result.push(row);
+    }
+
+    if (result.length < 2) return [];
+
+    // Normalizador de Cabeceras Inteligente: Limpia BOM (\uFEFF), tildes, mayúsculas y minúsculas
+    const headers = result[0].map(h => {
+        let clean = h.trim().replace(/^\uFEFF/, '').toLowerCase();
+        clean = clean.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
         
-            if (result.length < 2) return [];
-        
-            const headers = result[0].map(h => h.trim());
-            const data = [];
-            for (let i = 1; i < result.length; i++) {
-                const currentRow = result[i];
-                if (currentRow.length === 1 && currentRow[0] === '') continue;
-        
-                const obj = {};
-                headers.forEach((header, index) => {
-                    obj[header] = currentRow[index] !== undefined ? currentRow[index] : '';
-                });
-                data.push(obj);
+        if (clean === 'titulo') return 'Titulo';
+        if (clean === 'fecha') return 'Fecha';
+        if (clean === 'contenido') return 'Contenido';
+        if (clean === 'link' || clean === 'enlace' || clean === 'url') return 'Link';
+        if (clean === 'linktexto' || clean === 'texto' || clean === 'boton') return 'LinkTexto';
+        if (clean === 'estado' || clean === 'activo') return 'Estado';
+        if (clean === 'id') return 'ID';
+        if (clean === 'tipo') return 'Tipo';
+        return h.trim();
+    });
+
+    const data = [];
+    for (let i = 1; i < result.length; i++) {
+        const currentRow = result[i];
+        if (currentRow.length === 1 && currentRow[0] === '') continue;
+
+        const obj = {};
+        headers.forEach((header, index) => {
+            obj[header] = currentRow[index] !== undefined ? currentRow[index] : '';
+        });
+        data.push(obj);
+    }
+    return data;
+}
+
+// Convierte cualquier dirección URL de texto plano en un enlace HTML dinámico
+function urlToLink(text) {
+    if (!text) return '';
+    const urlRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])|(\bwww\.[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+    
+    return text.replace(urlRegex, function(url) {
+        let fullUrl = url;
+        if (!fullUrl.startsWith('http')) {
+            fullUrl = 'http://' + fullUrl;
+        }
+        return `<a href="${fullUrl}" target="_blank" rel="noopener noreferrer" style="color: #3498db; text-decoration: underline; font-weight: bold;">${url}</a>`;
+    });
+}
+
+// Procesa enlaces viejos por compatibilidad
+function processLinksInLine(line) {
+    const links = [
+        {
+            text: 'Declaración Jurada de Empleos Públicos. (DESCARGAR)',
+            url: 'https://drive.google.com/uc?export=download&id=1mYh9yAY1CwfSnvRQZfrwobk13ldydJqi'
+        },
+        {
+            text: 'Formulario ST 04. (DESCARGAR)',
+            url: 'https://drive.google.com/uc?export=download&id=1WtrVXUwKrrixgzEO9oVCla5XbGEc0OpZ'
+        },
+        {
+            text: 'Circular 02/2025 Completa. (DESCARGAR)',
+            url: 'https://drive.google.com/uc?export=download&id=1U02ord_9mwyJPkrqHe_8FIJz0YIhyaft'
+        },
+        {
+            text: 'Anexo I - Circular 02/2025. (DESCARGAR)',
+            url: 'https://drive.google.com/uc?export=download&id=1f8AJGb6KL-wK8c6FerYGna3KCbu0JrVD'
+        }
+    ];
+    
+    let processedLine = line;
+    links.forEach(link => {
+        const regex = new RegExp(link.text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g');
+        processedLine = processedLine.replace(regex, `<a href="${link.url}" class="inline-link" target="_blank" rel="noopener noreferrer">${link.text.replace('(DESCARGAR)', 'DESCARGAR')}</a>`);
+    });
+    return processedLine;
+}
+
+// Procesa el contenido de la noticia respetando saltos de línea y viñetas
+function processNewsContent(content) {
+    if (!content) return '<p>Sin contenido.</p>';
+
+    const lines = content.split('\n').map(line => line.trim()).filter(line => line !== '');
+    let html = '';
+    let inList = false;
+
+    lines.forEach(line => {
+        // Primero auto-convertimos URLs de texto a enlaces HTML cliqueables
+        let processedLine = urlToLink(line);
+        // Procesamos los links hardcodeados viejos por compatibilidad
+        processedLine = processLinksInLine(processedLine);
+
+        // Detectar si la línea es un ítem de lista (empieza con "·" o "-")
+        if (line.startsWith('·') || line.startsWith('-')) {
+            const cleanLine = processedLine.replace(/^[·-]\s*/, ''); // Limpiar viñeta
+            if (!inList) {
+                html += '<ul class="news-list" style="margin-left: 20px; margin-bottom: 15px; list-style-type: disc;">';
+                inList = true;
             }
-            return data;
-        }
-        
-        // Convierte cualquier dirección URL de texto plano en un enlace HTML dinámico
-        function urlToLink(text) {
-            if (!text) return '';
-            const urlRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])|(\bwww\.[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
-            
-            return text.replace(urlRegex, function(url) {
-                let fullUrl = url;
-                if (!fullUrl.startsWith('http')) {
-                    fullUrl = 'http://' + fullUrl;
-                }
-                return `<a href="${fullUrl}" target="_blank" rel="noopener noreferrer" style="color: #3498db; text-decoration: underline; font-weight: bold;">${url}</a>`;
-            });
-        }
-        
-        // Procesa enlaces viejos por compatibilidad
-        function processLinksInLine(line) {
-            const links = [
-                {
-                    text: 'Declaración Jurada de Empleos Públicos. (DESCARGAR)',
-                    url: 'https://drive.google.com/uc?export=download&id=1mYh9yAY1CwfSnvRQZfrwobk13ldydJqi'
-                },
-                {
-                    text: 'Formulario ST 04. (DESCARGAR)',
-                    url: 'https://drive.google.com/uc?export=download&id=1WtrVXUwKrrixgzEO9oVCla5XbGEc0OpZ'
-                },
-                {
-                    text: 'Circular 02/2025 Completa. (DESCARGAR)',
-                    url: 'https://drive.google.com/uc?export=download&id=1U02ord_9mwyJPkrqHe_8FIJz0YIhyaft'
-                },
-                {
-                    text: 'Anexo I - Circular 02/2025. (DESCARGAR)',
-                    url: 'https://drive.google.com/uc?export=download&id=1f8AJGb6KL-wK8c6FerYGna3KCbu0JrVD'
-                }
-            ];
-            
-            let processedLine = line;
-            links.forEach(link => {
-                const regex = new RegExp(link.text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g');
-                processedLine = processedLine.replace(regex, `<a href="${link.url}" class="inline-link" target="_blank" rel="noopener noreferrer">${link.text.replace('(DESCARGAR)', 'DESCARGAR')}</a>`);
-            });
-            return processedLine;
-        }
-        
-        // Procesa el contenido de la noticia respetando saltos de línea y viñetas
-        function processNewsContent(content) {
-            if (!content) return '<p>Sin contenido.</p>';
-        
-            const lines = content.split('\n').map(line => line.trim()).filter(line => line !== '');
-            let html = '';
-            let inList = false;
-        
-            lines.forEach(line => {
-                // Primero auto-convertimos URLs de texto a enlaces HTML cliqueables
-                let processedLine = urlToLink(line);
-                // Procesamos los links hardcodeados viejos por compatibilidad
-                processedLine = processLinksInLine(processedLine);
-        
-                // Detectar si la línea es un ítem de lista (empieza con "·" o "-")
-                if (line.startsWith('·') || line.startsWith('-')) {
-                    const cleanLine = processedLine.replace(/^[·-]\s*/, ''); // Limpiar viñeta
-                    if (!inList) {
-                        html += '<ul class="news-list" style="margin-left: 20px; margin-bottom: 15px; list-style-type: disc;">';
-                        inList = true;
-                    }
-                    html += `<li style="margin-bottom: 6px; color: #555;">${cleanLine}</li>`;
-                } else {
-                    if (inList) {
-                        html += '</ul>';
-                        inList = false;
-                    }
-                    html += `<p style="margin-bottom: 12px; color: #333;">${processedLine}</p>`;
-                }
-            });
-        
+            html += `<li style="margin-bottom: 6px; color: #555;">${cleanLine}</li>`;
+        } else {
             if (inList) {
                 html += '</ul>';
+                inList = false;
             }
-        
-            return html;
+            html += `<p style="margin-bottom: 12px; color: #333;">${processedLine}</p>`;
+        }
+    });
+
+    if (inList) {
+        html += '</ul>';
+    }
+
+    return html;
+}
+
+// 2. FUNCIÓN PARA LEER Y RENDERIZAR LAS NOVEDADES EN PANTALLA
+async function fetchAndDisplayNews() {
+    const dynamicNewsFeed = document.getElementById('dynamic-news-feed');
+    if (!dynamicNewsFeed) {
+        console.error('Elemento HTML #dynamic-news-feed no encontrado.');
+        return;
+    }
+
+    try {
+        // Mostrar mensaje de carga inicial
+        dynamicNewsFeed.innerHTML = '<h3>Últimas Noticias</h3><p class="no-results" id="loading-news-message"><i class="fas fa-spinner fa-spin mr-2"></i> Cargando novedades...</p>';
+
+        const response = await fetch(GOOGLE_SHEET_NEWS_URL);
+        if (!response.ok) {
+            throw new Error(`Error de red al intentar descargar noticias (Estado: ${response.status})`);
         }
         
-        // 2. FUNCIÓN PARA LEER Y RENDERIZAR LAS NOVEDADES EN PANTALLA
-        async function fetchAndDisplayNews() {
-            const dynamicNewsFeed = document.getElementById('dynamic-news-feed');
-            if (!dynamicNewsFeed) {
-                console.error('Elemento HTML #dynamic-news-feed no encontrado.');
-                return;
+        const csvText = await response.text();
+        // USAMOS LA FUNCIÓN EXCLUSIVA DE NOTICIAS
+        const newsData = parseCSVNoticias(csvText); 
+
+        // Eliminar el mensaje de carga
+        const loadingMessage = document.getElementById('loading-news-message');
+        if (loadingMessage) loadingMessage.remove();
+
+        // Filtrar noticias válidas (tolerante si no existe columna "Estado")
+        const activeNews = newsData.filter(item => {
+            if (item.Estado) {
+                return item.Estado.trim().toLowerCase() === 'activo';
             }
-        
-            try {
-                // Mostrar mensaje de carga inicial
-                dynamicNewsFeed.innerHTML = '<h3>Últimas Noticias</h3><p class="no-results" id="loading-news-message"><i class="fas fa-spinner fa-spin mr-2"></i> Cargando novedades...</p>';
-        
-                const response = await fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTgPwmVUURlmyG5QkvUI2O44EnW45zjngwFKd51qe6O6gg-VXeT9C98_uXgZd3f6owUox4ImBJpUadc/pub?gid=0&single=true&output=csv');
-                if (!response.ok) {
-                    throw new Error(`Error de red al intentar descargar noticias (Estado: ${response.status})`);
-                }
-                
-                const csvText = await response.text();
-                // USAMOS LA FUNCIÓN EXCLUSIVA DE NOTICIAS
-                const newsData = parseCSVNoticias(csvText); 
-        
-                // Eliminar el mensaje de carga
-                const loadingMessage = document.getElementById('loading-news-message');
-                if (loadingMessage) loadingMessage.remove();
-        
-                // Filtrar y renderizar noticias vigentes
-                const activeNews = newsData.filter(item => item.Estado && item.Estado.trim().toLowerCase() === 'activo');
-        
-                if (activeNews.length === 0) {
-                    dynamicNewsFeed.innerHTML += '<p class="no-results"><i class="fas fa-info-circle mr-2"></i> No hay novedades o avisos urgentes publicados en este momento.</p>';
-                    return;
-                }
-        
-                // Ordenar por ID de mayor a menor (las más recientes primero)
-                activeNews.sort((a, b) => parseInt(b.ID || 0) - parseInt(a.ID || 0));
-        
-                // Renderizar cada tarjeta de noticia
-                activeNews.forEach(news => {
-                    const dateStr = news.Fecha || new Date().toLocaleDateString('es-AR');
-                    const titleStr = news.Titulo || 'Aviso Oficial';
-                    const contentStr = news.Contenido || '';
-                    const typeStr = (news.Tipo || 'info').trim().toLowerCase();
-                    const linkStr = news.Enlace || '';
-        
-                    let iconClass = 'fa-info-circle';
-                    let alertClass = 'news-info';
-        
-                    if (typeStr === 'urgente' || typeStr === 'importante') {
-                        iconClass = 'fa-exclamation-triangle';
-                        alertClass = 'news-urgent';
-                    } else if (typeStr === 'exito' || typeStr === 'tramite') {
-                        iconClass = 'fa-check-circle';
-                        alertClass = 'news-success';
-                    }
-        
-                    let newsItemHTML = `
-                        <div class="news-item ${alertClass}">
-                            <div class="news-header">
-                                <span class="news-date"><i class="far fa-calendar-alt mr-1"></i> ${dateStr}</span>
-                                <span class="news-type-tag"><i class="fas ${iconClass} mr-1"></i> ${typeStr.toUpperCase()}</span>
-                            </div>
-                            <h4>${titleStr}</h4>
-                            <p>${contentStr}</p>
-                    `;
-        
-                    if (linkStr && linkStr.trim() !== '') {
-                        newsItemHTML += `
-                            <div style="margin-top: 12px; text-align: right;">
-                                <a href="${linkStr.trim()}" target="_blank" class="news-link-btn">
-                                    Ver Documento / Enlace <i class="fas fa-external-link-alt ml-1"></i>
-                                </a>
-                            </div>
-                        `;
-                    }
-        
-                    newsItemHTML += `</div>`;
-                    dynamicNewsFeed.innerHTML += newsItemHTML;
-                });
-        
-            } catch (error) {
-                console.error('Error crítico en el sistema de noticias:', error);
-                const loadingMessage = document.getElementById('loading-news-message');
-                if (loadingMessage) loadingMessage.remove();
-                dynamicNewsFeed.innerHTML += `<p class="no-results" style="color: #b91c1c;"><i class="fas fa-exclamation-circle mr-2"></i> No se pudieron cargar las novedades en este momento. Intente nuevamente más tarde.</p>`;
-            }
+            return item.Titulo || item.Contenido;
+        });
+
+        if (activeNews.length === 0) {
+            dynamicNewsFeed.innerHTML += '<p class="no-results"><i class="fas fa-info-circle mr-2"></i> No hay novedades o avisos urgentes publicados en este momento.</p>';
+            return;
         }
-        // 3. RESTAURACIÓN DE LA FUNCIÓN ORIGINAL PARA EL BUSCADOR DE MATERIAS E INCUMBENCIAS
+
+        // Ordenar: si hay columna de ID ordena por ella; de lo contrario, lo más nuevo (abajo en Excel) arriba.
+        if (activeNews.some(item => item.ID)) {
+            activeNews.sort((a, b) => parseInt(b.ID || 0) - parseInt(a.ID || 0));
+        } else {
+            activeNews.reverse();
+        }
+
+        // Limpiar contenedor antes de renderizar
+        dynamicNewsFeed.innerHTML = '<h3>Últimas Noticias</h3>';
+
+        // Renderizar cada tarjeta de noticia
+        activeNews.forEach(news => {
+            const dateStr = news.Fecha || new Date().toLocaleDateString('es-AR');
+            const titleStr = news.Titulo || 'Aviso Oficial';
+            const contentStr = news.Contenido || '';
+            const typeStr = (news.Tipo || 'info').trim().toLowerCase();
+            
+            // Soporte robusto de enlaces cruzados
+            let linkStr = (news.Link || '').trim();
+            let linkTextStr = (news.LinkTexto || '').trim();
+
+            if (!linkStr.startsWith('http') && linkTextStr.startsWith('http')) {
+                linkStr = linkTextStr;
+                linkTextStr = 'Ver Enlace / Descargar';
+            }
+
+            if (linkTextStr === '') {
+                linkTextStr = 'Ver Enlace / Descargar';
+            }
+
+            let iconClass = 'fa-info-circle';
+            let alertClass = 'news-info';
+
+            if (typeStr === 'urgente' || typeStr === 'importante') {
+                iconClass = 'fa-exclamation-triangle';
+                alertClass = 'news-urgent';
+            } else if (typeStr === 'exito' || typeStr === 'tramite') {
+                iconClass = 'fa-check-circle';
+                alertClass = 'news-success';
+            }
+
+            let newsItemHTML = `
+                <div class="news-item ${alertClass}" style="margin-bottom: 25px; padding: 20px; border-bottom: 1px solid #e2e8f0;">
+                    <div class="news-header" style="margin-bottom: 10px; display: flex; justify-content: space-between; font-size: 0.85em; color: #718096;">
+                        <span class="news-date"><i class="far fa-calendar-alt mr-1"></i> ${dateStr}</span>
+                        <span class="news-type-tag"><i class="fas ${iconClass} mr-1"></i> ${typeStr.toUpperCase()}</span>
+                    </div>
+                    <h4 style="color: #1e3a8a; margin-bottom: 10px; font-size: 1.25em;">${titleStr}</h4>
+                    <div>${processNewsContent(contentStr)}</div>
+            `;
+
+            if (linkStr && linkStr.startsWith('http')) {
+                newsItemHTML += `
+                    <div style="margin-top: 12px; text-align: right;">
+                        <a href="${linkStr}" target="_blank" class="news-link-btn button" rel="noopener noreferrer" style="display: inline-flex; align-items: center; margin-top: 15px;">
+                            ${linkTextStr} <i class="fas fa-external-link-alt ml-1"></i>
+                        </a>
+                    </div>
+                `;
+            }
+
+            newsItemHTML += `</div>`;
+            dynamicNewsFeed.innerHTML += newsItemHTML;
+        });
+
+    } catch (error) {
+        console.error('Error crítico en el sistema de noticias:', error);
+        dynamicNewsFeed.innerHTML = '<h3>Últimas Noticias</h3><p class="no-results" style="color: #dc2626;"><i class="fas fa-exclamation-circle"></i> Error al sincronizar novedades. Por favor intente más tarde.</p>';
+    }
+}
+
+// 3. RESTAURACIÓN DE LA FUNCIÓN ORIGINAL PARA EL BUSCADOR DE MATERIAS E INCUMBENCIAS
 function parseCSV(csvText) {
     const lines = csvText.split('\n').filter(line => line.trim() !== '');
     if (lines.length < 2) return [];
@@ -2769,7 +2810,7 @@ function parseCSV(csvText) {
             });
 
             if (row['Nombre']) {
-                const match = row['Nombre'].match(/Nº\s*(\d+)|N°\s*(\d+)/);
+                const match = row['Nombre'].match(/Nº\s*(\d+)/) || row['Nombre'].match(/N°\s*(\d+)/);
                 if (match) {
                     row['NumeroUE'] = match[1] || match[2];
                 } else {
@@ -2781,9 +2822,9 @@ function parseCSV(csvText) {
     }
     return data;
 }
-        // Inicializar carga al iniciar la aplicación
-        document.addEventListener('DOMContentLoaded', fetchAndDisplayNews);
-        
+
+// Inicializar carga al iniciar la aplicación
+document.addEventListener('DOMContentLoaded', fetchAndDisplayNews);        
             // --- Fin Noticias Dinámicas ---
         
         // =============================================
