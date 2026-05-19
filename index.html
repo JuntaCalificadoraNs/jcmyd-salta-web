@@ -2513,17 +2513,13 @@
         // --- SISTEMA DE NOTICIAS DINÁMICAS DESDE GOOGLE SHEETS (CORREGIDO) ---
         // ====================================================================
         
-        // URL de publicación en la Web como CSV de tu Google Sheet de Noticias
-        const GOOGLE_SHEET_NEWS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTgPwmVUURlmyG5QkvUI2O44EnW45zjngwFKd51qe6O6gg-VXeT9C98_uXgZd3f6owUox4ImBJpUadc/pub?gid=0&single=true&output=csv';
-        
-        // Función para parsear texto CSV de forma ultra-robusta (Maneja saltos de línea y comas internas)
-        function parseCSV(csvText) {
+        // 1. FUNCIÓN EXCLUSIVA PARA EL MOTOR DE NOTICIAS
+        function parseCSVNoticias(csvText) {
             const result = [];
             let row = [];
             let field = '';
             let inQuotes = false;
         
-            // Normalizar finales de línea
             const text = csvText.replace(/\r\n/g, '\n');
         
             for (let i = 0; i < text.length; i++) {
@@ -2533,11 +2529,9 @@
                 if (inQuotes) {
                     if (char === '"') {
                         if (nextChar === '"') {
-                            // Doble comilla escapada dentro de comillas "" -> "
                             field += '"';
-                            i++; // saltar la siguiente comilla
+                            i++;
                         } else {
-                            // Fin del campo entrecomillado
                             inQuotes = false;
                         }
                     } else {
@@ -2560,7 +2554,6 @@
                 }
             }
             
-            // Agregar última fila o campo remanente si existe
             if (field || row.length > 0) {
                 row.push(field.trim());
                 result.push(row);
@@ -2568,12 +2561,10 @@
         
             if (result.length < 2) return [];
         
-            // Mapear filas a objetos usando la primera fila como cabecera
             const headers = result[0].map(h => h.trim());
             const data = [];
             for (let i = 1; i < result.length; i++) {
                 const currentRow = result[i];
-                // Omitir filas vacías
                 if (currentRow.length === 1 && currentRow[0] === '') continue;
         
                 const obj = {};
@@ -2666,7 +2657,7 @@
             return html;
         }
         
-        // Obtiene los datos del Sheet y los renderiza dinámicamente
+        // 2. FUNCIÓN PARA LEER Y RENDERIZAR LAS NOVEDADES EN PANTALLA
         async function fetchAndDisplayNews() {
             const dynamicNewsFeed = document.getElementById('dynamic-news-feed');
             if (!dynamicNewsFeed) {
@@ -2684,84 +2675,111 @@
                 }
                 
                 const csvText = await response.text();
-                const newsData = parseCSV(csvText);
+                // USAMOS LA FUNCIÓN EXCLUSIVA DE NOTICIAS
+                const newsData = parseCSVNoticias(csvText); 
         
-                dynamicNewsFeed.innerHTML = '<h3>Últimas Noticias</h3>';
+                // Eliminar el mensaje de carga
+                const loadingMessage = document.getElementById('loading-news-message');
+                if (loadingMessage) loadingMessage.remove();
         
-                if (newsData.length === 0) {
-                    dynamicNewsFeed.innerHTML += '<p class="no-results">No hay comunicados o noticias disponibles en este momento.</p>';
+                // Filtrar y renderizar noticias vigentes
+                const activeNews = newsData.filter(item => item.Estado && item.Estado.trim().toLowerCase() === 'activo');
+        
+                if (activeNews.length === 0) {
+                    dynamicNewsFeed.innerHTML += '<p class="no-results"><i class="fas fa-info-circle mr-2"></i> No hay novedades o avisos urgentes publicados en este momento.</p>';
                     return;
                 }
         
-                // Renderizar cada noticia de forma inversa (más reciente arriba)
-                newsData.reverse().forEach(newsItem => {
-                    const newsDiv = document.createElement('div');
-                    newsDiv.classList.add('news-item');
-                    newsDiv.style.marginBottom = '25px';
-                    newsDiv.style.padding = '20px';
-                    newsDiv.style.borderBottom = '1px solid #e2e8f0';
+                // Ordenar por ID de mayor a menor (las más recientes primero)
+                activeNews.sort((a, b) => parseInt(b.ID || 0) - parseInt(a.ID || 0));
         
-                    const title = document.createElement('h4');
-                    title.style.color = '#0056b3';
-                    title.style.marginBottom = '8px';
-                    title.textContent = newsItem.Titulo || 'Comunicado';
-                    newsDiv.appendChild(title);
+                // Renderizar cada tarjeta de noticia
+                activeNews.forEach(news => {
+                    const dateStr = news.Fecha || new Date().toLocaleDateString('es-AR');
+                    const titleStr = news.Titulo || 'Aviso Oficial';
+                    const contentStr = news.Contenido || '';
+                    const typeStr = (news.Tipo || 'info').trim().toLowerCase();
+                    const linkStr = news.Enlace || '';
         
-                    const date = document.createElement('span');
-                    date.classList.add('news-date');
-                    date.style.fontSize = '0.85em';
-                    date.style.color = '#718096';
-                    date.style.display = 'block';
-                    date.style.marginBottom = '15px';
+                    let iconClass = 'fa-info-circle';
+                    let alertClass = 'news-info';
         
-                    // Formateador robusto de fecha argentina (DD/MM/YYYY)
-                    const rawDateString = newsItem.Fecha ? String(newsItem.Fecha).trim() : '';
-                    const dateParts = rawDateString.split('/');
-                    let displayDate = 'Fecha no especificada';
-        
-                    if (dateParts.length === 3) {
-                        const day = parseInt(dateParts[0], 10);
-                        const month = parseInt(dateParts[1], 10) - 1; // 0-indexed
-                        const year = parseInt(dateParts[2], 10);
-        
-                        if (!isNaN(day) && !isNaN(month) && !isNaN(year)) {
-                            const d = new Date(year, month, day);
-                            if (!isNaN(d.getTime())) {
-                                displayDate = d.toLocaleDateString('es-AR', { year: 'numeric', month: 'long', day: 'numeric' });
-                            }
-                        }
-                    }
-                    date.textContent = displayDate;
-                    newsDiv.appendChild(date);
-        
-                    // Contenedor de contenido estructurado
-                    const contentContainer = document.createElement('div');
-                    contentContainer.innerHTML = processNewsContent(newsItem.Contenido);
-                    newsDiv.appendChild(contentContainer);
-        
-                    // Mostrar enlace del botón de acción si existe (Columnas Link y LinkTexto)
-                    if (newsItem.Link && newsItem.Link.trim() !== '') {
-                        const actionButton = document.createElement('a');
-                        actionButton.href = newsItem.Link.trim();
-                        actionButton.textContent = newsItem.LinkTexto && newsItem.LinkTexto.trim() !== '' ? newsItem.LinkTexto : 'Descargar Archivo';
-                        actionButton.classList.add('button');
-                        actionButton.target = '_blank';
-                        actionButton.rel = 'noopener noreferrer';
-                        actionButton.style.marginTop = '15px';
-                        actionButton.style.display = 'inline-flex';
-                        actionButton.style.alignItems = 'center';
-                        newsDiv.appendChild(actionButton);
+                    if (typeStr === 'urgente' || typeStr === 'importante') {
+                        iconClass = 'fa-exclamation-triangle';
+                        alertClass = 'news-urgent';
+                    } else if (typeStr === 'exito' || typeStr === 'tramite') {
+                        iconClass = 'fa-check-circle';
+                        alertClass = 'news-success';
                     }
         
-                    dynamicNewsFeed.appendChild(newsDiv);
+                    let newsItemHTML = `
+                        <div class="news-item ${alertClass}">
+                            <div class="news-header">
+                                <span class="news-date"><i class="far fa-calendar-alt mr-1"></i> ${dateStr}</span>
+                                <span class="news-type-tag"><i class="fas ${iconClass} mr-1"></i> ${typeStr.toUpperCase()}</span>
+                            </div>
+                            <h4>${titleStr}</h4>
+                            <p>${contentStr}</p>
+                    `;
+        
+                    if (linkStr && linkStr.trim() !== '') {
+                        newsItemHTML += `
+                            <div style="margin-top: 12px; text-align: right;">
+                                <a href="${linkStr.trim()}" target="_blank" class="news-link-btn">
+                                    Ver Documento / Enlace <i class="fas fa-external-link-alt ml-1"></i>
+                                </a>
+                            </div>
+                        `;
+                    }
+        
+                    newsItemHTML += `</div>`;
+                    dynamicNewsFeed.innerHTML += newsItemHTML;
                 });
         
             } catch (error) {
-                console.error('Error al procesar el feed de noticias:', error);
-                dynamicNewsFeed.innerHTML = '<h3>Últimas Noticias</h3><p class="no-results" style="color: #e53e3e;"><i class="fas fa-exclamation-circle"></i> Error al sincronizar novedades. Por favor intente más tarde.</p>';
+                console.error('Error crítico en el sistema de noticias:', error);
+                const loadingMessage = document.getElementById('loading-news-message');
+                if (loadingMessage) loadingMessage.remove();
+                dynamicNewsFeed.innerHTML += `<p class="no-results" style="color: #b91c1c;"><i class="fas fa-exclamation-circle mr-2"></i> No se pudieron cargar las novedades en este momento. Intente nuevamente más tarde.</p>`;
             }
         }
-        
+        // 3. RESTAURACIÓN DE LA FUNCIÓN ORIGINAL PARA EL BUSCADOR DE MATERIAS E INCUMBENCIAS
+function parseCSV(csvText) {
+    const lines = csvText.split('\n').filter(line => line.trim() !== '');
+    if (lines.length < 2) return [];
+
+    const headers = lines[0].split(',').map(header => header.trim());
+    const data = [];
+
+    for (let i = 1; i < lines.length; i++) {
+        const currentLine = lines[i].trim();
+        if (currentLine === '') continue;
+
+        const values = currentLine.split(',');
+
+        if (values.length >= headers.length) {
+            const row = {};
+            headers.forEach((header, index) => {
+                let val = values[index] !== undefined ? values[index].trim() : '';
+                if (val.startsWith('"') && val.endsWith('"')) {
+                    val = val.substring(1, val.length - 1);
+                }
+                row[header] = val;
+            });
+
+            if (row['Nombre']) {
+                const match = row['Nombre'].match(/Nº\s*(\d+)|N°\s*(\d+)/);
+                if (match) {
+                    row['NumeroUE'] = match[1] || match[2];
+                } else {
+                    row['NumeroUE'] = '';
+                }
+            }
+            data.push(row);
+        }
+    }
+    return data;
+}
         // Inicializar carga al iniciar la aplicación
         document.addEventListener('DOMContentLoaded', fetchAndDisplayNews);
         
