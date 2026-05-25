@@ -1697,26 +1697,25 @@
         <div id="efemerides-patria-container" style="display: none; margin-bottom: 30px;">
             <style>
                 .patria-card {
-                    background: linear-gradient(135deg, #f8fafc 0%, #e0f2fe 100%);
+                    background: linear-gradient(135deg, #f8fafc 0%, #e0f2fe 50%, #bae6fd 100%);
                     border: 2px solid #74acdf;
                     border-radius: 16px;
                     padding: 25px;
-                    box-shadow: 0 10px 25px rgba(116, 172, 223, 0.25);
+                    box-shadow: 0 10px 25px rgba(116, 172, 223, 0.3);
                     display: flex;
                     align-items: center;
                     gap: 25px;
                     position: relative;
                     overflow: hidden;
-                    border-left: 8px solid #74acdf;
-                    animation: softPulsePatria 3s infinite ease-in-out;
+                    border-left: 8px solid #0074d9;
+                    animation: softPulseCabildo 3s infinite ease-in-out;
                 }
         
-                .patria-vector {
+                .cabildo-vector {
                     flex-shrink: 0;
-                    width: 90px;
-                    height: 90px;
-                    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.15));
-                    animation: spinPatria 25s linear infinite;
+                    width: 110px;
+                    height: 110px;
+                    filter: drop-shadow(0 4px 8px rgba(12, 74, 110, 0.15));
                 }
         
                 .patria-content {
@@ -1724,7 +1723,7 @@
                 }
         
                 .patria-content h3 {
-                    color: #0c4a6e !important;
+                    color: #0b3c5d !important;
                     font-size: 1.4rem !important;
                     margin: 0 0 5px 0 !important;
                     font-weight: 800 !important;
@@ -1735,38 +1734,41 @@
                 }
         
                 .patria-content p {
-                    color: #334155 !important;
-                    font-size: 1rem !important;
-                    line-height: 1.5 !important;
+                    color: #1e293b !important;
+                    font-size: 0.95rem !important;
+                    line-height: 1.6 !important;
                     margin: 0 !important;
                 }
         
                 .patria-close-btn {
                     position: absolute;
-                    top: 10px;
+                    top: 12px;
                     right: 15px;
-                    background: none;
+                    background: rgba(116, 172, 223, 0.2);
                     border: none;
-                    color: #74acdf;
-                    font-size: 1.5rem;
+                    color: #0c4a6e;
+                    font-size: 1.2rem;
+                    width: 26px;
+                    height: 26px;
+                    border-radius: 50%;
                     cursor: pointer;
-                    transition: color 0.2s;
+                    transition: all 0.2s ease;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
                     font-weight: bold;
                 }
         
                 .patria-close-btn:hover {
-                    color: #0c4a6e;
+                    background: #0074d9;
+                    color: #ffffff;
+                    transform: scale(1.1);
                 }
         
-                @keyframes softPulsePatria {
+                @keyframes softPulseCabildo {
                     0% { transform: scale(1); }
-                    50% { transform: scale(1.01); box-shadow: 0 12px 30px rgba(116, 172, 223, 0.35); }
+                    50% { transform: scale(1.01); box-shadow: 0 14px 30px rgba(116, 172, 223, 0.4); }
                     100% { transform: scale(1); }
-                }
-        
-                @keyframes spinPatria {
-                    from { transform: rotate(0deg); }
-                    to { transform: rotate(360deg); }
                 }
         
                 @media (max-width: 600px) {
@@ -1774,68 +1776,111 @@
                         flex-direction: column;
                         text-align: center;
                         padding: 20px;
+                        gap: 15px;
                     }
-                    .patria-vector {
-                        width: 80px;
-                        height: 80px;
+                    .cabildo-vector {
+                        width: 120px;
+                        height: 120px;
                     }
                 }
             </style>
         
             <div class="patria-card">
-                <button class="patria-close-btn" onclick="document.getElementById('efemerides-patria-container').style.display='none'">&times;</button>
+                <button class="patria-close-btn" onclick="document.getElementById('efemerides-patria-container').style.display='none'" title="Cerrar saludo">&times;</button>
                 
-                <!-- Escarapela Nacional en formato vectorial SVG -->
-                <div class="patria-vector">
-                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                        <!-- Capa Celeste Exterior -->
-                        <circle cx="50" cy="50" r="46" fill="#74acdf" />
-                        <path d="M 50 4 A 46 46 0 0 1 54 4" stroke="#ffffff" stroke-width="2" fill="none" />
-                        <circle cx="50" cy="50" r="45" fill="none" stroke="#6096c4" stroke-width="1.5" stroke-dasharray="3,3" />
+                <!-- Ilustración vectorial del Cabildo de Buenos Aires (SVG) -->
+                <div class="cabildo-vector">
+                    <svg viewBox="0 -15 120 115" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Suelo colonial -->
+                        <rect x="5" y="90" width="110" height="4" rx="2" fill="#94a3b8"/>
                         
-                        <!-- Capa Blanca -->
-                        <circle cx="50" cy="50" r="31" fill="#ffffff" />
-                        <circle cx="50" cy="50" r="30" fill="none" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="2,2" />
+                        <!-- Cuerpo Lateral Izquierdo -->
+                        <rect x="15" y="55" width="35" height="35" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+                        <!-- Tejado Izquierdo (Terracota) -->
+                        <polygon points="12,55 51,55 49,51 15,51" fill="#b91c1c" />
                         
-                        <!-- Capa Celeste Interior -->
-                        <circle cx="50" cy="50" r="18" fill="#74acdf" />
-                        <circle cx="50" cy="50" r="17" fill="none" stroke="#6096c4" stroke-width="1" stroke-dasharray="2,2" />
+                        <!-- Cuerpo Lateral Derecho -->
+                        <rect x="70" y="55" width="35" height="35" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+                        <!-- Tejado Derecho (Terracota) -->
+                        <polygon points="69,55 108,55 105,51 71,51" fill="#b91c1c" />
+        
+                        <!-- Torre Central (Base y Niveles) -->
+                        <rect x="50" y="32" width="20" height="58" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+                        <!-- Techo balcón central -->
+                        <rect x="48" y="52" width="24" height="3" rx="1" fill="#b91c1c" />
                         
-                        <!-- Sol de Mayo en el centro -->
-                        <circle cx="50" cy="50" r="6" fill="#f59e0b" />
-                        <!-- Rayos del Sol -->
-                        <g stroke="#f59e0b" stroke-width="1.5" stroke-linecap="round">
-                            <line x1="50" y1="44" x2="50" y2="40" />
-                            <line x1="50" y1="56" x2="50" y2="60" />
-                            <line x1="44" y1="50" x2="40" y2="50" />
-                            <line x1="56" y1="50" x2="60" y2="50" />
-                            <line x1="46" y1="46" x2="43" y2="43" />
-                            <line x1="54" y1="54" x2="57" y2="57" />
-                            <line x1="54" y1="46" x2="57" y2="43" />
-                            <line x1="46" y1="54" x2="43" y2="57" />
-                        </g>
+                        <!-- Recovas y Arcos (Nivel Inferior) -->
+                        <!-- Izquierda -->
+                        <path d="M 18 90 L 18 76 A 3.5 3.5 0 0 1 25 76 L 25 90 Z" fill="#334155" />
+                        <path d="M 28 90 L 28 76 A 3.5 3.5 0 0 1 35 76 L 35 90 Z" fill="#334155" />
+                        <path d="M 38 90 L 38 76 A 3.5 3.5 0 0 1 45 76 L 45 90 Z" fill="#334155" />
+                        <!-- Derecha -->
+                        <path d="M 75 90 L 75 76 A 3.5 3.5 0 0 1 82 76 L 82 90 Z" fill="#334155" />
+                        <path d="M 85 90 L 85 76 A 3.5 3.5 0 0 1 92 76 L 92 90 Z" fill="#334155" />
+                        <path d="M 95 90 L 95 76 A 3.5 3.5 0 0 1 102 76 L 102 90 Z" fill="#334155" />
+                        <!-- Portal Central -->
+                        <path d="M 54 90 L 54 68 A 6 6 0 0 1 66 68 L 66 90 Z" fill="#1e293b" />
+        
+                        <!-- Recovas y Ventanales (Nivel Superior) -->
+                        <!-- Izquierda -->
+                        <path d="M 18 70 L 18 60 A 3.5 3.5 0 0 1 25 60 L 25 70 Z" fill="#64748b" />
+                        <path d="M 28 70 L 28 60 A 3.5 3.5 0 0 1 35 60 L 35 70 Z" fill="#64748b" />
+                        <path d="M 38 70 L 38 60 A 3.5 3.5 0 0 1 45 60 L 45 70 Z" fill="#64748b" />
+                        <!-- Derecha -->
+                        <path d="M 75 70 L 75 60 A 3.5 3.5 0 0 1 82 60 L 82 70 Z" fill="#64748b" />
+                        <path d="M 85 70 L 85 60 A 3.5 3.5 0 0 1 92 60 L 92 70 Z" fill="#64748b" />
+                        <path d="M 95 70 L 95 60 A 3.5 3.5 0 0 1 102 60 L 102 70 Z" fill="#64748b" />
+                        <!-- Ventanal sobre balcón de la torre -->
+                        <path d="M 56 48 L 56 39 A 4 4 0 0 1 64 39 L 64 48 Z" fill="#475569" />
+        
+                        <!-- Balcón Presidencial (Hierro) -->
+                        <rect x="52" y="49" width="16" height="4" fill="none" stroke="#0f172a" stroke-width="1"/>
+                        <line x1="56" y1="49" x2="56" y2="53" stroke="#0f172a" stroke-width="0.8" />
+                        <line x1="60" y1="49" x2="60" y2="53" stroke="#0f172a" stroke-width="0.8" />
+                        <line x1="64" y1="49" x2="64" y2="53" stroke="#0f172a" stroke-width="0.8" />
+        
+                        <!-- Esfera del Reloj Histórico -->
+                        <circle cx="60" cy="24" r="5" fill="#ffffff" stroke="#94a3b8" stroke-width="1"/>
+                        <!-- Agujas -->
+                        <line x1="60" y1="24" x2="60" y2="21" stroke="#1e293b" stroke-width="0.8" stroke-linecap="round"/>
+                        <line x1="60" y1="24" x2="63" y2="24" stroke="#1e293b" stroke-width="0.8" stroke-linecap="round"/>
+        
+                        <!-- Campanario y Cúpula -->
+                        <rect x="53" y="13" width="14" height="4" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="0.5"/>
+                        <path d="M 56 13 L 56 7 A 4 4 0 0 1 64 7 L 64 13 Z" fill="#ffffff" stroke="#cbd5e1" stroke-width="0.5"/>
+                        <!-- Campana de Bronce -->
+                        <path d="M 58.5 11 C 58.5 9, 61.5 9, 61.5 11 Z" fill="#d97706" />
+                        <!-- Cúpula de cobre/tejas -->
+                        <path d="M 54 7 C 54 1, 66 1, 66 7 Z" fill="#b91c1c" stroke="#991b1b" stroke-width="0.5"/>
+        
+                        <!-- Asta y Bandera Argentina -->
+                        <line x1="60" y1="1" x2="60" y2="-12" stroke="#475569" stroke-width="1" stroke-linecap="round"/>
+                        <!-- Flameo Celeste y Blanco -->
+                        <path d="M 60 -12 C 65 -14, 63 -9, 68 -11 L 68 -6 C 63 -4, 65 -9, 60 -7 Z" fill="#74acdf" />
+                        <path d="M 60 -10.3 C 65 -12.3, 63 -7.3, 68 -9.3 L 68 -7.6 C 63 -5.6, 65 -10.6, 60 -8.6 Z" fill="#ffffff" />
+                        <circle cx="64" cy="-9" r="0.8" fill="#f59e0b" />
                     </svg>
                 </div>
         
                 <div class="patria-content">
-                    <h3>25 de Mayo</h3>
-                    <p style="font-weight: bold; color: #0c4a6e !important; margin-bottom: 5px !important;">
-                        Día de la Revolución de Mayo
+                    <h3>¡Viva la Patria!</h3>
+                    <p style="font-weight: 800; color: #0b3c5d !important; margin-bottom: 4px !important; font-size: 1.05rem;">
+                        216° Aniversario de la Revolución de Mayo
                     </p>
                     <p>
-                        La Junta Calificadora de Méritos y Disciplina conmemora la gesta patriótica de 1810 y saluda con orgullo a toda la docencia salteña en este aniversario de nuestra Patria.
+                        La Junta Calificadora de Méritos y Disciplina rinde homenaje a los hombres y mujeres que en mayo de 1810 sembraron las bases de nuestra soberanía nacional. ¡Un saludo fraternal a todos los docentes de nuestra provincia!
                     </p>
                 </div>
             </div>
         
-            <!-- Script de control de fecha automático para el 25 de Mayo -->
+            <!-- Control de fecha automático -->
             <script>
                 document.addEventListener('DOMContentLoaded', () => {
                     const hoy = new Date();
                     const dia = hoy.getDate();
-                    const mes = hoy.getMonth(); // Mayo es el mes indexado como 4
+                    const mes = hoy.getMonth(); // Enero es 0, Mayo es 4
         
-                    // Se muestra SÓLO el 25 de Mayo (mes === 4)
+                    // Muestra el cartel de forma exclusiva el 25 de Mayo (mes 4)
                     if (dia === 25 && mes === 4) {
                         document.getElementById('efemerides-patria-container').style.display = 'block';
                     }
