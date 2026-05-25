@@ -1689,14 +1689,14 @@
         <div class="container">
             
        <section id="inicio" class="content-section">
-           <!-- =================================================================== -->
-        <!-- BLOQUE DE EFEMÉRIDES AUTOMÁTICO (DÍA DE LA ESCARAPELA)              -->
+        <!-- =================================================================== -->
+        <!-- BLOQUE DE EFEMÉRIDES AUTOMÁTICO (DÍA DE LA REVOLUCIÓN DE MAYO)      -->
         <!-- Pégalo en tu index.html dentro de <section id="inicio">             -->
         <!-- justo al principio de la sección, arriba del texto de bienvenida.   -->
         <!-- =================================================================== -->
-        <div id="efemerides-escarapela-container" style="display: none; margin-bottom: 30px;">
+        <div id="efemerides-patria-container" style="display: none; margin-bottom: 30px;">
             <style>
-                .escarapela-card {
+                .patria-card {
                     background: linear-gradient(135deg, #f8fafc 0%, #e0f2fe 100%);
                     border: 2px solid #74acdf;
                     border-radius: 16px;
@@ -1708,22 +1708,22 @@
                     position: relative;
                     overflow: hidden;
                     border-left: 8px solid #74acdf;
-                    animation: softPulse 3s infinite ease-in-out;
+                    animation: softPulsePatria 3s infinite ease-in-out;
                 }
         
-                .escarapela-vector {
+                .patria-vector {
                     flex-shrink: 0;
                     width: 90px;
                     height: 90px;
                     filter: drop-shadow(0 4px 6px rgba(0,0,0,0.15));
-                    animation: spinEscarapela 20s linear infinite;
+                    animation: spinPatria 25s linear infinite;
                 }
         
-                .escarapela-content {
+                .patria-content {
                     flex-grow: 1;
                 }
         
-                .escarapela-content h3 {
+                .patria-content h3 {
                     color: #0c4a6e !important;
                     font-size: 1.4rem !important;
                     margin: 0 0 5px 0 !important;
@@ -1734,14 +1734,14 @@
                     letter-spacing: 0.5px;
                 }
         
-                .escarapela-content p {
+                .patria-content p {
                     color: #334155 !important;
                     font-size: 1rem !important;
                     line-height: 1.5 !important;
                     margin: 0 !important;
                 }
         
-                .escarapela-close-btn {
+                .patria-close-btn {
                     position: absolute;
                     top: 10px;
                     right: 15px;
@@ -1754,44 +1754,43 @@
                     font-weight: bold;
                 }
         
-                .escarapela-close-btn:hover {
+                .patria-close-btn:hover {
                     color: #0c4a6e;
                 }
         
-                @keyframes softPulse {
+                @keyframes softPulsePatria {
                     0% { transform: scale(1); }
                     50% { transform: scale(1.01); box-shadow: 0 12px 30px rgba(116, 172, 223, 0.35); }
                     100% { transform: scale(1); }
                 }
         
-                @keyframes spinEscarapela {
+                @keyframes spinPatria {
                     from { transform: rotate(0deg); }
                     to { transform: rotate(360deg); }
                 }
         
                 @media (max-width: 600px) {
-                    .escarapela-card {
+                    .patria-card {
                         flex-direction: column;
                         text-align: center;
                         padding: 20px;
                     }
-                    .escarapela-vector {
+                    .patria-vector {
                         width: 80px;
                         height: 80px;
                     }
                 }
             </style>
         
-            <div class="escarapela-card">
-                <button class="escarapela-close-btn" onclick="document.getElementById('efemerides-escarapela-container').style.display='none'">&times;</button>
+            <div class="patria-card">
+                <button class="patria-close-btn" onclick="document.getElementById('efemerides-patria-container').style.display='none'">&times;</button>
                 
-                <!-- Escarapela dibujada perfectamente con vectores (SVG) -->
-                <div class="escarapela-vector">
+                <!-- Escarapela Nacional en formato vectorial SVG -->
+                <div class="patria-vector">
                     <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                         <!-- Capa Celeste Exterior -->
                         <circle cx="50" cy="50" r="46" fill="#74acdf" />
                         <path d="M 50 4 A 46 46 0 0 1 54 4" stroke="#ffffff" stroke-width="2" fill="none" />
-                        <!-- Bordado de la escarapela -->
                         <circle cx="50" cy="50" r="45" fill="none" stroke="#6096c4" stroke-width="1.5" stroke-dasharray="3,3" />
                         
                         <!-- Capa Blanca -->
@@ -1818,27 +1817,27 @@
                     </svg>
                 </div>
         
-                <div class="escarapela-content">
-                    <h3>18 de Mayo</h3>
+                <div class="patria-content">
+                    <h3>25 de Mayo</h3>
                     <p style="font-weight: bold; color: #0c4a6e !important; margin-bottom: 5px !important;">
-                        Día Nacional de la Escarapela Argentina
+                        Día de la Revolución de Mayo
                     </p>
                     <p>
-                        La Junta Calificadora de Méritos y Disciplina saluda a toda la comunidad docente en este día, vistiendo con orgullo los colores de nuestra patria que nos unen e identifican.
+                        La Junta Calificadora de Méritos y Disciplina conmemora la gesta patriótica de 1810 y saluda con orgullo a toda la docencia salteña en este aniversario de nuestra Patria.
                     </p>
                 </div>
             </div>
         
-            <!-- Script de control de fecha automático -->
+            <!-- Script de control de fecha automático para el 25 de Mayo -->
             <script>
                 document.addEventListener('DOMContentLoaded', () => {
                     const hoy = new Date();
                     const dia = hoy.getDate();
-                    const mes = hoy.getMonth(); // Enero es 0, Mayo es 4
+                    const mes = hoy.getMonth(); // Mayo es el mes indexado como 4
         
-                    // Se muestra SÓLO el 18 de Mayo (mes === 4)
-                    if (dia === 18 && mes === 4) {
-                        document.getElementById('efemerides-escarapela-container').style.display = 'block';
+                    // Se muestra SÓLO el 25 de Mayo (mes === 4)
+                    if (dia === 25 && mes === 4) {
+                        document.getElementById('efemerides-patria-container').style.display = 'block';
                     }
                 });
             </script>
