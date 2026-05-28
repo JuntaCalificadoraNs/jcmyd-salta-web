@@ -182,9 +182,9 @@
     }
 
     nav ul li a i {
-          font-size: 0.9rem;
-          min-width: 16px;
-          text-align: center;
+        font-size: 1rem;
+        min-width: 18px;
+        text-align: center;
     }
 
     nav ul li a:hover,
@@ -739,10 +739,10 @@
         color: white;
         border: none;
         padding: 0.875rem 1.5rem;
-        border-radius: var(--radius-md); /* Cambiado de var(--radius-sm) a var(--radius-md) para bordes más curvos y modernos */
+        border-radius: var(--radius-sm);
         cursor: pointer;
         font-size: 1rem;
-        font-weight: 700; /* Letra un poco más gruesa e institucional */
+        font-weight: 600;
         transition: var(--transition);
         min-width: var(--min-tap);
         min-height: var(--min-tap);
@@ -753,14 +753,14 @@
         box-shadow: var(--shadow);
         text-decoration: none;
     }
-    
+
     .search-section button:hover,
     .button:hover {
         background: linear-gradient(135deg, var(--primary-dark), var(--primary));
-        transform: translateY(-3px); /* Incrementado de -2px a -3px para mayor sensación de relieve */
-        box-shadow: 0 8px 20px rgba(15, 76, 129, 0.25); /* Sombra más envolvente y estética */
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
     }
-    
+
     .search-section button:active,
     .button:active {
         transform: translateY(0);
@@ -1168,25 +1168,15 @@
         }
 
         nav ul {
-            list-style: none;
-            display: flex;
-            gap: 4px; /* Espaciado ultra-compacto entre pestañas */
-            align-items: center;
-            flex-wrap: nowrap; /* Fuerza a mantenerse estrictamente en un solo renglón */
+            flex-direction: column;
+            gap: 0.5rem;
+            align-items: flex-start;
         }
 
         nav ul li a {
-            color: rgba(255, 255, 255, 0.95);
-            font-weight: 600;
-            font-size: 0.85rem !important; /* Letra sutilmente más compacta para PC */
-            text-decoration: none;
-            padding: 0.5rem 0.65rem !important; /* Padding equilibrado horizontalmente */
-            border-radius: var(--radius-sm);
-            transition: var(--transition);
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            white-space: nowrap; /* Evita que los textos de los botones salten de línea */
+            padding: 0.875rem 1rem;
+            font-size: 1.1rem;
+            width: 100%;
         }
 
         /* Overlay para menú móvil */
@@ -1221,25 +1211,9 @@
         }
 
         h1 { font-size: 1.6rem; margin-bottom: 0.5rem; }
-        h2 {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            color: #0f172a !important; /* Azul pizarra oscuro, más moderno que el negro puro */
-            font-size: 2.1rem !important;
-            font-weight: 800 !important;
-            margin-bottom: 8px !important;
-            letter-spacing: -0.5px;
-        }
-        
-        h3 {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            color: #334155 !important;
-            font-size: 1.35rem !important;
-            font-weight: 700 !important;
-            margin-top: 25px;
-            margin-bottom: 12px !important;
-            border-bottom: none !important;
-            padding-bottom: 0 !important;
-        }
+        h2 { font-size: 1.3rem; margin-top: 0.25rem; }
+        h3 { font-size: 1.2rem; }
+
         /* Buscadores */
         .search-group,
         .search-section {
@@ -1663,20 +1637,7 @@
             background-color: #fffbeb;
             border-bottom: 1px solid #fef3c7;
         }
-              /* --- Estilo Destacado para el Texto de Introducción del Home --- */
-        #inicio p:nth-of-type(1) {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            color: #475569 !important;
-            font-size: 1.05rem;
-            line-height: 1.65;
-            font-style: normal !important; /* Adiós definitivo a la cursiva larga */
-            border-left: 4px solid var(--accent, #3b82f6); /* Línea de acento celeste */
-            background-color: #f8fafc;
-            padding: 14px 18px;
-            margin-top: 15px;
-            margin-bottom: 30px;
-            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-        }
+      
 </style>
     
     <!-- Google Analytics -->
