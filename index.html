@@ -129,22 +129,30 @@
         min-height: 70px;
     }
 
-    .logo {
-        display: flex;
-        align-items: center;
-        flex-shrink: 0;
-    }
-
-    .logo img {
-        max-height: 50px;
-        width: auto;
-        border-radius: var(--radius-sm);
-        transition: var(--transition);
-    }
-
-    .logo img:hover {
-        transform: scale(1.02);
-    }
+    /* --- OPTIMIZACIÓN DE LOGO / MEMBRETE --- */
+        header .logo {
+            display: flex;
+            align-items: center;
+            margin-right: 15px;
+        }
+        
+        header .logo img {
+            max-height: 95px; /* Aumentamos el tamaño para ocupar casi todo el alto del contenedor */
+            width: auto;
+            display: block;
+            border-radius: 8px; /* Bordes redondeados sutiles */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Sombra elegante para dar relieve sobre el azul */
+            transition: transform 0.3s ease;
+        }
+        
+        header .logo img:hover {
+            transform: scale(1.02); /* Efecto interactivo al posar el mouse */
+        }
+        
+        /* Reducimos el padding vertical del header para que el aumento del logo no ensanche la barra azul */
+        header {
+            padding: 8px 0 !important;
+        }
 
     .site-title {
         display: none; /* Opcional: mostrar si quieres texto junto al logo */
@@ -1304,7 +1312,7 @@
     /* Landscape móvil */
     @media (max-width: 768px) and (orientation: landscape) {
         header {
-            padding: 0.25rem 0;
+            padding: 10px 0 !important;
         }
 
         .header-content {
@@ -1312,8 +1320,8 @@
             padding: 0.25rem 15px;
         }
 
-        .logo img {
-            max-height: 35px;
+        .header .logo img {
+           max-height: 52px; /* Incrementamos de 35px/40px a 52px para que la nueva dirección sea legible */
         }
 
         nav {
