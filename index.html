@@ -3381,12 +3381,12 @@
             const originalButtonText = button.innerHTML;
             button.innerHTML = originalButtonText + '<span class="loading-spinner" aria-hidden="true"></span>';
             button.disabled = true;
-
+        
             const selectedEspacio = document.getElementById('espacioCurricularSelect').value;
             const selectedDepartamento = document.getElementById('departamentoSelect').value;
             
             renderTable('colegiosPorEspacioResults', ['Nombre', 'Direccion', 'Localidad', 'Departamento'], []);
-
+        
             if (!selectedEspacio) {
                 document.getElementById('colegiosPorEspacioResults').innerHTML = `
                     <div class="no-results">
@@ -3424,12 +3424,12 @@
                 button.disabled = false;
                 return;
             }
-
+        
             // 1. Obtener UEs en el departamento seleccionado
             const uesEnDepartamento = colegiosData.filter(c =>
                 c['Departamento'] && normalizeText(c['Departamento']) === normalizeText(selectedDepartamento) && c['NumeroUE']
             ).map(c => String(c['NumeroUE']).trim());
-
+        
             if (uesEnDepartamento.length === 0) {
                 document.getElementById('colegiosPorEspacioResults').innerHTML = `
                     <div class="no-results">
@@ -3441,14 +3441,14 @@
                 button.disabled = false;
                 return;
             }
-
+        
             // 2. Filtrar por espacio curricular y departamento
             const colegiosConEspacioYDepartamento = planEstudioData.filter(item => {
                 const espacio = normalizeText(item['ESPACIO CURRICULAR'] || '');
                 const ue = item['UE'] ? String(item['UE']).trim() : '';
                 return espacio === normalizeText(selectedEspacio) && uesEnDepartamento.includes(ue);
             });
-
+        
             if (colegiosConEspacioYDepartamento.length === 0) {
                 document.getElementById('colegiosPorEspacioResults').innerHTML = `
                     <div class="no-results">
@@ -3460,7 +3460,7 @@
                 button.disabled = false;
                 return;
             }
-
+        
             // 3. Obtener UEs únicos
             const numerosUnicosUEFiltrados = new Set();
             colegiosConEspacioYDepartamento.forEach(item => {
@@ -3468,21 +3468,21 @@
                     numerosUnicosUEFiltrados.add(item['UE'].trim());
                 }
             });
-
+        
             const uesDisponibles = Array.from(numerosUnicosUEFiltrados);
             
             // 4. Seleccionar 7 colegios al azar
             const uesAleatorios = [];
             let numColegios = Math.min(7, uesDisponibles.length);
             let tempUEs = [...uesDisponibles];
-
+        
             for (let i = 0; i < numColegios; i++) {
                 const randomIndex = Math.floor(Math.random() * tempUEs.length);
                 const randomUE = tempUEs[randomIndex];
                 uesAleatorios.push(randomUE);
                 tempUEs.splice(randomIndex, 1);
             }
-
+        
             // 5. Buscar detalles de los colegios seleccionados
             const resultadosFinales = [];
             uesAleatorios.forEach(numeroUE => {
@@ -3490,7 +3490,7 @@
                     String(c['NumeroUE']).trim() === String(numeroUE).trim()
                 );
                 
-                if (colegioDetalle) {
+                if (colégloDetalle) {
                     resultadosFinales.push({
                         'Nombre': colegioDetalle['Nombre'],
                         'Direccion': colegioDetalle['Direccion'],
@@ -3507,7 +3507,21 @@
                     console.warn(`Detalles no encontrados en colegiosData para el NumeroUE: ${numeroUE}`);
                 }
             });
-
+        
+            // 6. ORDENAMIENTO DE MENOR A MAYOR POR NÚMERO DE UNIDAD EDUCATIVA (COLEGIO)
+            resultadosFinales.sort((a, b) => {
+                const regex = /N[º°]\s*(\d+)/i;
+                const matchA = a['Nombre'].match(regex);
+                const matchB = b['Nombre'].match(regex);
+                
+                // Extraer el valor numérico entero; si no tiene, se le asigna un número muy alto para mandarlo al final
+                const numA = matchA ? parseInt(matchA[1], 10) : 999999;
+                const numB = matchB ? parseInt(matchB[1], 10) : 999999;
+                
+                return numA - numB;
+            });
+        
+            // 7. Renderizar en la tabla la información preseleccionada y ordenada
             renderTable(
                 'colegiosPorEspacioResults',
                 ['Nombre', 'Direccion', 'Localidad', 'Departamento'],
