@@ -3490,7 +3490,8 @@
                     String(c['NumeroUE']).trim() === String(numeroUE).trim()
                 );
                 
-                if (colégloDetalle) {
+                // ¡CORREGIDO AQUÍ! Se removió la tilde y el error de tipeo de la variable
+                if (cointerDetalle || colegioDetalle) { 
                     resultadosFinales.push({
                         'Nombre': colegioDetalle['Nombre'],
                         'Direccion': colegioDetalle['Direccion'],
@@ -3514,14 +3515,13 @@
                 const matchA = a['Nombre'].match(regex);
                 const matchB = b['Nombre'].match(regex);
                 
-                // Extraer el valor numérico entero; si no tiene, se le asigna un número muy alto para mandarlo al final
                 const numA = matchA ? parseInt(matchA[1], 10) : 999999;
                 const numB = matchB ? parseInt(matchB[1], 10) : 999999;
                 
                 return numA - numB;
             });
         
-            // 7. Renderizar en la tabla la información preseleccionada y ordenada
+            // 7. Renderizar en la tabla la información ordenada
             renderTable(
                 'colegiosPorEspacioResults',
                 ['Nombre', 'Direccion', 'Localidad', 'Departamento'],
