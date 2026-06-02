@@ -3376,7 +3376,7 @@
             button.disabled = false;
         }
         
-        function buscarColegiosAleatoriosPorEspacio(event) {
+         function buscarColegiosAleatoriosPorEspacio(event) {
             const button = event.target;
             const originalButtonText = button.innerHTML;
             button.innerHTML = originalButtonText + '<span class="loading-spinner" aria-hidden="true"></span>';
@@ -3490,8 +3490,8 @@
                     String(c['NumeroUE']).trim() === String(numeroUE).trim()
                 );
                 
-                // ¡CORREGIDO AQUÍ! Se removió la tilde y el error de tipeo de la variable
-                if (cointerDetalle || colegioDetalle) { 
+                // Validación limpia y directa sin variables raras
+                if (colegioDetalle) { 
                     resultadosFinales.push({
                         'Nombre': colegioDetalle['Nombre'],
                         'Direccion': colegioDetalle['Direccion'],
@@ -3505,11 +3505,10 @@
                         'Localidad': 'No disponible',
                         'Departamento': 'No disponible'
                     });
-                    console.warn(`Detalles no encontrados en colegiosData para el NumeroUE: ${numeroUE}`);
                 }
             });
         
-            // 6. ORDENAMIENTO DE MENOR A MAYOR POR NÚMERO DE UNIDAD EDUCATIVA (COLEGIO)
+            // 6. ORDENAMIENTO DE MENOR A MAYOR POR NÚMERO DE COLEGIO
             resultadosFinales.sort((a, b) => {
                 const regex = /N[º°]\s*(\d+)/i;
                 const matchA = a['Nombre'].match(regex);
@@ -3521,7 +3520,7 @@
                 return numA - numB;
             });
         
-            // 7. Renderizar en la tabla la información ordenada
+            // 7. Renderizar en la tabla
             renderTable(
                 'colegiosPorEspacioResults',
                 ['Nombre', 'Direccion', 'Localidad', 'Departamento'],
