@@ -2710,6 +2710,7 @@
         }
         
         // 2. FUNCIÓN PARA LEER Y RENDERIZAR LAS NOVEDADES EN PANTALLA
+ // 2. FUNCIÓN PARA LEER Y RENDERIZAR LAS NOVEDADES EN PANTALLA (CON SOPORTE DE IMÁGENES AUTOMÁTICO)
         async function fetchAndDisplayNews() {
             const dynamicNewsFeed = document.getElementById('dynamic-news-feed');
             if (!dynamicNewsFeed) {
@@ -2788,11 +2789,11 @@
         
                     newsItemHTML += `</div>`;
                     
-                    // Renderizado en el DOM
+                    // Renderizado inicial en el DOM virtual
                     const newsCardElement = document.createElement('div');
                     newsCardElement.innerHTML = newsItemHTML;
                     
-                    // MODIFICACIÓN: Renderizado inteligente de múltiples botones de descarga al final de la tarjeta
+                    // PROCESAMIENTO INTELIGENTE DE ENLACES (BOTONES O IMÁGENES/FLYERS)
                     if (linkStr !== '') {
                         const links = linkStr.split('\n').map(l => l.trim()).filter(l => l !== '');
                         const linkTexts = linkTextStr.split('\n').map(t => t.trim()).filter(t => t !== '');
@@ -2806,16 +2807,30 @@
                             buttonsContainer.style.justifyContent = 'center';
         
                             links.forEach((url, idx) => {
-                                if (url.startsWith('http')) {
+                                // DETECCIÓN DE FLYER/IMAGEN: Si termina en formato de imagen, se dibuja directo en la tarjeta
+                                const isImageUrl = /\.(jpeg|jpg|gif|png|webp|svg)$/i.test(url);
+                                
+                                if (isImageUrl) {
+                                    const newsImage = document.createElement('img');
+                                    newsImage.src = url;
+                                    newsImage.alt = `Flyer Informativo - ${titleStr}`;
+                                    newsImage.style.maxWidth = '100%';
+                                    newsImage.style.height = 'auto';
+                                    newsImage.style.borderRadius = '8px';
+                                    newsImage.style.boxShadow = '0 4px 10px rgba(0,0,0,0.1)';
+                                    newsImage.style.display = 'block';
+                                    newsImage.style.margin = '15px auto';
+                                    // Insertar la imagen directo dentro del cuerpo de la noticia
+                                    newsCardElement.firstElementChild.appendChild(newsImage);
+                                } else if (url.startsWith('http') || url.startsWith('assets/')) {
+                                    // Si es un enlace común o ruta de asset que no es imagen, se procesa como botón tradicional
                                     const actionButton = document.createElement('a');
                                     actionButton.href = url;
                                     
-                                    // Asignar nombres lógicos a los botones
                                     let buttonText = 'Ver Enlace / Descargar';
                                     if (linkTexts[idx] && linkTexts[idx].trim() !== '') {
                                         buttonText = linkTexts[idx];
                                     } else {
-                                        // Mapeo inteligente por defecto si no se ingresaron textos individuales
                                         const defaultTexts = [
                                             'Descargar Circular 02/26',
                                             'Descargar Formulario de Inscripción',
@@ -2828,13 +2843,12 @@
                                     actionButton.textContent = buttonText;
                                     actionButton.classList.add('button');
                                     
-                                    // Estilo de colores diferenciador
                                     if (idx === 0) {
-                                        actionButton.style.backgroundColor = '#1e3a8a'; // Azul institucional
+                                        actionButton.style.backgroundColor = '#1e3a8a';
                                     } else if (idx === 1) {
-                                        actionButton.style.backgroundColor = '#2563eb'; // Azul brillante
+                                        actionButton.style.backgroundColor = '#2563eb';
                                     } else {
-                                        actionButton.style.backgroundColor = '#4b5563'; // Gris neutro
+                                        actionButton.style.backgroundColor = '#4b5563';
                                     }
                                     
                                     actionButton.style.fontSize = '0.85rem';
@@ -2845,7 +2859,11 @@
                                     buttonsContainer.appendChild(actionButton);
                                 }
                             });
-                            newsCardElement.firstElementChild.appendChild(buttonsContainer);
+                            
+                            // Si el contenedor acumuló botones, lo agregamos al pie de la noticia
+                            if (buttonsContainer.children.length > 0) {
+                                newsCardElement.firstElementChild.appendChild(buttonsContainer);
+                            }
                         }
                     }
         
