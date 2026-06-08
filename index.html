@@ -1620,7 +1620,67 @@
             background-color: #fffbeb;
             border-bottom: 1px solid #fef3c7;
         }
-      
+      /* =================================================================== */
+/* SOLUCIÓN RIGIDA DE DESPLAZAMIENTO HORIZONTAL PARA TABLAS EN MÓVILES */
+/* =================================================================== */
+@media (max-width: 768px) {
+    /* Desactivamos restricciones flexbox heredadas en el contenedor de resultados */
+    #tituloResults, 
+    #colegiosPorEspacioResults, 
+    #orientacionResults, 
+    #localidadResults, 
+    #categoriaResults {
+        display: block !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow: visible !important;
+    }
+
+    /* Forzamos el comportamiento de bloque independiente para el scroll */
+    .results-table-container {
+        display: block !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow-x: scroll !important; /* Fuerza la barra de desplazamiento activo */
+        overflow-y: hidden !important;
+        -webkit-overflow-scrolling: touch !important; /* Scroll ultra suave con el dedo */
+        border: 1px solid var(--border) !important;
+        position: relative !important;
+    }
+
+    /* Obligamos a la tabla interna a estirarse más allá del borde de la pantalla del celular */
+    .results-table-container table.results-table {
+        display: table !important;
+        width: auto !important;
+        min-width: 850px !important; /* Al darle 850px fijos en móvil, el navegador se ve obligado a dar scroll lateral */
+        table-layout: fixed !important; /* Fija los anchos de celda de forma estricta */
+    }
+
+    /* Configuramos anchos fijos y limpios para que las columnas no se deformen en el móvil */
+    .results-table th:nth-child(1), .results-table td:nth-child(1) { 
+        width: 180px !important; 
+        max-width: 180px !important; 
+        white-space: normal !important;
+    } /* Columna Título */
+    
+    .results-table th:nth-child(2), .results-table td:nth-child(2) { 
+        width: 380px !important; 
+        max-width: 380px !important; 
+        white-space: normal !important;
+    } /* Columna Espacio Curricular */
+    
+    .results-table th:nth-child(3), .results-table td:nth-child(3) { 
+        width: 90px !important; 
+        max-width: 90px !important; 
+        text-align: center !important;
+    } /* Código */
+    
+    .results-table th:nth-child(4), .results-table td:nth-child(4) { 
+        width: 130px !important; 
+        max-width: 130px !important; 
+        text-align: center !important;
+    } /* Alcance */
+}
 </style>
     
     <!-- Google Analytics -->
