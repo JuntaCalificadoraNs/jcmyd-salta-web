@@ -803,8 +803,7 @@
         font-weight: 700 !important;
     }
 
-    /* ==================== RESULTADOS - TABLAS (Compatibilidad Total) ==================== */
-/* ==================== RESULTADOS - TABLAS (Compatibilidad Total Corregido) ==================== */
+/* ==================== RESULTADOS - TABLAS (Protección Móvil Absoluta) ==================== */
     .results-container {
         margin-top: 2rem;
         border-top: 1px solid var(--border);
@@ -813,32 +812,35 @@
 
     .results-table-container {
         width: 100% !important;
-        overflow-x: auto !important; /* Activa el scroll horizontal */
-        -webkit-overflow-scrolling: touch; /* Desplazamiento suave en móviles */
-        border-radius: var(--radius-sm);
+        max-width: 100% !important;
+        overflow-x: auto !important; /* Fuerza la aparición de la barra de scroll */
+        display: block !important;
+        -webkit-overflow-scrolling: touch;
+        margin-bottom: 1.5rem;
+        border-radius: var(--radius-sm, 8px);
         border: 1px solid var(--border);
-        margin-bottom: 1rem;
     }
 
+    /* Forzamos a que cualquier tabla dentro del contenedor tenga un ancho mínimo real */
+    .results-table-container table,
     .results-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin: 0;
-        font-size: 0.95rem;
-        min-width: 750px; /* Al incrementarlo a 750px garantizamos que en móviles las columnas no se aplasten y se active el scroll lateral */
+        width: 100% !important;
+        min-width: 800px !important; /* Obliga a la tabla a expandirse hacia la derecha fuera del margen del cel */
+        border-collapse: collapse !important;
+        table-layout: auto !important; /* Permite que el navegador distribuya el ancho de forma natural */
         background: var(--card-bg);
+        margin: 0 !important;
     }
 
-    .results-table thead {
+    .results-table thead, table thead {
         background: linear-gradient(135deg, var(--primary), var(--primary-light));
         color: white;
     }
 
-    .results-table th {
-        padding: 1rem 0.75rem;
+    .results-table th, table th {
+        padding: 1rem 0.75rem !important;
         text-align: left;
         font-weight: 600;
-        white-space: normal;
         line-height: 1.3;
         position: sticky;
         top: 0;
@@ -846,88 +848,73 @@
         font-size: 0.9rem;
         text-transform: uppercase;
         letter-spacing: 0.02em;
+        white-space: nowrap !important; /* Evita que los títulos de cabecera se deformen */
     }
 
-    .results-table th small {
-        display: block;
-        font-size: 0.75em;
-        font-weight: normal;
-        opacity: 0.9;
-        margin-top: 0.25rem;
-        text-transform: none;
-        letter-spacing: normal;
-    }
-
-    .results-table td {
-        padding: 0.875rem 0.75rem;
+    .results-table td, table td {
+        padding: 0.875rem 0.75rem !important;
         border-bottom: 1px solid var(--border);
         color: var(--text);
-        vertical-align: top;
-        white-space: normal;
+        vertical-align: middle !important;
+        white-space: normal !important; /* Permite que el texto largo del espacio curricular quiebre en renglones */
     }
 
-    .results-table tbody tr {
-        transition: var(--transition);
-    }
+    /* CONTROL DE ANCHOS MÁXIMOS RIGIDO PARA EVITAR DEFORMACIONES */
+    .results-table-container th:nth-child(1), 
+    .results-table-container td:nth-child(1) { 
+        width: 250px !important; 
+        max-width: 250px !important; 
+    } /* Columna Título controlada */
+    
+    .results-table-container th:nth-child(2), 
+    .results-table-container td:nth-child(2) { 
+        width: 350px !important; 
+        max-width: 350px !important; 
+    } /* Columna Espacio Curricular */
+    
+    .results-table-container th:nth-child(3), 
+    .results-table-container td:nth-child(3) { 
+        width: 80px !important; 
+        max-width: 80px !important; 
+        text-align: center !important; 
+    } /* Código */
+    
+    .results-table-container th:nth-child(4), 
+    .results-table-container td:nth-child(4) { 
+        width: 120px !important; 
+        max-width: 120px !important; 
+        text-align: center !important; 
+    } /* Alcance */
 
-    .results-table tbody tr:hover {
+    .results-table tbody tr:hover, table tbody tr:hover {
         background: rgba(0, 180, 216, 0.08);
     }
 
-    .results-table tbody tr:nth-child(even) {
+    .results-table tbody tr:nth-child(even), table tbody tr:nth-child(even) {
         background: rgba(248, 250, 252, 0.5);
     }
 
-    .results-table tbody tr:nth-child(even):hover {
-        background: rgba(0, 180, 216, 0.12);
-    }
-
-    /* ⚠️ CRÍTICO: JS añade esta clase para destacar coincidencia de fila */
-    .results-table tr.highlighted-row,
-    .results-table tr.highlighted-row:hover {
+    .results-table tr.highlighted-row {
         background: rgba(34, 197, 94, 0.15) !important;
         border-left: 4px solid var(--success);
-        animation: pulseHighlight 0.4s ease;
     }
 
-    @keyframes pulseHighlight {
-        0%, 100% { background: rgba(34, 197, 94, 0.15); }
-        50% { background: rgba(34, 197, 94, 0.25); }
-    }
-
-    .results-table td .clickable-title {
+    .results-table td .clickable-title, table td .clickable-title {
         cursor: pointer;
-        text-decoration: none;
         color: var(--primary);
         font-weight: 600;
-        transition: var(--transition);
-        display: inline-block;
+        text-decoration: none;
     }
 
-    .results-table td .clickable-title:hover {
+    .results-table td .clickable-title:hover, table td .clickable-title:hover {
         color: var(--accent);
         text-decoration: underline;
     }
 
     .repeated-title {
         color: var(--text-muted);
-        font-size: 0.9em;
+        font-size: 0.85em;
         font-style: italic;
-    }
-
-    .narrow-column {
-        width: 90px;
-        max-width: 90px;
-        word-break: break-word;
-        text-align: center;
-    }
-
-    /* Distribución equilibrada solo para pantallas medianas y grandes */
-    @media (min-width: 769px) {
-        .results-table th:nth-child(1), .results-table td:nth-child(1) { width: 30%; }
-        .results-table th:nth-child(2), .results-table td:nth-child(2) { width: 45%; }
-        .results-table th:nth-child(3), .results-table td:nth-child(3) { width: 10%; text-align: center; }
-        .results-table th:nth-child(4), .results-table td:nth-child(4) { width: 15%; text-align: center; }
     }
 
     .no-results {
@@ -947,7 +934,6 @@
         margin-bottom: 0.75rem;
         display: block;
     }
-
     /* ==================== RESULTADOS - CARDS (Mejora Progresiva) ==================== */
     /* Esta sección es OPCIONAL: si tu JS sigue usando tablas, no se activará.
        Si migras a renderizar cards, estos estilos estarán listos. */
