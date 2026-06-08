@@ -3129,7 +3129,12 @@
             });
             
             table.appendChild(tbody);
-            container.appendChild(table);
+              // EL PARCHE MÁGICO: Envolvemos la tabla generada en el contenedor que tiene el scroll móvil
+            const tableWrapper = document.createElement('div');
+            tableWrapper.classList.add('results-table-container');
+            tableWrapper.appendChild(table);
+            
+            container.appendChild(tableWrapper);
         }
               /**
          * Renderiza resultados como CARDS - Adaptado a tu estructura de datos
