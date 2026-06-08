@@ -803,7 +803,7 @@
         font-weight: 700 !important;
     }
 
-/* ==================== RESULTADOS - TABLAS (Protección Móvil Absoluta) ==================== */
+    /* ==================== RESULTADOS - TABLAS (Compatibilidad Total) ==================== */
     .results-container {
         margin-top: 2rem;
         border-top: 1px solid var(--border);
@@ -811,36 +811,31 @@
     }
 
     .results-table-container {
-        width: 100% !important;
-        max-width: 100% !important;
-        overflow-x: auto !important; /* Fuerza la aparición de la barra de scroll */
-        display: block !important;
+        overflow-x: auto;
         -webkit-overflow-scrolling: touch;
-        margin-bottom: 1.5rem;
-        border-radius: var(--radius-sm, 8px);
+        border-radius: var(--radius-sm);
         border: 1px solid var(--border);
     }
 
-    /* Forzamos a que cualquier tabla dentro del contenedor tenga un ancho mínimo real */
-    .results-table-container table,
     .results-table {
-        width: 100% !important;
-        min-width: 800px !important; /* Obliga a la tabla a expandirse hacia la derecha fuera del margen del cel */
-        border-collapse: collapse !important;
-        table-layout: auto !important; /* Permite que el navegador distribuya el ancho de forma natural */
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0;
+        font-size: 0.95rem;
+        min-width: 600px;
         background: var(--card-bg);
-        margin: 0 !important;
     }
 
-    .results-table thead, table thead {
+    .results-table thead {
         background: linear-gradient(135deg, var(--primary), var(--primary-light));
         color: white;
     }
 
-    .results-table th, table th {
-        padding: 1rem 0.75rem !important;
+    .results-table th {
+        padding: 1rem 0.75rem;
         text-align: left;
         font-weight: 600;
+        white-space: normal;
         line-height: 1.3;
         position: sticky;
         top: 0;
@@ -848,73 +843,94 @@
         font-size: 0.9rem;
         text-transform: uppercase;
         letter-spacing: 0.02em;
-        white-space: nowrap !important; /* Evita que los títulos de cabecera se deformen */
     }
 
-    .results-table td, table td {
-        padding: 0.875rem 0.75rem !important;
+    .results-table th small {
+        display: block;
+        font-size: 0.75em;
+        font-weight: normal;
+        opacity: 0.9;
+        margin-top: 0.25rem;
+        text-transform: none;
+        letter-spacing: normal;
+    }
+
+    .results-table td {
+        padding: 0.875rem 0.75rem;
         border-bottom: 1px solid var(--border);
         color: var(--text);
-        vertical-align: middle !important;
-        white-space: normal !important; /* Permite que el texto largo del espacio curricular quiebre en renglones */
+        vertical-align: top;
+        white-space: normal;
     }
 
-    /* CONTROL DE ANCHOS MÁXIMOS RIGIDO PARA EVITAR DEFORMACIONES */
-    .results-table-container th:nth-child(1), 
-    .results-table-container td:nth-child(1) { 
-        width: 250px !important; 
-        max-width: 250px !important; 
-    } /* Columna Título controlada */
-    
-    .results-table-container th:nth-child(2), 
-    .results-table-container td:nth-child(2) { 
-        width: 350px !important; 
-        max-width: 350px !important; 
-    } /* Columna Espacio Curricular */
-    
-    .results-table-container th:nth-child(3), 
-    .results-table-container td:nth-child(3) { 
-        width: 80px !important; 
-        max-width: 80px !important; 
-        text-align: center !important; 
-    } /* Código */
-    
-    .results-table-container th:nth-child(4), 
-    .results-table-container td:nth-child(4) { 
-        width: 120px !important; 
-        max-width: 120px !important; 
-        text-align: center !important; 
-    } /* Alcance */
+    .results-table tbody tr {
+        transition: var(--transition);
+    }
 
-    .results-table tbody tr:hover, table tbody tr:hover {
+    .results-table tbody tr:hover {
         background: rgba(0, 180, 216, 0.08);
     }
 
-    .results-table tbody tr:nth-child(even), table tbody tr:nth-child(even) {
+    .results-table tbody tr:nth-child(even) {
         background: rgba(248, 250, 252, 0.5);
     }
 
-    .results-table tr.highlighted-row {
+    .results-table tbody tr:nth-child(even):hover {
+        background: rgba(0, 180, 216, 0.12);
+    }
+
+    /* ⚠️ CRÍTICO: JS añade esta clase para destacar coincidencias */
+    .results-table tr.highlighted-row,
+    .results-table tr.highlighted-row:hover {
         background: rgba(34, 197, 94, 0.15) !important;
         border-left: 4px solid var(--success);
+        animation: pulseHighlight 0.4s ease;
     }
 
-    .results-table td .clickable-title, table td .clickable-title {
+    @keyframes pulseHighlight {
+        0%, 100% { background: rgba(34, 197, 94, 0.15); }
+        50% { background: rgba(34, 197, 94, 0.25); }
+    }
+
+    .results-table td .clickable-title {
         cursor: pointer;
+        text-decoration: none;
         color: var(--primary);
         font-weight: 600;
-        text-decoration: none;
+        transition: var(--transition);
+        display: inline-block;
     }
 
-    .results-table td .clickable-title:hover, table td .clickable-title:hover {
+    .results-table td .clickable-title:hover {
         color: var(--accent);
         text-decoration: underline;
     }
 
     .repeated-title {
         color: var(--text-muted);
-        font-size: 0.85em;
+        font-size: 0.9em;
         font-style: italic;
+    }
+
+    .narrow-column {
+        width: 90px;
+        max-width: 90px;
+        word-break: break-word;
+        text-align: center;
+    }
+
+    .results-table th:nth-child(1),
+    .results-table td:nth-child(1) { width: 30%; }
+
+    .results-table th:nth-child(2),
+    .results-table td:nth-child(2) { width: 40%; }
+
+    .results-table th:nth-child(3),
+    .results-table td:nth-child(3),
+    .results-table th:nth-child(4),
+    .results-table td:nth-child(4) {
+        width: 15%;
+        text-align: center;
     }
 
     .no-results {
@@ -934,6 +950,7 @@
         margin-bottom: 0.75rem;
         display: block;
     }
+
     /* ==================== RESULTADOS - CARDS (Mejora Progresiva) ==================== */
     /* Esta sección es OPCIONAL: si tu JS sigue usando tablas, no se activará.
        Si migras a renderizar cards, estos estilos estarán listos. */
@@ -1620,67 +1637,7 @@
             background-color: #fffbeb;
             border-bottom: 1px solid #fef3c7;
         }
-      /* =================================================================== */
-/* SOLUCIÓN RIGIDA DE DESPLAZAMIENTO HORIZONTAL PARA TABLAS EN MÓVILES */
-/* =================================================================== */
-@media (max-width: 768px) {
-    /* Desactivamos restricciones flexbox heredadas en el contenedor de resultados */
-    #tituloResults, 
-    #colegiosPorEspacioResults, 
-    #orientacionResults, 
-    #localidadResults, 
-    #categoriaResults {
-        display: block !important;
-        width: 100% !important;
-        max-width: 100% !important;
-        overflow: visible !important;
-    }
-
-    /* Forzamos el comportamiento de bloque independiente para el scroll */
-    .results-table-container {
-        display: block !important;
-        width: 100% !important;
-        max-width: 100% !important;
-        overflow-x: scroll !important; /* Fuerza la barra de desplazamiento activo */
-        overflow-y: hidden !important;
-        -webkit-overflow-scrolling: touch !important; /* Scroll ultra suave con el dedo */
-        border: 1px solid var(--border) !important;
-        position: relative !important;
-    }
-
-    /* Obligamos a la tabla interna a estirarse más allá del borde de la pantalla del celular */
-    .results-table-container table.results-table {
-        display: table !important;
-        width: auto !important;
-        min-width: 850px !important; /* Al darle 850px fijos en móvil, el navegador se ve obligado a dar scroll lateral */
-        table-layout: fixed !important; /* Fija los anchos de celda de forma estricta */
-    }
-
-    /* Configuramos anchos fijos y limpios para que las columnas no se deformen en el móvil */
-    .results-table th:nth-child(1), .results-table td:nth-child(1) { 
-        width: 180px !important; 
-        max-width: 180px !important; 
-        white-space: normal !important;
-    } /* Columna Título */
-    
-    .results-table th:nth-child(2), .results-table td:nth-child(2) { 
-        width: 380px !important; 
-        max-width: 380px !important; 
-        white-space: normal !important;
-    } /* Columna Espacio Curricular */
-    
-    .results-table th:nth-child(3), .results-table td:nth-child(3) { 
-        width: 90px !important; 
-        max-width: 90px !important; 
-        text-align: center !important;
-    } /* Código */
-    
-    .results-table th:nth-child(4), .results-table td:nth-child(4) { 
-        width: 130px !important; 
-        max-width: 130px !important; 
-        text-align: center !important;
-    } /* Alcance */
-}
+      
 </style>
     
     <!-- Google Analytics -->
