@@ -1634,6 +1634,50 @@
             background-color: #fffbeb;
             border-bottom: 1px solid #fef3c7;
         }
+/* =================================================================== */
+    /* PARCHE MÓVIL URGENTE: SCROLL HORIZONTAL EN TABLAS                   */
+    /* =================================================================== */
+    @media screen and (max-width: 768px) {
+        /* 1. Obligamos al contenedor padre a no salirse de la pantalla del celular */
+        .search-section,
+        .results-container {
+            width: 100% !important;
+            max-width: 100vw !important;
+            min-width: 0 !important; /* Rompe la trampa de Flexbox */
+            box-sizing: border-box !important;
+        }
+
+        /* 2. Activamos el scroll lateral estrictamente en el contenedor de la tabla */
+        .results-table-container {
+            width: 100% !important;
+            max-width: 100% !important;
+            display: block !important;
+            overflow-x: auto !important;
+            -webkit-overflow-scrolling: touch !important; /* Scroll suave para táctil */
+            border-right: 1px solid var(--border) !important;
+        }
+
+        /* 3. Forzamos a la tabla a medir mínimo 700px. Al ser más grande que el celu (que mide aprox 380px), genera el scroll automáticamente */
+        .results-table {
+            min-width: 700px !important;
+            width: max-content !important; 
+        }
+
+        /* 4. Evitamos que los textos de las columnas se colapsen feo */
+        .results-table th, 
+        .results-table td {
+            white-space: normal !important;
+            word-wrap: break-word !important;
+        }
+        
+        /* Aseguramos que la columna de códigos no ocupe más de lo necesario */
+        .results-table th:nth-child(3), 
+        .results-table td:nth-child(3) {
+            width: 80px !important;
+            min-width: 80px !important;
+        }
+    }
+
       
 </style>
     
