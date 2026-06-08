@@ -804,6 +804,7 @@
     }
 
     /* ==================== RESULTADOS - TABLAS (Compatibilidad Total) ==================== */
+/* ==================== RESULTADOS - TABLAS (Compatibilidad Total Corregido) ==================== */
     .results-container {
         margin-top: 2rem;
         border-top: 1px solid var(--border);
@@ -811,10 +812,12 @@
     }
 
     .results-table-container {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
+        width: 100% !important;
+        overflow-x: auto !important; /* Activa el scroll horizontal */
+        -webkit-overflow-scrolling: touch; /* Desplazamiento suave en móviles */
         border-radius: var(--radius-sm);
         border: 1px solid var(--border);
+        margin-bottom: 1rem;
     }
 
     .results-table {
@@ -822,7 +825,7 @@
         border-collapse: collapse;
         margin: 0;
         font-size: 0.95rem;
-        min-width: 600px;
+        min-width: 750px; /* Al incrementarlo a 750px garantizamos que en móviles las columnas no se aplasten y se active el scroll lateral */
         background: var(--card-bg);
     }
 
@@ -879,7 +882,7 @@
         background: rgba(0, 180, 216, 0.12);
     }
 
-    /* ⚠️ CRÍTICO: JS añade esta clase para destacar coincidencias */
+    /* ⚠️ CRÍTICO: JS añade esta clase para destacar coincidencia de fila */
     .results-table tr.highlighted-row,
     .results-table tr.highlighted-row:hover {
         background: rgba(34, 197, 94, 0.15) !important;
@@ -919,18 +922,12 @@
         text-align: center;
     }
 
-    .results-table th:nth-child(1),
-    .results-table td:nth-child(1) { width: 30%; }
-
-    .results-table th:nth-child(2),
-    .results-table td:nth-child(2) { width: 40%; }
-
-    .results-table th:nth-child(3),
-    .results-table td:nth-child(3),
-    .results-table th:nth-child(4),
-    .results-table td:nth-child(4) {
-        width: 15%;
-        text-align: center;
+    /* Distribución equilibrada solo para pantallas medianas y grandes */
+    @media (min-width: 769px) {
+        .results-table th:nth-child(1), .results-table td:nth-child(1) { width: 30%; }
+        .results-table th:nth-child(2), .results-table td:nth-child(2) { width: 45%; }
+        .results-table th:nth-child(3), .results-table td:nth-child(3) { width: 10%; text-align: center; }
+        .results-table th:nth-child(4), .results-table td:nth-child(4) { width: 15%; text-align: center; }
     }
 
     .no-results {
