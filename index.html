@@ -803,153 +803,150 @@
         font-weight: 700 !important;
     }
 
-    /* ==================== RESULTADOS - TABLAS (Compatibilidad Total) ==================== */
-    .results-container {
-        margin-top: 2rem;
-        border-top: 1px solid var(--border);
-        padding-top: 1.5rem;
-    }
-
-    .results-table-container {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        border-radius: var(--radius-sm);
-        border: 1px solid var(--border);
-    }
-
-    .results-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin: 0;
-        font-size: 0.95rem;
-        min-width: 600px;
-        background: var(--card-bg);
-    }
-
-    .results-table thead {
-        background: linear-gradient(135deg, var(--primary), var(--primary-light));
-        color: white;
-    }
-
-    .results-table th {
-        padding: 1rem 0.75rem;
-        text-align: left;
-        font-weight: 600;
-        white-space: normal;
-        line-height: 1.3;
-        position: sticky;
-        top: 0;
-        z-index: 10;
-        font-size: 0.9rem;
-        text-transform: uppercase;
-        letter-spacing: 0.02em;
-    }
-
-    .results-table th small {
-        display: block;
-        font-size: 0.75em;
-        font-weight: normal;
-        opacity: 0.9;
-        margin-top: 0.25rem;
-        text-transform: none;
-        letter-spacing: normal;
-    }
-
-    .results-table td {
-        padding: 0.875rem 0.75rem;
-        border-bottom: 1px solid var(--border);
-        color: var(--text);
-        vertical-align: top;
-        white-space: normal;
-    }
-
-    .results-table tbody tr {
-        transition: var(--transition);
-    }
-
-    .results-table tbody tr:hover {
-        background: rgba(0, 180, 216, 0.08);
-    }
-
-    .results-table tbody tr:nth-child(even) {
-        background: rgba(248, 250, 252, 0.5);
-    }
-
-    .results-table tbody tr:nth-child(even):hover {
-        background: rgba(0, 180, 216, 0.12);
-    }
-
-    /* ⚠️ CRÍTICO: JS añade esta clase para destacar coincidencias */
-    .results-table tr.highlighted-row,
-    .results-table tr.highlighted-row:hover {
-        background: rgba(34, 197, 94, 0.15) !important;
-        border-left: 4px solid var(--success);
-        animation: pulseHighlight 0.4s ease;
-    }
-
-    @keyframes pulseHighlight {
-        0%, 100% { background: rgba(34, 197, 94, 0.15); }
-        50% { background: rgba(34, 197, 94, 0.25); }
-    }
-
-    .results-table td .clickable-title {
-        cursor: pointer;
-        text-decoration: none;
-        color: var(--primary);
-        font-weight: 600;
-        transition: var(--transition);
-        display: inline-block;
-    }
-
-    .results-table td .clickable-title:hover {
-        color: var(--accent);
-        text-decoration: underline;
-    }
-
-    .repeated-title {
-        color: var(--text-muted);
-        font-size: 0.9em;
-        font-style: italic;
-    }
-
-    .narrow-column {
-        width: 90px;
-        max-width: 90px;
-        word-break: break-word;
-        text-align: center;
-    }
-
-    .results-table th:nth-child(1),
-    .results-table td:nth-child(1) { width: 30%; }
-
-    .results-table th:nth-child(2),
-    .results-table td:nth-child(2) { width: 40%; }
-
-    .results-table th:nth-child(3),
-    .results-table td:nth-child(3),
-    .results-table th:nth-child(4),
-    .results-table td:nth-child(4) {
-        width: 15%;
-        text-align: center;
-    }
-
-    .no-results {
-        text-align: center;
-        color: var(--text-light);
-        padding: 2rem;
-        font-style: italic;
-        background: var(--bg-alt);
-        border-radius: var(--radius);
-        border: 1px dashed var(--border);
-        margin: 1rem 0;
-    }
-
-    .no-results i {
-        font-size: 2rem;
-        color: var(--text-muted);
-        margin-bottom: 0.75rem;
-        display: block;
-    }
+   /* ==================== RESULTADOS - TABLAS (Compatibilidad Total) ==================== */
+        .results-container {
+            margin-top: 2rem;
+            border-top: 1px solid var(--border);
+            padding-top: 1.5rem;
+            /* LA MAGIA: Esto rompe la restricción de Flexbox que impedía el scroll lateral en móviles */
+            min-width: 0 !important;
+            max-width: 100%;
+            display: block;
+        }
+    
+        .results-table-container {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            display: block;
+        }
+    
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0;
+            font-size: 0.95rem;
+            min-width: 750px; /* Al ser más ancha que el celular, obliga a activar el scroll */
+            background: var(--card-bg);
+        }
+    
+        .results-table thead {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+        }
+    
+        .results-table th {
+            padding: 1rem 0.75rem;
+            text-align: left;
+            font-weight: 600;
+            white-space: nowrap; /* Títulos en una sola línea para evitar aplastamiento */
+            line-height: 1.3;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+    
+        .results-table th small {
+            display: block;
+            font-size: 0.75em;
+            font-weight: normal;
+            opacity: 0.9;
+            margin-top: 0.25rem;
+            text-transform: none;
+            letter-spacing: normal;
+        }
+    
+        .results-table td {
+            padding: 0.875rem 0.75rem;
+            border-bottom: 1px solid var(--border);
+            color: var(--text);
+            vertical-align: middle;
+            white-space: normal;
+        }
+    
+        /* Fijamos anchos mínimos absolutos para cada columna */
+        .results-table th:nth-child(1), .results-table td:nth-child(1) { width: 30%; min-width: 180px; }
+        .results-table th:nth-child(2), .results-table td:nth-child(2) { width: 40%; min-width: 250px; }
+        .results-table th:nth-child(3), .results-table td:nth-child(3) { width: 15%; min-width: 100px; text-align: center; }
+        .results-table th:nth-child(4), .results-table td:nth-child(4) { width: 15%; min-width: 120px; text-align: center; }
+    
+        .results-table tbody tr {
+            transition: var(--transition);
+        }
+    
+        .results-table tbody tr:hover {
+            background: rgba(0, 180, 216, 0.08);
+        }
+    
+        .results-table tbody tr:nth-child(even) {
+            background: rgba(248, 250, 252, 0.5);
+        }
+    
+        .results-table tbody tr:nth-child(even):hover {
+            background: rgba(0, 180, 216, 0.12);
+        }
+    
+        .results-table tr.highlighted-row,
+        .results-table tr.highlighted-row:hover {
+            background: rgba(34, 197, 94, 0.15) !important;
+            border-left: 4px solid var(--success);
+            animation: pulseHighlight 0.4s ease;
+        }
+    
+        @keyframes pulseHighlight {
+            0%, 100% { background: rgba(34, 197, 94, 0.15); }
+            50% { background: rgba(34, 197, 94, 0.25); }
+        }
+    
+        .results-table td .clickable-title {
+            cursor: pointer;
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: 600;
+            transition: var(--transition);
+            display: inline-block;
+        }
+    
+        .results-table td .clickable-title:hover {
+            color: var(--accent);
+            text-decoration: underline;
+        }
+    
+        .repeated-title {
+            color: var(--text-muted);
+            font-size: 0.9em;
+            font-style: italic;
+        }
+    
+        .narrow-column {
+            width: 90px;
+            max-width: 90px;
+            word-break: break-word;
+            text-align: center;
+        }
+    
+        .no-results {
+            text-align: center;
+            color: var(--text-light);
+            padding: 2rem;
+            font-style: italic;
+            background: var(--bg-alt);
+            border-radius: var(--radius);
+            border: 1px dashed var(--border);
+            margin: 1rem 0;
+        }
+    
+        .no-results i {
+            font-size: 2rem;
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+            display: block;
+        }
 
     /* ==================== RESULTADOS - CARDS (Mejora Progresiva) ==================== */
     /* Esta sección es OPCIONAL: si tu JS sigue usando tablas, no se activará.
