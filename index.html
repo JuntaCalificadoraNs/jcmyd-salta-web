@@ -1635,56 +1635,68 @@
             border-bottom: 1px solid #fef3c7;
         }
 /* =================================================================== */
-    /* PARCHE MÓVIL DEFINITIVO: TAMAÑOS CONGELADOS EN PÍXELES EXACTOS      */
+    /* PARCHE MÓVIL DEFINITIVO: TAMAÑOS CONGELADOS MÁS ESTRECHOS           */
     /* =================================================================== */
     @media screen and (max-width: 768px) {
         /* Desbloqueamos el contenedor */
-        .search-section, results-container {
+        .search-section,
+        .results-container {
             width: 100% !important;
-            min-width: 0 !important;
+            min-width: 0 !important; 
             display: block !important;
-            overflow-x: hidden !important;
         }
 
         /* Activamos el carril de scroll */
         .results-table-container {
             width: 100% !important;
-            max-width: 100vw !important;
             overflow-x: auto !important;
             -webkit-overflow-scrolling: touch !important;
             display: block !important;
-            border-radius: var(--radius-sm);
-            border: 1px solid var(--border);
-            box-sizing: border-box;
         }
 
-          /* 3. Tabla: ancho mínimo intencional, layout flexible */
+        /* ACHICAMOS EL TAMAÑO TOTAL DE LA TABLA A 520px EXACTOS */
         .results-table {
-           width: 100% !important;
-           min-width: 750px !important; /* Mantiene scroll horizontal para preservar datos */
-           table-layout: auto !important; /* Deja que el contenido fluya sin recortar */
-           max-width: none !important; 
+            table-layout: fixed !important;
+            width: 520px !important; 
+            min-width: 520px !important;
+            max-width: 520px !important;
         }
 
-     /* 4. Celdas generales: evitan desbordes verticales */
-      .results-table th, .results-table td {
-        white-space: normal !important;
-        word-break: break-word !important;
-        padding: 0.75rem 0.5rem !important;
-        font-size: 0.85rem !important;
-        vertical-align: middle !important;
-      }
-    
-      /* 5. 🔒 COLUMNAS 3 Y 4 (CÓDIGO / ALCANCE): CONGELADAS Y LEGIBLES */
-      .results-table th:nth-child(3), .results-table td:nth-child(3),
-      .results-table th:nth-child(4), .results-table td:nth-child(4) {
-        min-width: 120px !important;
-        width: auto !important;
-        text-align: center !important;
-        white-space: nowrap !important; /* IMPIDE que salten de línea */
-        overflow: hidden !important;
-        text-overflow: ellipsis !important; /* Muestra "..." si el texto es muy largo */
-      }
+        /* REPARTIMOS LOS 520px EN COLUMNAS MÁS ESTRECHAS Y CÓMODAS */
+        
+        /* 1. Columna Título: 140px (antes 180px) */
+        .results-table th:nth-child(1), .results-table td:nth-child(1) { 
+            width: 140px !important; 
+            min-width: 140px !important; 
+            max-width: 140px !important; 
+            white-space: normal !important; 
+            word-wrap: break-word !important;
+        }
+        
+        /* 2. Columna Espacio Curricular: 220px (antes 300px) */
+        .results-table th:nth-child(2), .results-table td:nth-child(2) { 
+            width: 220px !important; 
+            min-width: 220px !important; 
+            max-width: 220px !important; 
+            white-space: normal !important; 
+            word-wrap: break-word !important;
+        }
+        
+        /* 3. Columna Código: 70px (antes 90px) */
+        .results-table th:nth-child(3), .results-table td:nth-child(3) { 
+            width: 70px !important; 
+            min-width: 70px !important; 
+            max-width: 70px !important; 
+            text-align: center !important;
+        }
+        
+        /* 4. Columna Alcance: 90px (antes 130px) */
+        .results-table th:nth-child(4), .results-table td:nth-child(4) { 
+            width: 90px !important; 
+            min-width: 90px !important; 
+            max-width: 90px !important; 
+            text-align: center !important;
+        }
     }
 
       
