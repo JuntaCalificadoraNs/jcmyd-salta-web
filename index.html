@@ -1698,7 +1698,33 @@
             text-align: center !important;
         }
     }
+/* =================================================================== */
+    /* RECUPERAR MENÚ HAMBURGUESA Y AJUSTE DE LOGO EN CELULARES            */
+    /* =================================================================== */
+    @media screen and (max-width: 768px) {
+        /* 1. Obligamos al logo a adaptarse al celular sin romper el encabezado */
+        header .logo img {
+            max-height: 50px !important; 
+            max-width: 80vw !important; /* Nunca ocupará más del 80% del ancho de la pantalla */
+            object-fit: contain;
+        }
 
+        /* 2. Blindamos el botón de las 3 rayitas para que NADA lo aplaste */
+        .menu-toggle {
+            display: flex !important;
+            flex-shrink: 0 !important; /* ESTO ES VITAL: impide que el logo lo comprima o lo empuje */
+            margin-left: auto !important; /* Lo empuja bien hacia la derecha */
+        }
+
+        /* 3. Aseguramos que el encabezado los mantenga a ambos en línea */
+        .header-content {
+            display: flex !important;
+            flex-wrap: nowrap !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            padding: 8px 15px !important;
+        }
+    }
       
 </style>
     
