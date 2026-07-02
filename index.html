@@ -2915,17 +2915,18 @@
                                     const actionButton = document.createElement('a');
                                     actionButton.href = url;
                                     
-                                    let buttonText = 'Ver Enlace / Descargar';
+                                    // CÓDIGO NUEVO Y DINÁMICO
+                                    let buttonText = 'Ver Documento / Descargar';
                                     if (linkTexts[idx] && linkTexts[idx].trim() !== '') {
+                                        // Si escribiste algo en la columna LinkTexto del Excel, usa eso:
                                         buttonText = linkTexts[idx];
                                     } else {
-                                        const defaultTexts = [
-                                            'Descargar Circular 02/26',
-                                            'Descargar Formulario de Inscripción',
-                                            'Descargar Anexo II (Códigos)',
-                                            'Descargar Anexo III (Aspirantes)'
-                                        ];
-                                        buttonText = defaultTexts[idx] || `Descargar Documento ${idx + 1}`;
+                                        // Si la celda está vacía, usa un nombre genérico e inteligente:
+                                        if (links.length > 1) {
+                                            buttonText = `Descargar Archivo ${idx + 1}`; // Si hay varios links, los numera (Archivo 1, Archivo 2)
+                                        } else {
+                                            buttonText = 'Ver Documento / Descargar'; // Si hay un solo link, usa este texto neutral
+                                        }
                                     }
         
                                     actionButton.textContent = buttonText;
