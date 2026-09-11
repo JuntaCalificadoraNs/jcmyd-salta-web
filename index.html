@@ -4383,5 +4383,88 @@
             setupEnterKeySearch();
         });
     </script>    
+    <!-- MODAL DÍA DEL MAESTRO -->
+        <div id="modal-saludo" class="modal-saludo-overlay">
+            <div class="modal-saludo-content">
+                <button onclick="cerrarSaludo()" class="btn-cerrar-saludo">&times;</button>
+                <img src="assets/SALUDO 11 DE SEPTIEMBRE.jpg" alt="Feliz Día del Maestro - Junta Calificadora">
+            </div>
+        </div>
+        
+        <style>
+        /* Estilos del Modal del Día del Maestro */
+        .modal-saludo-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 31, 68, 0.85); /* Azul institucional oscuro y transparente */
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+        }
+        .modal-saludo-overlay.activo {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-saludo-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90vh;
+            transform: translateY(20px);
+            transition: transform 0.4s ease;
+        }
+        .modal-saludo-overlay.activo .modal-saludo-content {
+            transform: translateY(0);
+        }
+        .modal-saludo-content img {
+            max-height: 85vh;
+            max-width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            border: 3px solid #d4af37; /* Borde dorado haciendo juego con la gráfica */
+        }
+        .btn-cerrar-saludo {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            background: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 38px;
+            height: 38px;
+            font-size: 22px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            transition: transform 0.2s;
+        }
+        .btn-cerrar-saludo:hover {
+            transform: scale(1.1);
+            background: #dc2626;
+        }
+        </style>
+        
+        <script>
+        // Lógica para mostrar el saludo una sola vez
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!localStorage.getItem('saludoMaestro2026Visto')) {
+                setTimeout(() => {
+                    document.getElementById('modal-saludo').classList.add('activo');
+                }, 800); // Aparece suavemente casi un segundo después de cargar la web
+            }
+        });
+        
+        function cerrarSaludo() {
+            document.getElementById('modal-saludo').classList.remove('activo');
+            localStorage.setItem('saludoMaestro2026Visto', 'true');
+        }
+        </script>
 </body>
 </html>
