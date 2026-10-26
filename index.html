@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
-<head> 
+<head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Junta Calificadora de Méritos y Disciplina - Nivel Secundario</title>
     
-    <!-- Preload de recursos -->
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" as="style">
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <!-- Conexiones tempranas (velocidad) -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://docs.google.com" crossorigin>
     
     <!-- Estilos -->
   <style>
@@ -23,8 +22,8 @@
         
         /* Textos y fondos */
         --text: #1e2937;
-        --text-light: #64748b;
-        --text-muted: #94a3b8;
+        --text-light: #56667b;
+        --text-muted: #5b6b80;
         --bg: #f8fafc;
         --bg-alt: #f1f5f9;
         --card-bg: #ffffff;
@@ -43,7 +42,6 @@
         --shadow: 0 4px 6px -1px rgba(0, 43, 91, 0.1), 0 2px 4px -1px rgba(0, 43, 91, 0.06);
         --shadow-lg: 0 10px 15px -3px rgba(0, 43, 91, 0.1), 0 4px 6px -2px rgba(0, 43, 91, 0.05);
         --transition: all 0.2s ease-in-out;
-        --transition-slow: all 0.3s ease;
         
         /* Accesibilidad */
         --focus-ring: 0 0 0 3px rgba(0, 180, 216, 0.4);
@@ -51,8 +49,6 @@
         
         /* Z-index layers */
         --z-header: 1000;
-        --z-modal: 1100;
-        --z-spinner: 1200;
     }
 
     /* ==================== RESET SELECTIVO ==================== */
@@ -62,10 +58,12 @@
         padding: 0;
     }
 
-    /* Preservar librerías externas (Font Awesome, PapaParse) */
-    .fa, .fas, .far, .fab,
-    .papaparse *,
-    .goog-te-gadget * {
+    /* Preservar librerías externas (Font Awesome) */
+    .fa,
+    .fas,
+    .far,
+    .fab,
+    .goog-te-gadget *{
         margin: initial;
         padding: initial;
     }
@@ -89,10 +87,6 @@
         padding: 15px 30px 30px;
         box-shadow: var(--shadow-lg);
         border-radius: var(--radius);
-    }
-
-    .container.with-banner {
-        margin-top: 70px;
     }
 
     .visually-hidden {
@@ -153,10 +147,6 @@
         header {
             padding: 8px 0 !important;
         }
-
-    .site-title {
-        display: none; /* Opcional: mostrar si quieres texto junto al logo */
-    }
 
     /* Navegación Desktop */
     nav ul {
@@ -345,16 +335,6 @@
         margin-bottom: 1rem;
     }
 
-    .news-item .news-content {
-        margin-bottom: 1rem;
-    }
-
-    .news-item .news-content p {
-        margin: 0 0 0.75rem 0;
-        line-height: 1.7;
-        color: var(--text);
-    }
-
     .news-item .news-list {
         list-style: disc;
         padding-left: 1.5rem;
@@ -366,8 +346,7 @@
         color: var(--text);
     }
 
-    .news-item .inline-link,
-    .read-more {
+    .news-item .inline-link{
         display: inline-block;
         color: var(--accent);
         text-decoration: none;
@@ -376,61 +355,12 @@
         font-size: 0.95rem;
     }
 
-    .news-item .inline-link:hover,
-    .read-more:hover {
+    .news-item .inline-link:hover{
         color: var(--primary);
         text-decoration: underline;
     }
 
-    .read-more {
-        margin-right: 0.75rem;
-    }
-
     /* ==================== COMUNICADO OFICIAL ==================== */
-    .official-communique {
-        background: var(--card-bg);
-        border-radius: var(--radius);
-        padding: 1.5rem;
-        margin-bottom: 2rem;
-        box-shadow: var(--shadow);
-        border-top: 4px solid var(--primary);
-    }
-
-    .communique-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        margin-bottom: 1.25rem;
-        font-size: 0.9rem;
-        color: var(--text-muted);
-        flex-wrap: wrap;
-        gap: 0.5rem;
-    }
-
-    .communique-content h4 {
-        color: var(--primary);
-        margin: 1.25rem 0 0.75rem;
-        font-size: 1.1rem;
-    }
-
-    .communique-content ul {
-        padding-left: 1.5rem;
-        margin: 0.75rem 0;
-    }
-
-    .communique-content ul li {
-        margin-bottom: 0.5rem;
-        color: var(--text);
-    }
-
-    .communique-recommendations {
-        background: #fffbeb;
-        padding: 1rem;
-        border-radius: var(--radius-sm);
-        border-left: 4px solid var(--warning);
-        margin-top: 1.25rem;
-        font-size: 0.95rem;
-    }
 
     address {
         font-style: normal;
@@ -441,100 +371,7 @@
         color: var(--text);
     }
 
-    /* ==================== ACCESO A CARPETAS DRIVE ==================== */
-    .folder-access-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 1.25rem;
-        margin: 2rem 0;
-    }
-
-    .card-folder {
-        background: var(--card-bg);
-        border-radius: var(--radius);
-        padding: 1.5rem;
-        text-align: center;
-        box-shadow: var(--shadow);
-        transition: var(--transition);
-        border: 1px solid var(--border);
-        text-decoration: none !important;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        color: var(--text);
-    }
-
-    .card-folder:hover {
-        transform: translateY(-5px);
-        box-shadow: var(--shadow-lg);
-        border-color: var(--accent);
-    }
-
-    .card-folder i {
-        font-size: 2.5rem;
-        margin-bottom: 1rem;
-    }
-
-    .card-folder h4 {
-        margin: 0.75rem 0;
-        font-size: 1.1rem;
-        color: var(--primary);
-        border: none;
-        padding: 0;
-    }
-
-    .card-folder p {
-        font-size: 0.9rem;
-        color: var(--text-light);
-        margin-bottom: 1rem;
-        text-align: center;
-    }
-
-    .folder-regular { border-top: 5px solid var(--info); }
-    .folder-regular i { color: var(--info); }
-
-    .folder-directivo { border-top: 5px solid var(--error); }
-    .folder-directivo i { color: var(--error); }
-
-    .btn-folder-link {
-        padding: 0.625rem 1.5rem;
-        border-radius: var(--radius-sm);
-        color: white !important;
-        font-weight: 600;
-        font-size: 0.9rem;
-        width: 100%;
-        text-align: center;
-        border: none;
-        cursor: pointer;
-        transition: var(--transition);
-    }
-
-    .bg-blue-drive { background: var(--info); }
-    .bg-blue-drive:hover { background: #2563eb; }
-
-    .bg-red-drive { background: var(--error); }
-    .bg-red-drive:hover { background: #dc2626; }
-
-    .note-box-folders {
-        background: var(--bg-alt);
-        padding: 1rem;
-        border-radius: var(--radius-sm);
-        font-size: 0.9rem;
-        color: var(--text-light);
-        border-left: 4px solid var(--border);
-        margin-top: 1rem;
-    }
-
     /* ==================== LISTAS DE CARACTERÍSTICAS ==================== */
-    .lead-text {
-        font-size: 1.15rem;
-        font-weight: 600;
-        color: var(--primary);
-        margin: 1.25rem 0 1rem;
-        line-height: 1.5;
-    }
 
     .feature-list {
         list-style: none;
@@ -607,40 +444,6 @@
         border-left: 3px solid var(--accent);
         padding-left: 1rem;
         font-style: italic;
-    }
-
-    .notification-content {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        justify-content: center;
-        text-align: left;
-        flex-wrap: wrap;
-    }
-
-    .notification-content i {
-        font-size: 1.5rem;
-        color: white;
-        min-width: 28px;
-    }
-
-    .notification-content strong {
-        font-weight: 700;
-        font-size: 1rem;
-        display: block;
-        margin-bottom: 2px;
-        color: white;
-    }
-
-    .notification-content span {
-        font-size: 0.9rem;
-        opacity: 0.95;
-        color: rgba(255,255,255,0.9);
-    }
-
-    @keyframes pulse {
-        0%, 100% { transform: scale(1); }
-        50% { transform: scale(1.02); }
     }
 
     /* ==================== TUTORIAL RÁPIDO ==================== */
@@ -948,86 +751,6 @@
             display: block;
         }
 
-    /* ==================== RESULTADOS - CARDS (Mejora Progresiva) ==================== */
-    /* Esta sección es OPCIONAL: si tu JS sigue usando tablas, no se activará.
-       Si migras a renderizar cards, estos estilos estarán listos. */
-    
-    .results-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        gap: 1.25rem;
-        margin-top: 1rem;
-    }
-
-    .result-card {
-        background: var(--card-bg);
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        padding: 1.25rem;
-        box-shadow: var(--shadow-sm);
-        transition: var(--transition);
-        display: flex;
-        flex-direction: column;
-        gap: 0.75rem;
-    }
-
-    .result-card:hover {
-        transform: translateY(-3px);
-        box-shadow: var(--shadow);
-        border-color: var(--accent);
-    }
-
-    .result-card.highlighted-row {
-        border: 2px solid var(--success);
-        background: rgba(34, 197, 94, 0.08);
-    }
-
-    .result-card h4 {
-        color: var(--primary);
-        font-size: 1.1rem;
-        font-weight: 700;
-        margin: 0;
-        line-height: 1.4;
-    }
-
-    .result-card p {
-        font-size: 0.95rem;
-        color: var(--text-light);
-        margin: 0.25rem 0;
-    }
-
-    .result-card strong {
-        color: var(--text);
-        font-weight: 600;
-    }
-
-    .card-actions {
-        margin-top: auto;
-        padding-top: 0.75rem;
-        display: flex;
-        justify-content: flex-end;
-        gap: 0.5rem;
-    }
-
-    .btn-print {
-        background: var(--accent);
-        color: white;
-        border: none;
-        padding: 0.5rem 1rem;
-        border-radius: var(--radius-sm);
-        font-size: 0.9rem;
-        font-weight: 600;
-        cursor: pointer;
-        transition: var(--transition);
-        display: inline-flex;
-        align-items: center;
-        gap: 0.4rem;
-    }
-
-    .btn-print:hover {
-        background: var(--accent-hover);
-    }
-
     /* ==================== IFRAMES RESPONSIVE ==================== */
     .news-iframe-container,
     .map-container {
@@ -1138,10 +861,6 @@
             min-height: 60px;
         }
 
-        .logo img {
-            max-height: 40px;
-        }
-
         .menu-toggle {
             display: flex;
         }
@@ -1201,10 +920,6 @@
             width: 95%;
             margin: 15px auto 20px;
             padding: 1rem 1.25rem 1.5rem;
-        }
-
-        .container.with-banner {
-            margin-top: 60px;
         }
 
         h1 { font-size: 1.6rem; margin-bottom: 0.5rem; }
@@ -1275,25 +990,10 @@
             font-size: 0.85em;
         }
 
-        /* Comunicado oficial */
-        .official-communique {
-            padding: 1.25rem;
-        }
-
-        .communique-header {
-            flex-direction: column;
-            gap: 0.25rem;
-        }
-
         /* Iframes */
         .news-iframe-container,
         .map-container {
             padding-top: 120%;
-        }
-
-        /* Folder cards */
-        .folder-access-container {
-            grid-template-columns: 1fr;
         }
 
         /* Noticias */
@@ -1317,10 +1017,6 @@
             padding: 0.25rem 15px;
         }
 
-        .header .logo img {
-           max-height: 52px; /* Incrementamos de 35px/40px a 52px para que la nueva dirección sea legible */
-        }
-
         nav {
             padding: 4rem 1.5rem 1.5rem;
         }
@@ -1330,9 +1026,6 @@
             font-size: 1rem;
         }
 
-        .container.with-banner {
-            margin-top: 55px;
-        }
     }
 
     /* Pantallas muy pequeñas */
@@ -1417,11 +1110,20 @@
         }
 
         /* Ocultar elementos no imprimibles */
-        header, footer, .menu-toggle, .quick-access-buttons,
-        .search-section label, .search-section input, .search-section select,
-        .search-section button, .tabs-container, .year-buttons,
-        .news-iframe-container, .map-container, .search-group:not(.print-visible),
-        .folder-access-container, .official-communique, .quick-tutorial {
+        header,
+        footer,
+        .menu-toggle,
+        .quick-access-buttons,
+        .search-section label,
+        .search-section input,
+        .search-section select,
+        .search-section button,
+        .tabs-container,
+        .year-buttons,
+        .news-iframe-container,
+        .map-container,
+        .search-group:not(.print-visible),
+        .quick-tutorial{
             display: none !important;
         }
 
@@ -1500,7 +1202,7 @@
         }
 
         /* Evitar cortes en cards */
-        .news-item, .result-card, .card-folder {
+        .news-item{
             break-inside: avoid;
             page-break-inside: avoid;
         }
@@ -1516,23 +1218,13 @@
         padding: 15px 20px;
     }
 
-    /* WebView / PWA */
-    :root.webview .container {
-        padding-bottom: constant(safe-area-inset-bottom);
-        padding-bottom: env(safe-area-inset-bottom);
-    }
-
     /* iOS fix para inputs */
     @supports (-webkit-touch-callout: none) {
         input[type="text"], select {
             font-size: 16px; /* Evita zoom automático en iOS */
         }
     }
-        /* ========================================================== */
-        /* PASO 2: ESTILOS VISUALES (CSS)                            */
-        /* Pega este bloque al final de tu etiqueta <style>,          */
-        */
-        /* ========================================================== */
+        /* ==================== MULTIMEDIA (TUTORIALES) ==================== */
         
         .multimedia-grid {
             display: grid;
@@ -1627,13 +1319,7 @@
             width: 100%;
             margin-top: 15px;
         }
-        
-        .ppt-preview-container {
-            padding: 30px 20px;
-            text-align: center;
-            background-color: #fffbeb;
-            border-bottom: 1px solid #fef3c7;
-        }
+
 /* =================================================================== */
     /* PARCHE MÓVIL DEFINITIVO: TAMAÑOS CONGELADOS MÁS ESTRECHOS           */
     /* =================================================================== */
@@ -1725,7 +1411,60 @@
             padding: 8px 15px !important;
         }
     }
-      
+
+    /* ==================== ACCESIBILIDAD (MÓVIL Y TECLADO) ==================== */
+    .skip-link {
+        position: absolute;
+        left: -9999px;
+        top: 0;
+        z-index: 2000;
+        padding: 0.75rem 1rem;
+        background: var(--primary);
+        color: #ffffff;
+        font-weight: 600;
+        text-decoration: none;
+        border-radius: 0 0 var(--radius-sm) 0;
+    }
+    .skip-link:focus {
+        left: 0;
+    }
+    #contenido-principal:focus {
+        outline: none;
+    }
+    a:focus-visible,
+    button:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    .tab-button:focus-visible,
+    .clickable-title:focus-visible {
+        outline: 3px solid var(--accent);
+        outline-offset: 2px;
+    }
+    /* Áreas táctiles de al menos 44-48px */
+    .menu-toggle {
+        width: 44px;
+        height: 44px;
+        padding: 10px 7px;
+    }
+    .tab-button,
+    .small-button {
+        min-height: var(--min-tap);
+    }
+    .results-table td .clickable-title {
+        min-height: 24px;
+        padding: 2px 0;
+    }
+    @media (max-width: 768px) {
+        /* El menú cerrado no debe recibir foco ni leerse con lector de pantalla */
+        nav {
+            visibility: hidden;
+            transition: left 0.3s ease, visibility 0s linear 0.3s;
+        }
+        nav.active {
+            visibility: visible;
+            transition: left 0.3s ease, visibility 0s linear 0s;
+        }
+    }
 </style>
     
     <!-- Google Analytics -->
@@ -1738,16 +1477,19 @@
     </script>
     
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
 </head>
 
 <body>
+    <a href="#contenido-principal" class="skip-link">Saltar al contenido principal</a>
+    <div id="estado-busqueda" class="visually-hidden" role="status" aria-live="polite" aria-atomic="true"></div>
      <header>
         <div class="header-content">
             <div class="logo">
-                <img src="jcmyd-logo.png" alt="Logo Junta Calificadora de Méritos y Disciplina">
+                <img src="jcmyd-logo.png" alt="Logo Junta Calificadora de Méritos y Disciplina" decoding="async" fetchpriority="high">
             </div>
-            <button class="menu-toggle" id="mobile-menu" aria-label="Menú principal" aria-expanded="false" aria-controls="main-nav" aria-haspopup="true">
+            <button class="menu-toggle" id="mobile-menu" aria-label="Abrir o cerrar el menú de navegación" aria-expanded="false" aria-controls="main-nav">
                 <span class="bar" aria-hidden="true"></span>
                 <span class="bar" aria-hidden="true"></span>
                 <span class="bar" aria-hidden="true"></span>
@@ -1759,7 +1501,7 @@
                     <li><a href="#herramientas-consulta"><i class="fas fa-search"></i> Herramientas</a></li>
                     <li>
                             <a href="https://edusalta.gov.ar/index.php/docentes/jcmyd-nivel-secundario-y-modalidades/manual-de-competencia-de-titulos" 
-                           target="_blank" 
+                           target="_blank" rel="noopener noreferrer" 
                            onclick="event.stopImmediatePropagation();" 
                            class="nav-manual-link">
                            <i class="fas fa-book mr-1"></i> Manual de Títulos
@@ -1777,12 +1519,11 @@
             </nav>
         </div>
     </header>
-    </header>
 
         <!-- Banner de prórroga -->
        
         
-        <div class="container">
+        <div class="container" id="contenido-principal" role="main" tabindex="-1">
             
        <section id="inicio" class="content-section">
            <!-- =================================================================== -->
@@ -2016,7 +1757,7 @@
                 </a>
                 <!-- Nuevo Botón de Acceso al Manual Externo -->
                 <a href="https://edusalta.gov.ar/index.php/docentes/jcmyd-nivel-secundario-y-modalidades/manual-de-competencia-de-titulos" 
-                   target="_blank" 
+                   target="_blank" rel="noopener noreferrer" 
                    class="button btn-manual">
                     <i class="fas fa-external-link-alt mr-2"></i> Manual de Títulos (Oficial)
                 </a>
@@ -2060,7 +1801,7 @@
             <!-- Buscador para Docentes Ingresantes: Títulos y Espacios Curriculares -->
             <section class="search-group">
                 <h3>Buscador de Títulos y Espacios Curriculares <small>(Ideal para docentes ingresantes)</small></h3>
-                <p>Encuentra qué espacios curriculares puedes dictar con tu título. Las incumbencias responden al manual de competencias vigentes del Ministerio de Educación de Salta. **Puedes hacer clic en cualquier título de la tabla de resultados para filtrar y ver solo sus incumbencias exactas.**</p>
+                <p>Encuentra qué espacios curriculares puedes dictar con tu título. Las incumbencias responden al manual de competencias vigentes del Ministerio de Educación de Salta. <strong>Puedes hacer clic en cualquier título de la tabla de resultados para filtrar y ver solo sus incumbencias exactas.</strong></p>
                 <div class="search-section">
                     <label for="tituloInputIntegrado">1. Ingresa tu Título (o parte de él):</label>
                     <input type="text" id="tituloInputIntegrado" placeholder="Ej: Profesor de Historia" 
@@ -2219,7 +1960,7 @@
             <ul>
                 <li><a href="https://drive.google.com/file/d/19XUeA68q-VbScNui9fXYVaI0CVMhAPNC/view?usp=sharing">-CIRCULAR DE INSCRIPCION 02/26</a></li>
                 <li><a href="http://www.bnm.me.gov.ar/giga1/documentos/EL006396.pdf" target="_blank" rel="noopener noreferrer">Ley N° 7546 - Ley Provincial de Educación</a></li>
-                <li><a href=https://boletinoficialsalta.gob.ar/Texto_Actualizado.php?cXdlcnR5dGFibGE9THw2ODMwJmNhYmU9PGg2PiBQdWJsaWNhZG8gZW4gZWwgQm9sZXTDg8KtbiBPZmljaWFsIE7DgsKwIDE0ODkwLCBlbCBkw4PCrWEgIGRlICBkZSA8L2g2PjxCUj5xd2VydHk=" target="_blank" rel="noopener noreferrer">Ley N° 6830/95 - Ley de Educación</a></li>
+                <li><a href="https://boletinoficialsalta.gob.ar/Texto_Actualizado.php?cXdlcnR5dGFibGE9THw2ODMwJmNhYmU9PGg2PiBQdWJsaWNhZG8gZW4gZWwgQm9sZXTDg8KtbiBPZmljaWFsIE7DgsKwIDE0ODkwLCBlbCBkw4PCrWEgIGRlICBkZSA8L2g2PjxCUj5xd2VydHk=" target="_blank" rel="noopener noreferrer">Ley N° 6830/95 - Ley de Educación</a></li>
                 <li><a href="https://boletinoficialsalta.gob.ar/instrumento.php?cXdlcnR5dGFibGE9UnwxODUxLzA4cXdlcnR5" target="_blank" rel="noopener noreferrer">Resolución N° 1851/08. RÉGIMEN DE VALORACIÓN DE ANTECEDENTES PARA LA CARRERA DOCENTE</a></li>
                 <li><a href="https://www.edusalta.gov.ar/index.php/docentes/normativa-educativa/resoluciones/6568-res-min-n-332-24/file" target="_blank" rel="noopener noreferrer">Resolución N° 332/24.L.C.O. Reconocimiento oficial</a></li>
                 <li><a href="https://boletinoficialsalta.gob.ar/instrumento.php?cXdlcnR5dGFibGE9Unw5NzgvMjJxd2VydHk=" target="_blank" rel="noopener noreferrer">Resolución N° 978/22. REGLAMENTO DE ASCENSOS JERÁRQUICOS</a></li>
@@ -2249,12 +1990,12 @@
                     <div class="search-group">
                         <h3>Acciones de capacitación con puntaje</h3>
                         <div class="tabs-container">
-                            <div class="tabs">
-                                <button class="tab-button active" data-tab="resol332">Resolución 332/24</button>
-                                <button class="tab-button" data-tab="resol721">Resolución 721/08</button>
+                            <div class="tabs" role="tablist" aria-label="Resoluciones de capacitación">
+                                <button class="tab-button active" data-tab="resol332" role="tab" id="tab-resol332" aria-selected="true" aria-controls="resol332">Resolución 332/24</button>
+                                <button class="tab-button" data-tab="resol721" role="tab" id="tab-resol721" aria-selected="false" aria-controls="resol721">Resolución 721/08</button>
                             </div>
                             
-                            <div class="tab-content active" id="resol332">
+                            <div class="tab-content active" id="resol332" role="tabpanel" aria-labelledby="tab-resol332">
                                 <p>Capacitaciones vigentes según Resolución 332/24:</p>
                                 <a href="https://docs.google.com/spreadsheets/d/1kEh7E0H3UXsJAl4Elegd2lNvNrjdLNvE/edit?gid=838291378#gid=838291378" 
                                    target="_blank" 
@@ -2264,7 +2005,7 @@
                                 </a>
                             </div>
                             
-                            <div class="tab-content" id="resol721">
+                            <div class="tab-content" id="resol721" role="tabpanel" aria-labelledby="tab-resol721">
                                 <p>Capacitaciones históricas según Resolución 721/08:</p>
                                 <div class="year-buttons">
                                     <a href="https://drive.google.com/drive/u/0/folders/19TxqCiGTnGuvwa6GfPlgSpiHxlFVqXB-" 
@@ -2352,7 +2093,7 @@
                 <!-- TARJETA 1: VIDEO YOUTUBE - INSCRIPCIÓN VIRTUAL -->
                 <div class="media-card">
                     <div class="video-container">
-                        <iframe src="https://www.youtube.com/embed/9kDKyYNgxZM" allowfullscreen></iframe>
+                        <iframe src="https://www.youtube.com/embed/9kDKyYNgxZM" title="Video tutorial: Inscripción Virtual Paso a Paso" loading="lazy" allowfullscreen></iframe>
                     </div>
                     <div class="media-info">
                         <div>
@@ -2361,7 +2102,7 @@
                             <p>Explicación en video sobre los pasos necesarios para realizar con éxito tu postulación online.</p>
                         </div>
                         <div style="margin-top: 15px;">
-                            <a href="https://youtu.be/9kDKyYNgxZM?si=o0S2jMnlz-6ImGoM" target="_blank" onclick="event.stopImmediatePropagation();" class="button" style="width: auto; min-width: 150px; font-size: 0.85rem; padding: 8px 15px;">
+                            <a href="https://youtu.be/9kDKyYNgxZM?si=o0S2jMnlz-6ImGoM" target="_blank" rel="noopener noreferrer" onclick="event.stopImmediatePropagation();" class="button" style="width: auto; min-width: 150px; font-size: 0.85rem; padding: 8px 15px;">
                                 <i class="fab fa-youtube mr-2"></i> Ver en YouTube
                             </a>
                         </div>
@@ -2372,7 +2113,7 @@
                 <div class="media-card">
                     <div class="video-container">
                         <!-- Visor interactivo nativo de Google Slides -->
-                        <iframe src="https://docs.google.com/presentation/d/1fFg2pHdV65Ktmfyo-Eq-L8sgQe_WmZ_a/embed?start=false&loop=false&delayms=3000" allowfullscreen></iframe>
+                        <iframe src="https://docs.google.com/presentation/d/1fFg2pHdV65Ktmfyo-Eq-L8sgQe_WmZ_a/embed?start=false&loop=false&delayms=3000" title="Presentación: Funcionalidad de la Web de Junta" loading="lazy" allowfullscreen></iframe>
                     </div>
                     <div class="media-info">
                         <div>
@@ -2381,7 +2122,7 @@
                             <p>Recorrido explicativo interactivo sobre la funcionalidad general y consultas de la web de la Junta.</p>
                         </div>
                         <div style="margin-top: 15px;">
-                            <a href="https://docs.google.com/presentation/d/1fFg2pHdV65Ktmfyo-Eq-L8sgQe_WmZ_a/edit?usp=sharing" target="_blank" onclick="event.stopImmediatePropagation();" class="button" style="background-color: #b45309; width: auto; min-width: 150px; font-size: 0.85rem; padding: 8px 15px;">
+                            <a href="https://docs.google.com/presentation/d/1fFg2pHdV65Ktmfyo-Eq-L8sgQe_WmZ_a/edit?usp=sharing" target="_blank" rel="noopener noreferrer" onclick="event.stopImmediatePropagation();" class="button" style="background-color: #b45309; width: auto; min-width: 150px; font-size: 0.85rem; padding: 8px 15px;">
                                 <i class="fas fa-external-link-alt mr-2"></i> Abrir Pantalla Completa
                             </a>
                         </div>
@@ -2392,7 +2133,7 @@
                 <div class="media-card">
                     <div class="video-container">
                         <!-- Visor interactivo nativo de Google Slides -->
-                        <iframe src="https://docs.google.com/presentation/d/1YHshEgPbU8UFSRNkSW3oRwXTfPy2xwLu/embed?start=false&loop=false&delayms=3000" allowfullscreen></iframe>
+                        <iframe src="https://docs.google.com/presentation/d/1YHshEgPbU8UFSRNkSW3oRwXTfPy2xwLu/embed?start=false&loop=false&delayms=3000" title="Presentación: Guía para Docentes - Salta 2026" loading="lazy" allowfullscreen></iframe>
                     </div>
                     <div class="media-info">
                         <div>
@@ -2401,7 +2142,7 @@
                             <p>Análisis visual detallado y paso a paso oficial del formulario para guiar la inscripción del período lectivo.</p>
                         </div>
                         <div style="margin-top: 15px;">
-                            <a href="https://docs.google.com/presentation/d/1YHshEgPbU8UFSRNkSW3oRwXTfPy2xwLu/edit?usp=sharing" target="_blank" onclick="event.stopImmediatePropagation();" class="button" style="background-color: #b45309; width: auto; min-width: 150px; font-size: 0.85rem; padding: 8px 15px;">
+                            <a href="https://docs.google.com/presentation/d/1YHshEgPbU8UFSRNkSW3oRwXTfPy2xwLu/edit?usp=sharing" target="_blank" rel="noopener noreferrer" onclick="event.stopImmediatePropagation();" class="button" style="background-color: #b45309; width: auto; min-width: 150px; font-size: 0.85rem; padding: 8px 15px;">
                                 <i class="fas fa-external-link-alt mr-2"></i> Abrir Pantalla Completa
                             </a>
                         </div>
@@ -2425,7 +2166,7 @@
                             <p>Escucha un resumen auditivo sobre normativas, cronogramas y misiones del organismo.</p>
                         </div>
                         <div style="margin-top: 15px;">
-                            <a href="https://drive.google.com/file/d/1GRFD3Fi_IGv_52DiQS5qOOm4fdJ-o8DG/view?usp=sharing" target="_blank" onclick="event.stopImmediatePropagation();" class="button" style="background-color: #166534; width: auto; min-width: 150px; font-size: 0.85rem; padding: 8px 15px;">
+                            <a href="https://drive.google.com/file/d/1GRFD3Fi_IGv_52DiQS5qOOm4fdJ-o8DG/view?usp=sharing" target="_blank" rel="noopener noreferrer" onclick="event.stopImmediatePropagation();" class="button" style="background-color: #166534; width: auto; min-width: 150px; font-size: 0.85rem; padding: 8px 15px;">
                                 <i class="fas fa-play mr-2"></i> Escuchar en Drive
                             </a>
                         </div>
@@ -2454,7 +2195,7 @@
         </div>
         <h3>Nuestra Ubicación</h3>
         <div class="map-container">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d226.38591232727802!2d-65.41624636076519!3d-24.7894742568222!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x941bc3baa1481bbb%3A0x82565e209e7e8ff7!2sCaseros%20975%2C%20A4400%20Salta!5e0!3m2!1ses!2sar!4v1775459082908!5m2!1ses!2sar" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <iframe title="Mapa: ubicación de la Junta Calificadora de Méritos y Disciplina" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d226.38591232727802!2d-65.41624636076519!3d-24.7894742568222!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x941bc3baa1481bbb%3A0x82565e209e7e8ff7!2sCaseros%20975%2C%20A4400%20Salta!5e0!3m2!1ses!2sar!4v1775459082908!5m2!1ses!2sar" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
         <p style="text-align: center; margin-top: 15px;">
             <a href="https://www.google.com/maps/place/Pje+Fernando+Ramos+22,+A4400+Salta" target="_blank" rel="noopener noreferrer" style="color: #007bff; text-decoration: underline;">Abrir en Google Maps</a>
@@ -2480,11 +2221,7 @@
             },
             selectors: {
                 menuToggle: '#mobile-menu',
-                mainNav: '#main-nav',
-                tituloInput: '#tituloInputIntegrado',
-                espacioSelect: '#espacioCurricularSelect',
-                departamentoSelect: '#departamentoSelect',
-                btnBuscarColegios: '#btnBuscarColegios'
+                mainNav: '#main-nav'
             }
         };
         
@@ -2521,6 +2258,27 @@
                     const expanded = mainNav.classList.contains('active');
                     menuToggle.setAttribute('aria-expanded', expanded);
                 });
+
+                const cerrarMenu = () => {
+                    menuToggle.classList.remove('active');
+                    mainNav.classList.remove('active');
+                    menuToggle.setAttribute('aria-expanded', 'false');
+                };
+
+                // Tecla Escape cierra el menú y devuelve el foco al botón
+                document.addEventListener('keydown', (event) => {
+                    if (event.key === 'Escape' && mainNav.classList.contains('active')) {
+                        cerrarMenu();
+                        menuToggle.focus();
+                    }
+                });
+
+                // Tocar el fondo oscuro (fuera del panel) cierra el menú
+                mainNav.addEventListener('click', (event) => {
+                    if (event.target === mainNav && event.clientX > mainNav.getBoundingClientRect().right) {
+                        cerrarMenu();
+                    }
+                });
             }
             
             document.querySelectorAll('header nav ul li a').forEach(link => {
@@ -2533,19 +2291,23 @@
         }
         
         function showSection(sectionId) {
-            const allSections = document.querySelectorAll('.content-section');
-            allSections.forEach(section => {
+            const targetSection = document.getElementById(sectionId);
+
+            // Si el destino no existe o no es una sección, volver al inicio
+            if (!targetSection || !targetSection.classList.contains('content-section')) {
+                if (sectionId !== 'inicio') showSection('inicio');
+                return;
+            }
+
+            document.querySelectorAll('.content-section').forEach(section => {
                 section.classList.remove('active');
                 section.style.display = 'none';
             });
 
-            const targetSection = document.getElementById(sectionId);
-            if (targetSection) {
-                targetSection.style.display = 'block';
-                targetSection.classList.add('active');
-                // Usar scrollIntoView si el target no está en el viewport
-                targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' }); 
-            }
+            targetSection.style.display = 'block';
+            targetSection.classList.add('active');
+            const reducirMovimiento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            targetSection.scrollIntoView({ behavior: reducirMovimiento ? 'auto' : 'smooth', block: 'start' });
 
             const navLinks = document.querySelectorAll('header nav ul li a');
             navLinks.forEach(link => link.classList.remove('active-nav-link'));
@@ -2596,7 +2358,6 @@
         
         async function loadData(url, type) {
             try {
-                console.log(`Cargando datos desde: ${url} (Tipo: ${type})`);
                 const response = await fetch(url);
                 if (!response.ok) {
                     if (response.status === 404) {
@@ -2703,20 +2464,6 @@
             return data;
         }
         
-        // Convierte cualquier dirección URL de texto plano en un enlace HTML dinámico
-        function urlToLink(text) {
-            if (!text) return '';
-            const urlRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])|(\bwww\.[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
-            
-            return text.replace(urlRegex, function(url) {
-                let fullUrl = url;
-                if (!fullUrl.startsWith('http')) {
-                    fullUrl = 'http://' + fullUrl;
-                }
-                return `<a href="${fullUrl}" target="_blank" rel="noopener noreferrer" style="color: #2563eb; text-decoration: underline; font-weight: bold;">${url}</a>`;
-            });
-        }
-        
         // Procesa enlaces viejos por compatibilidad
         function processLinksInLine(line) {
             const links = [
@@ -2762,14 +2509,17 @@
             let linkIndex = 0;
         
             lines.forEach(line => {
-                let processedLine = urlToLink(line);
+                let processedLine = urlToLink(escapeHtml(line));
                 processedLine = processLinksInLine(processedLine);
         
                 // Convertir líneas de "DESCARGAR" o "VER" directamente en hipervínculos si hay enlaces disponibles en la columna de links
                 const upperLine = line.toUpperCase().trim();
                 if ((upperLine.startsWith('DESCARGAR') || upperLine.startsWith('VER') || upperLine.startsWith('LINK')) && linkIndex < linksArray.length) {
                     const currentLink = linksArray[linkIndex];
-                    processedLine = `<a href="${currentLink}" target="_blank" rel="noopener noreferrer" style="color: #2563eb; text-decoration: underline; font-weight: bold; display: inline-flex; align-items: center; gap: 6px;"><i class="fas fa-file-download"></i> ${line}</a>`;
+                    // Solo se aceptan enlaces http(s) o rutas assets/ (evita javascript:)
+                    if (/^(https?:\/\/|assets\/)/i.test(currentLink)) {
+                        processedLine = `<a href="${escapeHtml(currentLink)}" target="_blank" rel="noopener noreferrer" style="color: #2563eb; text-decoration: underline; font-weight: bold; display: inline-flex; align-items: center; gap: 6px;"><i class="fas fa-file-download"></i> ${escapeHtml(line)}</a>`;
+                    }
                     linkIndex++;
                 }
         
@@ -2868,10 +2618,10 @@
                     let newsItemHTML = `
                         <div class="news-item ${alertClass}" style="margin-bottom: 25px; padding: 20px; border-bottom: 1px solid #e2e8f0;">
                             <div class="news-header" style="margin-bottom: 10px; display: flex; justify-content: space-between; font-size: 0.85em; color: #718096;">
-                                <span class="news-date"><i class="far fa-calendar-alt mr-1"></i> ${dateStr}</span>
-                                <span class="news-type-tag"><i class="fas ${iconClass} mr-1"></i> ${typeStr.toUpperCase()}</span>
+                                <span class="news-date"><i class="far fa-calendar-alt mr-1"></i> ${escapeHtml(dateStr)}</span>
+                                <span class="news-type-tag"><i class="fas ${iconClass} mr-1"></i> ${escapeHtml(typeStr.toUpperCase())}</span>
                             </div>
-                            <h4 style="color: #1e3a8a; margin-bottom: 10px; font-size: 1.25em;">${titleStr}</h4>
+                            <h4 style="color: #1e3a8a; margin-bottom: 10px; font-size: 1.25em;">${escapeHtml(titleStr)}</h4>
                             <div>${processNewsContent(contentStr, linkStr)}</div>
                     `;
         
@@ -3009,6 +2759,24 @@
         // =============================================
         // FUNCIONES DE BÚSQUEDA
         // =============================================
+        // Escapa texto para insertarlo de forma segura dentro de innerHTML
+        function escapeHtml(value) {
+            return String(value === undefined || value === null ? '' : value)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        // Anuncia un mensaje a lectores de pantalla (región aria-live oculta)
+        function anunciarEstado(mensaje) {
+            const estado = document.getElementById('estado-busqueda');
+            if (!estado) return;
+            estado.textContent = '';
+            setTimeout(() => { estado.textContent = mensaje; }, 50);
+        }
+
         function normalizeText(text) {
             if (typeof text !== 'string') return '';
             return text.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase();
@@ -3032,9 +2800,11 @@
         }
         
         function highlightMatch(text, query) {
-            if (!text || !query) return text;
+            if (!text) return text;
+            if (!query) return escapeHtml(text);
             const normalizedText = normalizeText(text);
             const normalizedQuery = normalizeText(query);
+            if (!normalizedQuery) return escapeHtml(text);
 
             let lastIndex = 0;
             let highlightedHtml = '';
@@ -3043,12 +2813,12 @@
             const regex = new RegExp(normalizedQuery.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
             
             while ((match = regex.exec(normalizedText)) !== null) {
-                highlightedHtml += text.substring(lastIndex, match.index);
-                highlightedHtml += '<strong>' + text.substring(match.index, regex.lastIndex) + '</strong>';
+                highlightedHtml += escapeHtml(text.substring(lastIndex, match.index));
+                highlightedHtml += '<strong>' + escapeHtml(text.substring(match.index, regex.lastIndex)) + '</strong>';
                 lastIndex = regex.lastIndex;
             }
             
-            highlightedHtml += text.substring(lastIndex);
+            highlightedHtml += escapeHtml(text.substring(lastIndex));
             return highlightedHtml;
         }
         
@@ -3060,13 +2830,17 @@
             const normalizedSearchTerm = normalizeText(searchTerm);
         
             if (data.length === 0) {
+                const mensajeVacio = searchTerm
+                    ? `No se encontraron resultados para "${escapeHtml(searchTerm)}"`
+                    : 'No hay resultados para mostrar';
                 container.innerHTML = `
                     <div class="no-results">
                         <i class="fas fa-search"></i>
-                        <p>No se encontraron resultados para "${searchTerm}"</p>
+                        <p>${mensajeVacio}</p>
                         <small>Intenta con términos más generales o verifica la ortografía</small>
                     </div>
                 `;
+                if (searchTerm) anunciarEstado('No se encontraron resultados');
                 return;
             }
         
@@ -3078,6 +2852,7 @@
             const headerRow = document.createElement('tr');
             headers.forEach(headerText => {
                 const th = document.createElement('th');
+                th.setAttribute('scope', 'col');
                 // Manejar encabezados compuestos
                 if (headerText.includes('/')) {
                     const parts = headerText.split('/');
@@ -3135,9 +2910,18 @@
                         if (clickableColumn === headerKey) {
                             const clickableSpan = document.createElement('span');
                             clickableSpan.classList.add('clickable-title');
-                            clickableSpan.dataset.fullTitle = item[headerKey].replace(/<\/?strong>/g, '');
+                            clickableSpan.dataset.fullTitle = new DOMParser().parseFromString(item[headerKey], 'text/html').body.textContent;
                             clickableSpan.innerHTML = cellContent;
                             clickableSpan.onclick = () => filterAndDisplayExactTitle(clickableSpan.dataset.fullTitle);
+                            // Accesible por teclado y lectores de pantalla
+                            clickableSpan.setAttribute('role', 'button');
+                            clickableSpan.tabIndex = 0;
+                            clickableSpan.addEventListener('keydown', (event) => {
+                                if ((event.key === 'Enter' || event.key === ' ') && !event.isComposing) {
+                                    event.preventDefault();
+                                    filterAndDisplayExactTitle(clickableSpan.dataset.fullTitle);
+                                }
+                            });
                             td.appendChild(clickableSpan);
                         } else {
                             td.innerHTML = cellContent;
@@ -3174,187 +2958,9 @@
             tableWrapper.appendChild(table);
             
             container.appendChild(tableWrapper);
+            anunciarEstado(`${data.length} resultado${data.length === 1 ? '' : 's'} encontrado${data.length === 1 ? '' : 's'}`);
         }
-              /**
-         * Renderiza resultados como CARDS - Adaptado a tu estructura de datos
-         * @param {string} containerId - ID del contenedor
-         * @param {Array} headers - Array de nombres de columnas (ej: ['Titulo', 'Nombre DEL ESPACIO...'])
-         * @param {Array} data - Array de objetos con los resultados
-         * @param {Array} htmlColumns - Columnas que contienen HTML (default: [])
-         * @param {string} searchTerm - Término de búsqueda para highlight (default: '')
-         * @param {string} exactHighlightColumn - Columna para highlight exacto (default: null)
-         * @param {string} clickableColumn - Columna con títulos clickeables (default: null)
-         */
-        function renderResultsAsCards(containerId, headers, data, htmlColumns = [], searchTerm = '', exactHighlightColumn = null, clickableColumn = null) {
-            const container = document.getElementById(containerId);
-            if (!container) return;
-        
-            container.innerHTML = '';
-            const normalizedSearchTerm = normalizeText(searchTerm);
-        
-            // Mensaje de "sin resultados"
-            if (!data || data.length === 0) {
-                container.innerHTML = `
-                    <div class="no-results">
-                        <i class="fas fa-search"></i>
-                        <p>No se encontraron resultados para "${searchTerm}"</p>
-                        <small>Intenta con términos más generales o verifica la ortografía</small>
-                    </div>`;
-                return;
-            }
-        
-            // Contenedor grid para las cards
-            const grid = document.createElement('div');
-            grid.className = 'results-grid';
-        
-            let lastTitle = '';
-        
-            data.forEach((item, index) => {
-                const card = document.createElement('div');
-                card.className = 'result-card';
-        
-                // === Lógica de highlight (IDÉNTICA a tu renderTable) ===
-                let rowShouldBeHighlighted = false;
-                const currentTitle = item['Titulo'] || '';
-        
-                if (exactHighlightColumn && item[exactHighlightColumn] !== undefined) {
-                    const columnContent = normalizeText(String(item[exactHighlightColumn]));
-                    if (columnContent === normalizedSearchTerm) {
-                        rowShouldBeHighlighted = true;
-                    }
-                } else if (normalizedSearchTerm) {
-                    for (const headerKey of headers) {
-                        const cellContent = item[headerKey] !== undefined ? String(item[headerKey]) : '';
-                        if (normalizeText(cellContent).includes(normalizedSearchTerm)) {
-                            rowShouldBeHighlighted = true;
-                            break;
-                        }
-                    }
-                }
-        
-                if (rowShouldBeHighlighted) {
-                    card.classList.add('highlighted-row');
-                }
-        
-                // === Construir contenido de la card ===
-                let cardHTML = '';
-                
-                headers.forEach(headerKey => {
-                    let cellContent = item[headerKey] !== undefined ? String(item[headerKey]) : '';
-                    
-                    // Manejar título repetido (misma lógica que tu tabla)
-                    if (headerKey === 'Titulo') {
-                        if (index > 0 && currentTitle === lastTitle) {
-                            // En cards, mostramos comillas vacías en móvil y texto en desktop
-                            cellContent = window.innerWidth > 768 
-                                ? '<span class="repeated-title">(Igual al título seleccionado)</span>' 
-                                : '<span class="repeated-title">""</span>';
-                        }
-                        // Solo renderizar el título como encabezado de la card (primera vez o si cambió)
-                        if (index === 0 || currentTitle !== lastTitle) {
-                            cardHTML += `<h4>${cellContent}</h4>`;
-                        }
-                    } 
-                    // Columnas con HTML o clickable
-                    else if (htmlColumns.includes(headerKey)) {
-                        if (clickableColumn === headerKey) {
-                            // Para clickable: creamos span interactivo
-                            cardHTML += `<p><strong>${headerKey}:</strong> 
-                                <span class="clickable-title" 
-                                      data-full-title="${item[headerKey].replace(/<\/?strong>/g, '')}" 
-                                      onclick="filterAndDisplayExactTitle(this.dataset.fullTitle)">${cellContent}</span>
-                            </p>`;
-                        } else {
-                            cardHTML += `<p><strong>${headerKey}:</strong> ${cellContent}</p>`;
-                        }
-                    } 
-                    // Columnas normales de texto
-                    else {
-                        // No repetir el título si ya se mostró como h4
-                        if (headerKey !== 'Titulo' || index === 0 || currentTitle !== lastTitle) {
-                            // Clases para columnas estrechas (estilo visual)
-                            const narrowClass = (headerKey === 'CODIGO/Modulo' || headerKey === 'Alcance/INCUMBENCIA') 
-                                ? ' narrow-column' 
-                                : '';
-                            cardHTML += `<p class="${narrowClass.trim()}"><strong>${headerKey}:</strong> ${cellContent}</p>`;
-                        }
-                    }
-                });
-        
-                // === Botón de imprimir ===
-                // Escapamos comillas para inyectar JSON en onclick
-                const itemEscaped = JSON.stringify(item).replace(/"/g, '&quot;');
-                const printBtn = `
-                    <div class="card-actions">
-                        <button class="btn-print" onclick="imprimirFila('${itemEscaped}')">
-                            🖨️ Imprimir
-                        </button>
-                    </div>`;
-        
-                card.innerHTML = cardHTML + printBtn;
-                grid.appendChild(card);
-                
-                lastTitle = currentTitle;
-            });
-        
-            container.appendChild(grid);
-        }
-        
-        /**
-         * Helper para imprimir una fila específica desde una card
-         */
-        function imprimirFila(datosJSON) {
-            // Parsear si viene como string
-            const datos = typeof datosJSON === 'string' ? JSON.parse(datosJSON) : datosJSON;
-            
-            const ventana = window.open('', '_blank');
-            let contenido = `<h2 style="color:#002b5b;margin-bottom:1rem">Resultado</h2>
-                             <table style="border-collapse:collapse;width:100%;font-size:10pt">`;
-            
-            for (const [key, value] of Object.entries(datos)) {
-                if (value && String(value).trim() !== '') {
-                    contenido += `<tr>
-                        <td style="border:1px solid #ccc;padding:6px 8px;background:#f8fafc;font-weight:600;width:40%">${key}</td>
-                        <td style="border:1px solid #ccc;padding:6px 8px">${value}</td>
-                    </tr>`;
-                }
-            }
-            contenido += '</table><br/><script>window.onload=function(){window.print();}<\/script>';
-            
-            ventana.document.write(`
-                <html>
-                <head>
-                    <title>Imprimir Resultado</title>
-                    <style>
-                        body { font-family: 'Segoe UI', sans-serif; padding: 20px; color: #1e2937; }
-                        @media print { button { display: none; } }
-                    </style>
-                </head>
-                <body>${contenido}</body>
-                </html>
-            `);
-            ventana.document.close();
-        }
-        
-        /**
-         * Función helper para imprimir un resultado específico
-         */
-        function imprimirResultado(datos) {
-            // Aquí va tu lógica de impresión existente
-            // Ejemplo básico:
-            const ventana = window.open('', '_blank');
-            ventana.document.write(`
-                <html><head><title>Imprimir Resultado</title>
-                <style>body{font-family:sans-serif;padding:20px} h1{color:#002b5b}</style>
-                </head><body>
-                <h1>Resultado</h1>
-                <pre>${JSON.stringify(datos, null, 2)}</pre>
-                <script>window.print();<\/script>
-                </body></html>
-            `);
-            ventana.document.close();
-        }
-        
+
         // =============================================
         // BUSCADORES PRINCIPALES
         // =============================================
@@ -3373,7 +2979,7 @@
             const btnBuscarColegios = document.getElementById('btnBuscarColegios');
         
             // Resetear resultados anteriores
-            renderResultsAsCards('incumbenciasResultsIntegrado', ['Titulo', 'Nombre DEL ESPACIO CURRICULAR', 'CODIGO/Modulo', 'Alcance/INCUMBENCIA'], []);
+            document.getElementById('incumbenciasResultsIntegrado').innerHTML = '';
             renderTable('colegiosPorEspacioResults', ['Nombre', 'Direccion', 'Localidad', 'Departamento'], []);
         
             selectEspacio.innerHTML = '<option value="">-- Selecciona un espacio curricular --</option>';
@@ -3409,6 +3015,7 @@
         
             // Si no hay resultados en Título, buscar en Espacios Curriculares
             let dataToRender = [];
+            let infoMessageHTML = '';
             if (filteredData.length === 0) {
                 const filteredByEspacio = competenciasData.filter(item => {
                     const espacioCurricular = normalizeText(item['Nombre DEL ESPACIO CURRICULAR'] || '');
@@ -3419,16 +3026,16 @@
                     dataToRender = filteredByEspacio.map(item => {
                         return {
                             ...item,
-                            'Titulo': item['Titulo'],
-                            'Nombre DEL ESPACIO CURRICULAR': highlightMatch(item['Nombre DEL ESPACIO CURRICULAR'], rawInput)
+                            'Titulo': escapeHtml(item['Titulo']),
+                            'Nombre DEL ESPACIO CURRICULAR': item['Nombre DEL ESPACIO CURRICULAR']
                         };
                     });
                     
                     // Mostrar mensaje explicativo
-                    document.getElementById('incumbenciasResultsIntegrado').innerHTML = `
+                    infoMessageHTML = `
                         <div class="info-message">
                             <i class="fas fa-info-circle"></i>
-                            <p>No se encontraron títulos que coincidan con "${rawInput}". Mostrando espacios curriculares relacionados.</p>
+                            <p>No se encontraron títulos que coincidan con "${escapeHtml(rawInput)}". Mostrando espacios curriculares relacionados.</p>
                         </div>
                     `;
                 }
@@ -3454,6 +3061,10 @@
                     'Titulo'
                 );
         
+                if (infoMessageHTML) {
+                    document.getElementById('incumbenciasResultsIntegrado').insertAdjacentHTML('afterbegin', infoMessageHTML);
+                }
+
                 // Llenar select con espacios curriculares encontrados
                 const uniqueEspacios = new Set();
                 dataToRender.forEach(item => {
@@ -3477,7 +3088,7 @@
                 document.getElementById('incumbenciasResultsIntegrado').innerHTML = `
                     <div class="no-results">
                         <i class="fas fa-search"></i>
-                        <p>No se encontraron títulos ni espacios curriculares para "${rawInput}"</p>
+                        <p>No se encontraron títulos ni espacios curriculares para "${escapeHtml(rawInput)}"</p>
                         <small>Intenta con términos más específicos o revisa la ortografía</small>
                     </div>
                 `;
@@ -3546,7 +3157,7 @@
                 document.getElementById('colegiosPorEspacioResults').innerHTML = `
                     <div class="no-results">
                         <i class="fas fa-search"></i>
-                        <p>No se encontraron colegios en "${selectedDepartamento}"</p>
+                        <p>No se encontraron colegios en "${escapeHtml(selectedDepartamento)}"</p>
                     </div>
                 `;
                 button.innerHTML = originalButtonText;
@@ -3565,7 +3176,7 @@
                 document.getElementById('colegiosPorEspacioResults').innerHTML = `
                     <div class="no-results">
                         <i class="fas fa-search"></i>
-                        <p>No se encontraron colegios en "${selectedDepartamento}" que dicten "${selectedEspacio}"</p>
+                        <p>No se encontraron colegios en "${escapeHtml(selectedDepartamento)}" que dicten "${escapeHtml(selectedEspacio)}"</p>
                     </div>
                 `;
                 button.innerHTML = originalButtonText;
@@ -3656,7 +3267,12 @@
             const normalizedInput = normalizeText(rawInput);
             
             if (!normalizedInput) {
-                renderTable('orientacionesResults', ['UNID EDUCATIVA', 'ORIENTACION', 'AREA GEOGRAFICA- LOCALIDAD-DPTO'], []);
+                document.getElementById('orientacionesResults').innerHTML = `
+                    <div class="no-results">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <p>Por favor, ingresa un término de búsqueda</p>
+                    </div>
+                `;
                 button.innerHTML = originalButtonText;
                 button.disabled = false;
                 return;
@@ -3695,7 +3311,12 @@
             const normalizedInput = normalizeText(rawInput);
             
             if (!normalizedInput) {
-                renderTable('colegiosResults', ['Nombre', 'Direccion', 'Localidad', 'Departamento', 'CodPostal'], []);
+                document.getElementById('colegiosResults').innerHTML = `
+                    <div class="no-results">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <p>Por favor, ingresa un término de búsqueda</p>
+                    </div>
+                `;
                 button.innerHTML = originalButtonText;
                 button.disabled = false;
                 return;
@@ -3921,7 +3542,7 @@
                 resultsContainer.innerHTML = `
                     <div class="no-results">
                         <i class="fas fa-search"></i>
-                        <p>No se encontraron orientaciones para el N° de Colegio "${numeroColegio}"</p>
+                        <p>No se encontraron orientaciones para el N° de Colegio "${escapeHtml(numeroColegio)}"</p>
                     </div>
                 `;
             }
@@ -4138,6 +3759,10 @@
             }
 
             let printWindow = window.open('', '', 'height=600,width=800');
+            if (!printWindow) {
+                alert('El navegador bloqueó la ventana de impresión. Permite las ventanas emergentes para este sitio e inténtalo de nuevo.');
+                return;
+            }
             printWindow.document.write('<html><head><title>Resultados de Búsqueda</title>');
             printWindow.document.write(`
                 <style>
@@ -4184,6 +3809,7 @@
         
         function showErrorNotification(message) {
             const notification = document.createElement('div');
+            notification.setAttribute('role', 'alert');
             notification.style.position = 'fixed';
             notification.style.bottom = '20px';
             notification.style.right = '20px';
@@ -4266,70 +3892,28 @@
         // INICIALIZACIÓN DE LA APLICACIÓN
         // =============================================
         document.addEventListener('DOMContentLoaded', init);
-      // Carga diferida de recursos no críticos
-        window.addEventListener('load', function() {
-            // Carga diferida de Font Awesome
-            const faLink = document.createElement('link');
-            faLink.rel = 'stylesheet';
-            faLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
-            document.head.appendChild(faLink);
-            
-            // Carga diferida de Google Fonts
-            const fontLink = document.createElement('link');
-            fontLink.rel = 'stylesheet';
-            fontLink.href = 'https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap';
-            document.head.appendChild(fontLink);
-            
-            // Carga diferida de iframes
-            document.querySelectorAll('iframe').forEach(iframe => {
-                iframe.setAttribute('loading', 'lazy');
-            });
-        });
         
         // Detección de navegadores problemáticos (Samsung Internet)
         if(/SamsungBrowser/i.test(navigator.userAgent)) {
             document.documentElement.classList.add('samsung-browser');
-            console.log('Aplicando ajustes para Samsung Internet');
         }
 
-    // Sistema de pestañas
+    // Sistema de pestañas (con atributos ARIA)
         document.querySelectorAll('.tab-button').forEach(button => {
             button.addEventListener('click', function() {
-                // Remover clase active de todos los botones y contenidos
-                document.querySelectorAll('.tab-button, .tab-content').forEach(el => {
+                // Desactivar todos los botones y paneles
+                document.querySelectorAll('.tab-button').forEach(el => {
                     el.classList.remove('active');
+                    el.setAttribute('aria-selected', 'false');
                 });
-                
-                // Agregar active al botón clickeado
+                document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+
+                // Activar el botón clickeado y su panel
                 this.classList.add('active');
-                
-                // Mostrar el contenido correspondiente
-                const tabId = this.getAttribute('data-tab');
-                document.getElementById(tabId).classList.add('active');
+                this.setAttribute('aria-selected', 'true');
+                const panel = document.getElementById(this.getAttribute('data-tab'));
+                if (panel) panel.classList.add('active');
             });
-        });    
-        // Cuando el DOM esté cargado
-        document.addEventListener('DOMContentLoaded', function() {
-            const banner = document.querySelector('.celebration-banner');
-            const container = document.querySelector('.container');
-            
-            if (banner) {
-                // Agregar clase cuando el banner existe
-                container.classList.add('with-banner');
-                
-                // Eliminar clase cuando se cierra el banner
-                document.querySelector('.close-banner')?.addEventListener('click', function() {
-                    container.classList.remove('with-banner');
-                    localStorage.setItem('bannerCerrado', 'true');
-                });
-                
-                // Si estaba cerrado, quitar clase
-                if (localStorage.getItem('bannerCerrado')) {
-                    container.classList.remove('with-banner');
-                }
-            }
-           
-         
         });
         // Función para manejar la tecla ENTER en cualquier campo de búsqueda
         function setupEnterKeySearch() {
@@ -4347,8 +3931,8 @@
             `);
             
             searchInputs.forEach(input => {
-                input.addEventListener('keypress', function(e) {
-                    if (e.key === 'Enter') {
+                input.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' && !e.isComposing) {
                         e.preventDefault();
                         
                         // Encontrar el botón de búsqueda asociado
@@ -4360,7 +3944,7 @@
                         } else if (this.id === 'orientacionInput') {
                             searchButton = document.querySelector('button[onclick*="buscarOrientaciones"]');
                         } else if (this.id === 'localidadInput') {
-                            searchButton = document.querySelector('button[onclick*="buscarColegios"]');
+                            searchButton = document.getElementById('btnBuscarColegiosLocalidad');
                         } else if (this.id === 'colegioNumeroInput') {
                             searchButton = document.querySelector('button[onclick*="buscarOrientacionesPorColegio"]');
                         } else if (this.id.startsWith('categoria')) {
