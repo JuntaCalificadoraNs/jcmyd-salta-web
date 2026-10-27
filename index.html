@@ -391,7 +391,10 @@
         color: var(--accent);
         position: absolute;
         left: 0;
-        top: 0.4rem;
+        top: 0.5rem;
+        height: 1.5rem;            /* = alto de línea del texto: alinea el ícono con la 1.ª línea */
+        display: inline-flex;
+        align-items: center;
         font-size: 1rem;
     }
 
@@ -413,7 +416,10 @@
         color: var(--primary-light);
         position: absolute;
         left: 0;
-        top: 0.3rem;
+        top: 0.25rem;
+        height: 1.52rem;           /* = alto de línea del texto (0.95rem x 1.6) */
+        display: inline-flex;
+        align-items: center;
         font-size: 0.8rem;
     }
 
@@ -1038,7 +1044,6 @@
         .container {
             width: 98%;
             padding: 0.75rem 1rem 1.25rem;
-            margin-top: 55px;
         }
 
         h1 { font-size: 1.4rem; }
@@ -1069,6 +1074,14 @@
         .sub-feature-list li {
             font-size: 0.9rem;
             padding-left: 1.25rem;
+        }
+
+        .feature-list i {
+            height: 1.425rem;
+        }
+
+        .sub-feature-list i {
+            height: 1.44rem;
         }
     }
 
@@ -1412,6 +1425,170 @@
         }
     }
 
+    /* ==================== MEJORAS VISUALES ==================== */
+    /* Menú principal en una sola fila en escritorio (si no cabe, cae a dos filas como antes) */
+    @media (min-width: 769px) {
+        .header-content {
+            width: 96%;
+            max-width: 1600px;
+            gap: 1rem;
+        }
+        header .logo {
+            margin-right: 0;
+            flex-shrink: 0;
+        }
+        nav {
+            min-width: 0;
+        }
+        nav ul {
+            gap: 0.15rem;
+            justify-content: flex-end;
+        }
+        nav ul li a {
+            padding: 0.5rem 0.7rem;
+            font-size: 0.9rem;
+            gap: 0.4rem;
+        }
+    }
+    /* En pantallas medianas se ocultan los íconos del menú para que todo entre en una fila */
+    @media (min-width: 769px) and (max-width: 1559px) {
+        nav ul li a i {
+            display: none;
+        }
+    }
+
+    /* Pie: nombre del autor destacado */
+    footer .footer-autor strong {
+        color: var(--accent);
+        font-size: 1.05em;
+        letter-spacing: 0.02em;
+    }
+
+    /* ==================== AVISOS TEMPORALES (desde Google Sheets) ==================== */
+    .avisos-container {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    .avisos-container[hidden] {
+        display: none;
+    }
+    .aviso {
+        display: flex;
+        align-items: center;
+        gap: 1.25rem;
+        padding: 1.25rem 1.5rem;
+        border-radius: 16px;
+        border-left: 8px solid #3b82f6;
+        background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+        color: #ffffff;
+        box-shadow: 0 10px 24px rgba(15, 23, 42, 0.25);
+    }
+    .aviso-urgente {
+        border-left-color: #ef4444;
+        background: linear-gradient(135deg, #991b1b 0%, #450a0a 100%);
+    }
+    .aviso-exito {
+        border-left-color: #22c55e;
+        background: linear-gradient(135deg, #166534 0%, #052e16 100%);
+    }
+    .aviso-icono {
+        width: 56px;
+        height: 56px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.14);
+        font-size: 1.6rem;
+    }
+    .aviso-cuerpo {
+        flex: 1;
+        min-width: 0;
+    }
+    .aviso-etiqueta {
+        display: inline-block;
+        margin-bottom: 0.4rem;
+        padding: 2px 10px;
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.18);
+        font-size: 0.75rem;
+        font-weight: 800;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+    }
+    .aviso-titulo {
+        margin: 0 0 0.25rem;
+        font-size: 1.15rem;
+        color: #ffffff;
+    }
+    .aviso-mensaje {
+        margin: 0;
+        font-size: 0.98rem;
+        color: rgba(255, 255, 255, 0.92);
+        overflow-wrap: anywhere;
+    }
+    .aviso-enlace {
+        flex-shrink: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 44px;
+        padding: 0.6rem 1.1rem;
+        border-radius: 10px;
+        background: #ffffff;
+        color: #0f172a;
+        font-weight: 700;
+        text-decoration: none;
+    }
+    .aviso-enlace:hover {
+        background: #e2e8f0;
+    }
+    .aviso-cerrar {
+        align-self: flex-start;
+        min-width: 44px;
+        min-height: 44px;
+        border: 0;
+        border-radius: 10px;
+        background: transparent;
+        color: #ffffff;
+        font-size: 1.6rem;
+        line-height: 1;
+        cursor: pointer;
+    }
+    .aviso-cerrar:hover {
+        background: rgba(255, 255, 255, 0.15);
+    }
+    @media (max-width: 850px) {
+        .aviso {
+            position: relative;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 0.75rem;
+            padding: 1rem 1rem 1.25rem;
+        }
+        .aviso-icono {
+            width: 44px;
+            height: 44px;
+            font-size: 1.3rem;
+        }
+        .aviso-cuerpo {
+            padding-right: 2.5rem;
+        }
+        .aviso-cerrar {
+            position: absolute;
+            top: 0.25rem;
+            right: 0.25rem;
+        }
+    }
+    @media print {
+        .avisos-container {
+            display: none !important;
+        }
+    }
+
     /* ==================== ACCESIBILIDAD (MÓVIL Y TECLADO) ==================== */
     .skip-link {
         position: absolute;
@@ -1524,210 +1701,9 @@
        
         
         <div class="container" id="contenido-principal" role="main" tabindex="-1">
+            <div id="avisos-container" class="avisos-container" role="region" aria-label="Avisos importantes" hidden></div>
             
        <section id="inicio" class="content-section">
-           <!-- =================================================================== -->
-        <!-- BANNER DESTACADO TEMPORAL: INVITACIÓN A INSCRIPCIÓN (CIRCULAR 02/26) -->
-        <!-- Ubicación recomendada: Al inicio de <section id="inicio">           -->
-        <!-- justo debajo del banner patrio del Cabildo si aún sigue activo.     -->
-        <!-- =================================================================== -->
-        <div id="banner-inscripcion-container" style="display: none; margin-bottom: 35px; width: 100%;">
-            <style>
-                .inscripcion-banner-card {
-                    background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
-                    border: 2px solid #3b82f6;
-                    border-radius: 16px;
-                    padding: 28px;
-                    color: #ffffff;
-                    box-shadow: 0 12px 30px rgba(30, 58, 138, 0.3);
-                    display: flex;
-                    align-items: center;
-                    justify-content: space-between;
-                    gap: 25px;
-                    position: relative;
-                    overflow: hidden;
-                    border-left: 8px solid #3b82f6;
-                }
-        
-                /* Efecto de luz de fondo para llamar la atención */
-                .inscripcion-banner-card::before {
-                    content: '';
-                    position: absolute;
-                    top: -50%;
-                    left: -50%;
-                    width: 200%;
-                    height: 200%;
-                    background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 60%);
-                    pointer-events: none;
-                }
-        
-                .inscripcion-icon-wrapper {
-                    background: rgba(59, 130, 246, 0.2);
-                    border: 1px solid rgba(59, 130, 246, 0.3);
-                    border-radius: 12px;
-                    width: 75px;
-                    height: 75px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    flex-shrink: 0;
-                    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-                }
-        
-                .inscripcion-icon-wrapper i {
-                    font-size: 2.2rem;
-                    color: #60a5fa;
-                    animation: pulseIcon 2s infinite ease-in-out;
-                }
-        
-                .inscripcion-info {
-                    flex-grow: 1;
-                    z-index: 1;
-                }
-        
-                .inscripcion-badge {
-                    background-color: #ef4444;
-                    color: #ffffff;
-                    font-size: 0.75rem;
-                    font-weight: 800;
-                    text-transform: uppercase;
-                    padding: 4px 10px;
-                    border-radius: 20px;
-                    display: inline-flex;
-                    align-items: center;
-                    gap: 5px;
-                    margin-bottom: 12px;
-                    letter-spacing: 0.5px;
-                    box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3);
-                }
-        
-                .inscripcion-badge i {
-                    font-size: 0.7rem;
-                    animation: blinkBadge 1s infinite alternate;
-                }
-        
-                .inscripcion-info h3 {
-                    color: #ffffff !important;
-                    font-size: 1.35rem !important;
-                    margin: 0 0 8px 0 !important;
-                    font-weight: 800 !important;
-                    border-bottom: none !important;
-                    padding-bottom: 0 !important;
-                    line-height: 1.3;
-                }
-        
-                .inscripcion-info p {
-                    color: #93c5fd !important;
-                    font-size: 0.95rem !important;
-                    margin: 0 !important;
-                    line-height: 1.5;
-                }
-        
-                .inscripcion-info strong {
-                    color: #ffffff;
-                }
-        
-                .inscripcion-action {
-                    flex-shrink: 0;
-                    z-index: 1;
-                }
-        
-                .btn-inscripcion-cta {
-                    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
-                    color: #ffffff !important;
-                    font-weight: bold !important;
-                    padding: 14px 24px !important;
-                    border-radius: 10px !important;
-                    text-decoration: none !important;
-                    display: inline-flex !important;
-                    align-items: center !important;
-                    gap: 10px !important;
-                    box-shadow: 0 6px 18px rgba(37, 99, 235, 0.4) !important;
-                    transition: all 0.25s ease !important;
-                    border: 1px solid rgba(255,255,255,0.1) !important;
-                    cursor: pointer;
-                }
-        
-                .btn-inscripcion-cta:hover {
-                    transform: translateY(-2px) !important;
-                    box-shadow: 0 10px 22px rgba(37, 99, 235, 0.6) !important;
-                    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
-                }
-        
-                /* Animaciones */
-                @keyframes pulseIcon {
-                    0% { transform: scale(1); }
-                    50% { transform: scale(1.08); color: #93c5fd; }
-                    100% { transform: scale(1); }
-                }
-        
-                @keyframes blinkBadge {
-                    from { opacity: 0.4; }
-                    to { opacity: 1; }
-                }
-        
-                /* Adaptabilidad Móvil */
-                @media (max-width: 850px) {
-                    .inscripcion-banner-card {
-                        flex-direction: column;
-                        text-align: center;
-                        padding: 24px;
-                        gap: 20px;
-                    }
-                    .inscripcion-icon-wrapper {
-                        width: 65px;
-                        height: 65px;
-                    }
-                    .inscripcion-badge {
-                        align-self: center;
-                    }
-                    .btn-inscripcion-cta {
-                        width: 100% !important;
-                        justify-content: center !important;
-                    }
-                }
-            </style>
-        
-            <div class="inscripcion-banner-card">
-                <div class="inscripcion-icon-wrapper">
-                    <i class="fas fa-file-signature"></i>
-                </div>
-                
-                <div class="inscripcion-info">
-                    <span class="inscripcion-badge">
-                        <i class="fas fa-circle"></i> Trámite Activo
-                    </span>
-                    <h3>Inscripción de Nivel Secundario y sus Modalidades</h3>
-                    <p>
-                        Se encuentra disponible la <strong>Circular Informativa N° 02/2026</strong> para el Período Lectivo 2027. 
-                        Recepción de documentación: del <strong>1 al 19 de Junio de 2026</strong>.
-                    </p>
-                </div>
-        
-                <div class="inscripcion-action">
-                    <!-- Redirecciona de inmediato a la pestaña de Noticias con efecto scroll -->
-                    <a href="#noticias" onclick="showSection('noticias'); document.getElementById('noticias').scrollIntoView({behavior: 'smooth'}); return false;" class="btn-inscripcion-cta">
-                        <i class="fas fa-download"></i> Descargar Circular y Anexos
-                    </a>
-                </div>
-            </div>
-        
-            <!-- Script de lógica de tiempo automático -->
-            <script>
-                document.addEventListener('DOMContentLoaded', () => {
-                    const hoy = new Date();
-                    
-                    // Fecha límite: 19 de Junio de 2026 a las 00:00 (mes 5 es Junio en JS)
-                    const fechaLimite = new Date(2026, 5, 19);
-                    
-                    // El banner se mostrará automáticamente si la fecha actual es anterior al vencimiento
-                    if (hoy < fechaLimite) {
-                        document.getElementById('banner-inscripcion-container').style.display = 'block';
-                    }
-                });
-            </script>
-        </div>
-        <!-- =================================================================== -->
             <h1>Junta Calificadora de Méritos y Disciplina</h1>
             <h2>Nivel Secundario y sus Modalidades</h2>
             <p class="welcome-text">
@@ -2198,14 +2174,14 @@
             <iframe title="Mapa: ubicación de la Junta Calificadora de Méritos y Disciplina" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d226.38591232727802!2d-65.41624636076519!3d-24.7894742568222!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x941bc3baa1481bbb%3A0x82565e209e7e8ff7!2sCaseros%20975%2C%20A4400%20Salta!5e0!3m2!1ses!2sar!4v1775459082908!5m2!1ses!2sar" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
         <p style="text-align: center; margin-top: 15px;">
-            <a href="https://www.google.com/maps/place/Pje+Fernando+Ramos+22,+A4400+Salta" target="_blank" rel="noopener noreferrer" style="color: #007bff; text-decoration: underline;">Abrir en Google Maps</a>
+            <a href="https://www.google.com/maps/search/?api=1&amp;query=Caseros+975%2C+Salta+Capital" target="_blank" rel="noopener noreferrer" style="color: #007bff; text-decoration: underline;">Abrir en Google Maps</a>
         </p>
     </section>
     </div>
 
     <footer>
-        <p>© JCMyD- N.S. 2025 | Derechos Reservados</p>
-        <p>Webmaster: Jesus Vargas®</p> 
+        <p>© JCMyD- N.S. 2025-2026 | Derechos Reservados</p>
+        <p class="footer-autor">Autor y administrador de la web: <strong>Jesus Vargas</strong>®</p>
     </footer>
 
     <script>
@@ -2217,7 +2193,9 @@
                 competencias: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS-EPPyl34acCgd03fTldc-6Bs7GhBXdAmKVoaIHJKT-5SW4c8VzIDGCNqU7E590SxXlHKPvu-U_qwr/pub?gid=1550756964&single=true&output=csv',
                 orientaciones: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS7Qnph7TWvhLYl3KhpaDVqnYLqgNGbQ7FNtdw7TNzAlskfjVTg4DePvG2MoVuZf9DD3Fc2nZ5CEOms/pub?gid=1943513223&single=true&output=csv',
                 colegios: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vStnrtyd-dwtpz4UlSU2OXrEgL79AlvRLL3c0mIPSGETpyT2sEVgaGjJOVSpryEC7Jhx4zM6HjKWZN_/pub?gid=119647774&single=true&output=csv',
-                planEstudio: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRHqqcFr4mP1vwyt14wUjjMCryhv8bzp-A7Dum5jRKqGvQ5_nJYZlo23Q-90L6cPFKFoUXiFTiMKzI7/pub?gid=151813776&single=true&output=csv'
+                planEstudio: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRHqqcFr4mP1vwyt14wUjjMCryhv8bzp-A7Dum5jRKqGvQ5_nJYZlo23Q-90L6cPFKFoUXiFTiMKzI7/pub?gid=151813776&single=true&output=csv',
+                // Hoja de AVISOS temporales publicada como CSV. Si está vacía, no se muestra ningún aviso.
+                avisos: ''
             },
             selectors: {
                 menuToggle: '#mobile-menu',
@@ -2755,6 +2733,183 @@
         
         // Inicializar carga al iniciar la aplicación
         document.addEventListener('DOMContentLoaded', fetchAndDisplayNews);
+
+        // =============================================
+        // AVISOS TEMPORALES (BANNER) DESDE GOOGLE SHEETS
+        // =============================================
+        // La hoja de avisos lleva estas columnas (primera fila = encabezados):
+        //   Activo | Tipo | Titulo | Mensaje | Enlace | Boton | Desde | Hasta
+        // - Activo: SI para publicar (cualquier otro valor lo oculta).
+        // - Tipo: info, tramite, urgente o exito (si falta o no existe, se usa info).
+        // - Desde / Hasta: fechas dd/mm/aaaa. "Hasta" es obligatoria: pasada esa fecha el aviso se oculta solo.
+        // - Enlace (opcional): https://... o una sección interna (#noticias, #tramites...). Boton = texto del botón.
+        // Todo se muestra como TEXTO (nunca como HTML) y solo se aceptan enlaces http(s) o secciones internas.
+        const AVISOS_TIPOS = {
+            info:    { etiqueta: 'Aviso',          icono: 'fa-bullhorn' },
+            tramite: { etiqueta: 'Trámite activo', icono: 'fa-file-signature' },
+            urgente: { etiqueta: 'Urgente',        icono: 'fa-exclamation-triangle' },
+            exito:   { etiqueta: 'Novedad',        icono: 'fa-check-circle' }
+        };
+        const AVISOS_MAX = 3;
+        const AVISOS_SECCIONES = ['inicio', 'sobre-nosotros', 'herramientas-consulta', 'normativas', 'tramites', 'noticias', 'tutoriales', 'contacto'];
+
+        // Acepta dd/mm/aaaa (también d/m/aaaa y aaaa-mm-dd). Devuelve un Date o null si es inválida.
+        function parseFechaAviso(texto, finDelDia) {
+            const t = String(texto || '').trim();
+            let d, m, y, coincidencia;
+            if ((coincidencia = t.match(/^(\d{1,2})[\/\-.](\d{1,2})[\/\-.](\d{4})$/))) {
+                d = +coincidencia[1]; m = +coincidencia[2]; y = +coincidencia[3];
+            } else if ((coincidencia = t.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/))) {
+                y = +coincidencia[1]; m = +coincidencia[2]; d = +coincidencia[3];
+            } else {
+                return null;
+            }
+            const fecha = finDelDia ? new Date(y, m - 1, d, 23, 59, 59) : new Date(y, m - 1, d, 0, 0, 0);
+            // Rechaza fechas inexistentes (por ejemplo 31/02)
+            return (fecha.getFullYear() === y && fecha.getMonth() === m - 1 && fecha.getDate() === d) ? fecha : null;
+        }
+
+        // Devuelve { externo: url } o { seccion: id } si el enlace es seguro; null en otro caso
+        function avisoEnlaceSeguro(valor) {
+            const u = String(valor || '').trim();
+            if (/^https?:\/\//i.test(u)) return { externo: u };
+            if (u.charAt(0) === '#' && AVISOS_SECCIONES.indexOf(u.slice(1)) !== -1) return { seccion: u.slice(1) };
+            return null;
+        }
+
+        // Clave estable para recordar que el usuario cerró un aviso (cambia si cambia el contenido o las fechas)
+        function claveAviso(texto) {
+            let h = 5381;
+            for (let i = 0; i < texto.length; i++) h = ((h << 5) + h + texto.charCodeAt(i)) | 0;
+            return 'aviso-cerrado-' + (h >>> 0).toString(36);
+        }
+        function avisoCerrado(clave) {
+            try { return localStorage.getItem(clave) === '1'; } catch (e) { return false; }
+        }
+        function recordarAvisoCerrado(clave) {
+            try { localStorage.setItem(clave, '1'); } catch (e) { /* almacenamiento no disponible */ }
+        }
+
+        function crearAviso(aviso, contenedor) {
+            const info = AVISOS_TIPOS[aviso.tipo];
+            const caja = document.createElement('div');
+            caja.className = 'aviso aviso-' + aviso.tipo;
+            caja.setAttribute('role', aviso.tipo === 'urgente' ? 'alert' : 'status');
+
+            const icono = document.createElement('div');
+            icono.className = 'aviso-icono';
+            const iconoFa = document.createElement('i');
+            iconoFa.className = 'fas ' + info.icono;
+            iconoFa.setAttribute('aria-hidden', 'true');
+            icono.appendChild(iconoFa);
+            caja.appendChild(icono);
+
+            const cuerpo = document.createElement('div');
+            cuerpo.className = 'aviso-cuerpo';
+            const etiqueta = document.createElement('span');
+            etiqueta.className = 'aviso-etiqueta';
+            etiqueta.textContent = info.etiqueta;
+            cuerpo.appendChild(etiqueta);
+            if (aviso.titulo) {
+                const titulo = document.createElement('h3');
+                titulo.className = 'aviso-titulo';
+                titulo.textContent = aviso.titulo;
+                cuerpo.appendChild(titulo);
+            }
+            if (aviso.mensaje) {
+                const mensaje = document.createElement('p');
+                mensaje.className = 'aviso-mensaje';
+                mensaje.textContent = aviso.mensaje;
+                cuerpo.appendChild(mensaje);
+            }
+            caja.appendChild(cuerpo);
+
+            const enlaceSeguro = avisoEnlaceSeguro(aviso.enlace);
+            if (enlaceSeguro) {
+                const enlace = document.createElement('a');
+                enlace.className = 'aviso-enlace';
+                enlace.textContent = aviso.boton || 'Ver más';
+                if (enlaceSeguro.externo) {
+                    enlace.href = enlaceSeguro.externo;
+                    enlace.target = '_blank';
+                    enlace.rel = 'noopener noreferrer';
+                } else {
+                    enlace.href = '#' + enlaceSeguro.seccion;
+                    enlace.addEventListener('click', (evento) => {
+                        evento.preventDefault();
+                        showSection(enlaceSeguro.seccion);
+                    });
+                }
+                caja.appendChild(enlace);
+            }
+
+            const cerrar = document.createElement('button');
+            cerrar.type = 'button';
+            cerrar.className = 'aviso-cerrar';
+            cerrar.setAttribute('aria-label', 'Cerrar aviso');
+            cerrar.textContent = '×';
+            cerrar.addEventListener('click', () => {
+                recordarAvisoCerrado(aviso.clave);
+                caja.remove();
+                if (!contenedor.children.length) contenedor.hidden = true;
+            });
+            caja.appendChild(cerrar);
+            return caja;
+        }
+
+        async function cargarAvisos() {
+            const contenedor = document.getElementById('avisos-container');
+            const url = CONFIG.sheets.avisos;
+            if (!contenedor || !url) return;
+            try {
+                const respuesta = await fetch(url);
+                if (!respuesta.ok) return;
+                const filas = parseCSVNoticias(await respuesta.text());
+                const ahora = new Date();
+                const vigentes = [];
+
+                filas.forEach(fila => {
+                    // Se normalizan los nombres de columna (sin tildes ni mayúsculas)
+                    const dato = {};
+                    Object.keys(fila).forEach(clave => {
+                        dato[normalizeText(clave).trim()] = String(fila[clave] || '').trim();
+                    });
+
+                    if (normalizeText(dato.estado || '') !== 'si') return;
+                    if (!dato.titulo && !dato.mensaje) return;
+
+                    // "Hasta" es obligatoria: así ningún aviso queda publicado para siempre
+                    const hasta = parseFechaAviso(dato.hasta, true);
+                    if (!hasta || ahora > hasta) return;
+                    if (dato.desde) {
+                        const desde = parseFechaAviso(dato.desde, false);
+                        if (!desde || ahora < desde) return;
+                    }
+
+                    let tipo = normalizeText(dato.tipo || '').trim();
+                    if (!Object.prototype.hasOwnProperty.call(AVISOS_TIPOS, tipo)) tipo = 'info';
+
+                    const aviso = {
+                        tipo: tipo,
+                        titulo: (dato.titulo || '').slice(0, 120),
+                        mensaje: (dato.mensaje || '').slice(0, 400),
+                        enlace: dato.link || '',
+                        boton: (dato.linktexto || '').slice(0, 40)
+                    };
+                    aviso.clave = claveAviso([tipo, aviso.titulo, aviso.mensaje, dato.desde, dato.hasta].join('|'));
+                    if (!avisoCerrado(aviso.clave)) vigentes.push(aviso);
+                });
+
+                if (!vigentes.length) return;
+                contenedor.textContent = '';
+                vigentes.slice(0, AVISOS_MAX).forEach(aviso => contenedor.appendChild(crearAviso(aviso, contenedor)));
+                contenedor.hidden = false;
+            } catch (error) {
+                // Los avisos son opcionales: si fallan, el sitio sigue funcionando sin ellos
+                console.warn('No se pudieron cargar los avisos:', error);
+            }
+        }
+        document.addEventListener('DOMContentLoaded', cargarAvisos);
         
         // =============================================
         // FUNCIONES DE BÚSQUEDA
